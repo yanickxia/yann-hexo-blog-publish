@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring的优雅停机">
+<meta property="og:url" content="http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/31/t1Pm8S.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/31/t1OxRs.png">
+<meta property="article:published_time" content="2020-05-31T22:49:48.000Z">
+<meta property="article:modified_time" content="2020-06-17T06:53:20.651Z">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/31/t1Pm8S.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring的优雅停机 | Yanick's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/map.html" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring的优雅停机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-31 22:49:48" itemprop="dateCreated datePublished" datetime="2020-05-31T22:49:48+00:00">2020-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/05/31/java/spring/gracefully-shutdown/" class="post-meta-item leancloud_visitors" data-flag-title="Spring的优雅停机" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。</p>
+<a id="more"></a>
+
+<p>一般来说，优雅停机主要处理</p>
+<ul>
+<li>池化资源的释放：数据库连接池，HTTP 连接池</li>
+<li>在处理线程的释放：已经被连接的HTTP请求</li>
+<li>隐形受影响的资源的处理：Eureka实例下线等</li>
+</ul>
+<h1 id="JVM-中的实现"><a href="#JVM-中的实现" class="headerlink" title="JVM 中的实现"></a>JVM 中的实现</h1><p>编程语言都会提供监听当前线程终结的函数，比如在Java中，我们可以通过如下操作监听我们的退出事件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> ExitHook());</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"Do something, will exit"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExitHook</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"exiting. clear resources..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们会得到如下的结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Do something, will <span class="built_in">exit</span></span><br><span class="line">exiting. clear resources...</span><br></pre></td></tr></table></figure>
+
+<p>聪明的你一定发现了，我们可以在 <code>ExitHook</code> 去处理那些资源的释放。那么，在实际应用中是如何体现优雅停机呢？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -15 pid</span><br></pre></td></tr></table></figure>
+
+<p>通过该命令发送一个关闭信号给到jvm, 然后就开始执行 Shutdown Hook 了，但是值得注意的是不能够使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 pid</span><br></pre></td></tr></table></figure>
+
+<p>如果这么干的话，相当于从OS方面直接将其所有的资源回收，类比一下好比强行断电，就没有任何进行优雅停机的机会了。不过这里是最简单的实现，在实际的工作中，我们会遇见各种情况：在清理退出的时候出现异常怎么处理？清理的时间过程怎么处理？等等问题。因此在Spring中，为了简化这样的操作已经帮助我们封装了一些。</p>
+<h1 id="Spring-的模式"><a href="#Spring-的模式" class="headerlink" title="Spring 的模式"></a>Spring 的模式</h1><p>让我们想想，Spring一个IOC容器，他能够管理的是收到其托管的对象，因此我们也可以很合理的想到我们需要定义托管对象的解构函数才能够被Spring在退出时释放，我们将问题简单化点，有三个事情是Spring需要解决的：</p>
+<ul>
+<li>Spring 需要值得 Runtime 在退出</li>
+<li>Spring 知道需要释放哪些资源</li>
+<li>Spring 需要知道如何释放资源</li>
+</ul>
+<p>因为 Spring 版本繁杂，以 <code>org.springframework.boot:2.1.14.RELEASE</code> 版本分析为例。</p>
+<h2 id="Spring-的-Runtime-Hook"><a href="#Spring-的-Runtime-Hook" class="headerlink" title="Spring 的 Runtime Hook"></a>Spring 的 Runtime Hook</h2><p>毕竟 Spring 也是 JVM 上的实现，这一切势必也依赖于 JVM 的 Shuthook，秘密就在 <code>org.springframework.context.support.AbstractApplicationContext#registerShutdownHook</code> 处</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerShutdownHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.shutdownHook == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// No shutdown hook registered yet.</span></span><br><span class="line">        <span class="keyword">this</span>.shutdownHook = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (startupShutdownMonitor) &#123;</span><br><span class="line">                    doClose();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">this</span>.shutdownHook);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring-知道需要释放哪些资源"><a href="#Spring-知道需要释放哪些资源" class="headerlink" title="Spring 知道需要释放哪些资源"></a>Spring 知道需要释放哪些资源</h2><p>回忆一下 <code>Spring Bean Lifecycle</code><br><img src="https://s1.ax1x.com/2020/05/31/t1Pm8S.png" alt="t1Pm8S.png"></p>
+<p>没错，当 Spring Context 销毁的时候，会调用 <code>destroy()</code> 函数，实际上这行函数也非常的简单也就是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.springframework.context.support.AbstractApplicationContext#destroy</span></span><br><span class="line"><span class="meta">@Deprecated</span> <span class="comment">//Spring 5 即将废弃</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">        doClose();</span><br><span class="line">        <span class="comment">// If we registered a JVM shutdown hook, we don't need it anymore now:</span></span><br><span class="line">        <span class="comment">// We've already explicitly closed the context.</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.shutdownHook != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Runtime.getRuntime().removeShutdownHook(<span class="keyword">this</span>.shutdownHook);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (IllegalStateException ex) &#123;</span><br><span class="line">                <span class="comment">// ignore - VM is already shutting down</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实则我们定位到最终的释放资源处就是 <code>org.springframework.context.support.AbstractApplicationContext#doClose</code> 函数，我们在尽情的分析一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doClose</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    LiveBeansView.unregisterApplicationContext(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Publish shutdown event.</span></span><br><span class="line">        publishEvent(<span class="keyword">new</span> ContextClosedEvent(<span class="keyword">this</span>)); ➀</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Stop all Lifecycle beans, to avoid delays during individual destruction.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.lifecycleProcessor != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.lifecycleProcessor.onClose(); ➁</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">            logger.warn(<span class="string">"Exception thrown from LifecycleProcessor on context close"</span>, ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Destroy all cached singletons in the context's BeanFactory.</span></span><br><span class="line">    destroyBeans(); ➂</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Close the state of this context itself.</span></span><br><span class="line">    closeBeanFactory(); ➃</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Let subclasses do some final clean-up if they wish...</span></span><br><span class="line">    onClose(); ➄</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reset local application listeners to pre-refresh state.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.earlyApplicationListeners != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.applicationListeners.clear();</span><br><span class="line">        <span class="keyword">this</span>.applicationListeners.addAll(<span class="keyword">this</span>.earlyApplicationListeners);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Switch to inactive.</span></span><br><span class="line">    <span class="keyword">this</span>.active.set(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>剪去那些无影响的代码部分，我们可以发现对于 Spring 来说，真正关闭的顺序是 </p>
+<ol>
+<li>发布一个关闭事件</li>
+<li>调用生命周期处理器</li>
+<li>销毁所有的Bean</li>
+<li>关闭Bean工厂</li>
+<li>调用子类的Close函数</li>
+</ol>
+<p>对于 ➀➁ 是回调机制，不涉及到对象的销毁，➄ 是对于继承类的调用，所有的销毁都在 ➂ 中。受到 Spring 托管的对象繁多，不一定所有的对象都需要销毁行为。进一步定位一下，我们就发现了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroySingleton</span><span class="params">(String beanName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.removeSingleton(beanName);</span><br><span class="line">    DisposableBean disposableBean;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>.disposableBeans) &#123;</span><br><span class="line">        disposableBean = (DisposableBean)<span class="keyword">this</span>.disposableBeans.remove(beanName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.destroyBean(beanName, disposableBean);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际上那些需要销毁的对象都应该是 <code>DisposableBean</code> 对象。</p>
+<p>那我们对于第二个问题也知道了，Spring会销毁那些 <code>DisposableBean</code> 类型的 Bean对象。</p>
+<h2 id="Spring-需要知道如何释放资源"><a href="#Spring-需要知道如何释放资源" class="headerlink" title="Spring 需要知道如何释放资源"></a>Spring 需要知道如何释放资源</h2><p>其实这是一个不是问题的问题，对于 <code>DisposableBean</code> 来说仅仅需要实现一个接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DisposableBean</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于需要实现释放资源的对象需要自行实现此接口。</p>
+<h2 id="组合在一起"><a href="#组合在一起" class="headerlink" title="组合在一起"></a>组合在一起</h2><p>我们已经知道我们最开始提出的 3 个问题，让我们试着用这3个问题的答案拼凑处一个 Spring Web Server 是如何优雅的停机的。那我们需要证实一件事情： Web Server内部的资源都是 DisposableBean，并且受 Spring 托管。</p>
+<p>通过反向定位的办法，可以快速的定位到比如 数据库的资源 <code>org.springframework.orm.jpa.AbstractEntityManagerFactoryBean#destroy</code> 在销毁的阶段会将 Entity 对象进行销毁。对于收到 Spring 托管的对象的优雅停机的路径是：</p>
+<p><code>Runtine Shutdown Hook</code> -&gt; <code>Context:destory()</code> -&gt; <code>DisposableBean:destroy()</code>， 对于大部分的资源比如数据库，服务发现，等等都是这样的销毁方式。</p>
+<h2 id="进阶：-Web-容器"><a href="#进阶：-Web-容器" class="headerlink" title="进阶： Web 容器"></a>进阶： Web 容器</h2><h3 id="一个疑问"><a href="#一个疑问" class="headerlink" title="一个疑问"></a>一个疑问</h3><p>对于普通的 Bean 的销毁我们已经完全了解，但是对于动手做实验的不知道有没有发现，其实 <code>Web Server</code> 并不是在 <code>destroySingleton</code> 阶段进行销毁的，那他是在哪里销毁的呢？回忆一下，我们除了销毁Beans 之外，是不是还有最后一个 <code>close()</code> 函数可以调用，没有错！对于 <code>Tomcat ...</code> 这些web容器来说，本身就是 <code>ApplicationContext</code> 的一个子类并非是 <code>Bean</code> 一部分，因此他们的 <code>close()</code> 函数在 <code>org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext</code>处</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onClose</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onClose();</span><br><span class="line">    <span class="keyword">this</span>.stopAndReleaseWebServer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的函数是直接调用底层代码就不做展开，但是隐约有些觉得不对？ <strong>如果</strong>我们在接收到一个远程访问的时候，触发了 <code>Shutdown</code> 事件，我们实际上是无法获得正确的返回的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+------------------+          +---------------------------+         +--------------------------------------+</span><br><span class="line">|   controller     |          |       services            |         |               dao                    |</span><br><span class="line">|                  +---------&gt;+                           +---------&gt;                                      |</span><br><span class="line">|                  |          |                           | 2. Query DB                          Entitymanger</span><br><span class="line">+------------------+          +---------------------------+         +---------------------------------^----+</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                 +--------------------------------------+                             |1. destory()</span><br><span class="line">                                 |                                      |                             |</span><br><span class="line">                                 |    Destory                           +-----------------------------+</span><br><span class="line">                                 |                                      |</span><br><span class="line">                                 +--------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>如上图所示，因为我们知道 <code>stop webserver</code> 是在 <code>destory context</code> 之后的，那我们岂不是会出现一边在接受请求但是这些请求都是会失败的吗？如果是是这样的，可真是太愚蠢的设计了。</p>
+<h3 id="另辟蹊径"><a href="#另辟蹊径" class="headerlink" title="另辟蹊径"></a>另辟蹊径</h3><p>对于这样的情况，我们在 shutdown 之前让 Web server 停止接受任何的请求，但可惜的是在此版本的 <code>tomcat</code> 不支持此特效，需要待 <code>9.0.33+</code> <a href="https://spring.io/blog/2020/05/15/spring-boot-2-3-0-available-now" target="_blank" rel="noopener">spring-boot-2-3-0-available-now</a>。</p>
+<p>在早期的版本中，我们依然可以通过一些额外的方式将这件事情做到：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Gh4657Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(Gh4657Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/pause"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">pause</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Pause complete"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GracefulShutdown <span class="title">gracefulShutdown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GracefulShutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EmbeddedServletContainerCustomizer <span class="title">tomcatCustomizer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> EmbeddedServletContainerCustomizer() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(ConfigurableEmbeddedServletContainer container)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (container <span class="keyword">instanceof</span> TomcatEmbeddedServletContainerFactory) &#123;</span><br><span class="line">                    ((TomcatEmbeddedServletContainerFactory) container)</span><br><span class="line">                            .addConnectorCustomizers(gracefulShutdown());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">GracefulShutdown</span> <span class="keyword">implements</span> <span class="title">TomcatConnectorCustomizer</span>,</span></span><br><span class="line"><span class="class">            <span class="title">ApplicationListener</span>&lt;<span class="title">ContextClosedEvent</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(GracefulShutdown<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">volatile</span> Connector connector;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(Connector connector)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.connector = connector;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ContextClosedEvent event)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.connector.pause();</span><br><span class="line">            Executor executor = <span class="keyword">this</span>.connector.getProtocolHandler().getExecutor();</span><br><span class="line">            <span class="keyword">if</span> (executor <span class="keyword">instanceof</span> ThreadPoolExecutor) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;</span><br><span class="line">                    threadPoolExecutor.shutdown();</span><br><span class="line">                    <span class="keyword">if</span> (!threadPoolExecutor.awaitTermination(<span class="number">30</span>, TimeUnit.SECONDS)) &#123;</span><br><span class="line">                        log.warn(<span class="string">"Tomcat thread pool did not shut down gracefully within "</span></span><br><span class="line">                                + <span class="string">"30 seconds. Proceeding with forceful shutdown"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">                    Thread.currentThread().interrupt();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以自定义自己的 <code>ContextClosedEvent</code> 事件，然后将 <code>Tomcat</code> 的处理线程先暂停。</p>
+<h3 id="又一个疑问？"><a href="#又一个疑问？" class="headerlink" title="又一个疑问？"></a>又一个疑问？</h3><p>在 <code>Spring-Boot-2.3.0</code> 之前我们都需要这么处理吗？我的天，很多写了 Spring 已经超过十年了，难道 <code>Spring</code> 一直没有解决这个问题吗？答案也是否定的。</p>
+<p>还记得我们在 Spring 的早期阶段，我们通过 XML 来构造一个Spring项目的时候吗？那时候的方案是将我们的Web 程序作为一个 War 提供给 <code>Tomcat</code> 的 webapps中，此时tomcat会尝试构造我们的 <code>DispatcherServlet</code> 将整个系统运作起来，而在 Shutdown 阶段，这样的逻辑也是由 <code>Tomcat</code> 进行处理的。也就是说，对于 <code>Embeded Web Server</code> 的 <code>Spring Boot</code> 和 传统的 <code>Web Server</code> 在 <code>Destory Spring Applicaion Context</code> 这一步的时间是不一样的，<code>Spring Boot with Embeded Web Server</code> 在 <code>2.3.0</code> 之前的版本都是先关闭 <code>Context</code> 上下文再关闭 Web容器，而传统的 <code>Web Server</code> 是先关闭 <code>Web容器</code> 再去关闭 <code>Context</code> 上下文。</p>
+<p>对于 传统的 <code>Web Server</code>:</p>
+<p><code>Runtime Shutdwon Hook</code> -&gt; <code>org.apache.catalina.util.LifecycleBase#stop</code> -&gt; <code>Spring Context Stop</code></p>
+<p>因此出现优雅停机问题的集中在 <code>Spring Boot &lt; 2.3.0</code> 的版本内。</p>
+<h1 id="优雅停机-in-action"><a href="#优雅停机-in-action" class="headerlink" title="优雅停机 in action"></a>优雅停机 in action</h1><h2 id="传统的-Tomcat-容器"><a href="#传统的-Tomcat-容器" class="headerlink" title="传统的 Tomcat 容器"></a>传统的 Tomcat 容器</h2><p>我们执行 <code>catalina.sh stop &lt;WAITING SECONDS&gt;</code> 就可以执行 Tomcat 的优雅停机</p>
+<h2 id="Spring-Boot-gt-2-3-0：内置容器"><a href="#Spring-Boot-gt-2-3-0：内置容器" class="headerlink" title="Spring Boot &gt; 2.3.0：内置容器"></a>Spring Boot &gt; 2.3.0：内置容器</h2><p>默认完成了优雅停机</p>
+<h2 id="Spring-Boot-内置容器"><a href="#Spring-Boot-内置容器" class="headerlink" title="Spring Boot 内置容器"></a>Spring Boot 内置容器</h2><h3 id="Way-1-自己实现优雅停机"><a href="#Way-1-自己实现优雅停机" class="headerlink" title="Way 1: 自己实现优雅停机"></a>Way 1: 自己实现优雅停机</h3><p>请查阅参考部分，或者是上文处代码自行实现</p>
+<h3 id="Way-2：基于平台实现"><a href="#Way-2：基于平台实现" class="headerlink" title="Way 2：基于平台实现"></a>Way 2：基于平台实现</h3><p>现在的很多应用都跑在 <code>kubernetes</code> 这样的容器平台上，此时我们 POD 在进行 terminated 操作的时候，会首先向运行的进程发送一个 <code>SIGTERM</code> 指令，然后等待 30秒， 在30后没有终结的话，会再次发送一个 <code>SIGKILL</code> 进行强制终结，因此对于容器平台，我们要注意的这一个等待时间是否足够进行资源的回收。</p>
+<p>但是我们还有一个问题，就是正在请求的流量问题，对于这个问题我们需要进行组合拳，还记得 <code>kubernetes</code> 中有 <code>readinessProbe</code> 的概念吗？当我们的Pod启动的时候，如果 <code>Readiness</code> 未就绪， <code>kubernetes</code> 也不会将我们的 POD 作为 <code>SVC</code> 的可选地址（采用SVC负债均衡的情况下）。因此我们的应用在接受到 <code>SIGTERM</code> 的第一时刻就将<br> <code>Readiness</code> 的地址进行失败行为，并且等待一定时间之后再进行 <code>Spring Context Shutdown</code> 操作。但是对于超长时间的请求依然会有失败的可能，不过对于大部分的应用来说，优雅停机本身也只是等待固定时间，因此对于超长持续的请求让其失败也是可选的方案。</p>
+<h2 id="Spring-Cloud-下的复杂场景"><a href="#Spring-Cloud-下的复杂场景" class="headerlink" title="Spring Cloud 下的复杂场景"></a>Spring Cloud 下的复杂场景</h2><p>我们来看下更加复杂的 Spring Cloud 下的场景，对于 Spring Cloud 体系内有一个特殊的点： <code>Eureka Server</code> 和 <code>Eureka Client</code> 的关系，我们来看下当接入时候的 <code>destory()</code> 行为。</p>
+<h3 id="Eureka-主动下线"><a href="#Eureka-主动下线" class="headerlink" title="Eureka 主动下线"></a>Eureka 主动下线</h3><p>当 <code>Context:destory()</code> 的时候，Spring会关闭一个名为 <code>org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry</code> 对象，此对象在 <code>org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration#eurekaAutoServiceRegistration</code> 进行初始化的。因此在 <code>destory()</code> 阶段，实例就会自动从 <code>Eureka</code> 下线。</p>
+<p><img src="https://s1.ax1x.com/2020/05/31/t1OxRs.png" alt="t1OxRs.png"></p>
+<h3 id="Eureka-Client-侧"><a href="#Eureka-Client-侧" class="headerlink" title="Eureka Client 侧"></a>Eureka Client 侧</h3><p>因为 <code>Eureka</code> 的服务发现机制并没有通知客户端更新的机制，因此，此时的 <code>Eureka Client</code> 侧的实例依然会去尝试访问已经下线的 <code>Instance</code>，这是由于Eureka是AP系统导致的缺陷并没有解决之道。 </p>
+<p>此时当其他的服务访问到此服务的此实例的时候，会导致服务<strong>访问错误</strong>。为了避免这样的错误发生，一般来说有几种解决之道：1.我们可以为客户端制定重试机制（参考 <a href="https://medium.com/@ruhshan_ahmed/customize-feigns-retry-mechanism-f015036a33a" target="_blank" rel="noopener">How To Customize Feign’s Retry Mechanism</a>）， 2. 手动提前离线：我们使用 Spring Boot Admin 手动在停机之前让实例先下线，这样等到一段时间之后我们就可以将实例进行真正的销毁，<a href="https://codecentric.github.io/spring-boot-admin/current/" target="_blank" rel="noopener">Spring Boot Admin</a>，3. 不再使用 Eureka 这样的客户端负债均衡策略，使用类似 <code>K8s 的 SVC</code> 机制可以将这个时间缩短。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/spring-projects/spring-boot/issues/4657" target="_blank" rel="noopener">Allow the embedded web server to be shut down gracefully</a></li>
+<li><a href="https://dzone.com/articles/spring-bean-lifecycle" target="_blank" rel="noopener">spring bean lifecycle</a></li>
+<li><a href="https://github.com/SchweizerischeBundesbahnen/springboot-graceful-shutdown" target="_blank" rel="noopener">springboot-graceful-shutdown</a></li>
+<li><a href="https://medium.com/@ruhshan_ahmed/customize-feigns-retry-mechanism-f015036a33a" target="_blank" rel="noopener">How To Customize Feign’s Retry Mechanism</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/26/rethink/what-is-go-good-at/" rel="prev" title="Go 擅长什么">
+      <i class="fa fa-chevron-left"></i> Go 擅长什么
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/12/other/hot-restart/" rel="next" title="聊聊服务端热更新">
+      聊聊服务端热更新 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-中的实现"><span class="nav-number">1.</span> <span class="nav-text">JVM 中的实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-的模式"><span class="nav-number">2.</span> <span class="nav-text">Spring 的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的-Runtime-Hook"><span class="nav-number">2.1.</span> <span class="nav-text">Spring 的 Runtime Hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-知道需要释放哪些资源"><span class="nav-number">2.2.</span> <span class="nav-text">Spring 知道需要释放哪些资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-需要知道如何释放资源"><span class="nav-number">2.3.</span> <span class="nav-text">Spring 需要知道如何释放资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合在一起"><span class="nav-number">2.4.</span> <span class="nav-text">组合在一起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶：-Web-容器"><span class="nav-number">2.5.</span> <span class="nav-text">进阶： Web 容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个疑问"><span class="nav-number">2.5.1.</span> <span class="nav-text">一个疑问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#另辟蹊径"><span class="nav-number">2.5.2.</span> <span class="nav-text">另辟蹊径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#又一个疑问？"><span class="nav-number">2.5.3.</span> <span class="nav-text">又一个疑问？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优雅停机-in-action"><span class="nav-number">3.</span> <span class="nav-text">优雅停机 in action</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的-Tomcat-容器"><span class="nav-number">3.1.</span> <span class="nav-text">传统的 Tomcat 容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-gt-2-3-0：内置容器"><span class="nav-number">3.2.</span> <span class="nav-text">Spring Boot &gt; 2.3.0：内置容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-内置容器"><span class="nav-number">3.3.</span> <span class="nav-text">Spring Boot 内置容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Way-1-自己实现优雅停机"><span class="nav-number">3.3.1.</span> <span class="nav-text">Way 1: 自己实现优雅停机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Way-2：基于平台实现"><span class="nav-number">3.3.2.</span> <span class="nav-text">Way 2：基于平台实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cloud-下的复杂场景"><span class="nav-number">3.4.</span> <span class="nav-text">Spring Cloud 下的复杂场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-主动下线"><span class="nav-number">3.4.1.</span> <span class="nav-text">Eureka 主动下线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-Client-侧"><span class="nav-number">3.4.2.</span> <span class="nav-text">Eureka Client 侧</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yannxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yannxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/";
+    this.page.identifier = "2020/05/31/java/spring/gracefully-shutdown/";
+    this.page.title = "Spring的优雅停机";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

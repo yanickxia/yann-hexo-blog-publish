@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="继承是面向对象的最重要的特性之一，我们今天就来先看看继承这个特性，我们都知道 kotlin 的任何一个类都是继承自 Any 类。 1class Person &#x2F;&#x2F; 隐形的 Person 继承自 Any">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写给 Java 开发者的 Kotlin 教程 (10) -  面向对象 - 继承与多态">
+<meta property="og:url" content="http://blog.yanick.site/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="继承是面向对象的最重要的特性之一，我们今天就来先看看继承这个特性，我们都知道 kotlin 的任何一个类都是继承自 Any 类。 1class Person &#x2F;&#x2F; 隐形的 Person 继承自 Any">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/08/14/P2gOAK.jpg">
+<meta property="article:published_time" content="2018-08-14T21:40:48.000Z">
+<meta property="article:modified_time" content="2020-06-17T06:53:20.651Z">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/08/14/P2gOAK.jpg">
+
+<link rel="canonical" href="http://blog.yanick.site/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>写给 Java 开发者的 Kotlin 教程 (10) -  面向对象 - 继承与多态 | Yanick's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/map.html" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          写给 Java 开发者的 Kotlin 教程 (10) -  面向对象 - 继承与多态
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-14 21:40:48" itemprop="dateCreated datePublished" datetime="2018-08-14T21:40:48+00:00">2018-08-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kotlin/" itemprop="url" rel="index"><span itemprop="name">kotlin</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kotlin/easy-way-to-kotlin-for-java-programer/" itemprop="url" rel="index"><span itemprop="name">easy-way-to-kotlin-for-java-programer</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/" class="post-meta-item leancloud_visitors" data-flag-title="写给 Java 开发者的 Kotlin 教程 (10) -  面向对象 - 继承与多态" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://s1.ax1x.com/2018/08/14/P2gOAK.jpg" alt="banner"><br>继承是面向对象的最重要的特性之一，我们今天就来先看看继承这个特性，我们都知道 <code>kotlin</code> 的任何一个类都是继承自 <code>Any</code> 类。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> // 隐形的 <span class="title">Person</span> 继承自 <span class="title">Any</span></span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>如果我们需要继承一个类，我们可以使用如下</p>
+<h3 id="类继承"><a href="#类继承" class="headerlink" title="类继承"></a>类继承</h3><div class="tabs" id="inheritance"><ul class="nav-tabs"><li class="tab active"><a href="#inheritance-1">Kotlin 继承</a></li><li class="tab"><a href="#inheritance-2">Java 继承</a></li></ul><div class="tab-content"><div class="tab-pane active" id="inheritance-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Computer</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Laptop</span>: <span class="type">Computer</span></span>() &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="inheritance-2"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Computer</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Laptop: Computer() &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>这里有些不一样的地方就是，<code>kotlin</code> 默认的认为所有的类都是不能够被继承的，我们希望自己的类能够被继承，我们需要在<code>class</code> 前面增加 <code>open</code> 这个关键字。<br>我们也知道 <code>kotlin</code> 有主构造器，那它的继承语法是这样的。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Computer</span></span>(<span class="keyword">val</span> name: String,</span><br><span class="line">                    <span class="keyword">val</span> brand: String) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Laptop</span></span>(name: String, </span><br><span class="line">             brand: String, </span><br><span class="line">             <span class="keyword">val</span> batteryLife: <span class="built_in">Double</span>) : Computer(name, brand) &#123;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法覆写"><a href="#方法覆写" class="headerlink" title="方法覆写"></a>方法覆写</h3><p>和类相似，<code>kotlin</code> 默认的函数都是 <code>final</code> 不能够被重载的。我们也需要在能够被重载的函数上进行 <code>open</code> 修饰。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Teacher</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 必须定义为 open</span></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">teach</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"Teaching..."</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathsTeacher</span> : <span class="type">Teacher</span></span>() &#123;</span><br><span class="line">    <span class="comment">// override 关键字也是必须的</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">teach</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"Teaching Maths..."</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="属性覆写"><a href="#属性覆写" class="headerlink" title="属性覆写"></a>属性覆写</h3><p>与函数类似</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 必须定义为 open</span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> baseSalary: <span class="built_in">Double</span> = <span class="number">30000.0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Programmer</span> : <span class="type">Employee</span></span>() &#123;</span><br><span class="line">    <span class="comment">// override 关键字也是必须的</span></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> baseSalary: <span class="built_in">Double</span> = <span class="number">50000.0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用父类方法"><a href="#调用父类方法" class="headerlink" title="调用父类方法"></a>调用父类方法</h3><p>与 <code>Java</code> 一样，采用的是 <code>super</code> 关键字</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> baseSalary: <span class="built_in">Double</span> = <span class="number">10000.0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">displayDetails</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"I am an Employee"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Developer</span>: <span class="type">Employee</span></span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> baseSalary: <span class="built_in">Double</span> = <span class="keyword">super</span>.baseSalary + <span class="number">10000.0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">displayDetails</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.displayDetails()</span><br><span class="line">        println(<span class="string">"I am a Developer"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="抽象类与属性函数"><a href="#抽象类与属性函数" class="headerlink" title="抽象类与属性函数"></a>抽象类与属性函数</h2><p>我们依然可以使用 <code>abstract</code> 定义一个抽象类</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>kotlin</code> 除了支持抽象类，还支持抽象函数和抽象属性，抽象函数和传统的 <code>java</code> 类似，但是抽象属性在java中并没有类型的东西，我们来看一下</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span></span>(<span class="keyword">val</span> name: String,</span><br><span class="line">                       <span class="keyword">val</span> color: String,</span><br><span class="line">                       <span class="keyword">val</span> weight: <span class="built_in">Double</span>) &#123;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 抽象属性必须被子类覆写</span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">var</span> maxSpeed: <span class="built_in">Double</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 抽象属性必须被子类实现</span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">start</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">stop</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型检查"><a href="#类型检查" class="headerlink" title="类型检查"></a>类型检查</h2><p>因为多态的存在，我们需要进行类型检查。</p>
+<div class="tabs" id="type-checks"><ul class="nav-tabs"><li class="tab active"><a href="#type-checks-1">Kotlin Type Check</a></li><li class="tab"><a href="#type-checks-2">Java Type Check</a></li></ul><div class="tab-content"><div class="tab-pane active" id="type-checks-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> mixedTypeList: List&lt;Any&gt; = listOf(<span class="string">"I"</span>, <span class="string">"am"</span>, <span class="number">5</span>, <span class="string">"feet"</span>, <span class="number">9.5</span>, <span class="string">"inches"</span>, <span class="string">"tall"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(value <span class="keyword">in</span> mixedTypeList) &#123;</span><br><span class="line">    <span class="keyword">if</span> (value <span class="keyword">is</span> String) &#123;</span><br><span class="line">        println(<span class="string">"String: '<span class="variable">$value</span>' of length <span class="subst">$&#123;value.length&#125;</span> "</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value <span class="keyword">is</span> <span class="built_in">Int</span>) &#123;</span><br><span class="line">        println(<span class="string">"Integer: '<span class="variable">$value</span>'"</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value <span class="keyword">is</span> <span class="built_in">Double</span>) &#123;</span><br><span class="line">        println(<span class="string">"Double: '<span class="variable">$value</span>' with Ceil value <span class="subst">$&#123;Math.ceil(value)&#125;</span>"</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        println(<span class="string">"Unknown Type"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="type-checks-2"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Object&gt; objects = Arrays.asList(<span class="string">"123"</span>, <span class="number">123</span>, <span class="number">1</span>D);</span><br><span class="line"><span class="keyword">for</span> (Object v : objects) &#123;</span><br><span class="line">    <span class="keyword">if</span> (v <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">        ((String) v).toLowerCase();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>看起来好像差不多，<code>kotlin</code> 在进行完 <code>is</code> 比较之后，在后续的代码块中会自行的将对象转化为 <code>is</code> 比较的对象，减少一个强制类型转换。</p>
+<div class="tabs" id="type-smart-casts"><ul class="nav-tabs"><li class="tab active"><a href="#type-smart-casts-1">Kotlin Cast</a></li><li class="tab"><a href="#type-smart-casts-2">Java Smart Cast</a></li></ul><div class="tab-content"><div class="tab-pane active" id="type-smart-casts-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> obj: Any = <span class="string">"The quick brown fox jumped over a lazy dog"</span></span><br><span class="line"><span class="keyword">if</span>(obj <span class="keyword">is</span> String) &#123;</span><br><span class="line">    <span class="comment">// The variable obj is automatically cast to a String in this scope.</span></span><br><span class="line">    <span class="comment">// No Explicit Casting needed. </span></span><br><span class="line">    println(<span class="string">"Found a String of length <span class="subst">$&#123;obj.length&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="type-smart-casts-2"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="string">"The quick brown fox jumped over a lazy dog"</span>;</span><br><span class="line"><span class="keyword">if</span>(obj <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">    <span class="comment">// Explicit Casting to `String`</span></span><br><span class="line">    String str = (String) obj;</span><br><span class="line">    System.out.println(<span class="string">"Found a String of length "</span> + str.length());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>除了这么用之外，<code>kotlin</code> 还可以和 <code>when</code> 结合</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(value <span class="keyword">in</span> mixedTypeList) &#123;</span><br><span class="line">    <span class="keyword">when</span>(value) &#123;</span><br><span class="line">        <span class="keyword">is</span> String -&gt; println(<span class="string">"String: '<span class="variable">$value</span>' of length <span class="subst">$&#123;value.length&#125;</span> "</span>)</span><br><span class="line">        <span class="keyword">is</span> <span class="built_in">Int</span> -&gt; println(<span class="string">"Integer: <span class="variable">$value</span>"</span>)</span><br><span class="line">        <span class="keyword">is</span> <span class="built_in">Double</span> -&gt; println(<span class="string">"Double: <span class="variable">$value</span> with Ceil value <span class="subst">$&#123;Math.ceil(value)&#125;</span>"</span>)</span><br><span class="line">        <span class="keyword">else</span> -&gt; println(<span class="string">"Unknown Type"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h3><p>在 java 里我们可以将对象强制的转换，但是这个行为不一定是安全的，在 <code>kotlin</code> 里也提供了这样的行为关键字 <code>as</code> 我们可以使用如下代码段。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> obj: Any = <span class="string">"The quick brown fox jumped over a lazy dog"</span></span><br><span class="line"><span class="keyword">val</span> str: String = obj <span class="keyword">as</span> String</span><br><span class="line">println(str.length)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> str: String = obj <span class="keyword">as</span> String <span class="comment">//会抛出运行时 ClassCastException</span></span><br></pre></td></tr></table></figure>
+
+<p>但是<code>kotlin</code> 提供了 <strong>安全的转换尝试</strong> 可以使用 <code>as?</code> 进行转换</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> obj: Any = <span class="number">123</span></span><br><span class="line"><span class="keyword">val</span> str: String? = obj <span class="keyword">as</span>? String </span><br><span class="line">println(str)  <span class="comment">// 这里会是 null 对象</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.callicoder.com/kotlin-type-checks-smart-casts/" target="_blank" rel="noopener">smart casts</a></li>
+<li><a href="https://www.callicoder.com/kotlin-abstract-classes/" target="_blank" rel="noopener">abstract class</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/13/other/swagger/" rel="prev" title="OpenAPI（Swagger）快速入门">
+      <i class="fa fa-chevron-left"></i> OpenAPI（Swagger）快速入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-object/" rel="next" title="写给 Java 开发者的 Kotlin 教程 (11) - object 关键字">
+      写给 Java 开发者的 Kotlin 教程 (11) - object 关键字 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类继承"><span class="nav-number">1.1.</span> <span class="nav-text">类继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法覆写"><span class="nav-number">1.2.</span> <span class="nav-text">方法覆写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性覆写"><span class="nav-number">1.3.</span> <span class="nav-text">属性覆写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用父类方法"><span class="nav-number">1.4.</span> <span class="nav-text">调用父类方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类与属性函数"><span class="nav-number">2.</span> <span class="nav-text">抽象类与属性函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型检查"><span class="nav-number">3.</span> <span class="nav-text">类型检查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强制类型转换"><span class="nav-number">3.1.</span> <span class="nav-text">强制类型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yannxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yannxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/";
+    this.page.identifier = "2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/";
+    this.page.title = "写给 Java 开发者的 Kotlin 教程 (10) -  面向对象 - 继承与多态";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

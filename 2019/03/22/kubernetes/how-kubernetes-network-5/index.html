@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们看完的了简单的网络通讯，在Kubernetes中还有一个很重要的ClusterIP的概念。如下图所示，这个是K8s实现服务负载均衡的核心基础。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes-网络原理(5) - ClusterIP">
+<meta property="og:url" content="http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="我们看完的了简单的网络通讯，在Kubernetes中还有一个很重要的ClusterIP的概念。如下图所示，这个是K8s实现服务负载均衡的核心基础。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/22/5c946f9b14785.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/22/5c9494bf2ea2f.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/24/5c97319c45b83.png">
+<meta property="article:published_time" content="2019-03-22T21:48:01.000Z">
+<meta property="article:modified_time" content="2020-06-17T06:53:20.655Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/22/5c946f9b14785.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Kubernetes-网络原理(5) - ClusterIP | Yanick's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/map.html" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes-网络原理(5) - ClusterIP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-22 21:48:01" itemprop="dateCreated datePublished" datetime="2019-03-22T21:48:01+00:00">2019-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kubernetes/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2019/03/22/kubernetes/how-kubernetes-network-5/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes-网络原理(5) - ClusterIP" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们看完的了简单的网络通讯，在<code>Kubernetes</code>中还有一个很重要的<code>ClusterIP</code>的概念。如下图所示，这个是<code>K8s</code>实现服务负载均衡的核心基础。<br><img src="https://i.loli.net/2019/03/22/5c946f9b14785.png" alt=""></p>
+<a id="more"></a>
+
+<h2 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h2><div class="tabs" id="deployment-environment"><ul class="nav-tabs"><li class="tab active"><a href="#deployment-environment-1">hello-world-server-deployment.yaml</a></li><li class="tab"><a href="#deployment-environment-2">hello-world-server-service.yaml</a></li></ul><div class="tab-content"><div class="tab-pane active" id="deployment-environment-1"><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">hello-world-server</span></span><br><span class="line"><span class="attr">labels:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">hello-world-server</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">selector:</span></span><br><span class="line"><span class="attr">matchLabels:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">hello-world-server</span></span><br><span class="line"><span class="attr">template:</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">labels:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">hello-world-server</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">containers: - name:</span> <span class="string">hello-world-server</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">python:2.7</span></span><br><span class="line"><span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">command:</span> <span class="string">["/bin/bash"]</span></span><br><span class="line"><span class="attr">args:</span> <span class="string">["-c",</span> <span class="string">"echo \"&lt;p&gt;Hi from $(hostname)&lt;/p&gt;\" &gt; index.html; python -m SimpleHTTPServer 8080"</span><span class="string">]</span></span><br><span class="line"><span class="attr">ports: - name:</span> <span class="string">http</span></span><br><span class="line"><span class="attr">containerPort: 8080 - name:</span> <span class="string">curl-client</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">yannxia/ubuntu-with-tcpdump</span></span><br><span class="line"><span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">command:</span> <span class="string">["/bin/sh"]</span></span><br><span class="line"><span class="attr">args:</span> <span class="string">["-c",</span> <span class="string">"while true; do sleep 10; done;"</span><span class="string">]</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="deployment-environment-2"><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">hello-world-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">selector:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">hello-world-server</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">  <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>敲个小命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f hello-world-server-deployment.yaml</span><br><span class="line">$ kubectl apply -f hello-world-server-service.yaml</span><br></pre></td></tr></table></figure>
+
+<p>检查下环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -o wide</span><br><span class="line">NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">c2c-network-demo                      2/2     Running   0          18h   192.168.1.2   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">c2c-network-demo-w2                   2/2     Running   0          22h   192.168.2.3   k8s-worker-2   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">hello-world-server-6469546c67-bbtjp   2/2     Running   0          71s   192.168.2.4   k8s-worker-2   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">hello-world-server-6469546c67-d6j9n   2/2     Running   0          71s   192.168.1.3   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">hello-world-server-6469546c67-fbsvv   2/2     Running   0          72s   192.168.1.4   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"></span><br><span class="line">$ kubectl get services -o wide</span><br><span class="line">NAME                  TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE   SELECTOR</span><br><span class="line">hello-world-service   ClusterIP   10.100.3.59   &lt;none&gt;        80/TCP    16s   app=hello-world-server</span><br><span class="line">kubernetes            ClusterIP   10.96.0.1     &lt;none&gt;        443/TCP   24h   &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此时我们有了一个 <code>CLUSTER-IP:10.100.3.59</code></p>
+<p><img src="https://i.loli.net/2019/03/22/5c9494bf2ea2f.png" alt=""></p>
+<p class="image-footer">cluster ip</p>
+
+
+<h2 id="探索"><a href="#探索" class="headerlink" title="探索"></a>探索</h2><p>在我们的服务器上执行 <code>curl</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ curl 10.100.3.59</span><br><span class="line">&lt;p&gt;Hi from hello-world-server-6469546c67-bbtjp&lt;/p&gt;</span><br><span class="line">➜  ~ curl 10.100.3.59</span><br><span class="line">&lt;p&gt;Hi from hello-world-server-6469546c67-d6j9n&lt;/p&gt;</span><br><span class="line">➜  ~ curl 10.100.3.59</span><br><span class="line">&lt;p&gt;Hi from hello-world-server-6469546c67-bbtjp&lt;/p&gt;</span><br><span class="line">➜  ~ curl 10.100.3.59</span><br><span class="line">&lt;p&gt;Hi from hello-world-server-6469546c67-d6j9n&lt;/p&gt;</span><br><span class="line">➜  ~ curl 10.100.3.59</span><br><span class="line">&lt;p&gt;Hi from hello-world-server-6469546c67-fbsvv&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现我们的请求会均衡的转发到不同的<code>Pod</code>上去了，显然也达成了一个<code>load balance</code>的功能。<br>在我们的 <code>worker-2</code> 的节点上，我们检查我们的路由表:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         10.12.0.1       0.0.0.0         UG    0      0        0 ens192</span><br><span class="line">10.12.0.0       0.0.0.0         255.255.0.0     U     0      0        0 ens192</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0</span><br><span class="line">192.168.0.0     10.12.22.150    255.255.255.0   UG    0      0        0 ens192</span><br><span class="line">192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 *</span><br><span class="line">192.168.1.2     0.0.0.0         255.255.255.255 UH    0      0        0 calid9d486e54a8</span><br><span class="line">192.168.1.3     0.0.0.0         255.255.255.255 UH    0      0        0 cali11d6478e38f</span><br><span class="line">192.168.1.4     0.0.0.0         255.255.255.255 UH    0      0        0 calief5eb3245cc</span><br><span class="line">192.168.2.0     10.12.22.152    255.255.255.0   UG    0      0        0 ens192</span><br></pre></td></tr></table></figure>
+
+<p>没有任意匹配的路由表（除了 0.0.0.0）。</p>
+<h2 id="ClusterIP-模式"><a href="#ClusterIP-模式" class="headerlink" title="ClusterIP 模式"></a>ClusterIP 模式</h2><p>按照官网的说明，<code>ClusterIP</code> 有三种工作模式</p>
+<ul>
+<li><code>userspace</code>(since v1.0)</li>
+<li><code>iptables</code> (since v1.1)</li>
+<li><code>ipvs</code> (since v1.9)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ iptables -L | grep 10.100.3.59</span><br></pre></td></tr></table></figure>
+
+<p>我们可以从 <code>kube-proxy</code> 的启动日志中发现：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">W0321 06:39:55.760705       1 server_others.go:295] Flag proxy-mode=<span class="string">""</span> unknown, assuming iptables proxy</span><br><span class="line">I0321 06:39:55.778302       1 server_others.go:148] Using iptables Proxier.</span><br><span class="line">I0321 06:39:55.778589       1 server_others.go:178] Tearing down inactive rules.</span><br><span class="line">I0321 06:39:56.188482       1 server.go:483] Version: v1.13.4</span><br></pre></td></tr></table></figure>
+
+<p>如果没有特意的指定，我们所使用的还是<code>iptables</code> 的方式</p>
+<h2 id="Debug-Iptable"><a href="#Debug-Iptable" class="headerlink" title="Debug Iptable"></a>Debug Iptable</h2><p>我们从本机访问出去的连接会经历 <code>POSTROUTING</code> 和 <code>OUTPUT</code> 这两个<code>Chain</code>，我们给<code>OUTPUT</code> 增加一个 <code>DEBUG</code> 的 <code>Rule</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables  -A OUTPUT -t raw -p tcp --destination 10.100.3.59 -j TRACE</span><br></pre></td></tr></table></figure>
+
+<p>从 <code>/var/log/kern.log</code> 中我们看到</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        kern.log
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158750] TRACE: raw:OUTPUT:policy:3 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158769] TRACE: mangle:OUTPUT:policy:1 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158779] TRACE: nat:OUTPUT:rule:1 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158794] TRACE: nat:cali-OUTPUT:rule:1 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158806] TRACE: nat:cali-fip-dnat:return:1 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158816] TRACE: nat:cali-OUTPUT:return:2 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158823] TRACE: nat:OUTPUT:rule:2 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158832] TRACE: nat:KUBE-SERVICES:rule:3 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158840] TRACE: nat:KUBE-MARK-MASQ:rule:1 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158848] TRACE: nat:KUBE-MARK-MASQ:return:2 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0 MARK&#x3D;0x4000</span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158857] TRACE: nat:KUBE-SERVICES:rule:4 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0 MARK&#x3D;0x4000</span><br><span class="line"></span><br><span class="line"># ➊</span><br><span class="line"></span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158870] TRACE: nat:KUBE-SVC-5MRENC7Q6ZQR6GKR:rule:3 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0 MARK&#x3D;0x4000</span><br><span class="line"></span><br><span class="line"># ➋ 这里进行了 IP 地址的</span><br><span class="line"></span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158879] TRACE: nat:KUBE-SEP-M7XDXP4L3HZCSYD6:rule:2 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;10.100.3.59 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;80 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0 MARK&#x3D;0x4000</span><br><span class="line"></span><br><span class="line"># ➌ 这里首次将 ClusterIP 转换为了 容器的 IP</span><br><span class="line"></span><br><span class="line">Mar 23 23:51:35 k8s-worker-1 kernel: [207676.158896] TRACE: filter:OUTPUT:rule:1 IN&#x3D; OUT&#x3D;ens192 SRC&#x3D;10.12.22.151 DST&#x3D;192.168.2.4 LEN&#x3D;60 TOS&#x3D;0x00 PREC&#x3D;0x00 TTL&#x3D;64 ID&#x3D;31766 DF PROTO&#x3D;TCP SPT&#x3D;47644 DPT&#x3D;8080 SEQ&#x3D;1655794081 ACK&#x3D;0 WINDOW&#x3D;29200 RES&#x3D;0x00 SYN URGP&#x3D;0 OPT (020405B40402080A031715B70000000001030307) UID&#x3D;0 GID&#x3D;0 MARK&#x3D;0x4000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+
+<ol>
+<li><p>我们再去查询下 <code>iptables</code> 查询 ➌ 处的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ iptables -L KUBE-SEP-M7XDXP4L3HZCSYD6 -t nat --line-number</span><br><span class="line">Chain KUBE-SEP-M7XDXP4L3HZCSYD6 (1 references)</span><br><span class="line">num  target     prot opt <span class="built_in">source</span>               destination</span><br><span class="line">1    KUBE-MARK-MASQ  all  --  192.168.2.4          anywhere</span><br><span class="line">2    DNAT       tcp  --  anywhere             anywhere             tcp to:192.168.2.4:8080</span><br></pre></td></tr></table></figure>
+
+<p>在这里，我们使用了使用第二条的 <code>DNAT</code> 方式将数据包转换了 <code>IP目标地址</code></p>
+</li>
+<li><p>我们沿着记录往上追溯，查询 ➋ 处</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> ➜  ~ iptables -t nat -L KUBE-SVC-5MRENC7Q6ZQR6GKR</span><br><span class="line">Chain KUBE-SVC-5MRENC7Q6ZQR6GKR (1 references)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination</span><br><span class="line"><span class="comment"># 192.168.1.3</span></span><br><span class="line">KUBE-SEP-PG5HHQCRLP6OHBWJ  all  --  anywhere             anywhere             statistic mode random probability 0.33332999982</span><br><span class="line"><span class="comment"># 192.168.1.4 </span></span><br><span class="line">KUBE-SEP-Z7HABNZOJAQBPZC7  all  --  anywhere             anywhere             statistic mode random probability 0.50000000000</span><br><span class="line"><span class="comment"># 192.168.2.4</span></span><br><span class="line">KUBE-SEP-M7XDXP4L3HZCSYD6  all  --  anywhere             anywhere</span><br></pre></td></tr></table></figure>
+<p>我们发现了我们是这里直接将数据进行随机的选择，（为什么不是均等的：黑脸问号），我们现在得到 <code>Kubernats</code> 针对 <code>ClusterIP</code> 的处理方式如下</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2019/03/24/5c97319c45b83.png" alt="all-in-one"></p>
+<p class="image-footer">cluster ip: all in one</p>
+
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><ul>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment" target="_blank" rel="noopener">creating a deployment</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/service/" target="_blank" rel="noopener">service</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/07/kubernetes/how-kubernetes-network-0/" rel="bookmark">Kubernetes-网络原理(0) - 网络知识预备</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/17/kubernetes/how-kubernetes-network-1/" rel="bookmark">Kubernetes-Calico-网络原理(1) - 环境预备 & 初窥网络</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/17/kubernetes/how-kubernetes-network-2/" rel="bookmark">Kubernetes-Calico-网络原理(2) - Container & Pod</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/20/kubernetes/how-kubernetes-network-3/" rel="bookmark">Kubernetes-Calico-网络原理(3) - Pod & Node</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/21/kubernetes/how-kubernetes-network-4/" rel="bookmark">Kubernetes-Calico-网络原理(4) - BGP</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/network/" rel="tag"># network</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/21/kubernetes/how-kubernetes-network-4/" rel="prev" title="Kubernetes-Calico-网络原理(4) - BGP">
+      <i class="fa fa-chevron-left"></i> Kubernetes-Calico-网络原理(4) - BGP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/09/sc-or-art/" rel="next" title="计算机科学/艺术">
+      计算机科学/艺术 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署环境"><span class="nav-number">1.</span> <span class="nav-text">部署环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#探索"><span class="nav-number">2.</span> <span class="nav-text">探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClusterIP-模式"><span class="nav-number">3.</span> <span class="nav-text">ClusterIP 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-Iptable"><span class="nav-number">4.</span> <span class="nav-text">Debug Iptable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录"><span class="nav-number">5.</span> <span class="nav-text">附录</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yannxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yannxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/";
+    this.page.identifier = "2019/03/22/kubernetes/how-kubernetes-network-5/";
+    this.page.title = "Kubernetes-网络原理(5) - ClusterIP";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是死亡行军。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="死亡行军与自我革命">
+<meta property="og:url" content="http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是死亡行军。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/31/GMeNLQ.png">
+<meta property="article:published_time" content="2020-03-31T18:00:48.000Z">
+<meta property="article:modified_time" content="2020-06-17T06:53:20.655Z">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/03/31/GMeNLQ.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>死亡行军与自我革命 | Yanick's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/map.html" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          死亡行军与自我革命
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-31 18:00:48" itemprop="dateCreated datePublished" datetime="2020-03-31T18:00:48+00:00">2020-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/rethink/" itemprop="url" rel="index"><span itemprop="name">rethink</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/03/31/rethink/another-hard-way-to-die/" class="post-meta-item leancloud_visitors" data-flag-title="死亡行军与自我革命" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是<strong>死亡行军</strong>。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。</p>
+<a id="more"></a>
+
+<h1 id="虽有雄心，无力实现"><a href="#虽有雄心，无力实现" class="headerlink" title="虽有雄心，无力实现"></a>虽有雄心，无力实现</h1><p>笔者所参与的项目，大致上是一个可交互的服务管理系统，其实比较像 vmware 的一个软件，我们管理的对象是应用本身，但是在设计的过程中，我们不仅仅在技术层面上有所创新，更加在业务层面上也有限制，这时候反而带来了一个很复杂的问题。<code>技术工具</code> 与 <code>业务工具</code> 本质上是有很强的矛盾点的。<code>技术工具</code>的目标是帮助开发者，运维等方便快捷的完成任务，侧重在自由灵活的实现某种能力：比如Jenkins，K8s此类的工具，而 <code>业务工具</code> 是为管理者管理所使用的，更多的是严格的规范管理。举一个这两者交界比较多的软件而言，比如数据分析工具BI等，工具本身提供的是对于多数据源的支持，可视化的支持，这些是开发者所需要的，管理者需要的是开发者最终产生的报表内容，因此我们最终只能选择满足一个客户（当然也可以产生多个产品满足不一样的客户）。因为这样的背景，我们在后续的工作中却发现，我们不仅仅针对管理者的功能没做好（因为企业的管理维度是千变万化的，而所开发的产品只能满足一部分的需求），对于开发者部分的功能也没有做好（因为包含的业务属性，在灵活性方面不得不去做一个妥协）</p>
+<p><img src="https://s1.ax1x.com/2020/03/31/GMeNLQ.png" alt="GMeNLQ.png"><br>如图所示，你最终的落脚处一定是: Win-win / Lose-lose 绝非有第三种的可能。</p>
+<h1 id="To-be-or-not-to-be"><a href="#To-be-or-not-to-be" class="headerlink" title="To be or not to be"></a>To be or not to be</h1><p>生活总是充满了苦难，并非我们需要苦难帮助我们成长，只是生活缺少不了苦难。做了一段时间的产品之后，我们也渐渐的发现，整个DMP的产品体系内有一部分的<strong>组件</strong>是价值较低，但是依然需要有人投入精力进行维护的。我认为这一部分的组件，我认为是低价值的，比如<strong>配置中心</strong>，用户中心，增强的Eureka等，这些组件依然存在着或多或少的问题，我们无法抛弃他们（还是我们舍不得抛弃它们），梭罗如言：牧羊人继承了羊栏的代价是他的自由。我们也为了这些组件从一个灵动飘逸的团队慢慢的变的沉重和笨拙。</p>
+<blockquote>
+<p>无产者在这个革命中失去的只是锁链。他们获得的将是整个世界。</p>
+</blockquote>
+<p>我们也到了为自己革命的时刻，放弃幻想从新起航。扔掉那些低价值意义不明的组件，深耕于高价值有意义的组件，吾辈亦继承DMP之名，简装上阵。</p>
+<h1 id="Make-customers-succes"><a href="#Make-customers-succes" class="headerlink" title="Make customers succes"></a>Make customers succes</h1><p>如何定义成功，从一个ToB企业的角度，我们的成功显然是建立在成功的帮助客户，亦证：让客户成功是让我们成功的途径。而让客户成功的最重要的因素是找到客户需求，并且帮他满足他的需求，这里面困难之处不能一一道明，不仅仅有客户不知道自己的需求，需求怎么样才算是满足，还有就是如何满足客户的需求。</p>
+<h2 id="产品-or-方案"><a href="#产品-or-方案" class="headerlink" title="产品 or 方案"></a>产品 or 方案</h2><p>从旧日的经验看来，强推一个通用的产品是可以满足客户的80%的需求，但是这剩下来的20%，我们却不得不花整个项目过半的时间去满足，从客户的角度也会反馈为响应时间过长，而选择一个恰当的开源产品，满足客户的50%的需求，这剩下来的50%的需求可能会花更少的时间来迎合此类客户特定的场景，因此在真正的去客户进行交付的时候，我们的选择不是单一的，如何保质保量的交付才是我们需要考虑的。因此交付的是我们的产品？还是我们的方案？我认为都是可以的。</p>
+<h2 id="ToB-即服务"><a href="#ToB-即服务" class="headerlink" title="ToB 即服务"></a>ToB 即服务</h2><p>toB 的主战场并非是产品本身如何，而且围绕着产品的交付过程和最终的运维阶段如何保证客户的业务连续性。交付Jenkins亦或者DCS这并非是问题的关键，此两者皆为工作，在充分的考虑之下，我们选择一个更容易交付工具，而客户所期待的并非是我们交付的工具，此基于工具我们究竟可以完成多么完美流程的CICD过程，而我们研发产品的初心不也是因为拓展开源产品所不足，而在此之前，我们应该多加反思，这个项目真的需要使用我们自研的产品吗？</p>
+<h1 id="Do-not-follow-your-passion"><a href="#Do-not-follow-your-passion" class="headerlink" title="Do not follow your passion"></a>Do not follow your passion</h1><p>Ben Horowitz 在哥伦比亚大学2015届毕业典礼上的演讲：在你热爱的和你擅长的中，你应该选择哪一个呢？<a href="https://a16z.com/2015/05/28/some-career-advice-for-all-you-recent-graduates/" target="_blank" rel="noopener">原文链接</a> 且不论其他的同事做的怎么样，对于我来说 <strong>kubernetes</strong> 在很长的一段时间内都是我的噩梦（至今我的github的status依然是：🖕Fucking Kubernetes），并非是 k8s 做的不够好，而是我并不擅长于此，而在这之中摸爬滚打就变成了在焦油坑中煎熬。</p>
+<h2 id="在自己擅长的地方深耕"><a href="#在自己擅长的地方深耕" class="headerlink" title="在自己擅长的地方深耕"></a>在自己擅长的地方深耕</h2><p>在网关做到2.x版本的时候，我和何晶都有一段时间不知道给网关增加什么新功能，在之后我们可能选择增加一些额外的功能（当然最终并非是我们在构建），现在回想起来，我觉得这并不是一个好的方式，我们试图在培养同事在不同的技术栈上，比如Skywalking，对于他来说围绕着SW的APM可以做非常多的事情，此时让他再去深入理解k8s，显然是不合适的。围绕着API我们依然可以做很多有趣的尝试，因此让擅长的同事做擅长的事情，这是很重要的一件事情。</p>
+<p>因此我们今年也有了 <a href="https://dwiki.daocloud.io/pages/viewpage.action?pageId=60898721" target="_blank" rel="noopener">女娲计划</a> ，并且相较于从前，我们不再是以产品作为唯一的方向，以领域作为方向，这一领域内的知识与工具皆可为我所用。</p>
+<h2 id="善假于物也"><a href="#善假于物也" class="headerlink" title="善假于物也"></a>善假于物也</h2><p>但是我们总归是有不擅长的领域，而又不得不去做的，我认为此时寻求下外援也不是什么错误，比如K8S可以咨询Kay的团队，倘若真是有所不得，那从外部借助一些力量也是可以的。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/09/life/rethink-in-spring-festival/" rel="prev" title="在家的一个月我得到了什么">
+      <i class="fa fa-chevron-left"></i> 在家的一个月我得到了什么
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/21/networking/around-envoy/" rel="next" title="关于Envoy的知识">
+      关于Envoy的知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#虽有雄心，无力实现"><span class="nav-number">1.</span> <span class="nav-text">虽有雄心，无力实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#To-be-or-not-to-be"><span class="nav-number">2.</span> <span class="nav-text">To be or not to be</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Make-customers-succes"><span class="nav-number">3.</span> <span class="nav-text">Make customers succes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#产品-or-方案"><span class="nav-number">3.1.</span> <span class="nav-text">产品 or 方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ToB-即服务"><span class="nav-number">3.2.</span> <span class="nav-text">ToB 即服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Do-not-follow-your-passion"><span class="nav-number">4.</span> <span class="nav-text">Do not follow your passion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在自己擅长的地方深耕"><span class="nav-number">4.1.</span> <span class="nav-text">在自己擅长的地方深耕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#善假于物也"><span class="nav-number">4.2.</span> <span class="nav-text">善假于物也</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yannxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yannxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/";
+    this.page.identifier = "2020/03/31/rethink/another-hard-way-to-die/";
+    this.page.title = "死亡行军与自我革命";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Yanick&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://blog.yanick.site/"/>
+  <updated>2020-06-17T06:53:20.655Z</updated>
+  <id>http://blog.yanick.site/</id>
+  
+  <author>
+    <name>Yanick.xia</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>聊聊服务端热更新</title>
+    <link href="http://blog.yanick.site/2020/06/12/other/hot-restart/"/>
+    <id>http://blog.yanick.site/2020/06/12/other/hot-restart/</id>
+    <published>2020-06-12T22:00:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;随着Devops以及微服务的普及，应用上线周期变短，对于以前那种需要停机升级的忍受度也在不断的降低，话不多说，进入主题。&lt;/p&gt;
+&lt;h1 id=&quot;我们需要解决的&quot;&gt;&lt;a href=&quot;#我们需要解决的&quot; class=&quot;headerlink&quot; title=&quot;我们需要解决的&quot;&gt;&lt;/a&gt;我们需要解决的&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;https://s1.ax1x.com/2020/06/12/tXcilt.png&quot; alt=&quot;tXcilt.png&quot;&gt;&lt;br&gt;对于我们来说，我们所需要解决的是：当我们运行着一个服务进程的时候，我们期望这个进程能够突然之间变成新的(新的代码逻辑)，并且外部无感知。至少包含几点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;服务状态不丢失：比如监控状态，正在处理的数据状态&lt;/li&gt;
+&lt;li&gt;服务不中断：用户不能够感知到服务被中断&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;抱着这样的目的，我们来看看我们是怎么解决的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="server" scheme="http://blog.yanick.site/categories/server/"/>
+    
+      <category term="hot_restart" scheme="http://blog.yanick.site/categories/server/hot-restart/"/>
+    
+    
+      <category term="server" scheme="http://blog.yanick.site/tags/server/"/>
+    
+      <category term="hot_restart" scheme="http://blog.yanick.site/tags/hot-restart/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring的优雅停机</title>
+    <link href="http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/"/>
+    <id>http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/</id>
+    <published>2020-05-31T22:49:48.000Z</published>
+    <updated>2020-06-17T06:53:20.651Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
+    
+      <category term="spring" scheme="http://blog.yanick.site/categories/java/spring/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Go 擅长什么</title>
+    <link href="http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/"/>
+    <id>http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/</id>
+    <published>2020-05-26T17:56:26.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="思考" scheme="http://blog.yanick.site/tags/%E6%80%9D%E8%80%83/"/>
+    
+      <category term="Go" scheme="http://blog.yanick.site/tags/Go/"/>
+    
+      <category term="语言" scheme="http://blog.yanick.site/tags/%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>给客户提供的服务</title>
+    <link href="http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/"/>
+    <id>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</id>
+    <published>2020-05-08T22:00:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自古甲方是大爷，甲方选乙方如同青楼点小姐，甲方亦然自己的口味也要看小姐能提供什么类型，好御姐这口就不能找一个萝莉妹子陪。那就聊聊这几年看过的客户所需要的服务：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>关于Envoy的知识</title>
+    <link href="http://blog.yanick.site/2020/04/21/networking/around-envoy/"/>
+    <id>http://blog.yanick.site/2020/04/21/networking/around-envoy/</id>
+    <published>2020-04-21T22:30:00.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;开发环境搭建&quot;&gt;&lt;a href=&quot;#开发环境搭建&quot; class=&quot;headerlink&quot; title=&quot;开发环境搭建&quot;&gt;&lt;/a&gt;开发环境搭建&lt;/h1&gt;&lt;p&gt;基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1 &lt;/p&gt;
+&lt;h2 id=&quot;基础工具下载&quot;&gt;&lt;a href=&quot;#基础工具下载&quot; class=&quot;headerlink&quot; title=&quot;基础工具下载&quot;&gt;&lt;/a&gt;基础工具下载&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;安装 Bazel&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo wget -O /usr/&lt;span class=&quot;built_in&quot;&gt;local&lt;/span&gt;/bin/bazel https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo chmod +x /usr/&lt;span class=&quot;built_in&quot;&gt;local&lt;/span&gt;/bin/bazel&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装基础依赖&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install libtool cmake automake autoconf make ninja-build curl unzip virtualenv&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Clang 构建环境 （可选）&lt;br&gt;从 &lt;a href=&quot;http://releases.llvm.org/download.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;llvm&lt;/a&gt; 下载安装，9.0 版本比较兼容&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;bazel/setup_clang.sh &amp;lt;PATH_TO_EXTRACTED_CLANG_LLVM&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;build --config=clang&quot;&lt;/span&gt; &amp;gt;&amp;gt; user.bazelrc&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用 bazel构建DEBUG版本&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;bazel build -c dbg --spawn_strategy=standalone  //&lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt;/exe:envoy-static&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
+    
+      <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    
+    
+      <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
+    
+      <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>死亡行军与自我革命</title>
+    <link href="http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/"/>
+    <id>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</id>
+    <published>2020-03-31T18:00:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是&lt;strong&gt;死亡行军&lt;/strong&gt;。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在家的一个月我得到了什么</title>
+    <link href="http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/"/>
+    <id>http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/</id>
+    <published>2020-03-09T16:22:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;因为&lt;a href=&quot;https://zh.wikipedia.org/zh-hans/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;新冠肺炎&lt;/a&gt;，在家度过了自从大学生涯结束之后就不曾再有的超长假期，前前后后含上WFH的时间足足有40余天。大部分的时间也因为在家自我隔离，有了充足的时间进行思考，聊聊这个不一样的假期我在家学到了什么。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="life" scheme="http://blog.yanick.site/categories/life/"/>
+    
+    
+      <category term="生活" scheme="http://blog.yanick.site/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>从 Marty Cagan 那获得启示</title>
+    <link href="http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/"/>
+    <id>http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/</id>
+    <published>2020-02-29T09:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s2.ax1x.com/2020/02/29/3ySjTf.png&quot; alt=&quot;3ySjTf.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;周末的时候看了一篇好文 &lt;a href=&quot;https://coffee.pmcaff.com/article/G2Qd2GR5kZ&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;做产品真的难于上天！&lt;/a&gt; 从文后的链接听了一遍 Marty Cagan 的演讲，受益良多因此记录一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="项目管理" scheme="http://blog.yanick.site/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"/>
+    
+    
+      <category term="项目管理" scheme="http://blog.yanick.site/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>前后端分离的罪与罚</title>
+    <link href="http://blog.yanick.site/2020/02/18/rethink/separate-front-end/"/>
+    <id>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</id>
+    <published>2020-02-18T15:30:00.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;什么时候开始吹起了前后端分离的风，在我的回忆里是应该随着 &lt;code&gt;One Page Application&lt;/code&gt; 的风来的，突然有那么一段时间 &lt;code&gt;Vue&lt;/code&gt;,&lt;code&gt;Angular&lt;/code&gt;,&lt;code&gt;React&lt;/code&gt;就像雨后春笋长出来一样，前端离开了后端也可以玩转整个处理的流程了，工种的区分的也慢慢的变成前后端两只岗位了，甚至于过了一段时间出现了 &lt;code&gt;Fullstack&lt;/code&gt; 的开发者。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+      <category term="反思" scheme="http://blog.yanick.site/tags/%E5%8F%8D%E6%80%9D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微服务中的服务注册与发现</title>
+    <link href="http://blog.yanick.site/2020/01/08/microservice/discovery/"/>
+    <id>http://blog.yanick.site/2020/01/08/microservice/discovery/</id>
+    <published>2020-01-08T09:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景知识&quot;&gt;&lt;a href=&quot;#背景知识&quot; class=&quot;headerlink&quot; title=&quot;背景知识&quot;&gt;&lt;/a&gt;背景知识&lt;/h1&gt;&lt;h2 id=&quot;服务注册-amp-发现&quot;&gt;&lt;a href=&quot;#服务注册-amp-发现&quot; class=&quot;headerlink&quot; title=&quot;服务注册 &amp;amp; 发现&quot;&gt;&lt;/a&gt;服务注册 &amp;amp; 发现&lt;/h2&gt;&lt;p&gt;服务注册：服务实例将自身服务信息注册到注册中心。这部分服务信息包括服务所在主机IP和提供服务的Port，以及暴露服务自身状态以及访问协议等信息。&lt;br&gt;服务发现：服务实例请求注册中心获取所依赖服务信息。服务实例通过注册中心，获取到注册到其中的服务实例的信息，通过这些信息去请求它们提供的服务。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="微服务" scheme="http://blog.yanick.site/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>为什么开发者的文档总是无法让人满足</title>
+    <link href="http://blog.yanick.site/2020/01/06/pm/why-docs-make-me-fuzzy/"/>
+    <id>http://blog.yanick.site/2020/01/06/pm/why-docs-make-me-fuzzy/</id>
+    <published>2020-01-06T09:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;知识的传递需要基础&quot;&gt;&lt;a href=&quot;#知识的传递需要基础&quot; class=&quot;headerlink&quot; title=&quot;知识的传递需要基础&quot;&gt;&lt;/a&gt;知识的传递需要基础&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://s2.ax1x.com/2020/01/07/l6DySf.png&quot; alt=&quot;l6DySf.png&quot;&gt;&lt;br&gt;在认知学里面有一个很著名的名字 &lt;strong&gt;知识的诅咒(Curse of knowledge)&lt;/strong&gt; &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;知识的诅咒（Curse of knowledge）是一种认知偏差，形容专家常以术语交谈，但是丧失与非专业人士沟通的能力。 Robin Hogarth首先提出该名词 。知识的诅咒也是教育的重大阻碍之一。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="项目管理" scheme="http://blog.yanick.site/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于开源构建自己的产品</title>
+    <link href="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/"/>
+    <id>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</id>
+    <published>2019-12-30T18:00:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从 &lt;code&gt;2017.12&lt;/code&gt; 开始，我们就一直在基于 &lt;code&gt;SpringCloud&lt;/code&gt;(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>我的2019</title>
+    <link href="http://blog.yanick.site/2019/12/29/rethink/look-back-2019/"/>
+    <id>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</id>
+    <published>2019-12-29T18:00:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;尚且记得写下2018的时候，转念已2019已逝去。尤为可怕的是不曾记得2019做了哪些，又发生了哪些的改变，在这这个时间点上让你无法反思到究竟发生了什么在2019。&lt;/p&gt;
+&lt;p&gt;如果非要说今年有什么变化，大概开始明白人和人之间的视野是有极大的差距的，很多事情是自己所不能洞察的而别人的确可以察觉到，并且可以利用之。&lt;/p&gt;
+&lt;h2 id=&quot;倦怠&quot;&gt;&lt;a href=&quot;#倦怠&quot; class=&quot;headerlink&quot; title=&quot;倦怠&quot;&gt;&lt;/a&gt;倦怠&lt;/h2&gt;&lt;p&gt;我觉得已经没有什么比&lt;code&gt;倦怠&lt;/code&gt;更适合现在的我，在上海都差不多也要5年有余，尚未成家，尚未有房，工作尚未有所质变，这一切不变都又在无时不刻的在刺痛着我的内心，直到你开始麻木，而麻木的代价乃就是倦怠，对所有的事情得过且过，这大概已经是一个再为糟糕不过的状态，无论你怎么想，人做所有的事情都希望有所达成，而现在的我却已经无法达成什么，内心的倦怠感已在崩溃的边缘。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>批判无用论</title>
+    <link href="http://blog.yanick.site/2019/08/21/life/criticize-not-good/"/>
+    <id>http://blog.yanick.site/2019/08/21/life/criticize-not-good/</id>
+    <published>2019-08-21T16:22:48.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从业这些年来，从来不觉得批判能给我带来什么，当我去批判某个人或者某件事的时候，我所获得的只是更大的反弹。这仿佛说起来很不政治正确，观点是一个非常容易说出来的事情，尤其是现在的互联网时代，你的每一个论点都会被无限的放大，所有的网友都像你的前女友一样，处处给你挑刺，试图在你微薄的上下文中找到你对话的漏洞，并且将漏洞放大一百倍，然后用高位者的姿态教育你一番，以上论点在任意场景下都适用。这一切的背后都是个人意志的无限放大乃至于失控。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="life" scheme="http://blog.yanick.site/categories/life/"/>
+    
+    
+      <category term="生活" scheme="http://blog.yanick.site/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>云原生之下的Java</title>
+    <link href="http://blog.yanick.site/2019/05/29/fxxk-java-in-cloud-native/"/>
+    <id>http://blog.yanick.site/2019/05/29/fxxk-java-in-cloud-native/</id>
+    <published>2019-05-29T21:56:52.000Z</published>
+    <updated>2020-06-17T06:53:20.651Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自从公司的运行平台全线迁入了 &lt;code&gt;Kubenetes&lt;/code&gt; 之后总是觉得 &lt;code&gt;Devops&lt;/code&gt; 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 &lt;code&gt;Java&lt;/code&gt; 编程语言而来，那我们先聊聊云原生。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>兵法与项目管理</title>
+    <link href="http://blog.yanick.site/2019/04/13/cs/art-of-software/"/>
+    <id>http://blog.yanick.site/2019/04/13/cs/art-of-software/</id>
+    <published>2019-04-13T23:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.651Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;孙子兵法有云：“凡战者，以正合，以奇胜。” 讲的是从战略是正面要刚得住，而依靠一支尖刀部队打开战场的僵局，而获得战场的胜利。项目管理也应担如此，然而往往大部分的项目截取了后半段而忽略了前半段，呜呼哀哉。&lt;/p&gt;
+&lt;p&gt;现代软件工程也存在着形如蒙代尔三角，质量，成本，风险。当控制得了风险和成本，那就不能要求太高的质量。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>计算机科学/艺术</title>
+    <link href="http://blog.yanick.site/2019/04/09/sc-or-art/"/>
+    <id>http://blog.yanick.site/2019/04/09/sc-or-art/</id>
+    <published>2019-04-09T10:24:00.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;不知道，大家是不是一直受《The Art of Computer
+        
+      
+    
+    </summary>
+    
+      <category term="吐槽" scheme="http://blog.yanick.site/categories/%E5%90%90%E6%A7%BD/"/>
+    
+    
+      <category term="吐槽" scheme="http://blog.yanick.site/tags/%E5%90%90%E6%A7%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-网络原理(5) - ClusterIP</title>
+    <link href="http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/"/>
+    <id>http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/</id>
+    <published>2019-03-22T21:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我们看完的了简单的网络通讯，在&lt;code&gt;Kubernetes&lt;/code&gt;中还有一个很重要的&lt;code&gt;ClusterIP&lt;/code&gt;的概念。如下图所示，这个是&lt;code&gt;K8s&lt;/code&gt;实现服务负载均衡的核心基础。&lt;br&gt;&lt;img src=&quot;https://i.loli.net/2019/03/22/5c946f9b14785.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/categories/kubernetes/network/"/>
+    
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-Calico-网络原理(4) - BGP</title>
+    <link href="http://blog.yanick.site/2019/03/21/kubernetes/how-kubernetes-network-4/"/>
+    <id>http://blog.yanick.site/2019/03/21/kubernetes/how-kubernetes-network-4/</id>
+    <published>2019-03-21T17:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我们按照 &lt;a href=&quot;http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-1/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;kubernetes 网络原理(1) - 环境预备 &amp;amp; 初窥网络&lt;/a&gt; 重新部署一个 &lt;code&gt;BGP&lt;/code&gt; 集群的 &lt;code&gt;Calico&lt;/code&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/categories/kubernetes/network/"/>
+    
+      <category term="calico" scheme="http://blog.yanick.site/categories/kubernetes/network/calico/"/>
+    
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+      <category term="calico" scheme="http://blog.yanick.site/tags/calico/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-Calico-网络原理(3) - Pod &amp; Node</title>
+    <link href="http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/"/>
+    <id>http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/</id>
+    <published>2019-03-20T17:48:01.000Z</published>
+    <updated>2020-06-17T06:53:20.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;script src=&quot;https://lib.baomitu.com/webfont/1.6.28/webfontloader.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://lib.baomitu.com/raphael/2.2.7/raphael.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js&quot;&gt;&lt;/script&gt;
+
+
+
+&lt;p&gt;在 &lt;a href=&quot;http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-2/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Kubernetes 网络原理(2) - Container &amp;amp; Pod&lt;/a&gt; 中，我们已经看到了在一个 &lt;code&gt;Node&lt;/code&gt; 内部的 &lt;code&gt;Pod&lt;/code&gt; 和 &lt;code&gt;Container&lt;/code&gt; 的通讯，我们今天来看看跨&lt;code&gt;Node&lt;/code&gt;的&lt;code&gt;Pod&lt;/code&gt;通讯。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/categories/kubernetes/network/"/>
+    
+      <category term="calico" scheme="http://blog.yanick.site/categories/kubernetes/network/calico/"/>
+    
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+      <category term="calico" scheme="http://blog.yanick.site/tags/calico/"/>
+    
+  </entry>
+  
+</feed>

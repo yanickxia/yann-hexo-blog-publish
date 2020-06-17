@@ -1,0 +1,133 @@
+{
+  "categories": [
+    {
+      "name": "未分类"
+    },
+    {
+      "name": "Spring"
+    },
+    {
+      "name": "项目管理"
+    },
+    {
+      "name": "Soft Skill"
+    }
+  ],
+  "nodes": [
+    {
+      "name": "@",
+      "value": 30,
+      "symbolSize": 30
+    },
+    {
+      "name": "Spring Ecos",
+      "value": 20,
+      "symbolSize": 20,
+      "category": 1
+    },
+    {
+      "name": "Spring Framework",
+      "value": 10,
+      "symbolSize": 10,
+      "category": 1
+    },
+    {
+      "name": "Reactor",
+      "value": 10,
+      "symbolSize": 10,
+      "category": 1,
+      "articles": [
+        {
+          "name": "由表及里学 ProjectReactor",
+          "url": "/2018/06/26/java/spring/projectreactor/"
+        }
+      ]
+    },
+    {
+      "name": "项目管理",
+      "value": 10,
+      "symbolSize": 10,
+      "category": 2,
+      "articles": [
+        {
+          "name": "从 Marty Cagan 那获得启示",
+          "url": "/2020/02/29/pm/enlightenment-from-a-vedio/"
+        },
+        {
+          "name": "为什么开发者的文档总是无法让人满足",
+          "url": "/2020/01/06/pm/why-docs-make-me-fuzzy/"
+        },
+        {
+          "name": "兵法与项目管理",
+          "url": "/2019/04/13/cs/art-of-software/"
+        }
+      ]
+    },
+    {
+      "name": "工程化",
+      "value": 30,
+      "symbolSize": 30,
+      "category": 3,
+      "articles": [
+        {
+          "name": "为什么开发者的文档总是无法让人满足",
+          "url": "/2020/01/06/pm/why-docs-make-me-fuzzy/"
+        }
+      ]
+    },
+    {
+      "name": "API管理",
+      "value": 10,
+      "symbolSize": 10,
+      "category": 3,
+      "articles": [
+        {
+          "name": "OpenAPI（Swagger）快速入门",
+          "url": "/2018/08/13/other/swagger/"
+        }
+      ]
+    },
+    {
+      "name": "产品",
+      "value": 30,
+      "symbolSize": 30,
+      "category": 3,
+      "articles": [
+        {
+          "name": "基于开源构建自己的产品",
+          "url": "/2019/12/30/rethink/how-build-product-on-opensource/"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": "@",
+      "target": "Spring Ecos"
+    },
+    {
+      "source": "Spring Ecos",
+      "target": "Spring Framework"
+    },
+    {
+      "source": "Spring Framework",
+      "target": "Reactor"
+    },
+    {
+      "source": "@",
+      "target": "项目管理"
+    },
+    {
+      "source": "@",
+      "target": "工程化"
+    },
+    {
+      "source": "工程化",
+      "target": "API管理"
+    },
+    {
+      "source": "@",
+      "target": "产品"
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Yann's 2020 Choice</title>
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://lib.baomitu.com/materialize/1.0.0/css/materialize.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="http://lib.baomitu.com/materialize/1.0.0/js/materialize.min.js"></script>
+    <link
+      href="http://fonts.proxy.ustclug.org/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div id="app">
+      <nav class="nav-extended">
+        <div class="nav-wrapper grey darken-3">
+          <a href="#" class="brand-logo brand-logo-custom"
+            >Yann's 2020 Choice</a
+          >
+          <ul id="nav-mobile" class="right">
+            <li class="tab">
+              <a href="../annual-recommend/2018.html">Yann's 2018 Choice</a>
+            </li>
+            <li class="tab">
+              <a href="../annual-recommend/2019.html">Yann's 2019 Choice</a>
+            </li>
+            <li
+              v-for="tab in tabs"
+              :id="tab.id"
+              :class="{'active': currentLocation === tab.id}"
+            >
+              <a @click="getData(tab.id)">{{ tab.name }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-content grey darken-3">
+          <ul class="tabs tabs-transparent">
+            <li
+              class="tab"
+              v-for="tab in currentSubLocations"
+              :class="{'active': currentSubLocation === tab.id}"
+            >
+              <a @click="getSubData(tab.id)">{{ tab.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="row">
+        <div class="col s4 m3" v-for="data in current">
+          <div class="card hoverable">
+            <div class="card-image">
+              <img class="item-image" :src="data.image" />
+              <a
+                :href="data.url"
+                class="btn-floating halfway-fab waves-effect waves-light red"
+                ><i class="material-icons">link </i></a
+              >
+            </div>
+            <div class="card-content card-content-normal">
+              <span class="card-title">{{ data.name }}</span>
+              <p>{{ data.recommendText }}</p>
+              <p class="right-align recommend-star">
+                {{ data.recommendStar == undefined ? "差评指数" : "推荐指数" }}
+                ：{{ data.recommendStar }}{{ data.notRecommendStar }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://lib.baomitu.com/vue/2.5.17/vue.min.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          tabs: [
+            {
+              id: "tab-book",
+              name: "书籍",
+              recommend: [
+                {
+                  name: "数据密集型应用系统设计",
+                  image: "https://s2.ax1x.com/2020/01/17/1SJum8.png",
+                  url: "https://book.douban.com/subject/30329536/",
+                  recommendText: "每个人都应该学习深刻的技术理念，对技术的深入理解能帮助我们开发出更好的软件。",
+                  recommendStar: "★★★★★"
+                },
+                
+              ],
+              normal: [
+                {
+                  name: "异类",
+                  image: "https://s2.ax1x.com/2020/01/12/loBTv4.png",
+                  url: "https://book.douban.com/subject/25863621/",
+                  recommendText: "一些细节角度看成功之谜，那些成功人士可能自己也不知道的原因",
+                  recommendStar: "★★★☆"
+                },
+                {
+                  name: "",
+                  image: "https://s2.ax1x.com/2020/02/22/3QqoL9.png",
+                  url: "https://book.douban.com/subject/26829089/",
+                  recommendText: "罗列了软件开发的方方面面，有些内容还是发人深省的。",
+                  recommendStar: "★★★"
+                }
+              ],
+              notRecommend: [
+                // {
+                //   name: "如果在冬夜，一个旅人",
+                //   image:
+                //     "https://i.loli.net/2019/08/26/tlnvDF2bTWeUH3h.png",
+                //   url: "https://book.douban.com/subject/10555535/",
+                //   recommendText: "就你聪明，使劲的作",
+                //   recommendStar: "★"
+                // }
+              ]
+            },
+            {
+              id: "tab-video",
+              name: "视频",
+              recommend: [
+                {
+                  name: "学习观",
+                  image: "https://s2.ax1x.com/2020/03/09/8pKc7D.png",
+                  url: "https://www.bilibili.com/video/av65198583/",
+                  recommendText: "构建学习体系的理论基石",
+                  recommendStar: "★★★★★"
+                },
+                {
+                  name: "日日是好日",
+                  image: "https://s1.ax1x.com/2020/03/12/8Zijqx.png",
+                  url: "https://movie.douban.com/subject/27185563/",
+                  recommendText: "用身体去学习",
+                  recommendStar: "★★★★"
+                },{
+                  name: "【官方双语/合集】微积分的本质",
+                  image: "https://s1.ax1x.com/2020/05/31/tldVW6.png",
+                  url: "https://www.bilibili.com/video/BV1qW411N7FU",
+                  recommendText: "探索微积分的世界",
+                  recommendStar: "★★★★★"
+                }
+              ],
+              normal: [],
+              notRecommend: []
+            },
+            {
+              id: "tab-other",
+              name: "其他",
+              recommend: [],
+              normal: [],
+              notRecommend: []
+            }
+          ],
+          currentData: null,
+          current: null,
+          currentLocation: null,
+          currentSubLocation: null,
+          currentSubLocations: [
+            {
+              id: "all",
+              name: "所有"
+            },
+            {
+              id: "recommend",
+              name: "推荐"
+            },
+            {
+              id: "normal",
+              name: "中立"
+            },
+            {
+              id: "notRecommend",
+              name: "差评"
+            }
+          ]
+        },
+        methods: {
+          getData: function(id) {
+            this.currentLocation = id;
+            if (id === undefined) {
+              this.currentData = this.tabs[0];
+            }
+            this.currentData = this.tabs.filter(item => item.id === id)[0];
+            this.current = this.currentData.recommend;
+            this.currentSubLocation = "recommend";
+          },
+          getSubData: function(type) {
+            this.currentSubLocation = type;
+            switch (this.currentSubLocation) {
+              case "all":
+                this.current = this.getAll(this.currentData);
+                break;
+              default:
+                this.current = this.currentData[this.currentSubLocation];
+            }
+          },
+          getAll(currentData) {
+            return currentData.recommend
+              .concat(currentData.normal)
+              .concat(currentData.notRecommend);
+          }
+        },
+        created() {
+          this.currentData = this.tabs[0];
+          this.current = this.getAll(this.currentData);
+          this.currentLocation = "tab-book";
+          this.currentSubLocation = "all";
+        }
+      });
+    </script>
+
+    <style lang="css" scoped>
+      .item-image {
+          height: 300px;
+          width: auto;
+          overflow: hidden;
+          position: relative;
+          object-fit: cover;
+      }
+
+      .card-content-normal {
+          height: 150px;
+      }
+
+      .recommend-star {
+          position: absolute;
+          bottom: 0px;
+          padding: 10px;
+          right: 20px;
+      }
+
+      .brand-logo-custom {
+          margin-left: 20px;
+      }
+    </style>
+  </body>
+</html>
