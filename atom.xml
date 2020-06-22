@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-06-17T06:53:20.655Z</updated>
+  <updated>2020-06-22T08:36:58.645Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java社区的新方向</title>
+    <link href="http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/"/>
+    <id>http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/</id>
+    <published>2020-06-20T21:29:48.000Z</published>
+    <updated>2020-06-22T08:36:58.645Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;Java&lt;/code&gt; 作为一个不怎么年轻的语言，从 &lt;code&gt;JDK9&lt;/code&gt; 开始加速进化，颇有老树焕新芽的风采。语言上 &lt;code&gt;类型自动推动&lt;/code&gt; &lt;code&gt;No-Op Garbage Collector&lt;/code&gt; &lt;code&gt;JEP 321: HTTP Client&lt;/code&gt; 也算是非常的务实了。但是除了语言本身更重要的是社区建设，站在 2020 的时间节点上，我们看看未来社区的几个新方向。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>聊聊服务端热更新</title>
@@ -416,42 +436,6 @@
     <summary type="html">
     
       &lt;p&gt;我们按照 &lt;a href=&quot;http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-1/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;kubernetes 网络原理(1) - 环境预备 &amp;amp; 初窥网络&lt;/a&gt; 重新部署一个 &lt;code&gt;BGP&lt;/code&gt; 集群的 &lt;code&gt;Calico&lt;/code&gt;。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
-    
-      <category term="network" scheme="http://blog.yanick.site/categories/kubernetes/network/"/>
-    
-      <category term="calico" scheme="http://blog.yanick.site/categories/kubernetes/network/calico/"/>
-    
-    
-      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
-    
-      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
-    
-      <category term="calico" scheme="http://blog.yanick.site/tags/calico/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes-Calico-网络原理(3) - Pod &amp; Node</title>
-    <link href="http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/"/>
-    <id>http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/</id>
-    <published>2019-03-20T17:48:01.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;script src=&quot;https://lib.baomitu.com/webfont/1.6.28/webfontloader.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://lib.baomitu.com/raphael/2.2.7/raphael.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js&quot;&gt;&lt;/script&gt;
-
-
-
-&lt;p&gt;在 &lt;a href=&quot;http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-2/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Kubernetes 网络原理(2) - Container &amp;amp; Pod&lt;/a&gt; 中，我们已经看到了在一个 &lt;code&gt;Node&lt;/code&gt; 内部的 &lt;code&gt;Pod&lt;/code&gt; 和 &lt;code&gt;Container&lt;/code&gt; 的通讯，我们今天来看看跨&lt;code&gt;Node&lt;/code&gt;的&lt;code&gt;Pod&lt;/code&gt;通讯。&lt;/p&gt;
     
     </summary>
     

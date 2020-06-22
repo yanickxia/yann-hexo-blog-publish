@@ -1,5 +1,5 @@
+http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/
 http://blog.yanick.site/2020/06/12/other/hot-restart/
 http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/
 http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/
 http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/
-http://blog.yanick.site/2020/04/21/networking/around-envoy/
