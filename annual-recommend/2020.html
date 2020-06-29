@@ -36,7 +36,8 @@
             <li
               v-for="tab in tabs"
               :id="tab.id"
-              :class="{'active': currentLocation === tab.id}"
+              :class="[{'active': currentLocation === tab.id}]"
+              v-bind:style="{ padding-top: 10px; }"
             >
               <a @click="getData(tab.id)">{{ tab.name }}</a>
             </li>
@@ -47,7 +48,7 @@
             <li
               class="tab"
               v-for="tab in currentSubLocations"
-              :class="{'active': currentSubLocation === tab.id}"
+              :class="[{'active': currentSubLocation === tab.id}]"
             >
               <a @click="getSubData(tab.id)">{{ tab.name }}</a>
             </li>

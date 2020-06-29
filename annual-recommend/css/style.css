@@ -388,4 +388,8 @@ ul.tabs li.current {
   padding-top: 10px;
   font-size: 15px;
   color: white;
+}
+
+.subli {
+  padding-top: 10px;
 }<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
