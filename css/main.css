@@ -1197,7 +1197,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #88ff30;
+  background: #3cf0a1;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2637,22 +2637,23 @@ ul.breadcrumb li + li:last-child {
   clear: both;
 }
 @font-face {
-  font-family: "iconfont";
+  font-family: 'iconfont';
   src: url("iconfont.eot?t=1557717005035"); /* IE9 */
-  src: url("iconfont.eot?t=1557717005035#iefix") format('embedded-opentype'), url("data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAARAAAsAAAAACGAAAAPyAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqESIN1ATYCJAMMCwgABCAFhG0HNhs7BxHVm8vJviyw3cgmgJUt61DoEGG0/1aoXwg1BayQb5dtrO1gPh/k/5Nnf1/S9HSSwmN6Nx90+gmtxBXAEHztdfv+XUqpKtAlvvvSFcP4eLBIHDrOIAUbm9YxY1Tqqliy56nfmpHADhdCl11v9AeAG5ykKZVZYNvarINDDuRCB2oLAyy/AdV8nsvpTbvnh6tvWS5jbdrTj3oBxgEFugdGUaIFEpAn3DB2QUu8DQR4awSAbsKCClRl5iICtC26W1HNBOSGXlIVyhU7s/gFp1r8MI8R5gSfp38EpIBRSsyVJV2ZHbh4nvFyJDtWusEjYJwuBoDtAxYEAJBB75WJGqSoHABWXXXk5la5LBRT5SQpMGiu8kZ/eAVUZjqUkPXxMS7K6KiBeDlSD524/n2AHGjAFYzwFHqME0VTOSy+046p1n1RpXIrHF9uRfMJ0Ii6l43TD2/H2BvCjGO7xu30qtzM9yTttk3CnRjrQ9VAdfVopXc49ZVFI1I9vhct2mQdTzGiEZ+xdCvf9YsB4QVot8w0w2ICJ9mAPmfC81Xg3qAi4NnGB9xNnWU3bulSM79snb21efp6j/XbbVbfsun/J5ssm6ytF51yFir/wQ/XL4dRWL3baLP4Vom4xNtifehu+L7wSutF65yoarvKXqDdTrO++sqwtDvDGl80LbLb3WtbrH6TFyV22Xo5BVgvGBJSnScbuHHxMdjq7f+ZTY3Qwm1lcbFdsf8M0U5MFCfY9kY12zX79zqM2W03qdjRyrdX+TrL6f+9pc31XWRQj/6zKd3dY+0fxz4r4UJDK+QxiAAiliQm2GT1Zk1MzP+4hzH6dVsd905iPO1+w2p/0uqHLj8XdJr6L1fuzHzunDs2h/WqnLRJq913/losKm2cZmmdbsJm0zS/WvFJeM6Z8rCSvj0pWW5rJ3pPWZWvPziJyatkcvAqBYMWACBJ/aauAMB+TX798+9Y+TchzZqEbwohA+CeFARpSUZ3l+KNJIk/bOw4INPMZpDNisExGCnW9h2WGMBrTvzXfgDQ48lwl6lzN0CqRgkYFSuwqjakjD0Fp+EMclXn4J0ge79ggP5IIteAHyYBhC52odD2h6SLG2RmH6NkjHco6xKLuhcynNiwT2QBUoqMUoyfWCTSsh02CHsPlA11pGlzIFxI+yKHvuPla3tqSadY09+ywIyRVRoMwX1U14KdSkmJOblZt3NdrnqSk0gzgpGUIqMU4ycWibTsjTYovP9A2VBH2qCoal5I+2Jy9B2vA7l3tJ0Ut/JIf8sCM0ZWaTAEMaqtsmBXPa2kxJx8QLHbuWgYd3U4y7ua9zsG9ZF5WRoXkSJDLWzzyYt8GI0AAAA=") format('woff2'), url("iconfont.woff?t=1557717005035") format('woff'), url("iconfont.ttf?t=1557717005035") format('truetype'), url("iconfont.svg?t=1557717005035#iconfont") format('svg'); /* iOS 4.1- */
+  src: url("iconfont.eot?t=1557717005035#iefix") format('embedded-opentype'), url("data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAARAAAsAAAAACGAAAAPyAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqESIN1ATYCJAMMCwgABCAFhG0HNhs7BxHVm8vJviyw3cgmgJUt61DoEGG0/1aoXwg1BayQb5dtrO1gPh/k/5Nnf1/S9HSSwmN6Nx90+gmtxBXAEHztdfv+XUqpKtAlvvvSFcP4eLBIHDrOIAUbm9YxY1Tqqliy56nfmpHADhdCl11v9AeAG5ykKZVZYNvarINDDuRCB2oLAyy/AdV8nsvpTbvnh6tvWS5jbdrTj3oBxgEFugdGUaIFEpAn3DB2QUu8DQR4awSAbsKCClRl5iICtC26W1HNBOSGXlIVyhU7s/gFp1r8MI8R5gSfp38EpIBRSsyVJV2ZHbh4nvFyJDtWusEjYJwuBoDtAxYEAJBB75WJGqSoHABWXXXk5la5LBRT5SQpMGiu8kZ/eAVUZjqUkPXxMS7K6KiBeDlSD524/n2AHGjAFYzwFHqME0VTOSy+046p1n1RpXIrHF9uRfMJ0Ii6l43TD2/H2BvCjGO7xu30qtzM9yTttk3CnRjrQ9VAdfVopXc49ZVFI1I9vhct2mQdTzGiEZ+xdCvf9YsB4QVot8w0w2ICJ9mAPmfC81Xg3qAi4NnGB9xNnWU3bulSM79snb21efp6j/XbbVbfsun/J5ssm6ytF51yFir/wQ/XL4dRWL3baLP4Vom4xNtifehu+L7wSutF65yoarvKXqDdTrO++sqwtDvDGl80LbLb3WtbrH6TFyV22Xo5BVgvGBJSnScbuHHxMdjq7f+ZTY3Qwm1lcbFdsf8M0U5MFCfY9kY12zX79zqM2W03qdjRyrdX+TrL6f+9pc31XWRQj/6zKd3dY+0fxz4r4UJDK+QxiAAiliQm2GT1Zk1MzP+4hzH6dVsd905iPO1+w2p/0uqHLj8XdJr6L1fuzHzunDs2h/WqnLRJq913/losKm2cZmmdbsJm0zS/WvFJeM6Z8rCSvj0pWW5rJ3pPWZWvPziJyatkcvAqBYMWACBJ/aauAMB+TX798+9Y+TchzZqEbwohA+CeFARpSUZ3l+KNJIk/bOw4INPMZpDNisExGCnW9h2WGMBrTvzXfgDQ48lwl6lzN0CqRgkYFSuwqjakjD0Fp+EMclXn4J0ge79ggP5IIteAHyYBhC52odD2h6SLG2RmH6NkjHco6xKLuhcynNiwT2QBUoqMUoyfWCTSsh02CHsPlA11pGlzIFxI+yKHvuPla3tqSadY09+ywIyRVRoMwX1U14KdSkmJOblZt3NdrnqSk0gzgpGUIqMU4ycWibTsjTYovP9A2VBH2qCoal5I+2Jy9B2vA7l3tJ0Ut/JIf8sCM0ZWaTAEMaqtsmBXPa2kxJx8QLHbuWgYd3U4y7ua9zsG9ZF5WRoXkSJDLWzzyYt8GI0AAAA=") format('woff2'), url("iconfont.woff?t=1557717005035") format('woff'), url("iconfont.ttf?t=1557717005035") format('truetype'), url("iconfont.svg?t=1557717005035#iconfont") format('svg');
+/* iOS 4.1- */
 }
 .fa-custom {
-  font-family: "iconfont" !important;
+  font-family: 'iconfont' !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .icon-loft:before {
-  content: "\e644";
+  content: '\e644';
 }
 .icon-zhihu:before {
-  content: "\e87c";
+  content: '\e87c';
 }
 body {
   background-color: #a33;
@@ -2664,17 +2665,54 @@ body {
   background-size: 100% 100%;
 }
 .content-wrap {
-  opacity: 0.85;
+  opacity: 0.95;
 }
 .sidebar {
-  opacity: 0.85;
+  opacity: 0.9;
+  -webkit-box-shadow: 5px 17px 17px -1px rgba(26,15,26,0.88);
+  -moz-box-shadow: 5px 17px 17px -1px rgba(26,15,26,0.88);
+  box-shadow: 5px 17px 17px -1px rgba(26,15,26,0.88);
+}
+.sidebar-inner {
+  opacity: 0.9;
+  -webkit-box-shadow: 5px 17px 17px -1px rgba(26,15,26,0.88);
+  -moz-box-shadow: 5px 17px 17px -1px rgba(26,15,26,0.88);
+  box-shadow: 5px 17px 17px -1px rgba(26,15,26,0.88);
 }
 .header-inner {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.9);
+  -webkit-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  -moz-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
 }
 .popup {
   opacity: 0.9;
+  -webkit-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  -moz-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
 }
 .site-brand-container {
   background: #003049;
+}
+.post-block {
+  -webkit-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  -moz-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+}
+.post-block + .post-block {
+  -webkit-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  -moz-box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+  box-shadow: 11px 17px 17px -1px rgba(26,15,26,0.88);
+}
+#hitokoto {
+  text-align: left;
+  font-family: "Microsoft YaHei";
+  font-size: 11px;
+  width: 90%;
+}
+#hitofrom {
+  float: right;
+  font-family: "Microsoft YaHei";
+  font-size: 10px;
+  padding-right: 30px;
 }

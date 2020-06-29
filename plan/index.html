@@ -28,7 +28,7 @@
 <meta property="og:description" content="Doing Around Envoy 👀  Plan Akka 源码解读 🔻  Done Easy way to learn kotlin for java proggammer ✔️ Motan 源码解读 ✔️ 由表及里学 ProjectReactor ✔️ Netty 源码解析系列 ✔️ TCP&#x2F;IP Illustrated Vol.1 ✔️ ProjectReactor 与 事务 ✔">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-08-22T18:43:42.000Z">
-<meta property="article:modified_time" content="2020-06-17T06:53:20.659Z">
+<meta property="article:modified_time" content="2020-06-29T12:49:42.319Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
 
@@ -123,16 +123,6 @@
     <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-百科">
-
-    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
-
-  </li>
         <li class="menu-item menu-item-计划">
 
     <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
@@ -151,6 +141,11 @@
         <li class="menu-item menu-item-分享">
 
     <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
 
   </li>
   </ul>
@@ -225,7 +220,6 @@
   <div id="my-timeline"></div>
   <script src='http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js'></script>
   <script src='https://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js'></script>
-  <script src='learn-timeline.js'></script>
   <script type="text/javascript">
       createStoryJS({
         "type": "timeline",
@@ -316,19 +310,19 @@
                 "startDate": "2019,09,10",
                 "endDate": "2019,09,30",
                 "headline": "水滴逆向",
-                "text": "<p><a href='https://www.bilibili.com/video/av36036005' target="_blank" rel="noopener">水滴逆向</a></p>"
+                "text": '<p><a href="https://www.bilibili.com/video/av36036005" target="_blank" rel="noopener">水滴逆向</a></p>'
                 },
                 {
                 "startDate": "2019,12,29",
                 //"endDate": "2019,08,30",
                 "headline": "毛泽东选集",
-                "text": "<p><a href='https://www.marxists.org/chinese/maozedong/index.htm#0' target="_blank" rel="noopener">毛泽东选集</a></p>"
+                "text": '<p><a href="https://www.marxists.org/chinese/maozedong/index.htm" target="_blank" rel="noopener">毛泽东选集</a></p>'
                 },
                 {
                 "startDate": "2020,04,21",
                 //"endDate": "2019,08,30",
                 "headline": "Around Envoy",
-                "text": "<p><a href='https://www.marxists.org/chinese/maozedong/index.htm#0' target="_blank" rel="noopener">构建Envoy知识领域</a></p>"
+                "text": '<p><a href="/2020/04/21/networking/around-envoy/">构建Envoy知识领域</a></p>'
                 }
             ]
             }
@@ -434,8 +428,7 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
+          <a href="/archives">
           <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
@@ -506,7 +499,29 @@
         </li>
     </ul>
   </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
 
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
       </div>
 
     </div>
