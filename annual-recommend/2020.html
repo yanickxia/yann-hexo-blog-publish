@@ -15,6 +15,8 @@
       href="http://fonts.proxy.ustclug.org/icon?family=Material+Icons"
       rel="stylesheet"
     />
+
+     <script src="https://lib.baomitu.com/vue/2.5.17/vue.min.js"></script>
   </head>
 
   <body>
@@ -66,7 +68,7 @@
             </div>
             <div class="card-content card-content-normal">
               <span class="card-title">{{ data.name }}</span>
-              <p>{{ data.recommendText }}</p>
+              <p v-html="data.recommendText"></p>
               <p class="right-align recommend-star">
                 {{ data.recommendStar == undefined ? "差评指数" : "推荐指数" }}
                 ：{{ data.recommendStar }}{{ data.notRecommendStar }}
@@ -77,7 +79,7 @@
       </div>
     </div>
 
-    <script src="https://lib.baomitu.com/vue/2.5.17/vue.min.js"></script>
+   
     <script>
       new Vue({
         el: "#app",
@@ -94,7 +96,13 @@
                   recommendText: "每个人都应该学习深刻的技术理念，对技术的深入理解能帮助我们开发出更好的软件。",
                   recommendStar: "★★★★★"
                 },
-                
+                {
+                  name: "技术的本质",
+                  image: "https://s1.ax1x.com/2020/06/28/N2Nju8.jpg",
+                  url: "https://book.douban.com/subject/25846075/",
+                  recommendText: "何为技术。<a href='/2020/06/28/rethink/why-learn-by-self-so-hard/'>为何有些软件知识自学如此的困难</a>",
+                  recommendStar: "★★★★"
+                },
               ],
               normal: [
                 {

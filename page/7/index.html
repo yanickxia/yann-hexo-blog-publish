@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta property="og:type" content="website">
@@ -163,7 +163,6 @@
     <span>0%</span>
   </div>
   <div class="reading-progress-bar"></div>
-  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -173,6 +172,102 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/05/20/bugs/a-strange-apollo-config-error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/20/bugs/a-strange-apollo-config-error/" class="post-title-link" itemprop="url">记一次奇怪的Apollo配置中心错误</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-20 15:04:08" itemprop="dateCreated datePublished" datetime="2018-05-20T15:04:08+00:00">2018-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/apollo/" itemprop="url" rel="index"><span itemprop="name">apollo</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/05/20/bugs/a-strange-apollo-config-error/" class="post-meta-item leancloud_visitors" data-flag-title="记一次奇怪的Apollo配置中心错误" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
+<script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script src="https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js"></script>
+<script src="https://lib.baomitu.com/raphael/2.2.7/raphael.min.js"></script>
+<script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/20/bugs/a-strange-apollo-config-error/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -480,7 +575,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/21/what-is-my-recommend-books/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -494,7 +589,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/04/21/what-is-my-recommend-books/" class="post-title-link" itemprop="url">我的推荐书单 [草稿]</a>
+            <a href="/2018/04/21/recommend/what-is-my-recommend-books/" class="post-title-link" itemprop="url">我的推荐书单 [草稿]</a>
         </h2>
 
         <div class="post-meta">
@@ -511,7 +606,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -528,7 +623,7 @@
             </span>
 
           
-            <span id="/2018/04/21/what-is-my-recommend-books/" class="post-meta-item leancloud_visitors" data-flag-title="我的推荐书单 [草稿]" title="阅读次数">
+            <span id="/2018/04/21/recommend/what-is-my-recommend-books/" class="post-meta-item leancloud_visitors" data-flag-title="我的推荐书单 [草稿]" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -548,7 +643,7 @@
           <p>每次公司有新同事，总是会问应该学点什么，每次都回答一遍才挺费力的，索性找个时间把之前看过的东西都好好的整理一下，也权当是回归。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/04/21/what-is-my-recommend-books/#more" rel="contents">
+              <a class="btn" href="/2018/04/21/recommend/what-is-my-recommend-books/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -572,7 +667,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/20/what-is-learn-in-2018/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/20/rethink/what-is-learn-in-2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -586,7 +681,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/04/20/what-is-learn-in-2018/" class="post-title-link" itemprop="url">我准备在2018学什么</a>
+            <a href="/2018/04/20/rethink/what-is-learn-in-2018/" class="post-title-link" itemprop="url">我准备在2018学什么</a>
         </h2>
 
         <div class="post-meta">
@@ -603,7 +698,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -616,7 +711,7 @@
             </span>
 
           
-            <span id="/2018/04/20/what-is-learn-in-2018/" class="post-meta-item leancloud_visitors" data-flag-title="我准备在2018学什么" title="阅读次数">
+            <span id="/2018/04/20/rethink/what-is-learn-in-2018/" class="post-meta-item leancloud_visitors" data-flag-title="我准备在2018学什么" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -636,7 +731,7 @@
           <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在自己的<a href="http://blog.yannxia.top/2018/04/16/think-in-occupation/" target="_blank" rel="noopener">职业规划</a>中我认为未来是属于物理网的，我觉得技术的核心在与 采集 传输 计算 储存，采集和我的原本的专业方向不是很匹配，我把自己定性为研究传输和储存，我决定从网络传输上开始学习。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/04/20/what-is-learn-in-2018/#more" rel="contents">
+              <a class="btn" href="/2018/04/20/rethink/what-is-learn-in-2018/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -739,7 +834,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/16/think-in-occupation/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/16/rethink/think-in-occupation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -753,7 +848,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/04/16/think-in-occupation/" class="post-title-link" itemprop="url">关于职业规划的思考</a>
+            <a href="/2018/04/16/rethink/think-in-occupation/" class="post-title-link" itemprop="url">关于职业规划的思考</a>
         </h2>
 
         <div class="post-meta">
@@ -770,7 +865,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -783,7 +878,7 @@
             </span>
 
           
-            <span id="/2018/04/16/think-in-occupation/" class="post-meta-item leancloud_visitors" data-flag-title="关于职业规划的思考" title="阅读次数">
+            <span id="/2018/04/16/rethink/think-in-occupation/" class="post-meta-item leancloud_visitors" data-flag-title="关于职业规划的思考" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -803,7 +898,7 @@
           <p>深受特劳特的《定位》影响，关于职业的规划更多的像是认知自己的过程。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/04/16/think-in-occupation/#more" rel="contents">
+              <a class="btn" href="/2018/04/16/rethink/think-in-occupation/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -827,7 +922,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/11/interview-review/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/11/life/interview-review/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -841,7 +936,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/04/11/interview-review/" class="post-title-link" itemprop="url">2018年初面试回顾</a>
+            <a href="/2018/04/11/life/interview-review/" class="post-title-link" itemprop="url">2018年初面试回顾</a>
         </h2>
 
         <div class="post-meta">
@@ -858,11 +953,11 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
 
           
-            <span id="/2018/04/11/interview-review/" class="post-meta-item leancloud_visitors" data-flag-title="2018年初面试回顾" title="阅读次数">
+            <span id="/2018/04/11/life/interview-review/" class="post-meta-item leancloud_visitors" data-flag-title="2018年初面试回顾" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -890,7 +985,7 @@
 <p>3-5年工作经验岗位。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/04/11/interview-review/#more" rel="contents">
+              <a class="btn" href="/2018/04/11/life/interview-review/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -914,7 +1009,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/03/28/java-lock-by-code/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/03/28/java/java-lock-by-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -928,7 +1023,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/03/28/java-lock-by-code/" class="post-title-link" itemprop="url">通过代码学习 - Java中的Synchronized</a>
+            <a href="/2018/03/28/java/java-lock-by-code/" class="post-title-link" itemprop="url">通过代码学习 - Java中的Synchronized</a>
         </h2>
 
         <div class="post-meta">
@@ -945,11 +1040,11 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
 
           
-            <span id="/2018/03/28/java-lock-by-code/" class="post-meta-item leancloud_visitors" data-flag-title="通过代码学习 - Java中的Synchronized" title="阅读次数">
+            <span id="/2018/03/28/java/java-lock-by-code/" class="post-meta-item leancloud_visitors" data-flag-title="通过代码学习 - Java中的Synchronized" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -969,102 +1064,7 @@
           <h2 id="Synchronized-关键字"><a href="#Synchronized-关键字" class="headerlink" title="Synchronized 关键字"></a>Synchronized 关键字</h2><h4 id="无Synchronized"><a href="#无Synchronized" class="headerlink" title="无Synchronized"></a>无Synchronized</h4><p>Synchronized是互斥锁，非常接近底层Mux的概念，就是把内存的一块区间给锁住，只允许一个线程使用。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/03/28/java-lock-by-code/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/03/07/java-tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/03/07/java-tips/" class="post-title-link" itemprop="url">java 小技巧 (1)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-03-07 09:18:31" itemprop="dateCreated datePublished" datetime="2018-03-07T09:18:31+00:00">2018-03-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/Tips/" itemprop="url" rel="index"><span itemprop="name">Tips</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/03/07/java-tips/" class="post-meta-item leancloud_visitors" data-flag-title="java 小技巧 (1)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>空间换时间的小把戏</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Type &#123;</span><br><span class="line">        NAME(<span class="string">"姓名"</span>), AGE(<span class="string">"年龄"</span>), ADDRESS(<span class="string">"住址"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> String typeName;</span><br><span class="line"></span><br><span class="line">        Type(String typeName) &#123;</span><br><span class="line">            <span class="keyword">this</span>.typeName = typeName;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Type <span class="title">fromTypeName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (Type t : Type.values()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (t.typeName.equals(name)) <span class="keyword">return</span> t;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/07/java-tips/#more" rel="contents">
+              <a class="btn" href="/2018/03/28/java/java-lock-by-code/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1153,7 +1153,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1371,8 +1371,6 @@
 
 
 <script src="/js/next-boot.js"></script>
-
-<script src="/js/bookmark.js"></script>
 
 
 

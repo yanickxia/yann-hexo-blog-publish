@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta property="og:type" content="website">
@@ -163,7 +163,6 @@
     <span>0%</span>
   </div>
   <div class="reading-progress-bar"></div>
-  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -173,6 +172,94 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/02/18/rethink/separate-front-end/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/18/rethink/separate-front-end/" class="post-title-link" itemprop="url">前后端分离的罪与罚</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-18 15:30:00" itemprop="dateCreated datePublished" datetime="2020-02-18T15:30:00+00:00">2020-02-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/rethink/" itemprop="url" rel="index"><span itemprop="name">rethink</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/02/18/rethink/separate-front-end/" class="post-meta-item leancloud_visitors" data-flag-title="前后端分离的罪与罚" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>什么时候开始吹起了前后端分离的风，在我的回忆里是应该随着 <code>One Page Application</code> 的风来的，突然有那么一段时间 <code>Vue</code>,<code>Angular</code>,<code>React</code>就像雨后春笋长出来一样，前端离开了后端也可以玩转整个处理的流程了，工种的区分的也慢慢的变成前后端两只岗位了，甚至于过了一段时间出现了 <code>Fullstack</code> 的开发者。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/18/rethink/separate-front-end/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -613,7 +700,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/05/29/fxxk-java-in-cloud-native/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -627,7 +714,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2019/05/29/fxxk-java-in-cloud-native/" class="post-title-link" itemprop="url">云原生之下的Java</a>
+            <a href="/2019/05/29/java/fxxk-java-in-cloud-native/" class="post-title-link" itemprop="url">云原生之下的Java</a>
         </h2>
 
         <div class="post-meta">
@@ -644,11 +731,11 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
 
           
-            <span id="/2019/05/29/fxxk-java-in-cloud-native/" class="post-meta-item leancloud_visitors" data-flag-title="云原生之下的Java" title="阅读次数">
+            <span id="/2019/05/29/java/fxxk-java-in-cloud-native/" class="post-meta-item leancloud_visitors" data-flag-title="云原生之下的Java" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -668,7 +755,7 @@
           <p>自从公司的运行平台全线迁入了 <code>Kubenetes</code> 之后总是觉得 <code>Devops</code> 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 <code>Java</code> 编程语言而来，那我们先聊聊云原生。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/05/29/fxxk-java-in-cloud-native/#more" rel="contents">
+              <a class="btn" href="/2019/05/29/java/fxxk-java-in-cloud-native/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -772,7 +859,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/04/09/sc-or-art/">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/04/09/rethink/sc-or-art/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -786,7 +873,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2019/04/09/sc-or-art/" class="post-title-link" itemprop="url">计算机科学/艺术</a>
+            <a href="/2019/04/09/rethink/sc-or-art/" class="post-title-link" itemprop="url">计算机科学/艺术</a>
         </h2>
 
         <div class="post-meta">
@@ -803,7 +890,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
+                <time title="修改时间：2020-06-29 03:35:53" itemprop="dateModified" datetime="2020-06-29T03:35:53+00:00">2020-06-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -816,7 +903,7 @@
             </span>
 
           
-            <span id="/2019/04/09/sc-or-art/" class="post-meta-item leancloud_visitors" data-flag-title="计算机科学/艺术" title="阅读次数">
+            <span id="/2019/04/09/rethink/sc-or-art/" class="post-meta-item leancloud_visitors" data-flag-title="计算机科学/艺术" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -948,102 +1035,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/03/21/kubernetes/how-kubernetes-network-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/21/kubernetes/how-kubernetes-network-4/" class="post-title-link" itemprop="url">Kubernetes-Calico-网络原理(4) - BGP</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-21 17:48:01" itemprop="dateCreated datePublished" datetime="2019-03-21T17:48:01+00:00">2019-03-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kubernetes/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kubernetes/network/calico/" itemprop="url" rel="index"><span itemprop="name">calico</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2019/03/21/kubernetes/how-kubernetes-network-4/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes-Calico-网络原理(4) - BGP" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>我们按照 <a href="http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-1/" target="_blank" rel="noopener">kubernetes 网络原理(1) - 环境预备 &amp; 初窥网络</a> 重新部署一个 <code>BGP</code> 集群的 <code>Calico</code>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/03/21/kubernetes/how-kubernetes-network-4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1113,7 +1104,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1331,8 +1322,6 @@
 
 
 <script src="/js/next-boot.js"></script>
-
-<script src="/js/bookmark.js"></script>
 
 
 
