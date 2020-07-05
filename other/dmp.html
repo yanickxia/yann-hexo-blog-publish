@@ -84,7 +84,7 @@ c-468 2 -527 1 -547 -13z m928 -215 c124 -10 139 -13 203 -46 189 -98 242
     <p>特别鸣谢：</p>
     <p>谭健：贡献了第一个项目 Demo</p> 
 
-	<p id="title">DMP 1.4</p>
+	  <p id="title">DMP 1.4</p>
     <p id="subtitle">2018.9.11</p>
     <br>
     <!-- And make it cheesy ! -->
@@ -97,6 +97,7 @@ c-468 2 -527 1 -547 -13z m928 -215 c124 -10 139 -13 203 -46 189 -98 242
     <p>在一边交付上汽大众项目的同时，一边完成了多租户改造。</p>
     <p>特别鸣谢：</p>
     <p>陈雨卿：我们的首位也唯一一位全职的项目经理，并且有车带着我们去上汽</p>
+    <p>张旻琪：协助产品经理完成2.0的变革</p>
     <p>徐旻：为DMP注入测试动力</p>
     <p>颜志一：为DMP注入真正的监控能力</p> 
     <p>李卓浩：为DMP注入用户体系，并且和上汽结下不解之缘</p>
@@ -113,15 +114,19 @@ c-468 2 -527 1 -547 -13z m928 -215 c124 -10 139 -13 203 -46 189 -98 242
     <p id="subtitle">2020-7-18</p>
     <br>
     <!-- And make it cheesy ! -->
-    <p>DMP 最终版</p>
-    <p>感谢大家这段时间的陪伴，我仅代表我和Grissom 感谢这些年来大家的付出，如果把DMP比喻成一个人，我们见证过他初啼的诞生，我们亦陪他走过灿烂的华年，如今他终将老去。</p>
-    <p>海明威曾道：一个人可以被毁灭，但不能被打败。虽然DMP完成了它的历史使命，而我们的道路尚未终结，我们每一个人都携带着DMP的意志，用技术去创造，去改变。</p>
-    <br>
-    <p>尔曹身与名俱灭，不废江河万古流。</p>
+    <p>最终版:将所有3.0的新功能/新特性移植至SpringCloud体系中</p>
   </div>  
 </div>
 
 
+<div id="end-board">
+  <div id="end">
+    <p>感谢大家这段时间的陪伴，我仅代表我和Grissom 感谢这些年来大家的付出，如果把DMP比喻成一个人，我们见证过他初啼的诞生，我们亦陪他走过灿烂的华年，如今他终将老去。</p>
+    <p>海明威曾道：一个人可以被毁灭，但不能被打败。虽然DMP完成了它的历史使命，而我们的道路尚未终结，我们每一个人都携带着DMP的意志，用技术去创造，去改变。</p>
+    <br>
+    <p>尔曹身与名俱灭，不废江河万古流。</p>
+  </div>
+</div>
 
 <style type="text/css">
 	
@@ -148,6 +153,7 @@ body {
     font-weight: 400;
     font-size: 300%;
     opacity: 0;
+    text-align: center;
 }
 
 @keyframes intro {
@@ -244,7 +250,46 @@ p {
         top: 100%;
     }
     100% {
-        top: -170%;
+        top: -150%;
+    }
+}
+
+#end-board {
+  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+  transform: perspective(300px) rotateX(25deg);
+  transform-origin: 50% 100%;
+  text-align: justify;
+  position: absolute;
+  margin-left: -9em;
+  font-weight: bold;
+  font-size: 350%;
+  height: 50em;
+  width: 18em;
+  overflow: hidden;
+  bottom: 0;
+  left: 50%;
+}
+
+#end-board:after {    
+  position: absolute;
+  content: ' ';
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+#end {
+  animation: end-scroll 30s forwards 110s;
+  position: absolute;
+  top: 100%;
+}
+
+@keyframes end-scroll {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: 50%;
     }
 }
 

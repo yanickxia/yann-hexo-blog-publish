@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/</loc>
+    
+    <lastmod>2020-07-05T15:18:34.488Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/plan/index.html</loc>
     
     <lastmod>2020-07-03T17:22:02.306Z</lastmod>
@@ -72,13 +79,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-5-recommend/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
@@ -86,14 +86,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
+    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2016/12/07/other/about-chameleon/</loc>
+    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -121,13 +121,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
@@ -135,7 +128,21 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2016/12/07/other/about-chameleon/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -261,13 +268,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/08/21/life/criticize-not-good/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/09/16/life/keywords-2018/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
@@ -275,7 +275,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/</loc>
+    <loc>http://blog.yanick.site/2019/08/21/life/criticize-not-good/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -283,6 +283,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/01/08/microservice/discovery/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -303,14 +310,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
+    <loc>http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/</loc>
+    <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -380,14 +387,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</loc>
+    <loc>http://blog.yanick.site/2018/04/18/rethink/think-in-iot/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/04/18/rethink/think-in-iot/</loc>
+    <loc>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -408,14 +415,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
+    <loc>http://blog.yanick.site/2018/05/07/networking/tcp-ip/tcp-ip-review-2-ip/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/05/07/networking/tcp-ip/tcp-ip-review-2-ip/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -478,14 +485,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
+    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
+    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -534,14 +541,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
+    <loc>http://blog.yanick.site/2018/06/26/java/spring/projectreactor/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/26/java/spring/projectreactor/</loc>
+    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -583,13 +590,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-object/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
@@ -597,7 +597,21 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2018/07/09/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-overview-installation-setup/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/07/17/kotlin/easy-way-to-kotlin-for-java-proggamer/null-type/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -619,13 +633,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2018/08/07/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-with-properties/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/07/17/kotlin/easy-way-to-kotlin-for-java-proggamer/null-type/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     

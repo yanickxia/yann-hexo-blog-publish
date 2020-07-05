@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-06-29T03:35:53.875Z</updated>
+  <updated>2020-07-05T15:18:34.488Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>警惕从开发转变为运维</title>
+    <link href="http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/"/>
+    <id>http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/</id>
+    <published>2020-07-03T14:54:45.000Z</published>
+    <updated>2020-07-05T15:18:34.488Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在这有限的三年工作中，我们尝试着从传统的开发|运维分离的体系转换为 &lt;code&gt;Devops&lt;/code&gt; 的体系，收益很多：有且不限于&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何编写更易于部署的代码&lt;/li&gt;
+&lt;li&gt;了解K8S这样的运行支撑层的工作原理&lt;/li&gt;
+&lt;li&gt;促进团队的产能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;但是在这过程之中我们也发现了很糟糕之处，今天就这些糟糕的情况讲一讲。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>为何有些软件知识自学如此的困难</title>
@@ -422,30 +446,6 @@
     
     
       <category term="吐槽" scheme="http://blog.yanick.site/tags/%E5%90%90%E6%A7%BD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes-网络原理(5) - ClusterIP</title>
-    <link href="http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/"/>
-    <id>http://blog.yanick.site/2019/03/22/kubernetes/how-kubernetes-network-5/</id>
-    <published>2019-03-22T21:48:01.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我们看完的了简单的网络通讯，在&lt;code&gt;Kubernetes&lt;/code&gt;中还有一个很重要的&lt;code&gt;ClusterIP&lt;/code&gt;的概念。如下图所示，这个是&lt;code&gt;K8s&lt;/code&gt;实现服务负载均衡的核心基础。&lt;br&gt;&lt;img src=&quot;https://i.loli.net/2019/03/22/5c946f9b14785.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
-    
-      <category term="network" scheme="http://blog.yanick.site/categories/kubernetes/network/"/>
-    
-    
-      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
-    
-      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
     
   </entry>
   
