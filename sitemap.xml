@@ -4,7 +4,7 @@
   <url>
     <loc>http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/</loc>
     
-    <lastmod>2020-07-05T15:18:34.488Z</lastmod>
+    <lastmod>2020-07-06T08:46:19.011Z</lastmod>
     
   </url>
   
@@ -86,14 +86,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
+    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
+    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -121,14 +121,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
+    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
+    <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -177,14 +177,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/</loc>
+    <loc>http://blog.yanick.site/2018/03/28/java/java-lock-by-code/</loc>
     
     <lastmod>2020-06-29T03:35:53.871Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/03/28/java/java-lock-by-code/</loc>
+    <loc>http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/</loc>
     
     <lastmod>2020-06-29T03:35:53.871Z</lastmod>
     
@@ -268,13 +268,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/09/16/life/keywords-2018/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2019/08/21/life/criticize-not-good/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
@@ -282,7 +275,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/01/08/microservice/discovery/</loc>
+    <loc>http://blog.yanick.site/2018/09/16/life/keywords-2018/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -296,14 +289,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/04/21/networking/around-envoy/</loc>
+    <loc>http://blog.yanick.site/2020/01/08/microservice/discovery/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/06/12/other/hot-restart/</loc>
+    <loc>http://blog.yanick.site/2020/04/21/networking/around-envoy/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -345,14 +338,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
+    <loc>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</loc>
+    <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -380,7 +373,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/</loc>
+    <loc>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -394,14 +387,21 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</loc>
+    <loc>http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/</loc>
+    <loc>http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/06/12/other/hot-restart/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -478,14 +478,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-0-prepare/</loc>
+    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
+    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-0-prepare/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
