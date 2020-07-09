@@ -4,7 +4,7 @@
   <url>
     <loc>http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/</loc>
     
-    <lastmod>2020-07-09T12:14:50.748Z</lastmod>
+    <lastmod>2020-07-09T12:25:29.679Z</lastmod>
     
   </url>
   
@@ -86,20 +86,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2016/12/22/other/how-to-write-a-git-commit-message/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2017/02/20/other/object-oriented-design/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2017/01/05/other/why-jetbrains-needs-kotlin/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
@@ -164,6 +150,20 @@
   
   <url>
     <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2017/02/20/other/object-oriented-design/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2016/12/22/other/how-to-write-a-git-commit-message/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -317,6 +317,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/06/12/other/hot-restart/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
@@ -380,14 +387,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/</loc>
+    <loc>http://blog.yanick.site/2018/08/18/rethink/rethink-code-ability/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/18/rethink/rethink-code-ability/</loc>
+    <loc>http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -409,13 +416,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/06/12/other/hot-restart/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -492,14 +492,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
+    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-0-prepare/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-0-prepare/</loc>
+    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -513,14 +513,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
+    <loc>http://blog.yanick.site/2018/06/20/java/netty/netty-3-pipeline/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/20/java/netty/netty-3-pipeline/</loc>
+    <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
