@@ -20,24 +20,15 @@
     var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="背景知识服务注册 &amp; 发现服务注册：服务实例将自身服务信息注册到注册中心。这部分服务信息包括服务所在主机IP和提供服务的Port，以及暴露服务自身状态以及访问协议等信息。服务发现：服务实例请求注册中心获取所依赖服务信息。服务实例通过注册中心，获取到注册到其中的服务实例的信息，通过这些信息去请求它们提供的服务。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="微服务中的服务注册与发现">
-<meta property="og:url" content="http://blog.yanick.site/2020/01/08/microservice/discovery/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Yanick&#39;s Blog">
+<meta property="og:url" content="http://blog.yanick.site/categories/architecture/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="背景知识服务注册 &amp; 发现服务注册：服务实例将自身服务信息注册到注册中心。这部分服务信息包括服务所在主机IP和提供服务的Port，以及暴露服务自身状态以及访问协议等信息。服务发现：服务实例请求注册中心获取所依赖服务信息。服务实例通过注册中心，获取到注册到其中的服务实例的信息，通过这些信息去请求它们提供的服务。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.ax1x.com/2020/02/08/1Rccgx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2020/02/08/1R2uTg.png">
-<meta property="og:image" content="https://s2.ax1x.com/2020/02/08/1R2ftH.png">
-<meta property="og:image" content="https://s2.ax1x.com/2020/02/08/1RfyXq.png">
-<meta property="article:published_time" content="2020-01-08T09:48:01.000Z">
-<meta property="article:modified_time" content="2020-06-17T06:53:20.655Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s2.ax1x.com/2020/02/08/1Rccgx.png">
 
-<link rel="canonical" href="http://blog.yanick.site/2020/01/08/microservice/discovery/">
+<link rel="canonical" href="http://blog.yanick.site/categories/architecture/">
 
 
 <script id="page-configurations">
@@ -45,12 +36,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>微服务中的服务注册与发现 | Yanick's Blog</title>
+  <title>分类: architecture | Yanick's Blog</title>
   
 
 
@@ -208,191 +199,57 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content category">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/01/08/microservice/discovery/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          微服务中的服务注册与发现
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-08 09:48:01" itemprop="dateCreated datePublished" datetime="2020-01-08T09:48:01+00:00">2020-01-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 06:53:20" itemprop="dateModified" datetime="2020-06-17T06:53:20+00:00">2020-06-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/01/08/microservice/discovery/" class="post-meta-item leancloud_visitors" data-flag-title="微服务中的服务注册与发现" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><h2 id="服务注册-amp-发现"><a href="#服务注册-amp-发现" class="headerlink" title="服务注册 &amp; 发现"></a>服务注册 &amp; 发现</h2><p>服务注册：服务实例将自身服务信息注册到注册中心。这部分服务信息包括服务所在主机IP和提供服务的Port，以及暴露服务自身状态以及访问协议等信息。<br>服务发现：服务实例请求注册中心获取所依赖服务信息。服务实例通过注册中心，获取到注册到其中的服务实例的信息，通过这些信息去请求它们提供的服务。</p>
-<a id="more"></a>
-
-<h2 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h2><p>CAP原则，指的是在一个分布式系统中，Consistency(一致性)、Availability(可用性)、Partition Tolerance(分区容错性)，不能<a href="https://blog.csdn.net/yeyazhishang/article/details/80758354" target="_blank" rel="noopener">同时成立</a>。</p>
-<p>一致性(Consistency)：它要求在同一时刻点，分布式系统中的所有数据备份都处于同一状态。<br>可用性(Availability)：在系统集群的一部分节点宕机后，系统依然能够响应用户的请求。<br>分区容错性(Partition Tolerance)：在网络区间通信出现失败，系统能够容忍。</p>
-<p>一般来讲，基于网络的不稳定性，分布容错是不可避免的，所以我们默认CAP中的P总是成立的。<br>所以我们只能选择 CP 系统 或者是 AP 系统。</p>
-<h1 id="几种实现"><a href="#几种实现" class="headerlink" title="几种实现"></a>几种实现</h1><h2 id="AP-系统"><a href="#AP-系统" class="headerlink" title="AP 系统"></a>AP 系统</h2><p>因为AP系统牺牲了一致性，从而获得了更好的可用性，表现在</p>
-<ul>
-<li>单机数据可丢失，从而因此架构简单，软件可靠性高</li>
-<li>单机的性能好，并发量高</li>
-</ul>
-<h3 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h3><p>Eureka采用的是Server/Client的模式进行设计。Server扮演了服务注册中心的角色，为Client提供服务注册和发现的功能，维护着注册到自身的Client的相关信息，同时提供接口给Client获取到注册表中其他服务的信息。Client将有关自己的服务的信息通过一定的方式登记到Server上，并在正常范围内维护自己信息的一致性，方便其他服务发现自己，同时可以通过Server获取到自己的依赖的其他服务信息，从而完成服务调用。</p>
-<p><img src="https://s2.ax1x.com/2020/02/08/1Rccgx.png" alt="1Rccgx.png"></p>
-<p>Eureka中没有使用任何的数据强一致性算法保证不同集群间的Server的数据一致，仅通过数据拷贝的方式争取注册中心数据的最终一致性，虽然放弃数据强一致性但是换来了Server的可用性，降低了注册的代价，提高了集群运行的健壮性。</p>
-<h2 id="CP-系统"><a href="#CP-系统" class="headerlink" title="CP 系统"></a>CP 系统</h2><p>AP系统牺牲了可用性，从而获得更好的一致性，表现在</p>
-<ul>
-<li>发现延迟较低</li>
-<li>用户感知低</li>
-</ul>
-<h3 id="ETCD"><a href="#ETCD" class="headerlink" title="ETCD"></a>ETCD</h3><p>etcd是CoreOS团队于2013年6月发起的开源项目，它的目标是构建一个高可用的分布式键值(key-value)数据库。etcd内部采用raft协议作为一致性算法，etcd基于Go语言实现。<br><img src="https://s2.ax1x.com/2020/02/08/1R2uTg.png" alt="1R2uTg.png"></p>
-<h3 id="CONSUL"><a href="#CONSUL" class="headerlink" title="CONSUL"></a>CONSUL</h3><p>Consul是一个服务网格（微服务间的 TCP/IP，负责服务之间的网络调用、限流、熔断和监控）解决方案，它是一个一个分布式的，高度可用的系统，而且开发使用都很简便。它提供了一个功能齐全的控制平面，主要特点是：服务发现、健康检查、键值存储、安全服务通信、多数据中心。<br><img src="https://s2.ax1x.com/2020/02/08/1R2ftH.png" alt="1R2ftH.png"></p>
-<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><h2 id="AP-or-CP"><a href="#AP-or-CP" class="headerlink" title="AP or CP"></a>AP or CP</h2><p>从实际的应用的场景看，极大规模的微服务系统因为<strong>组件极多且经常变化</strong>可能会选择 <code>AP</code> 系统，对于大部分用户来说选择 <code>CP</code> 系统是更常见的选择，首先因为微服务系统内的组件是一个相对固定不变的数量，因此微服务系统内部的服务注册中心的数量也是<strong>稳定的</strong>。</p>
-<h2 id="扩展性"><a href="#扩展性" class="headerlink" title="扩展性"></a>扩展性</h2><p>Eureka是其中最差的，因为本身有服务的概念，导致在后续的拓展中是处处受阻的，因此在后续的服务发现的实现中，对于注册数据的筛选使用元数据的方式更为的合理。</p>
-<p><img src="https://s2.ax1x.com/2020/02/08/1RfyXq.png" alt="1RfyXq.png"></p>
-<p>采用类SQL的模式是相对比较的好的选择。</p>
-<h2 id="混合模式"><a href="#混合模式" class="headerlink" title="混合模式"></a>混合模式</h2><p>对于中等规模的用户来说，更多的时候我们需要混合使用此模式，对于一些量大不敏感且可重试的附件，我们采用<code>AP</code>模式：比如视频目录服务等。而对于比较敏感的服务比如和金额相关的，建议使用<code>CP</code>模式。可喜的是有了部分如此组件的尝试，比如 <a href="https://github.com/alibaba/nacos" target="_blank" rel="noopener">nacos</a></p>
-<h2 id="中间层"><a href="#中间层" class="headerlink" title="*中间层"></a>*中间层</h2><p>不同服务发现之间，因为协议的不同导致在后续的切换过程中需要更换客户端 <code>client sdk</code>，因此建议</p>
-<ul>
-<li>使用服务端负债均衡 / ServiceMesh</li>
-<li>增加独立抽象层</li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
-    </div>
-
-    
-    
-    
-      
-
-        <div class="reward-container">
-  <div>来杯奶茶, 嗝~~~</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
-      
-      <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
-        <p>微信支付</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
-        <p>支付宝</p>
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">architecture
+          <small>分类</small>
+        </h2>
       </div>
 
-  </div>
-</div>
-
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/01/06/pm/why-docs-make-me-fuzzy/" rel="prev" title="为什么开发者的文档总是无法让人满足">
-      <i class="fa fa-chevron-left"></i> 为什么开发者的文档总是无法让人满足
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/18/rethink/separate-front-end/" rel="next" title="前后端分离的罪与罚">
-      前后端分离的罪与罚 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      
+    <div class="collection-year">
+      <span class="collection-header">2020</span>
     </div>
-      </footer>
-    
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-07-07T18:10:56+00:00"
+              content="2020-07-07">
+          07-07
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/07/07/architecture/microservice/mircoservices/" itemprop="url">
+            <span itemprop="name">微服务：Why | What | How</span>
+          </a>
+      </div>
+
+    </header>
   </article>
+
+    </div>
+  </div>
   
   
+  
+
   
 
 
 
           </div>
           
-      <div class="tabs tabs-comment">
-        <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">disqus</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane livere" id="comment-livere">
-              
-  <div class="comments">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
-  </div>
-  
-            </div>
-            <div class="tab-pane disqus" id="comment-disqus">
-              
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
-            </div>
-        </div>
-      </div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -439,7 +296,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景知识"><span class="nav-number">1.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务注册-amp-发现"><span class="nav-number">1.1.</span> <span class="nav-text">服务注册 &amp; 发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAP"><span class="nav-number">1.2.</span> <span class="nav-text">CAP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几种实现"><span class="nav-number">2.</span> <span class="nav-text">几种实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AP-系统"><span class="nav-number">2.1.</span> <span class="nav-text">AP 系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka"><span class="nav-number">2.1.1.</span> <span class="nav-text">Eureka</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CP-系统"><span class="nav-number">2.2.</span> <span class="nav-text">CP 系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ETCD"><span class="nav-number">2.2.1.</span> <span class="nav-text">ETCD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CONSUL"><span class="nav-number">2.2.2.</span> <span class="nav-text">CONSUL</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际应用"><span class="nav-number">3.</span> <span class="nav-text">实际应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AP-or-CP"><span class="nav-number">3.1.</span> <span class="nav-text">AP or CP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展性"><span class="nav-number">3.2.</span> <span class="nav-text">扩展性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合模式"><span class="nav-number">3.3.</span> <span class="nav-text">混合模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间层"><span class="nav-number">3.4.</span> <span class="nav-text">*中间层</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -452,18 +308,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -530,7 +386,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
     <script>
-    fetch('https://v1.hitokoto.cn/?c=k')
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
             return res.json();
         })
@@ -743,42 +599,7 @@
 
   
 
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://blog.yanick.site/2020/01/08/microservice/discovery/";
-    this.page.identifier = "2020/01/08/microservice/discovery/";
-    this.page.title = "微服务中的服务注册与发现";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://yann-blog.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
-</script>
 
-<script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
-  window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-});
-</script>
 
 </body>
 </html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-07-06T10:24:33.553Z</updated>
+  <updated>2020-07-09T12:12:03.135Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微服务：Why | What | How</title>
+    <link href="http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/"/>
+    <id>http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/</id>
+    <published>2020-07-07T18:10:56.000Z</published>
+    <updated>2020-07-09T12:12:03.135Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://shop.io.mi-img.com/app/shop/img?id=shop_8a4438ee9fca734d3e3693ffd6a44a30.png&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;客户为「本质需求」买单。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="architecture" scheme="http://blog.yanick.site/categories/architecture/"/>
+    
+      <category term="mircoservice" scheme="http://blog.yanick.site/categories/architecture/mircoservice/"/>
+    
+    
+      <category term="architecture" scheme="http://blog.yanick.site/tags/architecture/"/>
+    
+  </entry>
   
   <entry>
     <title>为什么我厌倦了产品研发(2B)</title>
@@ -314,10 +339,10 @@
   
   <entry>
     <title>微服务中的服务注册与发现</title>
-    <link href="http://blog.yanick.site/2020/01/08/microservice/discovery/"/>
-    <id>http://blog.yanick.site/2020/01/08/microservice/discovery/</id>
+    <link href="http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/"/>
+    <id>http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/</id>
     <published>2020-01-08T09:48:01.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
+    <updated>2020-07-09T12:12:03.135Z</updated>
     
     <summary type="html">
     
@@ -419,23 +444,6 @@
     <summary type="html">
     
       &lt;p&gt;自从公司的运行平台全线迁入了 &lt;code&gt;Kubenetes&lt;/code&gt; 之后总是觉得 &lt;code&gt;Devops&lt;/code&gt; 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 &lt;code&gt;Java&lt;/code&gt; 编程语言而来，那我们先聊聊云原生。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>兵法与项目管理</title>
-    <link href="http://blog.yanick.site/2019/04/13/cs/art-of-software/"/>
-    <id>http://blog.yanick.site/2019/04/13/cs/art-of-software/</id>
-    <published>2019-04-13T23:48:01.000Z</published>
-    <updated>2020-06-17T06:53:20.651Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;孙子兵法有云：“凡战者，以正合，以奇胜。” 讲的是从战略是正面要刚得住，而依靠一支尖刀部队打开战场的僵局，而获得战场的胜利。项目管理也应担如此，然而往往大部分的项目截取了后半段而忽略了前半段，呜呼哀哉。&lt;/p&gt;
-&lt;p&gt;现代软件工程也存在着形如蒙代尔三角，质量，成本，风险。当控制得了风险和成本，那就不能要求太高的质量。&lt;/p&gt;
     
     </summary>
     

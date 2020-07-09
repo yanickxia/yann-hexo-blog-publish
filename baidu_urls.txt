@@ -1,5 +1,5 @@
+http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/
 http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/
 http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/
 http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/
 http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/
-http://blog.yanick.site/2020/06/12/other/hot-restart/

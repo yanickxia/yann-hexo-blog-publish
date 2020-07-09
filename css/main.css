@@ -1198,7 +1198,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #b5ffff;
+  background: #7f44f4;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2835,13 +2835,35 @@ body {
 }
 #hitokoto {
   text-align: left;
-  font-family: "Microsoft YaHei";
+  font-family: 'Microsoft YaHei';
   font-size: 11px;
   width: 90%;
 }
 #hitofrom {
   float: right;
-  font-family: "Microsoft YaHei";
+  font-family: 'Microsoft YaHei';
   font-size: 10px;
   padding-right: 30px;
+}
+.author-mark {
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #000;
+  border-radius: 3px;
+  margin: 0;
+  z-index: 999;
+  padding: 10px;
+  -webkit-box-shadow: 8px -6px 11px -2px #081a0b;
+  -moz-box-shadow: 8px -6px 11px -2px #081a0b;
+  box-shadow: 8px -6px 11px -2px #081a0b;
+}
+.author-mark-label {
+  height: 50px;
+  color: #fff;
+  border-radius: 3px 0 0 3px;
+  padding: 10px 20px;
+  background: #f70505;
+  -webkit-box-shadow: 8px -6px 11px -2px #081a0b;
+  -moz-box-shadow: 8px -6px 11px -2px #081a0b;
+  box-shadow: 8px -6px 11px -2px #081a0b;
 }
