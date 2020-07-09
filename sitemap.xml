@@ -86,6 +86,20 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2016/12/22/other/how-to-write-a-git-commit-message/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2017/02/20/other/object-oriented-design/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2017/01/05/other/why-jetbrains-needs-kotlin/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
@@ -135,13 +149,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
@@ -149,21 +156,14 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2017/02/20/other/object-oriented-design/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2016/12/22/other/how-to-write-a-git-commit-message/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -506,20 +506,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/06/20/java/netty/netty-3-pipeline/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
@@ -527,7 +513,21 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2018/06/21/java/netty/netty-4-bytebuf/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/06/20/java/netty/netty-3-pipeline/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -562,14 +562,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
+    <loc>http://blog.yanick.site/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/</loc>
+    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -590,13 +590,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/22/kotlin/easy-way-to-kotlin-for-java-proggamer/functions/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/08/17/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-best-practices/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
@@ -605,6 +598,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-object/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/07/22/kotlin/easy-way-to-kotlin-for-java-proggamer/functions/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -632,14 +632,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/03/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-basic/</loc>
+    <loc>http://blog.yanick.site/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/</loc>
+    <loc>http://blog.yanick.site/2018/08/03/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-basic/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
