@@ -43,8 +43,8 @@
 <meta property="og:image" content="https://s3.jpg.cm/2020/07/08/ULJ5S.png">
 <meta property="og:image" content="https://s3.jpg.cm/2020/07/08/ULcxT.png">
 <meta property="og:image" content="https://s3.jpg.cm/2020/07/08/ULb6E.png">
-<meta property="article:published_time" content="2020-07-07T18:10:56.000Z">
-<meta property="article:modified_time" content="2020-07-09T12:25:29.679Z">
+<meta property="article:published_time" content="2020-07-07T10:10:56.000Z">
+<meta property="article:modified_time" content="2020-07-18T11:05:08.239Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="architecture">
 <meta name="twitter:card" content="summary">
@@ -251,14 +251,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-07-07 18:10:56" itemprop="dateCreated datePublished" datetime="2020-07-07T18:10:56+00:00">2020-07-07</time>
+              <time title="创建时间：2020-07-07 18:10:56" itemprop="dateCreated datePublished" datetime="2020-07-07T18:10:56+08:00">2020-07-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-09 12:25:29" itemprop="dateModified" datetime="2020-07-09T12:25:29+00:00">2020-07-09</time>
+                <time title="修改时间：2020-07-18 19:05:08" itemprop="dateModified" datetime="2020-07-18T19:05:08+08:00">2020-07-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -389,6 +389,7 @@
 <li>如果组件不组成的干净利索，那么所有你做的是将复杂度从组件内部转移到组件之间的连接。不仅仅是把复杂性移到周围，它将复杂性移动到一个不太明确、难以控制的地方</li>
 <li>一个差的团队总是创建一个差的系统,(有一个合理的说法是，你不应该从微服务架构开始。相反，从单体开始，使它保持模块化，一旦单体成为问题时把它分解成微服务)</li>
 </ul>
+<p>还有一些关于不太明显的缺陷可以阅读<a href="#refer-anchor-9"><sup>参考9</sup></a>。</p>
 <hr>
 <p>上面的几个特性可以看作是微服务的<code>实践</code>，而关于微服务的元器件我们在后续的内容中继续探讨。在而这过程之中，我和大家聊一聊，我们跳出技术的层面看，微服务给我们带来什么。看看 <code>Devops</code></p>
 <h3 id="微服务解决的问题"><a href="#微服务解决的问题" class="headerlink" title="微服务解决的问题"></a>微服务解决的问题</h3><p><img src="https://s3.jpg.cm/2020/07/08/UIUKk.png" alt="UIUKk.png"><br>我们还记得Devops的内容吧。</p>
@@ -489,7 +490,7 @@
 <h3 id="Step-4：Runtime技术选型"><a href="#Step-4：Runtime技术选型" class="headerlink" title="Step 4：Runtime技术选型"></a>Step 4：Runtime技术选型</h3><p>不同的 <code>modules</code> 自然有不同的选型，针对 <code>Go体系</code> <code>Java体系</code> 在自己的领域选择热门的技术即可。<br><code>Java体系</code> 选择 <code>Spring Cloud</code> 就是一个相对比较好的选择。不过也需要参考本企业内的技术专家的<code>技术体系</code>。</p>
 <h3 id="Step-5-构建系统"><a href="#Step-5-构建系统" class="headerlink" title="Step 5: 构建系统"></a>Step 5: 构建系统</h3><p>按照各种范式构建系统即可。</p>
 <h3 id="Step-6：持续迭代"><a href="#Step-6：持续迭代" class="headerlink" title="Step 6：持续迭代"></a>Step 6：持续迭代</h3><p><a href="#step-1">Go to Step 1</a></p>
-<h2 id="关于咨询"><a href="#关于咨询" class="headerlink" title="关于咨询"></a>关于咨询</h2><p>实际上在这一块，无论是国内外都是让参与过微服务改造的工程师对需求方进行量体裁衣。实际上并不会有什么特别的地方，这里的类容非常的像：</p>
+<h2 id="关于咨询"><a href="#关于咨询" class="headerlink" title="关于咨询"></a>关于咨询</h2><p>实际上在这一块，无论是国内外都是让参与过微服务改造的工程师对需求方进行量体裁衣。实际上并不会有什么特别的地方，这里的内容非常的像：</p>
 <blockquote>
 <p><a href="https://baike.baidu.com/item/%E7%8E%8B%E5%88%9A/23623830" target="_blank" rel="noopener"><code>王刚</code></a>也是这么做菜的，但是你做就是不好吃的状态。</p>
 </blockquote>
@@ -500,7 +501,7 @@
 </div>
 
 
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ibm.com/developerworks/cn/cloud/library/cl-evolution-microservices-patterns/index.html" target="_blank" rel="noopener" id="refer-anchor-1">1. 寻根溯源：微服务模式发展简史</a><br><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener" id="refer-anchor-2">2. microservices</a><br><a href="http://blog.cuicc.com/blog/2015/07/22/microservices" target="_blank" rel="noopener" id="refer-anchor-3">3. 微服务架构</a><br><a href="https://zhuanlan.zhihu.com/p/86726169" target="_blank" rel="noopener" id="refer-anchor-4">4. DevOps是如何实现效率的提升</a><br><a href="https://zhuanlan.zhihu.com/p/32559028" target="_blank" rel="noopener" id="refer-anchor-5">5. 基于服务的架构对现代软件设计的影响</a><br><a href="https://www.infoq.cn/article/D-cBEauI4oTVqwUsx5Fk" target="_blank" rel="noopener" id="refer-anchor-5">6. 微服务落地，我们在考虑什么</a><br><a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/microservice-application-design" target="_blank" rel="noopener" id="refer-anchor-5">7. Design a microservice-oriented application</a><br><a href="http://blog.itpub.net/31562044/viewspace-2650826/" target="_blank" rel="noopener" id="refer-anchor-5">8. 从300万行到50万行代码，遗留系统的微服务改造</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ibm.com/developerworks/cn/cloud/library/cl-evolution-microservices-patterns/index.html" target="_blank" rel="noopener" id="refer-anchor-1">1. 寻根溯源：微服务模式发展简史</a><br><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener" id="refer-anchor-2">2. microservices</a><br><a href="http://blog.cuicc.com/blog/2015/07/22/microservices" target="_blank" rel="noopener" id="refer-anchor-3">3. 微服务架构</a><br><a href="https://zhuanlan.zhihu.com/p/86726169" target="_blank" rel="noopener" id="refer-anchor-4">4. DevOps是如何实现效率的提升</a><br><a href="https://zhuanlan.zhihu.com/p/32559028" target="_blank" rel="noopener" id="refer-anchor-5">5. 基于服务的架构对现代软件设计的影响</a><br><a href="https://www.infoq.cn/article/D-cBEauI4oTVqwUsx5Fk" target="_blank" rel="noopener" id="refer-anchor-6">6. 微服务落地，我们在考虑什么</a><br><a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/microservice-application-design" target="_blank" rel="noopener" id="refer-anchor-7">7. Design a microservice-oriented application</a><br><a href="http://blog.itpub.net/31562044/viewspace-2650826/" target="_blank" rel="noopener" id="refer-anchor-8">8. 从300万行到50万行代码，遗留系统的微服务改造</a><br><a href="https://scottrogowski.com/the-seven-deceptions-of-microservices" target="_blank" rel="noopener" id="refer-anchor-9">9.The seven deceptions of microservices</a></p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -508,6 +509,12 @@
     
     
       
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/07/14/architecture/architecture-not-mysticism/" rel="bookmark">架构亦非玄学</a></div>
+    </li>
+  </ul>
 
         <div class="reward-container">
   <div>来杯奶茶, 嗝~~~</div>
@@ -544,7 +551,10 @@
     <a href="/2020/07/06/rethink/stop-create-a-product/" rel="prev" title="为什么我厌倦了产品研发(2B)">
       <i class="fa fa-chevron-left"></i> 为什么我厌倦了产品研发(2B)
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/14/architecture/architecture-not-mysticism/" rel="next" title="架构亦非玄学">
+      架构亦非玄学 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -640,7 +650,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -656,6 +666,11 @@
       </div>
   </nav>
 </div>
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
@@ -918,6 +933,18 @@
 
 
 
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
 
 
 

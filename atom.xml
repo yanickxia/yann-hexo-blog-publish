@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-07-09T12:25:29.679Z</updated>
+  <updated>2020-07-18T11:05:08.235Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>架构亦非玄学</title>
+    <link href="http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/"/>
+    <id>http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/</id>
+    <published>2020-07-14T10:06:55.000Z</published>
+    <updated>2020-07-18T11:05:08.235Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/07/15/UbEWe.png&quot; alt=&quot;UbEWe.png&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;套用一句杜甫的话 &lt;code&gt;架构本天成，妙手偶得之&lt;/code&gt;。而现在的互联网仿佛在神话架构师这样的角色。在这里不是要去否定 &lt;code&gt;martinfowler&lt;/code&gt; 这样伟大的架构师，但是&lt;code&gt;martin&lt;/code&gt; 老师实在是向社会输出了太多 &lt;code&gt;New Concept&lt;/code&gt;，虽然本意是好的，然而在在多数的从业人眼中，架构变成了一个玄之又玄的东西。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="architecture" scheme="http://blog.yanick.site/categories/architecture/"/>
+    
+    
+      <category term="architecture" scheme="http://blog.yanick.site/tags/architecture/"/>
+    
+  </entry>
+  
+  <entry>
     <title>微服务：Why | What | How</title>
     <link href="http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/"/>
     <id>http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/</id>
-    <published>2020-07-07T18:10:56.000Z</published>
-    <updated>2020-07-09T12:25:29.679Z</updated>
+    <published>2020-07-07T10:10:56.000Z</published>
+    <updated>2020-07-18T11:05:08.239Z</updated>
     
     <summary type="html">
     
@@ -45,7 +69,7 @@
     <title>为什么我厌倦了产品研发(2B)</title>
     <link href="http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/"/>
     <id>http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/</id>
-    <published>2020-07-06T18:12:35.000Z</published>
+    <published>2020-07-06T10:12:35.000Z</published>
     <updated>2020-07-06T10:24:33.553Z</updated>
     
     <summary type="html">
@@ -64,7 +88,7 @@
     <title>警惕从开发转变为运维</title>
     <link href="http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/"/>
     <id>http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/</id>
-    <published>2020-07-03T14:54:45.000Z</published>
+    <published>2020-07-03T06:54:45.000Z</published>
     <updated>2020-07-06T08:46:19.011Z</updated>
     
     <summary type="html">
@@ -88,7 +112,7 @@
     <title>为何有些软件知识自学如此的困难</title>
     <link href="http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/"/>
     <id>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</id>
-    <published>2020-06-28T13:56:21.000Z</published>
+    <published>2020-06-28T05:56:21.000Z</published>
     <updated>2020-06-29T03:35:53.875Z</updated>
     
     <summary type="html">
@@ -111,7 +135,7 @@
     <title>Java社区的新方向</title>
     <link href="http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/"/>
     <id>http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/</id>
-    <published>2020-06-20T21:29:48.000Z</published>
+    <published>2020-06-20T13:29:48.000Z</published>
     <updated>2020-06-22T08:36:58.645Z</updated>
     
     <summary type="html">
@@ -131,7 +155,7 @@
     <title>聊聊服务端热更新</title>
     <link href="http://blog.yanick.site/2020/06/12/other/hot-restart/"/>
     <id>http://blog.yanick.site/2020/06/12/other/hot-restart/</id>
-    <published>2020-06-12T22:00:48.000Z</published>
+    <published>2020-06-12T14:00:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -161,7 +185,7 @@
     <title>Spring的优雅停机</title>
     <link href="http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/"/>
     <id>http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/</id>
-    <published>2020-05-31T22:49:48.000Z</published>
+    <published>2020-05-31T14:49:48.000Z</published>
     <updated>2020-06-17T06:53:20.651Z</updated>
     
     <summary type="html">
@@ -181,7 +205,7 @@
     <title>Go 擅长什么</title>
     <link href="http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/"/>
     <id>http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/</id>
-    <published>2020-05-26T17:56:26.000Z</published>
+    <published>2020-05-26T09:56:26.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -203,7 +227,7 @@
     <title>给客户提供的服务</title>
     <link href="http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/"/>
     <id>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</id>
-    <published>2020-05-08T22:00:48.000Z</published>
+    <published>2020-05-08T14:00:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -221,7 +245,7 @@
     <title>关于Envoy的知识</title>
     <link href="http://blog.yanick.site/2020/04/21/networking/around-envoy/"/>
     <id>http://blog.yanick.site/2020/04/21/networking/around-envoy/</id>
-    <published>2020-04-21T22:30:00.000Z</published>
+    <published>2020-04-21T14:30:00.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -262,7 +286,7 @@
     <title>死亡行军与自我革命</title>
     <link href="http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/"/>
     <id>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</id>
-    <published>2020-03-31T18:00:48.000Z</published>
+    <published>2020-03-31T10:00:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -280,7 +304,7 @@
     <title>在家的一个月我得到了什么</title>
     <link href="http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/"/>
     <id>http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/</id>
-    <published>2020-03-09T16:22:48.000Z</published>
+    <published>2020-03-09T08:22:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -300,7 +324,7 @@
     <title>从 Marty Cagan 那获得启示</title>
     <link href="http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/"/>
     <id>http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/</id>
-    <published>2020-02-29T09:48:01.000Z</published>
+    <published>2020-02-29T01:48:01.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -321,7 +345,7 @@
     <title>前后端分离的罪与罚</title>
     <link href="http://blog.yanick.site/2020/02/18/rethink/separate-front-end/"/>
     <id>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</id>
-    <published>2020-02-18T15:30:00.000Z</published>
+    <published>2020-02-18T07:30:00.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -341,7 +365,7 @@
     <title>微服务中的服务注册与发现</title>
     <link href="http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/"/>
     <id>http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/</id>
-    <published>2020-01-08T09:48:01.000Z</published>
+    <published>2020-01-08T01:48:01.000Z</published>
     <updated>2020-07-09T12:12:03.135Z</updated>
     
     <summary type="html">
@@ -359,7 +383,7 @@
     <title>为什么开发者的文档总是无法让人满足</title>
     <link href="http://blog.yanick.site/2020/01/06/pm/why-docs-make-me-fuzzy/"/>
     <id>http://blog.yanick.site/2020/01/06/pm/why-docs-make-me-fuzzy/</id>
-    <published>2020-01-06T09:48:01.000Z</published>
+    <published>2020-01-06T01:48:01.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -380,7 +404,7 @@
     <title>基于开源构建自己的产品</title>
     <link href="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/"/>
     <id>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</id>
-    <published>2019-12-30T18:00:48.000Z</published>
+    <published>2019-12-30T10:00:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -398,7 +422,7 @@
     <title>我的2019</title>
     <link href="http://blog.yanick.site/2019/12/29/rethink/look-back-2019/"/>
     <id>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</id>
-    <published>2019-12-29T18:00:48.000Z</published>
+    <published>2019-12-29T10:00:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -418,7 +442,7 @@
     <title>批判无用论</title>
     <link href="http://blog.yanick.site/2019/08/21/life/criticize-not-good/"/>
     <id>http://blog.yanick.site/2019/08/21/life/criticize-not-good/</id>
-    <published>2019-08-21T16:22:48.000Z</published>
+    <published>2019-08-21T08:22:48.000Z</published>
     <updated>2020-06-17T06:53:20.655Z</updated>
     
     <summary type="html">
@@ -431,22 +455,6 @@
     
     
       <category term="生活" scheme="http://blog.yanick.site/tags/%E7%94%9F%E6%B4%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>云原生之下的Java</title>
-    <link href="http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/"/>
-    <id>http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/</id>
-    <published>2019-05-29T21:56:52.000Z</published>
-    <updated>2020-06-29T03:35:53.871Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;自从公司的运行平台全线迁入了 &lt;code&gt;Kubenetes&lt;/code&gt; 之后总是觉得 &lt;code&gt;Devops&lt;/code&gt; 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 &lt;code&gt;Java&lt;/code&gt; 编程语言而来，那我们先聊聊云原生。&lt;/p&gt;
-    
-    </summary>
-    
     
   </entry>
   

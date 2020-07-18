@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》  套用一句杜甫的话 架构本天成，妙手偶得之。而现在的互联网仿佛在神话架构师这样的角色。在这里不是要去否定 martinfowler 这样伟大的架构师，但是martin 老师实在是向社会输出了太多 New Concept，虽然本意是好的，然而在在多数的从业人眼中，架构变成了一个玄之又">
+<meta property="og:type" content="article">
+<meta property="og:title" content="架构亦非玄学">
+<meta property="og:url" content="http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》  套用一句杜甫的话 架构本天成，妙手偶得之。而现在的互联网仿佛在神话架构师这样的角色。在这里不是要去否定 martinfowler 这样伟大的架构师，但是martin 老师实在是向社会输出了太多 New Concept，虽然本意是好的，然而在在多数的从业人眼中，架构变成了一个玄之又">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/15/UbEWe.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UF2tU.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UF3zO.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFKIw.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFhU8.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFyxk.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFT6e.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UknjD.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UkS48.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UkoPt.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/Umfqf.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/18/UgHafP.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/Uv4uU.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/UvB4O.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/Uv29k.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/Uv0ki.png">
+<meta property="article:published_time" content="2020-07-14T10:06:55.000Z">
+<meta property="article:modified_time" content="2020-07-18T11:05:08.235Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/07/15/UbEWe.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>架构亦非玄学 | Yanick's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          架构亦非玄学
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-14 18:06:55" itemprop="dateCreated datePublished" datetime="2020-07-14T18:06:55+08:00">2020-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-18 19:05:08" itemprop="dateModified" datetime="2020-07-18T19:05:08+08:00">2020-07-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/architecture/" itemprop="url" rel="index"><span itemprop="name">architecture</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/07/14/architecture/architecture-not-mysticism/" class="post-meta-item leancloud_visitors" data-flag-title="架构亦非玄学" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://s3.jpg.cm/2020/07/15/UbEWe.png" alt="UbEWe.png"></p>
+<blockquote>
+<p>它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》</p>
+</blockquote>
+<p>套用一句杜甫的话 <code>架构本天成，妙手偶得之</code>。而现在的互联网仿佛在神话架构师这样的角色。在这里不是要去否定 <code>martinfowler</code> 这样伟大的架构师，但是<code>martin</code> 老师实在是向社会输出了太多 <code>New Concept</code>，虽然本意是好的，然而在在多数的从业人眼中，架构变成了一个玄之又玄的东西。</p>
+<a id="more"></a>
+
+<p>我们就从最常见的高并发的秒杀场景入手，看看架构是如何演化的。</p>
+<h1 id="情景分析"><a href="#情景分析" class="headerlink" title="情景分析"></a>情景分析</h1><p>商品秒杀、商品抢购、群红包、抢优惠券、抽奖等等。秒杀商品价格低廉、抢购商品很好|抢手、大幅推广|广为人知、瞬时售空、一般是定时上架、持续时间短、瞬时并发量高等。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UF2tU.png" alt="UF2tU.png"></p>
+<ul>
+<li>秒杀前：用户不断刷新商品详情页，页面请求达到瞬时峰值。</li>
+<li>秒杀开始：用户点击秒杀按钮，下单请求达到瞬时峰值。</li>
+<li>秒杀后：一部分成功下单的用户不断刷新订单或者产生退单操作，大部分用户继续刷新商品详情页等待退单机会。</li>
+</ul>
+<h1 id="转换为技术问题"><a href="#转换为技术问题" class="headerlink" title="转换为技术问题"></a>转换为技术问题</h1><p>那我们用技术来定问题</p>
+<ul>
+<li>秒杀前：<strong>多读少写(无写)</strong></li>
+<li>秒杀中：<strong>多写多读</strong></li>
+<li>秒杀后：<strong>多读少写</strong></li>
+</ul>
+<h2 id="秒杀前：多度少写"><a href="#秒杀前：多度少写" class="headerlink" title="秒杀前：多度少写"></a>秒杀前：多度少写</h2><p>对于多度少写的场景，是最容易解决的，对于大部分的秒杀场景，将页面静态化即可，页面静态化 + CDN分发。<br><img src="https://s3.jpg.cm/2020/07/17/UF3zO.png" alt="UF3zO.png"></p>
+<h2 id="秒杀中"><a href="#秒杀中" class="headerlink" title="秒杀中"></a>秒杀中</h2><p>问题开始变的复杂起来，我们先从最简单的架构体系看起来。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UFKIw.png" alt="UFKIw.png"></p>
+<p>应用直接怼到服务端，服务端直接将数据落盘。这大概就是最简单的系统架构了，我们看看秒杀系统是如何一步步的迭代的。</p>
+<h3 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h3><p>最简单的方式，肯定是扩容。<br><img src="https://s3.jpg.cm/2020/07/17/UFhU8.png" alt="UFhU8.png"></p>
+<p>一套系统不够，两套，三套。看起来很美好，但是这种方案需要考虑</p>
+<ul>
+<li>数据分片：不同的实例如何将数据放置于不同的实例</li>
+<li>请求路由：这样的架构势必要求用户能够在存有自己数据的那一套上进行访问</li>
+<li>弹性困难</li>
+</ul>
+<p>因此根据这套系统略微的变形一下。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UFyxk.png" alt="UFyxk.png"></p>
+<p>让应用自行进行数据分区的选择，简单来说，比如我们可以根据 <code>用户手机号</code> 取模，然后将数据定位某一台机器。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UFT6e.png" alt="UFT6e.png"></p>
+<p>对于这样的规则可以选择的余地还是比较的多，<code>用户ID</code>，<code>生日</code>，只要数据均衡都比较好。对于这条路，我们发现社区已经有了 <a href="http://shardingsphere.apache.org/" target="_blank" rel="noopener">shardingsphere</a> 这样的数据库中间件可以帮助我们。</p>
+<h4 id="扩容遇见的问题"><a href="#扩容遇见的问题" class="headerlink" title="*扩容遇见的问题"></a>*扩容遇见的问题</h4><p>当我们在支撑更大规模的场景的时候，原有的系统不足够支撑的时候，我们又需要增加更多的 <code>Datebase</code> 的时候，我们遇见了一个问题。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UknjD.png" alt="UknjD.png"></p>
+<p>因为多了一个数据节点，所有的数据需要重新<strong>锚定</strong>节点，这时候如何尽可能少的迁移数据，这时候就提出了 <a href="https://zh.wikipedia.org/zh-hans/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C" target="_blank" rel="noopener">一致性Hash</a></p>
+<hr>
+<p>当然扩容并非是一条最好的选择，我们还要面临数据库中其实还有大量没有那么高频的数据，在这样的架构下，我们不就不得将一些同样的数据存多，当然也可以单独出一个 <code>Metadata</code> 的数据库。这套方案最为致命的问题应该是我们这样拆分之后，对于未来的系统开发有着非常大的限制，所有的批处理都要考虑多节点。因此在这套 <code>应用分库分表</code> 的基础上，会进化为出下一一个版本。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UkS48.png" alt="UkS48.png"></p>
+<p>我们将分发的逻辑抽离出来，这样不就好了，如果可以的话最好还可以直接将这个<strong>分片逻辑</strong>变成业务无关性的。等等，此时是不是想到了我们熟悉的 <code>tidb</code> 了。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/UkoPt.png" alt="UkoPt.png"></p>
+<p>我们将整个 <code>Database Proxy</code> 和 <code>Database</code> 独立出来行成了 <code>NewSQL Database</code>，弹性扩容和伸缩都搞定了，岂不是很爽。对于开发者来说，再也不用担心数据库所带来的压力。</p>
+<h3 id="异步化"><a href="#异步化" class="headerlink" title="异步化"></a>异步化</h3><p>除了扩容之外，异步化也是一个很好的思路，因为对于数据库系统需要保证 <code>Atom</code> 特性，并且因为本身的数据结构的复杂，因此单一处理速度的上限并不算高。此时我们可以将用户的行为记录下来然后再顺序处理。</p>
+<p>但是值得注意的是，异步化本身不能提高秒杀的最终写入速度，但是因为保护的系统（不会导致系统雪崩）整体上会让秒杀系统变的健壮，也变相让系统处理更快。</p>
+<p><img src="https://s3.jpg.cm/2020/07/17/Umfqf.png" alt="Umfqf.png"></p>
+<h4 id="异步化问题"><a href="#异步化问题" class="headerlink" title="异步化问题"></a>异步化问题</h4><p>异步化本身会带来一个非常不舒服的体验，就是你可以只是拿到一个一个排队的序号，但是你并没有真正的落单。就像是彩票系统，我们买了事先就存在的号码，等到最终的摇号。</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>上面的方案完美了么？显然不是，虽然 <code>NewSQL</code> 带来的更大的并发，但是并发并非不是没有成本的，因为数据库系统从单机变成分布式，系统内的协调耗时增加，整个处理的链路会变的更加的慢，用户的体验不是非常的好，对于真の瞬时并发也是可能击穿的。因此我们还是需要额外的技能：缓存化。</p>
+<p><img src="https://s1.ax1x.com/2020/07/18/UgHafP.png" alt="UgHafP.png"></p>
+<div>
+    <label class="author-mark-label">小声比比</label>
+    <p class="author-mark">更多时候是成本问题，用内存能解决的问题换做磁盘，就会带来架构和复杂的上升，但是实际上架构是类似的。</p>
+</div>
+
+<p>因为缓存多数工作在 <code>内存</code> 中，并且不一定提供的可靠的 <code>持久化</code> 方案，换来的是更快的读写速度。</p>
+<h4 id="缓存分片"><a href="#缓存分片" class="headerlink" title="缓存分片"></a>缓存分片</h4><p>当一个Redis不够用的时候，自然需要需要多个 Redis 来支撑系统，不过由于 <code>Redis</code> 的发展较晚也比较的完善，自带了数据分片的 <code>Cluster</code> 组件 <a href="#秒杀系统"><sup>参考3</sup></a>。</p>
+<p><img src="https://s3.jpg.cm/2020/07/18/Uv4uU.png" alt="Uv4uU.png"></p>
+<hr>
+<p>架构就自然变成了</p>
+<p><img src="https://s3.jpg.cm/2020/07/18/UvB4O.png" alt="UvB4O.png"></p>
+<p>不过因为绝大多数的时候，我们都是混合使用 <code>DB in file</code>/<code>DB in memory</code> 这两种技术，绝大多数的时候我们的最终数据依然要落入  <code>Mysql</code> 这样的数据内，因此无论是在 <code>写入时刻</code> 将数据存入 <code>Mysql</code> 或者还是 <code>秒杀结束</code> 将数据存入 <code>Mysql</code> 都是可以的。</p>
+<h2 id="秒杀后"><a href="#秒杀后" class="headerlink" title="秒杀后"></a>秒杀后</h2><p>秒杀后的场景是：当某些客户进行秒杀成功之后就会疯狂的刷新自己的订单页面，而此时其他的客户可能仍在秒杀活动中。<br>其实这段时间场景是简单的，可以直接将所有的数据都在 Redis 中进行处理，等到彻底所有的数据都刷新到磁盘上再切换至平时的系统，也可以增加缓存的方式都是可解的。</p>
+<h1 id="场景工具箱"><a href="#场景工具箱" class="headerlink" title="场景工具箱"></a>场景工具箱</h1><p>想来我最喜欢的一句话</p>
+<blockquote>
+<p>技术就是对现象的有目的的编程。</p>
+</blockquote>
+<p>对于我们来说，我们就像是在一套工具箱中选择最适合的工具然后将目标达成。</p>
+<p><img src="https://s3.jpg.cm/2020/07/18/Uv29k.png" alt="Uv29k.png"></p>
+<p>当个工程师的意义也在于如何选择好的工具将我们的系统完成。</p>
+<p><img src="https://s3.jpg.cm/2020/07/18/Uv0ki.png" alt="Uv0ki.png"></p>
+<h1 id="聊一聊"><a href="#聊一聊" class="headerlink" title="聊一聊"></a>聊一聊</h1><p>不得承认，现在的中国的程序员行业由于过度竞争，导致了面试的水涨船高，无论你之前是做什么行业什么工种，都喜欢问关于 <code>高并发</code> 系统的设计（大概也只有前端可幸免），导致慢慢的风气也从踏实解决问题变成了背诵式的架构面试。而真正的架构是一门实践技术，无论是看了多少网上的博客，最终如果不能在实践中获得反馈，那注定是收益有限的，因此也为什么大厂的场景是那么的值钱了。</p>
+<hr>
+<p>最初是基于 <code>现象</code>（内存比磁盘快，异步更稳定）的一系列物理现象，演化成了特定环境解决问题的解决方案（A pattern is a successful or efficient solution to a recurring problem within a context）称之为 <code>模式</code>，当 <code>模式</code> 反复使用，我们就付出一些代价分割为 <code>功能单元</code>(redis/mysql) ，然后再基于一些联系（即：工作架构 working architecute），将所有的模块/功能单元集在一起完成一个有目的的事情，也就是我们架构师所应尽的职能。</p>
+<p><code>功能单元</code>因为随着时代在不断的迭代，因此架构师们也需要不断的和时代进步，才能完成一个正确的架构设计。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/34969168" target="_blank" rel="noopener">负载均衡–一致性hash算法</a></li>
+<li><a href="https://github.com/qiurunze123/miaosha" target="_blank" rel="noopener">秒杀系统</a></li>
+<li><a href="https://redis.io/topics/cluster-tutorial" target="_blank" rel="noopener">Redis cluster tutorial</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/07/07/architecture/microservice/mircoservices/" rel="bookmark">微服务：Why | What | How</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/architecture/" rel="tag"># architecture</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/07/architecture/microservice/mircoservices/" rel="prev" title="微服务：Why | What | How">
+      <i class="fa fa-chevron-left"></i> 微服务：Why | What | How
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#情景分析"><span class="nav-number">1.</span> <span class="nav-text">情景分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#转换为技术问题"><span class="nav-number">2.</span> <span class="nav-text">转换为技术问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#秒杀前：多度少写"><span class="nav-number">2.1.</span> <span class="nav-text">秒杀前：多度少写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秒杀中"><span class="nav-number">2.2.</span> <span class="nav-text">秒杀中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#扩容"><span class="nav-number">2.2.1.</span> <span class="nav-text">扩容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#扩容遇见的问题"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">*扩容遇见的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步化"><span class="nav-number">2.2.2.</span> <span class="nav-text">异步化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#异步化问题"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">异步化问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存"><span class="nav-number">2.2.3.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存分片"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">缓存分片</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秒杀后"><span class="nav-number">2.3.</span> <span class="nav-text">秒杀后</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#场景工具箱"><span class="nav-number">3.</span> <span class="nav-text">场景工具箱</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#聊一聊"><span class="nav-number">4.</span> <span class="nav-text">聊一聊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/";
+    this.page.identifier = "2020/07/14/architecture/architecture-not-mysticism/";
+    this.page.title = "架构亦非玄学";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
