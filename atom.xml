@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-07-18T11:05:08.235Z</updated>
+  <updated>2020-07-20T06:00:08.047Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微服务框架 - 2020</title>
+    <link href="http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/"/>
+    <id>http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/</id>
+    <published>2020-07-19T12:49:48.000Z</published>
+    <updated>2020-07-20T06:00:08.047Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/07/20/UBmpO.png&quot; alt=&quot;UBmpO.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;a href=&quot;2020/06/20/java/other/2020-new-direction/&quot;&gt;Java社区的新方向&lt;/a&gt; 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
+    
+      <category term="微服务" scheme="http://blog.yanick.site/categories/java/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+      <category term="框架" scheme="http://blog.yanick.site/categories/java/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E6%A1%86%E6%9E%B6/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>架构亦非玄学</title>
@@ -435,26 +458,6 @@
     
       <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>批判无用论</title>
-    <link href="http://blog.yanick.site/2019/08/21/life/criticize-not-good/"/>
-    <id>http://blog.yanick.site/2019/08/21/life/criticize-not-good/</id>
-    <published>2019-08-21T08:22:48.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;从业这些年来，从来不觉得批判能给我带来什么，当我去批判某个人或者某件事的时候，我所获得的只是更大的反弹。这仿佛说起来很不政治正确，观点是一个非常容易说出来的事情，尤其是现在的互联网时代，你的每一个论点都会被无限的放大，所有的网友都像你的前女友一样，处处给你挑刺，试图在你微薄的上下文中找到你对话的漏洞，并且将漏洞放大一百倍，然后用高位者的姿态教育你一番，以上论点在任意场景下都适用。这一切的背后都是个人意志的无限放大乃至于失控。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="life" scheme="http://blog.yanick.site/categories/life/"/>
-    
-    
-      <category term="生活" scheme="http://blog.yanick.site/tags/%E7%94%9F%E6%B4%BB/"/>
     
   </entry>
   
