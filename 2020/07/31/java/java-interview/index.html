@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者很久没有面试的时候被问过深度的 GC 知识了，看看腾讯的高级技术专家是如何面试 Java 的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次有趣的 Java 面试">
+<meta property="og:url" content="http://blog.yanick.site/2020/07/31/java/java-interview/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="笔者很久没有面试的时候被问过深度的 GC 知识了，看看腾讯的高级技术专家是如何面试 Java 的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/03/bHP5z.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/bbokE.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/bb3uH.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/bbOuy.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buSAf.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buvHe.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buwfy.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buoZr.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buBX5.png">
+<meta property="article:published_time" content="2020-07-31T11:04:04.000Z">
+<meta property="article:modified_time" content="2020-08-03T09:41:42.850Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="interview">
+<meta property="article:tag" content="jvm">
+<meta property="article:tag" content="classloader">
+<meta property="article:tag" content="gc">
+<meta property="article:tag" content="netty">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/08/03/bHP5z.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2020/07/31/java/java-interview/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>记一次有趣的 Java 面试 | Yanick's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/07/31/java/java-interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一次有趣的 Java 面试
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-31 19:04:04" itemprop="dateCreated datePublished" datetime="2020-07-31T19:04:04+08:00">2020-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-03 17:41:42" itemprop="dateModified" datetime="2020-08-03T17:41:42+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/07/31/java/java-interview/" class="post-meta-item leancloud_visitors" data-flag-title="记一次有趣的 Java 面试" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://s3.jpg.cm/2020/08/03/bHP5z.png" alt="bHP5z.png"></p>
+<p>笔者很久没有面试的时候被问过深度的 <code>GC</code> 知识了，看看腾讯的高级技术专家是如何面试 <code>Java</code> 的。</p>
+<a id="more"></a>
+
+<h1 id="Q1-new-之后发生了什么？"><a href="#Q1-new-之后发生了什么？" class="headerlink" title="Q1: new 之后发生了什么？"></a>Q1: new 之后发生了什么？</h1><p>面试的时候没有理解面试官想问的问题，回答的比较糟糕，反思一下，用下面的例子来说明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DemoApplication.class.getClassLoader().loadClass("io.xxx.xxx").newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先：我们需要使用 <code>Classloader</code> 去加载这个类 <code>loadClass</code> 这里会涉及到 <a href="https://www.cnblogs.com/lanxuezaipiao/p/4138511.html" target="_blank" rel="noopener"><code>双亲委派模型</code></a> 因为我们应用的启动都是通过 <code>AppClassLoader</code> 进行启动，因此哪怕我们自定实现了一个 <code>Classloader</code> 在其内部载入一个 <code>魔改的String</code> 类，但是因为不同的 <code>ClassLoader</code> 载入的同名类并不作为同一个对象，也不能算我们重写的 <code>String.class</code>。</p>
+<p>不过还有一个值得注意的在我们 <code>defineClass</code> 的内置函数中，我们尝试定义如下代码</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        defineClass
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Class&lt;?&gt; loadClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="keyword">if</span> (name.equals(<span class="string">"java.lang.String"</span>)) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                InputStream is = Main.class.getClassLoader().getResourceAsStream("java/lang/String.class");</span><br><span class="line">                <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10000</span>];</span><br><span class="line">                <span class="keyword">int</span> len = is.read(buf);</span><br><span class="line">                <span class="keyword">return</span> defineClass(name, buf, <span class="number">0</span>, len);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(<span class="string">""</span>, e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> getParent().loadClass(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+
+<p>结果是:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java.lang.SecurityException: Prohibited package name: java.lang</span><br><span class="line">	at java.lang.ClassLoader.preDefineClass(ClassLoader.java:662)</span><br><span class="line">	at java.lang.ClassLoader.defineClass(ClassLoader.java:761)</span><br><span class="line">	at java.lang.ClassLoader.defineClass(ClassLoader.java:642)</span><br><span class="line">	at test.Main<span class="variable">$TestClassLoader</span>.loadClass(Main.java:24)</span><br><span class="line">	at test.Main.main(Main.java:10)</span><br></pre></td></tr></table></figure>
+
+<p>其实方法的注释上，我们也可以发现</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* <span class="meta">@throws</span>  SecurityException</span><br><span class="line">*          If an attempt is made to add <span class="keyword">this</span> <span class="class"><span class="keyword">class</span> <span class="title">to</span> <span class="title">a</span> <span class="title">package</span> <span class="title">that</span></span></span><br><span class="line"><span class="class">*          <span class="title">contains</span> <span class="title">classes</span> <span class="title">that</span> <span class="title">were</span> <span class="title">signed</span> <span class="title">by</span> <span class="title">a</span> <span class="title">different</span> <span class="title">set</span> <span class="title">of</span></span></span><br><span class="line"><span class="class">*          <span class="title">certificates</span> <span class="title">than</span> <span class="title">this</span> <span class="title">class</span> (<span class="title">which</span> <span class="title">is</span> <span class="title">unsigned</span>), <span class="title">or</span> <span class="title">if</span></span></span><br><span class="line">*          &lt;tt&gt;name&lt;/tt&gt; begins with "&lt;tt&gt;java.&lt;/tt&gt;".</span><br></pre></td></tr></table></figure>
+<p>我们是没办法绕过JVM的安全机制的。</p>
+<h1 id="Q2：那我们如何热替换Class"><a href="#Q2：那我们如何热替换Class" class="headerlink" title="Q2：那我们如何热替换Class"></a>Q2：那我们如何热替换Class</h1><p>从上一Q中，我们知道不同的 <code>ClassLoader</code> 载入的同名类是属于不同的类，那我们 <code>Hot Swap Class</code> </p>
+<h2 id="第一种方式：每次调用的时候都是-LoadClass，但是这样的方式相当于我们每一次都是载入一个新的Class。"><a href="#第一种方式：每次调用的时候都是-LoadClass，但是这样的方式相当于我们每一次都是载入一个新的Class。" class="headerlink" title="第一种方式：每次调用的时候都是 LoadClass，但是这样的方式相当于我们每一次都是载入一个新的Class。"></a>第一种方式：每次调用的时候都是 <code>LoadClass</code>，但是这样的方式相当于我们每一次都是载入一个新的Class。</h2><div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        方法一: loadclass
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Class&lt;?&gt; loadClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">"test.Test1"</span>)) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    InputStream is = Test.class.getClassLoader().getResourceAsStream("test/Test1.class");</span><br><span class="line">                    <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10000</span>];</span><br><span class="line">                    <span class="keyword">int</span> len = is.read(buf);</span><br><span class="line">                    <span class="keyword">return</span> defineClass(name, buf, <span class="number">0</span>, len);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(<span class="string">""</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> getParent().loadClass(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            Class cls = <span class="keyword">new</span> TestClassLoader().loadClass(<span class="string">"test.Test1"</span>);</span><br><span class="line">            Object obj = cls.newInstance();</span><br><span class="line">            cls.getMethod(<span class="string">"hello"</span>).invoke(obj);</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+
+
+<p>不过值得注意的是对于已经 <code>defineClass</code> 的对象我们必须要构建出一个新的 <code>ClassLoader</code> 才能再次 <code>reload</code> 这个class。而且不同的 <code>Classloader</code> 载入的相同的 <code>Class</code> 在对比的时候并不是 <code>相等</code> 的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Class&lt;?&gt; aClass = <span class="keyword">new</span> TestClassLoader().loadClass(<span class="string">"test.Test"</span>);</span><br><span class="line"><span class="keyword">final</span> Class&lt;?&gt; bClass = <span class="keyword">new</span> TestClassLoader().loadClass(<span class="string">"test.Test"</span>);</span><br><span class="line">System.out.println(aClass.equals(bClass));  <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="第二种方法：instrumentation-redefine"><a href="#第二种方法：instrumentation-redefine" class="headerlink" title="第二种方法：instrumentation::redefine"></a>第二种方法：instrumentation::redefine</h2><p>Arthas 热更新背后的原理就是 JavaAgent 技术。对于上面的方法我们是没有办法在运行时去修改逻辑，我们必须要在 <code>Coding</code> 的时候就将这个过程给固化下来，而Java提供了另外一种完全热更新的方案 <code>Java Instrumentation</code> 一种为 pre-main 方式，这种方式需要在虚拟机参数指定 Instrumentation 程序，然后程序启动之前将会完成修改或替换类，Skywalking就是这么个工作原理。JDK6 针对这种情况作出了改进，增加 agent-main 方式。我们可以在应用启动之后，再运行 <code>Instrumentation</code> 程序。启动之后，只有连接上相应的应用，我们才能做出相应改动，这里我们就需要使用 Java 提供 <code>attach API</code>。<br>详细可以参考 <a href="https://www.cnblogs.com/goodAndyxublog/p/11880314.html" target="_blank" rel="noopener">手把手教你实现热更新功能，带你了解 Arthas 热更新背后的原理</a></p>
+<h1 id="继续-Q1：New阶段在我们载入Class之后做了些什么"><a href="#继续-Q1：New阶段在我们载入Class之后做了些什么" class="headerlink" title="继续 Q1：New阶段在我们载入Class之后做了些什么"></a>继续 Q1：New阶段在我们载入Class之后做了些什么</h1><h2 id="方法区开辟空间存入缓存"><a href="#方法区开辟空间存入缓存" class="headerlink" title="方法区开辟空间存入缓存"></a>方法区开辟空间存入缓存</h2><p><code>Class文件</code> 被我们载入的 <code>Class(Method) Area</code>。不过 <code>方法区（Permanent Generation）</code> 的大小默认是无限制的，但是和普通的 <code>GC</code> 一样，这里也会发生 <code>GC</code>，常见的是在启动的时候载入的大量的 <code>Class</code> 就会出现频繁的 <code>GC</code>。</p>
+<h2 id="初始化对象"><a href="#初始化对象" class="headerlink" title="初始化对象"></a>初始化对象</h2><p>首先第一步我们需要在 <code>Stack</code> 分配一个指向 <code>Heap</code> 的引用对象。</p>
+<p><img src="https://s3.jpg.cm/2020/08/02/bbokE.png" alt="bbokE.png"></p>
+<p>然后再去 <code>Heap</code> 开辟一个新空间。不过从这里在这次的面试中就有点自己知识的盲区了，我尝试着带着 <code>Google</code> 重新回顾一下。</p>
+<p>按照理解的话 <code>Linux</code> 提供了 <code>malloc</code> 的标准函数进行内存的分配，但是这样的返回仅仅是一个 <code>Address of a chunk memory</code>，对于 <code>Jvm</code> 这样的虚拟机应该将这些地址都存储起来并且在恰当的时候进行 <code>GC</code>。</p>
+<figure class="highlight java"><figcaption><span>malloc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ptr_to_container = (Container *) malloc(sizeof(Container));</span><br></pre></td></tr></table></figure>
+
+<p>在 <a href="https://juejin.im/post/6844903982905688071" target="_blank" rel="noopener">What happened when new an object in JVM</a> 有说过这个，在 <code>Hotspot</code> 实现过程中，真实的 <code>object</code> 对象，包含了一些额外的信息在 <code>object  header</code> 中，不过并没有在中发现具体的 <code>Memoery Address</code> 应该是被一个统一的管理器管理起来了。</p>
+<p>因为 <code>Class</code> 的类型一定定义了数据的长度，<code>Sizeof</code> 函数对于 <code>Java</code> 显然是非必要的，我们如何从空闲的内存中获取数据呢？</p>
+<blockquote>
+<p>The Java heap memory is regular (using a markup or a garbage collector with compression), using a pointer to the free location, and allocating memory moves the pointer equal to the allocated size.<br>The memory is not regular (the garbage collector using the markup cleanup), the virtual machine maintains a list of available memory blocks, and when the memory is allocated, a large enough memory space is found from the list to allocate the object and update the available memory list.<br>A GC is triggered when sufficient memory cannot be found</p>
+</blockquote>
+<p>对于不同的GC算法，内存区域的开辟也有不同，常规模式下<code>内存管理器</code>维护者 <code>Free Point</code> 指向空闲的区域，然后开辟空间移动指针即可，非常规的模式下直接将 <code>block</code> 块合并返回。不过下面那种模式更快，不过也会产生更多的碎片。</p>
+<h1 id="Q：那JVM为何要分代"><a href="#Q：那JVM为何要分代" class="headerlink" title="Q：那JVM为何要分代"></a>Q：那JVM为何要分代</h1><p>在 <a href="https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html" target="_blank" rel="noopener"><code>Understanding Memory Management</code></a> 中有提到。</p>
+<p><img src="https://s3.jpg.cm/2020/08/02/bb3uH.png" alt="bb3uH.png"></p>
+<div>
+    <label class="author-mark-label">小声比比</label>
+    <p class="author-mark">以前我没太理解，我认为之所以要分分代是因为对于不同的区域的 GC 算法应该有所不同。</p>
+</div>
+
+<p>在 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/generations.html" target="_blank" rel="noopener">HotSpot Virtual Machine Garbage Collection Tuning Guide</a> 中说道：</p>
+<blockquote>
+<p>Throughput is the percentage of total time not spent in garbage collection considered over long periods of time. Throughput includes time spent in allocation (but tuning for speed of allocation is generally not needed).<br>Pauses are the times when an application appears unresponsive because garbage collection is occurring.</p>
+</blockquote>
+<p>对于GC算法来说，<code>暂停时间</code> 和 <code>吞吐量</code> 是最为核心的诉求，不同的搭配会产生不一样的效果</p>
+<ul>
+<li>Serial GC for both the Young and Old generations</li>
+<li>Parallel GC for both the Young and Old generations</li>
+<li>Parallel New for Young + Concurrent Mark and Sweep (CMS) for the Old Generation</li>
+<li>G1, which encompasses collection of both Young and Old generations</li>
+</ul>
+<h3 id="Serial-GC"><a href="#Serial-GC" class="headerlink" title="Serial GC"></a>Serial GC</h3><h4 id="young-generation"><a href="#young-generation" class="headerlink" title="young generation"></a>young generation</h4><p><code>youg</code> 又分为 <code>eden</code> 和 <code>S0</code>/<code>S1</code>，<code>Young</code> 的运行机制如下：</p>
+<ul>
+<li>创建的对象都在 <code>Eden</code></li>
+<li><code>Eden</code> 满的时候触发 <code>Minor garbage collection</code>，将存活的移动到 <code>Survivor Space</code></li>
+<li>后续的 <code>Minor GC</code> 会回收所有的 <code>Young</code> 的对象，并且将 <code>S0</code>在 <code>S1</code> 来回倒腾对象</li>
+<li>当对象活超过 <code>max age threshold</code> 会将对象从 <code>Survivor</code> 移动到 <code>Tenured Space</code></li>
+</ul>
+<p>对于 <code>JRockit</code> 实现的时候并没有 <code>S0</code> 和 <code>S1</code> 的说法，只有一个 <code>survivor</code>，为什么 <code>Hotspot</code> 需要呢？</p>
+<p>在 <a href="https://stackoverflow.com/questions/10695298/java-gc-why-two-survivor-regions" target="_blank" rel="noopener">Java GC: why two survivor regions?</a> 中又说到，当我们出发了 <code>Minor GC</code> 之后，杀掉了一些对象之后，<code>Eden</code> 和 <code>Survivor</code> 都会出现碎片，为了减少碎片，<code>Sun</code> 折中选择了将 <code>S0/S1</code> 进行移动的过程中进行 <code>压实</code>。</p>
+<p><img src="https://s3.jpg.cm/2020/08/02/bbOuy.png" alt="bbOuy.png"></p>
+<p>对于 <code>eden</code> 的对象要么选择去 <code>survivor</code> 要么选择 <code>killed</code>，每一次应该 <code>eden</code> 是清空的。</p>
+<h4 id="Old-generation"><a href="#Old-generation" class="headerlink" title="Old generation"></a>Old generation</h4><p>上面对于 <code>Serial GC</code> 只是 <code>Minor GC</code> 的部分，当我们的 <code>Eden/Survior</code> 都满的情况下会触发 <code>Full GC</code></p>
+<p><img src="https://s3.jpg.cm/2020/08/02/buSAf.png" alt="buSAf.png"></p>
+<h3 id="Parallel-GC"><a href="#Parallel-GC" class="headerlink" title="Parallel GC"></a>Parallel GC</h3><p><code>Parallel GC</code> 和 <code>Serial GC</code> 一样对于 <code>young</code> 采用的是 <code>mark-copy</code>，对于 <code>old</code> 采用的 <code>mark-sweep-compact</code> 和 <code>Serial GC</code> 不一样是采用了多线程的方式进行操作，在多核系统上较好。</p>
+<h3 id="Concurrent-Mark-and-Sweep"><a href="#Concurrent-Mark-and-Sweep" class="headerlink" title="Concurrent Mark and Sweep"></a>Concurrent Mark and Sweep</h3><p><code>CMS</code> 对于 <code>Young</code> 采用的还是 <code>mark-copy</code> 的算法，<code>Old Generation</code> 部分就是 <code>mostly concurrent mark-sweep</code>。 <code>young</code> 部分就不多说，对于 <code>old</code> 部分。</p>
+<p>因为 <code>compact</code> 很慢的一个过程，比较涉及到 <code>move</code> 对象，<code>CMS</code> 的设计目标是为了防止长时间的停顿( long pauses) 不过因为对于 <code>Young</code> 其实没啥区别，就主要看看 <code>Old Generation</code></p>
+<h4 id="Old-Generation"><a href="#Old-Generation" class="headerlink" title="Old Generation"></a>Old Generation</h4><ul>
+<li>采用 <code>free-lists</code> 算法管理空闲空间</li>
+<li>大部分的操作是不停止应用工作的</li>
+</ul>
+<h5 id="第一步：初始化标记，这一部分会-SOW，不过只需要找到所有在-Old-中的-Root"><a href="#第一步：初始化标记，这一部分会-SOW，不过只需要找到所有在-Old-中的-Root" class="headerlink" title="第一步：初始化标记，这一部分会 SOW，不过只需要找到所有在 Old 中的 Root"></a>第一步：初始化标记，这一部分会 SOW，不过只需要找到所有在 <code>Old</code> 中的 <code>Root</code></h5><p><img src="https://s3.jpg.cm/2020/08/02/buvHe.png" alt="buvHe.png"></p>
+<h5 id="第二步：并发标记"><a href="#第二步：并发标记" class="headerlink" title="第二步：并发标记"></a>第二步：并发标记</h5><p>这一步不会 SOW<br><img src="https://s3.jpg.cm/2020/08/02/buwfy.png" alt="buwfy.png"></p>
+<h5 id="第三步：重新标记"><a href="#第三步：重新标记" class="headerlink" title="第三步：重新标记"></a>第三步：重新标记</h5><p>重新标记处理并发标记过程中因为用户程序同时运行而导致标记产生变动的对象的标记记录。stop-the-world。<br><img src="https://s3.jpg.cm/2020/08/02/buoZr.png" alt="buoZr.png"></p>
+<h5 id="第四步：并发清除-Concurrent-sweep"><a href="#第四步：并发清除-Concurrent-sweep" class="headerlink" title="第四步：并发清除 Concurrent sweep"></a>第四步：并发清除 Concurrent sweep</h5><p><img src="https://s3.jpg.cm/2020/08/02/buBX5.png" alt="buBX5.png"></p>
+<p>对于 <code>CMS</code> 来说，肉眼即可的问题就是 <code>Free-List</code> 带来的碎片化问题。当然我们可以设置 <code>UseCMSCompactAtFullCollection</code> 来开启 <code>压实</code>操作。</p>
+<div>
+    <label class="author-mark-label">小声比比3</label>
+    <p class="author-mark"> 这里如果注意的话，可以发现不同的算法，开辟内存的方式是不同的。</p>
+</div>
+
+<h3 id="G1-–-Garbage-First"><a href="#G1-–-Garbage-First" class="headerlink" title="G1 – Garbage First"></a>G1 – Garbage First</h3><p>G1按固定大小把内存划分为很多小区域(region)，这个堆大概有2000多块；在逻辑上，某些小区域构成Eden，某些构成Survivor，某些构成老年代，这些小区域物理上是不相连的，并且构成新生代和老年代的区域可以动态改变。</p>
+<p><code>G1</code> 的过程和 <code>CMS</code> 是类似的，但是因为空间不再是连续的，我们可以将空间的属性进行变换。G1从整体来看是基于“标记-整理”算法实现收集，从局部（两个Region）上来看是基于“复制”算法实现的，但无论如何，这两种算法都意味着G1运作期间不会产生内存空间碎片。并且很多时候是重新定义Zone属于什么区域，因此会快很多。</p>
+<h1 id="继续回答"><a href="#继续回答" class="headerlink" title="继续回答"></a>继续回答</h1><p>对于完成了对象的分配之后，我们只是开辟了一个空间（Allocate the memory space of the object），下一步我们需要的是对对象进行初始化。包括默认值等，执行构造函数等。之后一步才是将这个对象的地址挂到那个命名变量上。</p>
+<h1 id="Q-Netty-有哪些优化手段"><a href="#Q-Netty-有哪些优化手段" class="headerlink" title="Q: Netty 有哪些优化手段"></a>Q: Netty 有哪些优化手段</h1><h2 id="内存零拷贝"><a href="#内存零拷贝" class="headerlink" title="内存零拷贝"></a>内存零拷贝</h2><ol>
+<li>Netty的接收和发送ByteBuffer使用直接内存进行Socket读写，不需要进行字节缓冲区的二次拷贝。如果使用JVM的堆内存进行Socket读写，JVM会将堆内存Buffer拷贝一份到直接内存中，然后才写入Socket中。相比于使用直接内存，消息在发送过程中多了一次缓冲区的内存拷贝。</li>
+<li>Netty的文件传输调用FileRegion包装的transferTo方法，可以直接将文件缓冲区的数据发送到目标Channel，避免通过循环write方式导致的内存拷贝问题。</li>
+<li>Netty提供CompositeByteBuf类, 可以将多个ByteBuf合并为一个逻辑上的ByteBuf, 避免了各个ByteBuf之间的拷贝。</li>
+<li>通过wrap操作, 我们可以将byte[]数组、ByteBuf、ByteBuffer等包装成一个Netty ByteBuf对象, 进而避免拷贝操作。</li>
+<li>ByteBuf支持slice操作，可以将ByteBuf分解为多个共享同一个存储区域的ByteBuf, 避免内存的拷贝。</li>
+</ol>
+<h2 id="FastThreadLocal"><a href="#FastThreadLocal" class="headerlink" title="FastThreadLocal"></a>FastThreadLocal</h2><p>FastThreadLocal 在创建 Thread 时候给每个对象分配了一个 index，之后通过这个 index 会比原生的 <code>hashcode</code> 方式好很多。</p>
+<h2 id="IntObjectMap"><a href="#IntObjectMap" class="headerlink" title="IntObjectMap"></a>IntObjectMap</h2><p>这里还没来得及看，先 Mark</p>
+<h1 id="Q：解释下-强引用-、软引用、弱引用、虚引用"><a href="#Q：解释下-强引用-、软引用、弱引用、虚引用" class="headerlink" title="Q：解释下 强引用 、软引用、弱引用、虚引用"></a>Q：解释下 强引用 、软引用、弱引用、虚引用</h1><ul>
+<li>正常都是 强引用</li>
+<li>如果一个对象只具有软引用，则内存空间足够，垃圾回收器就不会回收它；如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。比较适合缓存的场景。</li>
+<li>弱引用在垃圾回收时，如果这个对象只被弱引用关联（没有任何强引用关联他），那么这个对象就会被回收。</li>
+<li>一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来获取一个对象的实例。</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://dzone.com/articles/permgen-and-metaspace" target="_blank" rel="noopener">PermGen and Metaspace</a></li>
+<li><a href="https://juejin.im/post/6844903982905688071" target="_blank" rel="noopener">What happened when new an object in JVM</a></li>
+<li><a href="https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html" target="_blank" rel="noopener">Understanding Memory Management</a></li>
+<li><a href="https://tech.meituan.com/2017/12/29/jvm-optimize.html" target="_blank" rel="noopener">从实际案例聊聊Java应用的GC优化</a></li>
+<li><a href="https://plumbr.io/handbook/garbage-collection-algorithms-implementations" target="_blank" rel="noopener"></a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/06/20/java/other/2020-new-direction/" rel="bookmark">Java社区的新方向</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/interview/" rel="tag"># interview</a>
+              <a href="/tags/jvm/" rel="tag"># jvm</a>
+              <a href="/tags/classloader/" rel="tag"># classloader</a>
+              <a href="/tags/gc/" rel="tag"># gc</a>
+              <a href="/tags/netty/" rel="tag"># netty</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/30/architecture/next/" rel="prev" title="云原生的下一步">
+      <i class="fa fa-chevron-left"></i> 云原生的下一步
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Q1-new-之后发生了什么？"><span class="nav-number">1.</span> <span class="nav-text">Q1: new 之后发生了什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q2：那我们如何热替换Class"><span class="nav-number">2.</span> <span class="nav-text">Q2：那我们如何热替换Class</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一种方式：每次调用的时候都是-LoadClass，但是这样的方式相当于我们每一次都是载入一个新的Class。"><span class="nav-number">2.1.</span> <span class="nav-text">第一种方式：每次调用的时候都是 LoadClass，但是这样的方式相当于我们每一次都是载入一个新的Class。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二种方法：instrumentation-redefine"><span class="nav-number">2.2.</span> <span class="nav-text">第二种方法：instrumentation::redefine</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继续-Q1：New阶段在我们载入Class之后做了些什么"><span class="nav-number">3.</span> <span class="nav-text">继续 Q1：New阶段在我们载入Class之后做了些什么</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法区开辟空间存入缓存"><span class="nav-number">3.1.</span> <span class="nav-text">方法区开辟空间存入缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化对象"><span class="nav-number">3.2.</span> <span class="nav-text">初始化对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q：那JVM为何要分代"><span class="nav-number">4.</span> <span class="nav-text">Q：那JVM为何要分代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Serial-GC"><span class="nav-number">4.0.1.</span> <span class="nav-text">Serial GC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#young-generation"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">young generation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Old-generation"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">Old generation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parallel-GC"><span class="nav-number">4.0.2.</span> <span class="nav-text">Parallel GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Concurrent-Mark-and-Sweep"><span class="nav-number">4.0.3.</span> <span class="nav-text">Concurrent Mark and Sweep</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Old-Generation"><span class="nav-number">4.0.3.1.</span> <span class="nav-text">Old Generation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一步：初始化标记，这一部分会-SOW，不过只需要找到所有在-Old-中的-Root"><span class="nav-number">4.0.3.1.1.</span> <span class="nav-text">第一步：初始化标记，这一部分会 SOW，不过只需要找到所有在 Old 中的 Root</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二步：并发标记"><span class="nav-number">4.0.3.1.2.</span> <span class="nav-text">第二步：并发标记</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三步：重新标记"><span class="nav-number">4.0.3.1.3.</span> <span class="nav-text">第三步：重新标记</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第四步：并发清除-Concurrent-sweep"><span class="nav-number">4.0.3.1.4.</span> <span class="nav-text">第四步：并发清除 Concurrent sweep</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G1-–-Garbage-First"><span class="nav-number">4.0.4.</span> <span class="nav-text">G1 – Garbage First</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继续回答"><span class="nav-number">5.</span> <span class="nav-text">继续回答</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-Netty-有哪些优化手段"><span class="nav-number">6.</span> <span class="nav-text">Q: Netty 有哪些优化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存零拷贝"><span class="nav-number">6.1.</span> <span class="nav-text">内存零拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastThreadLocal"><span class="nav-number">6.2.</span> <span class="nav-text">FastThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IntObjectMap"><span class="nav-number">6.3.</span> <span class="nav-text">IntObjectMap</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q：解释下-强引用-、软引用、弱引用、虚引用"><span class="nav-number">7.</span> <span class="nav-text">Q：解释下 强引用 、软引用、弱引用、虚引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/07/31/java/java-interview/";
+    this.page.identifier = "2020/07/31/java/java-interview/";
+    this.page.title = "记一次有趣的 Java 面试";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

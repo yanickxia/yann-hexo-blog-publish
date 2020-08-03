@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-07-20T06:00:08.047Z</updated>
+  <updated>2020-08-03T09:41:42.850Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,79 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次有趣的 Java 面试</title>
+    <link href="http://blog.yanick.site/2020/07/31/java/java-interview/"/>
+    <id>http://blog.yanick.site/2020/07/31/java/java-interview/</id>
+    <published>2020-07-31T11:04:04.000Z</published>
+    <updated>2020-08-03T09:41:42.850Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/03/bHP5z.png&quot; alt=&quot;bHP5z.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;笔者很久没有面试的时候被问过深度的 &lt;code&gt;GC&lt;/code&gt; 知识了，看看腾讯的高级技术专家是如何面试 &lt;code&gt;Java&lt;/code&gt; 的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
+    
+      <category term="interview" scheme="http://blog.yanick.site/categories/java/interview/"/>
+    
+    
+      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
+    
+      <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
+    
+      <category term="jvm" scheme="http://blog.yanick.site/tags/jvm/"/>
+    
+      <category term="classloader" scheme="http://blog.yanick.site/tags/classloader/"/>
+    
+      <category term="gc" scheme="http://blog.yanick.site/tags/gc/"/>
+    
+      <category term="netty" scheme="http://blog.yanick.site/tags/netty/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>云原生的下一步</title>
+    <link href="http://blog.yanick.site/2020/07/30/architecture/next/"/>
+    <id>http://blog.yanick.site/2020/07/30/architecture/next/</id>
+    <published>2020-07-30T06:45:43.000Z</published>
+    <updated>2020-08-03T09:41:42.850Z</updated>
+    
+    <summary type="html">
+    
+      &lt;iframe width=&quot;100%&quot; height=&quot;400&quot; src=&quot;https://time.graphics/embed?v=1&amp;id=398280&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;div&gt;&lt;a rel=&quot;nofollow noopener&quot; style=&quot;font-size: 12px; text-decoration: none;&quot; title=&quot;Powered by Time.Graphics&quot; href=&quot;https://time.graphics&quot; target=&quot;_blank&quot;&gt;Powered by Time.Graphics&lt;/a&gt;&lt;/div&gt;
+    
+    </summary>
+    
+      <category term="architecture" scheme="http://blog.yanick.site/categories/architecture/"/>
+    
+    
+      <category term="architecture" scheme="http://blog.yanick.site/tags/architecture/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go 面试汇总</title>
+    <link href="http://blog.yanick.site/2020/07/29/go/interview/"/>
+    <id>http://blog.yanick.site/2020/07/29/go/interview/</id>
+    <published>2020-07-29T02:31:37.000Z</published>
+    <updated>2020-07-29T15:20:07.762Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/07/29/bnUSE.png&quot; alt=&quot;bnUSE.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;作为一个跨界的 &lt;code&gt;Java Boy&lt;/code&gt; 面对 &lt;code&gt;Go&lt;/code&gt; 的岗位还是先整理一波。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>微服务框架 - 2020</title>
@@ -398,65 +471,6 @@
     </summary>
     
       <category term="微服务" scheme="http://blog.yanick.site/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>为什么开发者的文档总是无法让人满足</title>
-    <link href="http://blog.yanick.site/2020/01/06/pm/why-docs-make-me-fuzzy/"/>
-    <id>http://blog.yanick.site/2020/01/06/pm/why-docs-make-me-fuzzy/</id>
-    <published>2020-01-06T01:48:01.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;知识的传递需要基础&quot;&gt;&lt;a href=&quot;#知识的传递需要基础&quot; class=&quot;headerlink&quot; title=&quot;知识的传递需要基础&quot;&gt;&lt;/a&gt;知识的传递需要基础&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://s2.ax1x.com/2020/01/07/l6DySf.png&quot; alt=&quot;l6DySf.png&quot;&gt;&lt;br&gt;在认知学里面有一个很著名的名字 &lt;strong&gt;知识的诅咒(Curse of knowledge)&lt;/strong&gt; &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;知识的诅咒（Curse of knowledge）是一种认知偏差，形容专家常以术语交谈，但是丧失与非专业人士沟通的能力。 Robin Hogarth首先提出该名词 。知识的诅咒也是教育的重大阻碍之一。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="项目管理" scheme="http://blog.yanick.site/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>基于开源构建自己的产品</title>
-    <link href="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/"/>
-    <id>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</id>
-    <published>2019-12-30T10:00:48.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;从 &lt;code&gt;2017.12&lt;/code&gt; 开始，我们就一直在基于 &lt;code&gt;SpringCloud&lt;/code&gt;(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>我的2019</title>
-    <link href="http://blog.yanick.site/2019/12/29/rethink/look-back-2019/"/>
-    <id>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</id>
-    <published>2019-12-29T10:00:48.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;尚且记得写下2018的时候，转念已2019已逝去。尤为可怕的是不曾记得2019做了哪些，又发生了哪些的改变，在这这个时间点上让你无法反思到究竟发生了什么在2019。&lt;/p&gt;
-&lt;p&gt;如果非要说今年有什么变化，大概开始明白人和人之间的视野是有极大的差距的，很多事情是自己所不能洞察的而别人的确可以察觉到，并且可以利用之。&lt;/p&gt;
-&lt;h2 id=&quot;倦怠&quot;&gt;&lt;a href=&quot;#倦怠&quot; class=&quot;headerlink&quot; title=&quot;倦怠&quot;&gt;&lt;/a&gt;倦怠&lt;/h2&gt;&lt;p&gt;我觉得已经没有什么比&lt;code&gt;倦怠&lt;/code&gt;更适合现在的我，在上海都差不多也要5年有余，尚未成家，尚未有房，工作尚未有所质变，这一切不变都又在无时不刻的在刺痛着我的内心，直到你开始麻木，而麻木的代价乃就是倦怠，对所有的事情得过且过，这大概已经是一个再为糟糕不过的状态，无论你怎么想，人做所有的事情都希望有所达成，而现在的我却已经无法达成什么，内心的倦怠感已在崩溃的边缘。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
     
     
   </entry>
