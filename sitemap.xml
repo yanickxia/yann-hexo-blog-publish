@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/link/index.html</loc>
+    
+    <lastmod>2020-08-03T10:50:09.179Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/about/index.html</loc>
+    
+    <lastmod>2020-08-03T10:50:09.171Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2020/07/30/architecture/next/</loc>
     
     <lastmod>2020-08-03T09:41:42.850Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>http://blog.yanick.site/2020/07/29/go/interview/</loc>
     
     <lastmod>2020-07-29T15:20:07.762Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/link/index.html</loc>
-    
-    <lastmod>2020-07-27T10:05:05.644Z</lastmod>
     
   </url>
   
@@ -82,13 +89,6 @@
     <loc>http://blog.yanick.site/knowledge-map/index.html</loc>
     
     <lastmod>2020-06-29T14:08:45.333Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/about/index.html</loc>
-    
-    <lastmod>2020-06-29T12:49:42.319Z</lastmod>
     
   </url>
   
@@ -380,14 +380,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
+    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
+    <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -541,14 +541,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
+    <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
+    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -562,14 +562,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/21/java/netty/netty-4-bytebuf/</loc>
+    <loc>http://blog.yanick.site/2018/06/21/java/netty/netty-5-otherwise/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/21/java/netty/netty-5-otherwise/</loc>
+    <loc>http://blog.yanick.site/2018/06/21/java/netty/netty-4-bytebuf/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -583,13 +583,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/06/26/java/spring/projectreactor/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
@@ -597,7 +590,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
+    <loc>http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -611,14 +604,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/11/kotlin/easy-way-to-kotlin-for-java-proggamer/data-types/</loc>
+    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/</loc>
+    <loc>http://blog.yanick.site/2018/07/11/kotlin/easy-way-to-kotlin-for-java-proggamer/data-types/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -633,6 +626,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2018/08/17/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-best-practices/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
