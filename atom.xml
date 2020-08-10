@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-08-03T09:41:42.850Z</updated>
+  <updated>2020-08-10T14:45:09.456Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Kubernetes 面试散记</title>
+    <link href="http://blog.yanick.site/2020/08/04/kubernetes/kubernetes-interview/"/>
+    <id>http://blog.yanick.site/2020/08/04/kubernetes/kubernetes-interview/</id>
+    <published>2020-08-04T14:38:04.000Z</published>
+    <updated>2020-08-10T14:45:09.456Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/04/bty5E.png&quot; alt=&quot;bty5E.png&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
+    
+      <category term="interview" scheme="http://blog.yanick.site/categories/kubernetes/interview/"/>
+    
+    
+      <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
+    
+      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
     <title>记一次有趣的 Java 面试</title>
     <link href="http://blog.yanick.site/2020/07/31/java/java-interview/"/>
     <id>http://blog.yanick.site/2020/07/31/java/java-interview/</id>
     <published>2020-07-31T11:04:04.000Z</published>
-    <updated>2020-08-03T09:41:42.850Z</updated>
+    <updated>2020-08-04T15:05:08.015Z</updated>
     
     <summary type="html">
     
@@ -35,9 +59,9 @@
       <category term="interview" scheme="http://blog.yanick.site/categories/java/interview/"/>
     
     
-      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
-    
       <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
+    
+      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
     
       <category term="jvm" scheme="http://blog.yanick.site/tags/jvm/"/>
     
@@ -454,24 +478,6 @@
     
     
       <category term="反思" scheme="http://blog.yanick.site/tags/%E5%8F%8D%E6%80%9D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>微服务中的服务注册与发现</title>
-    <link href="http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/"/>
-    <id>http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/</id>
-    <published>2020-01-08T01:48:01.000Z</published>
-    <updated>2020-07-09T12:12:03.135Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;背景知识&quot;&gt;&lt;a href=&quot;#背景知识&quot; class=&quot;headerlink&quot; title=&quot;背景知识&quot;&gt;&lt;/a&gt;背景知识&lt;/h1&gt;&lt;h2 id=&quot;服务注册-amp-发现&quot;&gt;&lt;a href=&quot;#服务注册-amp-发现&quot; class=&quot;headerlink&quot; title=&quot;服务注册 &amp;amp; 发现&quot;&gt;&lt;/a&gt;服务注册 &amp;amp; 发现&lt;/h2&gt;&lt;p&gt;服务注册：服务实例将自身服务信息注册到注册中心。这部分服务信息包括服务所在主机IP和提供服务的Port，以及暴露服务自身状态以及访问协议等信息。&lt;br&gt;服务发现：服务实例请求注册中心获取所依赖服务信息。服务实例通过注册中心，获取到注册到其中的服务实例的信息，通过这些信息去请求它们提供的服务。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="微服务" scheme="http://blog.yanick.site/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    
     
   </entry>
   
