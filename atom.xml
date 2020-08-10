@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-08-10T14:45:09.456Z</updated>
+  <updated>2020-08-10T16:20:09.715Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>面试拾遗：Epoll 之下的线程模型 / Envoy 快速之谜</title>
+    <link href="http://blog.yanick.site/2020/08/10/networking/epoll-thread/"/>
+    <id>http://blog.yanick.site/2020/08/10/networking/epoll-thread/</id>
+    <published>2020-08-10T14:54:04.000Z</published>
+    <updated>2020-08-10T16:20:09.715Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/11/bgfwp.png&quot; alt=&quot;bgfwp.png&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="networking" scheme="http://blog.yanick.site/categories/networking/"/>
+    
+      <category term="epoll" scheme="http://blog.yanick.site/categories/networking/epoll/"/>
+    
+    
+      <category term="networking" scheme="http://blog.yanick.site/tags/networking/"/>
+    
+      <category term="epoll" scheme="http://blog.yanick.site/tags/epoll/"/>
+    
+  </entry>
   
   <entry>
     <title>Kubernetes 面试散记</title>
@@ -458,26 +482,6 @@
     
     
       <category term="项目管理" scheme="http://blog.yanick.site/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>前后端分离的罪与罚</title>
-    <link href="http://blog.yanick.site/2020/02/18/rethink/separate-front-end/"/>
-    <id>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</id>
-    <published>2020-02-18T07:30:00.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;什么时候开始吹起了前后端分离的风，在我的回忆里是应该随着 &lt;code&gt;One Page Application&lt;/code&gt; 的风来的，突然有那么一段时间 &lt;code&gt;Vue&lt;/code&gt;,&lt;code&gt;Angular&lt;/code&gt;,&lt;code&gt;React&lt;/code&gt;就像雨后春笋长出来一样，前端离开了后端也可以玩转整个处理的流程了，工种的区分的也慢慢的变成前后端两只岗位了，甚至于过了一段时间出现了 &lt;code&gt;Fullstack&lt;/code&gt; 的开发者。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
-    
-    
-      <category term="反思" scheme="http://blog.yanick.site/tags/%E5%8F%8D%E6%80%9D/"/>
     
   </entry>
   
