@@ -1,5 +1,5 @@
+http://blog.yanick.site/2020/08/18/go/mosn/
 http://blog.yanick.site/2020/08/10/networking/epoll-thread/
 http://blog.yanick.site/2020/08/04/kubernetes/kubernetes-interview/
 http://blog.yanick.site/2020/07/31/java/java-interview/
 http://blog.yanick.site/2020/07/30/architecture/next/
-http://blog.yanick.site/2020/07/29/go/interview/
