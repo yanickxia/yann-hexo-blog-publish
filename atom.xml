@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-09-03T13:12:43.395Z</updated>
+  <updated>2020-09-04T10:28:26.200Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>解密 Rust 异步编程</title>
+    <link href="http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/"/>
+    <id>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</id>
+    <published>2020-09-04T04:09:30.000Z</published>
+    <updated>2020-09-04T10:28:26.200Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/04/1E5E4.png&quot; alt=&quot;1E5E4.png&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="async" scheme="http://blog.yanick.site/categories/rust/async/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="async" scheme="http://blog.yanick.site/tags/async/"/>
+    
+  </entry>
   
   <entry>
     <title>Mosn源码速读</title>
@@ -470,26 +494,6 @@
     
       <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>在家的一个月我得到了什么</title>
-    <link href="http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/"/>
-    <id>http://blog.yanick.site/2020/03/09/life/rethink-in-spring-festival/</id>
-    <published>2020-03-09T08:22:48.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;因为&lt;a href=&quot;https://zh.wikipedia.org/zh-hans/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;新冠肺炎&lt;/a&gt;，在家度过了自从大学生涯结束之后就不曾再有的超长假期，前前后后含上WFH的时间足足有40余天。大部分的时间也因为在家自我隔离，有了充足的时间进行思考，聊聊这个不一样的假期我在家学到了什么。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="life" scheme="http://blog.yanick.site/categories/life/"/>
-    
-    
-      <category term="生活" scheme="http://blog.yanick.site/tags/%E7%94%9F%E6%B4%BB/"/>
     
   </entry>
   
