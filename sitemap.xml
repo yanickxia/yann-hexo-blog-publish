@@ -2,14 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
+    <loc>http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/</loc>
     
-    <lastmod>2020-09-04T10:28:26.200Z</lastmod>
+    <lastmod>2020-09-12T06:00:07.489Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.yanick.site/plan/index.html</loc>
+    
+    <lastmod>2020-09-10T10:15:08.716Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
     
     <lastmod>2020-09-04T10:28:26.200Z</lastmod>
     
@@ -177,6 +184,34 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2019/04/09/rethink/sc-or-art/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/04/20/rethink/what-is-learn-in-2018/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/04/16/rethink/think-in-occupation/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
@@ -191,42 +226,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2019/04/09/rethink/sc-or-art/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/04/16/rethink/think-in-occupation/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/04/20/rethink/what-is-learn-in-2018/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
-    
-    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
+    
+    <lastmod>2020-06-29T03:35:53.875Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
     
     <lastmod>2020-06-29T03:35:53.875Z</lastmod>
     
@@ -415,13 +422,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
-    
-    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
@@ -430,6 +430,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
+    
+    <lastmod>2020-06-17T06:53:20.655Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     

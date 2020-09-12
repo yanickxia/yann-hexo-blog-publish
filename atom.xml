@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-09-04T10:28:26.200Z</updated>
+  <updated>2020-09-12T06:00:07.489Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>真实世界中的 Rust 异步编程</title>
+    <link href="http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/"/>
+    <id>http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/</id>
+    <published>2020-09-08T08:50:04.000Z</published>
+    <updated>2020-09-12T06:00:07.489Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/08/1zH7t.png&quot; alt=&quot;1zH7t.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在上一篇 &lt;a href=&quot;/2020/09/04/rust/understanding-rust-async/&quot;&gt;解密 Rust 异步编程&lt;/a&gt; 中我们已经知道了 &lt;code&gt;Funture&lt;/code&gt; 工作的原理，让我们看看真实世界里面是如何工作的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="async" scheme="http://blog.yanick.site/categories/rust/async/"/>
+    
+      <category term="tokio" scheme="http://blog.yanick.site/categories/rust/async/tokio/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="async" scheme="http://blog.yanick.site/tags/async/"/>
+    
+      <category term="tokio" scheme="http://blog.yanick.site/tags/tokio/"/>
+    
+  </entry>
   
   <entry>
     <title>解密 Rust 异步编程</title>
@@ -476,24 +505,6 @@
       <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
     
       <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>死亡行军与自我革命</title>
-    <link href="http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/"/>
-    <id>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</id>
-    <published>2020-03-31T10:00:48.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是&lt;strong&gt;死亡行军&lt;/strong&gt;。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
-    
     
   </entry>
   
