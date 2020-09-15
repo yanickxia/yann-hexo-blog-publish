@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-09-12T06:00:07.489Z</updated>
+  <updated>2020-09-15T10:55:07.507Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Actix &amp;#58 Rust 中 Actor 模型的实现</title>
+    <link href="http://blog.yanick.site/2020/09/12/rust/actix/"/>
+    <id>http://blog.yanick.site/2020/09/12/rust/actix/</id>
+    <published>2020-09-12T10:19:04.000Z</published>
+    <updated>2020-09-15T10:55:07.507Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/12/1ZxkC.png&quot; alt=&quot;1ZxkC.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;我们聊完了 &lt;code&gt;Rust&lt;/code&gt; 的异步编程框架，我们下来看看更加抽象的 &lt;code&gt;Actor&lt;/code&gt; 模型的实现。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="async" scheme="http://blog.yanick.site/categories/rust/async/"/>
+    
+      <category term="actor" scheme="http://blog.yanick.site/categories/rust/async/actor/"/>
+    
+      <category term="actix" scheme="http://blog.yanick.site/categories/rust/async/actor/actix/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="async" scheme="http://blog.yanick.site/tags/async/"/>
+    
+      <category term="actor" scheme="http://blog.yanick.site/tags/actor/"/>
+    
+      <category term="actix" scheme="http://blog.yanick.site/tags/actix/"/>
+    
+  </entry>
   
   <entry>
     <title>真实世界中的 Rust 异步编程</title>
@@ -464,47 +497,6 @@
     
       <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>关于Envoy的知识</title>
-    <link href="http://blog.yanick.site/2020/04/21/networking/around-envoy/"/>
-    <id>http://blog.yanick.site/2020/04/21/networking/around-envoy/</id>
-    <published>2020-04-21T14:30:00.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;开发环境搭建&quot;&gt;&lt;a href=&quot;#开发环境搭建&quot; class=&quot;headerlink&quot; title=&quot;开发环境搭建&quot;&gt;&lt;/a&gt;开发环境搭建&lt;/h1&gt;&lt;p&gt;基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1 &lt;/p&gt;
-&lt;h2 id=&quot;基础工具下载&quot;&gt;&lt;a href=&quot;#基础工具下载&quot; class=&quot;headerlink&quot; title=&quot;基础工具下载&quot;&gt;&lt;/a&gt;基础工具下载&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;安装 Bazel&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo wget -O /usr/&lt;span class=&quot;built_in&quot;&gt;local&lt;/span&gt;/bin/bazel https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo chmod +x /usr/&lt;span class=&quot;built_in&quot;&gt;local&lt;/span&gt;/bin/bazel&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;安装基础依赖&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install libtool cmake automake autoconf make ninja-build curl unzip virtualenv&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Clang 构建环境 （可选）&lt;br&gt;从 &lt;a href=&quot;http://releases.llvm.org/download.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;llvm&lt;/a&gt; 下载安装，9.0 版本比较兼容&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;bazel/setup_clang.sh &amp;lt;PATH_TO_EXTRACTED_CLANG_LLVM&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;build --config=clang&quot;&lt;/span&gt; &amp;gt;&amp;gt; user.bazelrc&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;使用 bazel构建DEBUG版本&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;bazel build -c dbg --spawn_strategy=standalone  //&lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt;/exe:envoy-static&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
-    
-      <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
-    
-    
-      <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
-    
-      <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
     
   </entry>
   

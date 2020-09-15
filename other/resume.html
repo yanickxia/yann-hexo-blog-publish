@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Resume/个人简历</title>
+	<link rel="stylesheet" href="./resume.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900">
+</head>
+
+<body>
+	<!-- partial:index.partial.html -->
+	<!DOCTYPE html>
+	<html>
+
+	<head>
+		<title>Resume/个人简历</title>
+
+	<body>
+		<div class="container">
+			<div class="sidebar">
+				<div class="sidebar-top">
+					<img class="profile-image" src="./profile1.jpeg" />
+					<!-- <div class="profile-basic">
+					<h1 class="name">夏岩</h1>
+					<h4 class="designation"> 工程师 </h4>
+				</div> -->
+				</div>
+				<div class="profile-info">
+					<p class="key">姓名 : </p>
+					<p class="value">夏岩</p>
+				</div>
+				<div class="profile-info">
+					<p class="key">电话 : </p>
+					<p class="value">13761560491</p>
+				</div>
+
+				<div class="profile-info">
+					<p class="key">Email : </p>
+					<p class="value">me.yan.xia@qq.com</p>
+				</div>
+				<div class="profile-info">
+					<p class="key">出生日期 : </p>
+					<p class="value"> 1991.5</p>
+				</div>
+				<div class="profile-info">
+					<p class="key">Location : </p>
+					<p class="value"> 中国 · 上海</p>
+				</div>
+
+				<div class="profile-info">
+					<p class="key">其他 : </p>
+					<p class="value"> <a class="social-media" href="https://blog.yanick.site/" target="_blank">博客</a>
+						<a class="social-media" href="https://github.com/yanickxia" target="_blank">Github</a>
+						<a class="social-media" href="/about/夏岩的简历.pdf" target="_blank">附件下载</a>
+					</p>
+
+				</div>
+			</div>
+
+			<div class="content">
+				<div class="work-experience">
+					<h1 class="heading"> 工作经验 </h1>
+					<div class="info">
+						<p class="sub-heading"><a href="https://www.daocloud.io/" class="slide">上海道客网络科技有限公司</a></p>
+						<p class="duration"> 2017.3 - 至今</p>
+						<div class="project">
+							<p class="project-heading"><a href="https://www.daocloud.io/dmp">微服务治理平台</a></p>
+							<div class="desc-block">
+								<p class="desc-key">项目描述:</p>
+								<p class="desc">为微服务架构系统提供一整套治理管理平台。</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">职责描述:</p>
+								<p class="desc">承担 <b>架构师</b> 职能，并且负责团队管理与平台中 <b>Gateway的设计与编码</b>， 基于 <a
+										href="http://microservices.io/patterns/apigateway.html">Gateway Pattern</a>
+									并且参考竞品 <a href="https://tyk.io/">tyk</a> 与 <a href="https://getkong.org">kong</a>
+									进行设计与编码， 并且确定系统平台架构。 自2019年底开始额外负责 <b>ServiceMesh</b> 模块的架构设计与开发。
+								</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">技术特性:</p>
+								<p class="desc">采用管理平面和数据面分离设计保证系统的低耦合，基于 <b>Netty</b> + <b>Reactive</b> 重新构建网关组件 ，Mesh
+									部分则基于 <b>Envoy</b> 与 <b>Isito</b>。</p>
+							</div>
+						</div>
+
+						<div class="project">
+							<p class="project-heading">东风汽车新能源监控项目</p>
+							<div class="desc-block">
+								<p class="desc-key">项目描述:</p>
+								<p class="desc">为新能源汽车提供系统监控运维平台，负责从车载终端TBOX中收集车辆数据进行车辆定位于数据分析。</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">职责描述:</p>
+								<p class="desc">负责架构设计与<b>接入层</b>与<b>解析模块</b> 编码 。
+								</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">技术特性:</p>
+								<p class="desc"><b>接入层</b> 为车辆与系统之间建立长连接通道采用 <b>Netty</b>构建，每日需处理千万级别车辆上报数据，采用
+									<b>Kafka</b> 作为消息中间件，基于 <b>SpringCloud</b> 组件开发，基于
+									<b>Docker</b>容器部署，已稳定运行6个月（截至2018年3月）。</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="info">
+						<p class="sub-heading"><a href="https://www.madailicai.com/">上海麻袋理财</a></p>
+						<p class="duration"> 2015.8 - 2017.3</p>
+						<div class="project">
+							<p class="project-heading"><a href="https://www.madailicai.com/">麻袋理财线上投资平台</a></p>
+							<div class="desc-block">
+								<p class="desc-key">项目描述:</p>
+								<p class="desc">为投资人提供线上交易平台。</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">职责描述:</p>
+								<p class="desc">
+									负责<b>账务系统</b>研发，为用户生成账单信息与计算账单金额，如总利息，回款日历，计息方式等。独立开发<b>货币基金模块</b>，提供用户购买货币基金。</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">技术特性:</p>
+								<p class="desc">与资金强相关，测试驱动开发(<b>TDD</b>)保证代码质量，并且需要考虑抢标时高并发问题，防止性能问题与BUG。</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="info">
+						<p class="sub-heading"><a href="http://1yd.me/">上海我要运动</a></p>
+						<p class="duration"> 2014.8 - 2015.8</p>
+						<div class="project">
+							<p class="project-heading"><a href="http://1yd.me/">我要运动线上场馆预定</a></p>
+							<div class="desc-block">
+								<p class="desc-key">项目描述:</p>
+								<p class="desc">线上体育场馆预定平台。</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">职责描述:</p>
+								<p class="desc">线上平台<b>订单</b>与<b>用户</b>系统设计与编码。</p>
+							</div>
+							<div class="desc-block">
+								<p class="desc-key">技术特性:</p>
+								<p class="desc">采用 <b>SpringBoot</b> 构建，对接支付宝与微信支付，线上系统与线下系统对接，需保证资金安全。</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
+				<div class="share">
+					<h1 class="heading"> 演讲和讲义 </h1>
+					<div class="info">
+						<p class="sub-heading">公司分享：
+						<ul>
+							<li>
+								<a href="http://www.slideshare.net/ssuseraae7d2/introduction-enovy">Intro Envoy</a>
+							</li>
+							<li>
+								<a href="https://files.catbox.moe/x5b1t7.pdf">高性能Web服务</a>
+							</li>
+							<li>
+								<a href="https://pan.baidu.com/s/1M0jf7yATrwMWNZFPXIBZnQ">Awesome Java</a>
+							</li>
+							<li>
+								<a href="https://pan.baidu.com/s/1_VxflOEa3JUJkpy0hMQekA">Git工作流</a>
+							</li>
+						</ul>
+
+						</p>
+					</div>
+				</div>
+
+				<div class="opensource">
+					<h1 class="heading"> 开源相关 </h1>
+					<div class="info">
+						<ul>
+							<li>
+								<a href="https://github.com/apache/shardingsphere">shardingsphere - contributor</a>
+							</li>
+							<li>
+								<a href="https://github.com/apache/skywalking">skywalking - contributor</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="education">
+					<h1 class="heading"> 教育经验 </h1>
+					<div class="info">
+						<p class="sub-heading">软件工程 · 重庆邮电大学</p>
+						<p class="duration">2010.9 - 2014.6</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	</html>
+	<!-- partial -->
+
+</body>
+
+</html>
