@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-09-23T10:00:06.216Z</updated>
+  <updated>2020-09-28T15:35:08.784Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux 网络大全</title>
+    <link href="http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/"/>
+    <id>http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/</id>
+    <published>2020-09-25T02:09:07.000Z</published>
+    <updated>2020-09-28T15:35:08.784Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/28/JJUHE.png&quot; alt=&quot;JJUHE.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;不是很喜欢起这么大的一个名字，不过好像也没啥办法，这次带大家一起聊聊，&lt;code&gt;Linux Network&lt;/code&gt; 的全貌（从软件工程师的角度）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/categories/linux/network/"/>
+    
+    
+      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+  </entry>
   
   <entry>
     <title>APM 杂谈</title>
@@ -485,26 +510,6 @@
       <category term="server" scheme="http://blog.yanick.site/tags/server/"/>
     
       <category term="hot_restart" scheme="http://blog.yanick.site/tags/hot-restart/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring的优雅停机</title>
-    <link href="http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/"/>
-    <id>http://blog.yanick.site/2020/05/31/java/spring/gracefully-shutdown/</id>
-    <published>2020-05-31T14:49:48.000Z</published>
-    <updated>2020-06-17T06:53:20.651Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
-    
-      <category term="spring" scheme="http://blog.yanick.site/categories/java/spring/"/>
-    
     
   </entry>
   
