@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.yanick.site/plan/index.html</loc>
+    <loc>http://blog.yanick.site/2020/10/08/networking/http/http/</loc>
     
-    <lastmod>2020-09-30T07:25:07.760Z</lastmod>
+    <lastmod>2020-10-09T10:05:07.579Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/</loc>
+    
+    <lastmod>2020-10-09T10:05:07.579Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.yanick.site/column/index.html</loc>
     
-    <lastmod>2020-09-30T07:20:07.699Z</lastmod>
+    <lastmod>2020-10-09T10:05:07.579Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/plan/index.html</loc>
+    
+    <lastmod>2020-10-09T10:05:07.579Z</lastmod>
     
   </url>
   
@@ -303,14 +317,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2017/01/20/game/how-to-code-gobang-in-c/</loc>
+    <loc>http://blog.yanick.site/2017/02/07/docker/getting-started-with-docker/</loc>
     
     <lastmod>2020-06-29T03:35:53.871Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2017/02/07/docker/getting-started-with-docker/</loc>
+    <loc>http://blog.yanick.site/2017/01/20/game/how-to-code-gobang-in-c/</loc>
     
     <lastmod>2020-06-29T03:35:53.871Z</lastmod>
     
@@ -443,14 +457,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
+    <loc>http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/</loc>
+    <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -464,14 +478,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
+    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
+    <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -485,14 +499,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/03/06/rethink/microservice-trend-in-2019/</loc>
+    <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
+    <loc>http://blog.yanick.site/2019/03/06/rethink/microservice-trend-in-2019/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -555,14 +569,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/</loc>
     
     <lastmod>2020-06-17T06:53:20.655Z</lastmod>
     
@@ -618,14 +632,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
+    <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/</loc>
+    <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-1-bootstrap/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
@@ -674,14 +688,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/</loc>
+    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/</loc>
+    <loc>http://blog.yanick.site/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/</loc>
     
     <lastmod>2020-06-17T06:53:20.651Z</lastmod>
     

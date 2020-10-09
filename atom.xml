@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-09-30T05:40:07.343Z</updated>
+  <updated>2020-10-09T10:05:07.579Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HTTP 1 &amp; 2</title>
+    <link href="http://blog.yanick.site/2020/10/08/networking/http/http/"/>
+    <id>http://blog.yanick.site/2020/10/08/networking/http/http/</id>
+    <published>2020-10-08T08:04:12.000Z</published>
+    <updated>2020-10-09T10:05:07.579Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/08/t8J6C.png&quot; alt=&quot;t8J6C.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;HTTP协议（HyperText Transfer Protocol，超文本传输协议）是因特网上应用最为广泛的一种网络传输协议，我们今天就来深度剖析这个古老的协议。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="networking" scheme="http://blog.yanick.site/categories/networking/"/>
+    
+      <category term="http" scheme="http://blog.yanick.site/categories/networking/http/"/>
+    
+    
+      <category term="networking" scheme="http://blog.yanick.site/tags/networking/"/>
+    
+      <category term="http" scheme="http://blog.yanick.site/tags/http/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自己动手实现 TCP 协议 [WIP]</title>
+    <link href="http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/"/>
+    <id>http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/</id>
+    <published>2020-09-30T07:35:17.000Z</published>
+    <updated>2020-10-09T10:05:07.579Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/01/J4UJh.png&quot; alt=&quot;J4UJh.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;学不会 &lt;code&gt;TCP&lt;/code&gt; ? 没关系，让我们就自己造一个。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="network" scheme="http://blog.yanick.site/categories/network/"/>
+    
+      <category term="tcp" scheme="http://blog.yanick.site/categories/network/tcp/"/>
+    
+    
+      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+      <category term="tcp" scheme="http://blog.yanick.site/tags/tcp/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 网络大全</title>
@@ -35,9 +85,9 @@
       <category term="network" scheme="http://blog.yanick.site/categories/linux/network/"/>
     
     
-      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
-    
       <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
     
   </entry>
   
@@ -271,9 +321,9 @@
       <category term="interview" scheme="http://blog.yanick.site/categories/java/interview/"/>
     
     
-      <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
-    
       <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
+    
+      <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
     
       <category term="jvm" scheme="http://blog.yanick.site/tags/jvm/"/>
     
@@ -460,56 +510,6 @@
     
       <category term="闲聊" scheme="http://blog.yanick.site/categories/%E9%97%B2%E8%81%8A/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Java社区的新方向</title>
-    <link href="http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/"/>
-    <id>http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/</id>
-    <published>2020-06-20T13:29:48.000Z</published>
-    <updated>2020-06-22T08:36:58.645Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;code&gt;Java&lt;/code&gt; 作为一个不怎么年轻的语言，从 &lt;code&gt;JDK9&lt;/code&gt; 开始加速进化，颇有老树焕新芽的风采。语言上 &lt;code&gt;类型自动推动&lt;/code&gt; &lt;code&gt;No-Op Garbage Collector&lt;/code&gt; &lt;code&gt;JEP 321: HTTP Client&lt;/code&gt; 也算是非常的务实了。但是除了语言本身更重要的是社区建设，站在 2020 的时间节点上，我们看看未来社区的几个新方向。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
-    
-    
-      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>聊聊服务端热更新</title>
-    <link href="http://blog.yanick.site/2020/06/12/other/hot-restart/"/>
-    <id>http://blog.yanick.site/2020/06/12/other/hot-restart/</id>
-    <published>2020-06-12T14:00:48.000Z</published>
-    <updated>2020-06-17T06:53:20.655Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;随着Devops以及微服务的普及，应用上线周期变短，对于以前那种需要停机升级的忍受度也在不断的降低，话不多说，进入主题。&lt;/p&gt;
-&lt;h1 id=&quot;我们需要解决的&quot;&gt;&lt;a href=&quot;#我们需要解决的&quot; class=&quot;headerlink&quot; title=&quot;我们需要解决的&quot;&gt;&lt;/a&gt;我们需要解决的&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;https://s1.ax1x.com/2020/06/12/tXcilt.png&quot; alt=&quot;tXcilt.png&quot;&gt;&lt;br&gt;对于我们来说，我们所需要解决的是：当我们运行着一个服务进程的时候，我们期望这个进程能够突然之间变成新的(新的代码逻辑)，并且外部无感知。至少包含几点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;服务状态不丢失：比如监控状态，正在处理的数据状态&lt;/li&gt;
-&lt;li&gt;服务不中断：用户不能够感知到服务被中断&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;抱着这样的目的，我们来看看我们是怎么解决的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="server" scheme="http://blog.yanick.site/categories/server/"/>
-    
-      <category term="hot_restart" scheme="http://blog.yanick.site/categories/server/hot-restart/"/>
-    
-    
-      <category term="server" scheme="http://blog.yanick.site/tags/server/"/>
-    
-      <category term="hot_restart" scheme="http://blog.yanick.site/tags/hot-restart/"/>
     
   </entry>
   
