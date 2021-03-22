@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+var data = {
+    "name": "computer science",
+    "children": [
+        {
+            "name": "operating system",
+            "children": [
+                {
+                    "name": "操作系统（哈工大李治军老师）",
+                    "value": "https://www.bilibili.com/video/av51437944/"
+                },
+                {
+                    "name": "DataUtil",
+                    "value": 3322
+                }
+            ]
+        }
+    ]
+};
+
+var option = {
+    tooltip: {
+        trigger: 'item',
+        triggerOn: 'mousemove'
+    },
+    series:[
+        {
+            type: 'tree',
+            id: 0,
+            name: 'tree1',
+            data: [data],
+
+            top: '10%',
+            left: '8%',
+            bottom: '22%',
+            right: '20%',
+
+            symbolSize: 7,
+
+            edgeShape: 'polyline',
+            edgeForkPosition: '63%',
+            initialTreeDepth: 3,
+
+            lineStyle: {
+                width: 2
+            },
+
+            label: {
+                backgroundColor: '#fff',
+                position: 'left',
+                verticalAlign: 'middle',
+                align: 'right'
+            },
+
+            leaves: {
+                label: {
+                    position: 'right',
+                    verticalAlign: 'middle',
+                    align: 'left'
+                }
+            },
+
+            expandAndCollapse: true,
+            animationDuration: 550,
+            animationDurationUpdate: 750
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

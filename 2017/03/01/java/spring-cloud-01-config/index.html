@@ -13,22 +13,22 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="为什么要写这一个系列的博客，主要是记录在自己学习Spring cloud中思考，倘若能够给大家一点点帮助，就更好了，写这个系列的话，抱着少即是多的心态，我们每一章讲的不会特别多，尽可能的每一章都比知识萃取的深一点。  PRE本文写于 2017-03-01， 代码针对于 Spring Cloud Camden.SR5 版本。">
+  <meta name="description" content="为什么要写这一个系列的博客，主要是记录在自己学习Spring cloud中思考，倘若能够给大家一点点帮助，就更好了，写这个系列的话，抱着少即是多的心态，我们每一章讲的不会特别多，尽可能的每一章都比知识萃取的深一点。  ¶PRE 本文写于 2017-03-01， 代码针对于 Spring Cloud Camden.SR5 版本。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring cloud 配置中心服务">
 <meta property="og:url" content="http://blog.yanick.site/2017/03/01/java/spring-cloud-01-config/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="为什么要写这一个系列的博客，主要是记录在自己学习Spring cloud中思考，倘若能够给大家一点点帮助，就更好了，写这个系列的话，抱着少即是多的心态，我们每一章讲的不会特别多，尽可能的每一章都比知识萃取的深一点。  PRE本文写于 2017-03-01， 代码针对于 Spring Cloud Camden.SR5 版本。">
+<meta property="og:description" content="为什么要写这一个系列的博客，主要是记录在自己学习Spring cloud中思考，倘若能够给大家一点点帮助，就更好了，写这个系列的话，抱着少即是多的心态，我们每一章讲的不会特别多，尽可能的每一章都比知识萃取的深一点。  ¶PRE 本文写于 2017-03-01， 代码针对于 Spring Cloud Camden.SR5 版本。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-03-01T07:27:07.000Z">
-<meta property="article:modified_time" content="2020-06-29T03:35:53.871Z">
+<meta property="article:modified_time" content="2021-03-22T05:25:36.509Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Spring Cloud">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-推荐">
 
-    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
 
   </li>
         <li class="menu-item menu-item-地图">
@@ -162,11 +162,6 @@
         <li class="menu-item menu-item-百科">
 
     <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
-
-  </li>
-        <li class="menu-item menu-item-叽喳">
-
-    <a href="/noise/index.html" rel="section"><i class="fa fa-fw fa-comment"></i>叽喳</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -252,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-29 11:35:53" itemprop="dateModified" datetime="2020-06-29T11:35:53+08:00">2020-06-29</time>
+                <time title="修改时间：2021-03-22 13:25:36" itemprop="dateModified" datetime="2021-03-22T13:25:36+08:00">2021-03-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -288,24 +283,27 @@
       
         <p>为什么要写这一个系列的博客，主要是记录在自己学习Spring cloud中思考，倘若能够给大家一点点帮助，就更好了，写这个系列的话，抱着少即是多的心态，我们每一章讲的不会特别多，尽可能的每一章都比知识萃取的深一点。</p>
 <hr>
-<h4 id="PRE"><a href="#PRE" class="headerlink" title="PRE"></a>PRE</h4><p>本文写于 2017-03-01， 代码针对于 <strong>Spring Cloud Camden.SR5</strong> 版本。</p>
+<h4 id="PRE"><a class="header-anchor" href="#PRE">¶</a>PRE</h4>
+<p>本文写于 2017-03-01， 代码针对于 <strong>Spring Cloud Camden.SR5</strong> 版本。</p>
 <a id="more"></a>
-
-<h2 id="Spring-Cloud-Config"><a href="#Spring-Cloud-Config" class="headerlink" title="Spring Cloud Config"></a>Spring Cloud Config</h2><blockquote>
+<h2 id="Spring-Cloud-Config"><a class="header-anchor" href="#Spring-Cloud-Config">¶</a>Spring Cloud Config</h2>
+<blockquote>
 <p>Spring Cloud Config provides server and client-side support for externalized configuration in a distributed system.</p>
 </blockquote>
 <p>如官网所言，Spring cloud config 为分布式系统提供 CS架构的配置服务。按照这么个说法，其实我们就明白了，Spring Cloud Config 必然分为 Client 和 Server。下面我们就分别初始化一个Demo项目进行进一步的学习。</p>
-<h2 id="Config-Server"><a href="#Config-Server" class="headerlink" title="Config Server"></a>Config Server</h2><ul>
+<h2 id="Config-Server"><a class="header-anchor" href="#Config-Server">¶</a>Config Server</h2>
+<ul>
 <li><a href="https://github.com/spring-cloud/spring-cloud-config" target="_blank" rel="noopener">Spring官网Demo</a></li>
 <li><a href="https://github.com/yannxia-self/spring-cloud-sample/tree/master/spring-cloud-config-server-sample" target="_blank" rel="noopener">作者编写的Demo</a></li>
 <li><a href="http://www.baeldung.com/spring-cloud-configuration" target="_blank" rel="noopener">Quick Intro to Spring Cloud Configuration</a></li>
 </ul>
 <p>具体的步骤这里就不说了，可以参考 Quick Intro to Spring Cloud Configuration 这个文章写的很详细，关于几点，接下来会细聊一下。</p>
-<h3 id="Config-Server如何选择配置文件"><a href="#Config-Server如何选择配置文件" class="headerlink" title="Config Server如何选择配置文件"></a>Config Server如何选择配置文件</h3><blockquote>
+<h3 id="Config-Server如何选择配置文件"><a class="header-anchor" href="#Config-Server如何选择配置文件">¶</a>Config Server如何选择配置文件</h3>
+<blockquote>
 <p>Where do you want to store the configuration data for the Config Server? The strategy that governs this behaviour is the EnvironmentRepository</p>
 </blockquote>
 <ul>
-<li>{application} maps to “spring.application.name” on the client side;</li>
+<li>{application} maps to “<a href="http://spring.application.name" target="_blank" rel="noopener">spring.application.name</a>” on the client side;</li>
 <li>{profile} maps to “spring.profiles.active” on the client (comma separated list); and</li>
 <li>{label} which is a server side feature labelling a “versioned” set of config files.</li>
 </ul>
@@ -314,30 +312,40 @@
 <p>我们可以看出来，根据application+ profile+ label 就可以确定一个唯一的环境变量对象。正如上文所言application是 <em>客户端</em> 的spring.application.name的属性，profile 是 <em>客户端</em> 的spring.profiles.active属性，而 label 是 <em>服务端</em> 的版本概念。</p>
 <p>在服务端的代码中，我们发现我们是配置了我们所有的配置所在的仓库地址的，比如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.cloud.config.server.git.uri: file:&#x2F;&#x2F;&#x2F;$&#123;user.home&#125;&#x2F;config-repo</span><br></pre></td></tr></table></figure>
-<p>在此处的含义我们存放配置的路径是 ~/config-repo ，那具体对应的文件名是什么？<br>很神奇的是在文档中我并没有找到说明 (针对编写时的文档)，而从网上得知，所对应的文件是：<br>application+profile+.yml 等<br>倘若 application = foo， profile = dev， 那配置文件应该是 foo-dev.yml。<br>这段逻辑在Spring Cloud Config的文档中并无说明，这段逻辑在固有的Spring 文档有说明可以查看<br> <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-profile-specific-properties" target="_blank" rel="noopener">24.4 Profile-specific properties</a> 在这段中说明，Spring的逻辑是这样的。</p>
+<p>在此处的含义我们存放配置的路径是 ~/config-repo ，那具体对应的文件名是什么？<br>
+很神奇的是在文档中我并没有找到说明 (针对编写时的文档)，而从网上得知，所对应的文件是：<br>
+application+profile+.yml 等<br>
+倘若 application = foo， profile = dev， 那配置文件应该是 foo-dev.yml。<br>
+这段逻辑在Spring Cloud Config的文档中并无说明，这段逻辑在固有的Spring 文档有说明可以查看<br>
+<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-profile-specific-properties" target="_blank" rel="noopener">24.4 Profile-specific properties</a> 在这段中说明，Spring的逻辑是这样的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Environment <span class="title">findOne</span><span class="params">(String config, String profile, String label)</span> </span>&#123;</span><br><span class="line">	SpringApplicationBuilder builder = <span class="keyword">new</span> SpringApplicationBuilder(</span><br><span class="line">			PropertyPlaceholderAutoConfiguration<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">	ConfigurableEnvironment environment = getEnvironment(profile);</span><br><span class="line">	builder.environment(environment);</span><br><span class="line">	builder.web(<span class="keyword">false</span>).bannerMode(Mode.OFF);</span><br><span class="line">	<span class="keyword">if</span> (!logger.isDebugEnabled()) &#123;</span><br><span class="line">		<span class="comment">// Make the mini-application startup less verbose</span></span><br><span class="line">		builder.logStartupInfo(<span class="keyword">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	String[] args = getArgs(config, profile, label);</span><br><span class="line">	<span class="comment">// Explicitly set the listeners (to exclude logging listener which would change</span></span><br><span class="line">	<span class="comment">// log levels in the caller)</span></span><br><span class="line">	builder.application()</span><br><span class="line">			.setListeners(Arrays.asList(<span class="keyword">new</span> ConfigFileApplicationListener()));</span><br><span class="line">	ConfigurableApplicationContext context = builder.run(args);  ①</span><br><span class="line">	environment.getPropertySources().remove(<span class="string">"profiles"</span>);</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> clean(<span class="keyword">new</span> PassthruEnvironmentRepository(environment).findOne(config,</span><br><span class="line">				profile, label));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">finally</span> &#123;</span><br><span class="line">		context.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 NativeEnvironmentRepository 中，我们发现这样的代码，我们在①处看见，其实Spring是在Config Server这段将我们传入的参数组装成一个普通启动的参数，去尝试自己去运行一个ApplicationContext，这样就是解释清楚了为什么这里的逻辑是SpringContext中的，所以我们发现一个简单的道理，其实Spring不仅仅是直接吧文件返回这么简单，自己是尝试使用 Spring固有的逻辑在服务器端就将配置解析成 Environment 这个类的。</p>
-<p>那再深层次为何是这个文件，经过不懈的努力，在 ConfigFileApplicationListener 中发现。<br>org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#load(java.lang.String, java.lang.String, org.springframework.boot.context.config.ConfigFileApplicationListener.Profile) 方法</p>
+<p>那再深层次为何是这个文件，经过不懈的努力，在 ConfigFileApplicationListener 中发现。<br>
+org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#load(java.lang.String, java.lang.String, org.springframework.boot.context.config.ConfigFileApplicationListener.Profile) 方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">load</span><span class="params">(String location, String name, Profile profile)</span></span></span><br><span class="line"><span class="function">				<span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	String group = <span class="string">"profile="</span> + (profile == <span class="keyword">null</span> ? <span class="string">""</span> : profile);</span><br><span class="line">	<span class="keyword">if</span> (!StringUtils.hasText(name)) &#123;</span><br><span class="line">		<span class="comment">// Try to load directly from the location</span></span><br><span class="line">		loadIntoGroup(group, location, profile);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="comment">// Search for a file with the given name</span></span><br><span class="line">	<span class="keyword">for</span> (String ext : <span class="keyword">this</span>.propertiesLoader.getAllFileExtensions()) &#123; ①</span><br><span class="line">		<span class="keyword">if</span> (profile != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">// Try the profile-specific file</span></span><br><span class="line">			loadIntoGroup(group, location + name + <span class="string">"-"</span> + profile + <span class="string">"."</span> + ext,<span class="keyword">null</span>);</span><br><span class="line">			<span class="keyword">for</span> (Profile processedProfile : <span class="keyword">this</span>.processedProfiles) &#123;</span><br><span class="line">				<span class="keyword">if</span> (processedProfile != <span class="keyword">null</span>) &#123;</span><br><span class="line">					loadIntoGroup(group, location + name + <span class="string">"-"</span> + processedProfile + <span class="string">"."</span> + ext, profile); ②</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">// Sometimes people put "spring.profiles: dev" in</span></span><br><span class="line">				<span class="comment">// application-dev.yml (gh-340). Arguably we should try and error</span></span><br><span class="line">				<span class="comment">// out on that, but we can be kind and load it anyway.</span></span><br><span class="line">				loadIntoGroup(group, location + name + <span class="string">"-"</span> + profile + <span class="string">"."</span> + ext, profile);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">// Also try the profile-specific section (if any) of the normal file</span></span><br><span class="line">				loadIntoGroup(group, location + name + <span class="string">"."</span> + ext, profile);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以从 ① 发现Spring所支持的后缀名：”properties”,”xml”,”yml”,”yaml” ，而在②处我们发现就是按照 - 逻辑给拼接起来的。</p>
-<h3 id="Config-Server-是怎么样的一种服务呢？"><a href="#Config-Server-是怎么样的一种服务呢？" class="headerlink" title="Config Server 是怎么样的一种服务呢？"></a>Config Server 是怎么样的一种服务呢？</h3><ul>
+<p>我们可以从 ① 发现Spring所支持的后缀名：“properties”,“xml”,“yml”,“yaml” ，而在②处我们发现就是按照 - 逻辑给拼接起来的。</p>
+<h3 id="Config-Server-是怎么样的一种服务呢？"><a class="header-anchor" href="#Config-Server-是怎么样的一种服务呢？">¶</a>Config Server 是怎么样的一种服务呢？</h3>
+<ul>
 <li>org.springframework.cloud.config.server.environment.EnvironmentController</li>
-<li>org.springframework.cloud.config.server.resource.ResourceController<br>这两个类出卖了整个项目，每次看Spring源码都能发现一些比较高级的用法。<br>比如：</li>
+<li>org.springframework.cloud.config.server.resource.ResourceController<br>
+这两个类出卖了整个项目，每次看Spring源码都能发现一些比较高级的用法。<br>
+比如：</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/&#123;name&#125;-&#123;profiles&#125;.properties"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;String&gt; <span class="title">properties</span><span class="params">(@PathVariable String name,</span></span></span><br><span class="line"><span class="function"><span class="params">		@PathVariable String profiles,</span></span></span><br><span class="line"><span class="function"><span class="params">		@RequestParam(defaultValue = <span class="string">"true"</span>)</span> <span class="keyword">boolean</span> resolvePlaceholders)</span></span><br><span class="line"><span class="function">		<span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> labelledProperties(name, profiles, <span class="keyword">null</span>, resolvePlaceholders);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>原来可以在一个 ／ 后面直接使用2个@PathVariable。</p>
 <p>看到这里也就明白了，整个Config Server其实是一个Web服务，基于HTTP的方式。从这个方式：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/&#123;name&#125;/&#123;profiles&#125;/&#123;label:.*&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Environment <span class="title">labelled</span><span class="params">(@PathVariable String name, @PathVariable String profiles,</span></span></span><br><span class="line"><span class="function"><span class="params">		@PathVariable String label)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (label != <span class="keyword">null</span> &amp;&amp; label.contains(<span class="string">"(_)"</span>)) &#123;</span><br><span class="line">		<span class="comment">// "(_)" is uncommon in a git branch name, but "/" cannot be matched</span></span><br><span class="line">		<span class="comment">// by Spring MVC</span></span><br><span class="line">		label = label.replace(<span class="string">"(_)"</span>, <span class="string">"/"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	Environment environment = <span class="keyword">this</span>.repository.findOne(name, profiles, label); ①</span><br><span class="line">	<span class="keyword">return</span> environment;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们从①得知，最核心的就是Environment，正如我们上一点所说。</p>
 <hr>
 <p>Config Server的内容并不多，从源码的包中我们就发现，更多的功能就有待后续的增加吧，我们接下来看看 Config Client</p>
-<h2 id="Config-Clinet"><a href="#Config-Clinet" class="headerlink" title="Config Clinet"></a>Config Clinet</h2><h3 id="Client-如何查询-Server"><a href="#Client-如何查询-Server" class="headerlink" title="Client 如何查询 Server"></a>Client 如何查询 Server</h3><p>我们把眼光转型到 org.springframework.cloud.config.client.ConfigServicePropertySourceLocator</p>
+<h2 id="Config-Clinet"><a class="header-anchor" href="#Config-Clinet">¶</a>Config Clinet</h2>
+<h3 id="Client-如何查询-Server"><a class="header-anchor" href="#Client-如何查询-Server">¶</a>Client 如何查询 Server</h3>
+<p>我们把眼光转型到 org.springframework.cloud.config.client.ConfigServicePropertySourceLocator</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> org.springframework.core.env.PropertySource&lt;?&gt; locate(</span><br><span class="line">			org.springframework.core.env.Environment environment) &#123;</span><br><span class="line">	ConfigClientProperties properties = <span class="keyword">this</span>.defaultProperties.override(environment);</span><br><span class="line">	CompositePropertySource composite = <span class="keyword">new</span> CompositePropertySource(<span class="string">"configService"</span>);</span><br><span class="line">	RestTemplate restTemplate = <span class="keyword">this</span>.restTemplate == <span class="keyword">null</span> ? getSecureRestTemplate(properties): <span class="keyword">this</span>.restTemplate;</span><br><span class="line">	Exception error = <span class="keyword">null</span>;</span><br><span class="line">	String errorBody = <span class="keyword">null</span>;</span><br><span class="line">	logger.info(<span class="string">"Fetching config from server at: "</span> + properties.getRawUri());</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		String[] labels = <span class="keyword">new</span> String[] &#123; <span class="string">""</span> &#125;;</span><br><span class="line">		<span class="keyword">if</span> (StringUtils.hasText(properties.getLabel())) &#123;</span><br><span class="line">			labels = StringUtils.commaDelimitedListToStringArray(properties.getLabel());</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		String state = ConfigClientStateHolder.getState();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Try all the labels until one works</span></span><br><span class="line">		<span class="keyword">for</span> (String label : labels) &#123;</span><br><span class="line">			Environment result = getRemoteEnvironment(restTemplate,properties, label.trim(), state);  ①</span><br><span class="line">			<span class="keyword">if</span> (result != <span class="keyword">null</span>) &#123;</span><br><span class="line">				logger.info(String.format(<span class="string">"Located environment: name=%s, profiles=%s, label=%s, version=%s, state=%s"</span>,</span><br><span class="line">						result.getName(),</span><br><span class="line">						result.getProfiles() == <span class="keyword">null</span> ? <span class="string">""</span> : Arrays.asList(result.getProfiles()),</span><br><span class="line">						result.getLabel(), result.getVersion(), result.getState()));</span><br><span class="line">				<span class="keyword">if</span> (result.getPropertySources() != <span class="keyword">null</span>) &#123; <span class="comment">// result.getPropertySources() can be null if using xml</span></span><br><span class="line">					<span class="keyword">for</span> (PropertySource source : result.getPropertySources()) &#123;</span><br><span class="line">						<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">						Map&lt;String, Object&gt; map = (Map&lt;String, Object&gt;) source</span><br><span class="line">								.getSource();</span><br><span class="line">						composite.addPropertySource(<span class="keyword">new</span> MapPropertySource(source</span><br><span class="line">								.getName(), map));</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (StringUtils.hasText(result.getState()) || StringUtils.hasText(result.getVersion())) &#123;</span><br><span class="line">					HashMap&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">					putValue(map, <span class="string">"config.client.state"</span>, result.getState());</span><br><span class="line">					putValue(map, <span class="string">"config.client.version"</span>, result.getVersion());</span><br><span class="line">					composite.addFirstPropertySource(<span class="keyword">new</span> MapPropertySource(<span class="string">"configClient"</span>, map));</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> composite;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	以下异常处理略…………</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Environment <span class="title">getRemoteEnvironment</span><span class="params">(RestTemplate restTemplate, ConfigClientProperties properties,</span></span></span><br><span class="line"><span class="function"><span class="params">											 String label, String state)</span> </span>&#123;</span><br><span class="line">	String path = <span class="string">"/&#123;name&#125;/&#123;profile&#125;"</span>;   ②</span><br><span class="line">	String name = properties.getName();</span><br><span class="line">	String profile = properties.getProfile();</span><br><span class="line">	String token = properties.getToken();</span><br><span class="line">	String uri = properties.getRawUri();</span><br><span class="line"></span><br><span class="line">	Object[] args = <span class="keyword">new</span> String[] &#123; name, profile &#125;;</span><br><span class="line">	<span class="keyword">if</span> (StringUtils.hasText(label)) &#123;</span><br><span class="line">		args = <span class="keyword">new</span> String[] &#123; name, profile, label &#125;;</span><br><span class="line">		path = path + <span class="string">"/&#123;label&#125;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	ResponseEntity&lt;Environment&gt; response = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">		<span class="keyword">if</span> (StringUtils.hasText(token)) &#123;</span><br><span class="line">			headers.add(TOKEN_HEADER, token);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (StringUtils.hasText(state)) &#123; <span class="comment">//<span class="doctag">TODO:</span> opt in to sending state?</span></span><br><span class="line">				headers.add(STATE_HEADER, state);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">final</span> HttpEntity&lt;Void&gt; entity = <span class="keyword">new</span> HttpEntity&lt;&gt;((Void) <span class="keyword">null</span>, headers);</span><br><span class="line">		response = restTemplate.exchange(uri + path, HttpMethod.GET,</span><br><span class="line">					entity, Environment<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>; ③</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">catch</span> (HttpClientErrorException e) &#123;</span><br><span class="line">		<span class="keyword">if</span> (e.getStatusCode() != HttpStatus.NOT_FOUND) &#123;</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (response == <span class="keyword">null</span> || response.getStatusCode() != HttpStatus.OK) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	Environment result = response.getBody();</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>从 ① 处我们看出来这最后是一个Http的请求。 从 ② 处，我们直接看出最终访问的 HTTP的地址就是 “/{name}/{profile}”， 从 ③ 处我们又发现最后得到的就是  Environment.class 这个类型，和我们在Server上看见的代码是一致，这样我们的整个逻辑就串联起来了。</p>
 <hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Spring Cloud Config 在编写此博客的时候还是一个很简单的服务，仅仅是提供一个 Environment.class 的CS架构的服务，在Server也没实现分布式等等，现在看来还说一个比较基础的服务。</p>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>Spring Cloud Config 在编写此博客的时候还是一个很简单的服务，仅仅是提供一个 Environment.class 的CS架构的服务，在Server也没实现分布式等等，现在看来还说一个比较基础的服务。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -351,7 +359,7 @@
       <div class="popular-posts-title"><a href="/2018/03/07/java/java-tips/" rel="bookmark">java 小技巧 (1)</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2017/06/07/java/lombok-project/" rel="bookmark">Project Lombok</a></div>
+      <div class="popular-posts-title"><a href="/2016/12/07/other/about-chameleon/" rel="bookmark">chameleon项目安利</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2016/12/13/java/spring-convert-01/" rel="bookmark">Spring-convert-(基本结构)</a></div>
@@ -360,7 +368,7 @@
       <div class="popular-posts-title"><a href="/2016/12/27/java/spring-convert-02/" rel="bookmark">Spring-convert-(具体调用)</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2016/12/07/other/about-chameleon/" rel="bookmark">chameleon项目安利</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/07/java/lombok-project/" rel="bookmark">Project Lombok</a></div>
     </li>
   </ul>
 
@@ -392,6 +400,11 @@
           </div>
 
         
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
 
 
         
@@ -418,10 +431,18 @@
           
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
         </ul>
         <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
             <div class="tab-pane livere" id="comment-livere">
               
   <div class="comments">
@@ -498,19 +519,19 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">103</span>
+          <a href="/archives/">
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -618,20 +639,23 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
 
 <div class="copyright">
   
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-yanick"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
-<p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
-
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
+<!--- 
+<p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+--->
 
         
 <div class="busuanzi-count">
@@ -779,9 +803,29 @@
 
 
 
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
-<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
 <script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
@@ -813,6 +857,20 @@
   
 
   
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 <script>
   var disqus_config = function() {

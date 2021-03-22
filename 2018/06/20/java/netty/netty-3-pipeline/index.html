@@ -13,25 +13,25 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="ChannelPipelineChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示在 ChannelPipeline.html 有非常详细的文档。每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandle">
+  <meta name="description" content="¶ChannelPipeline ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示  在 ChannelPipeline.html 有非常详细的文档。 每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Netty源码分析-(3)-ChannelPipeline">
 <meta property="og:url" content="http://blog.yanick.site/2018/06/20/java/netty/netty-3-pipeline/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="ChannelPipelineChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示在 ChannelPipeline.html 有非常详细的文档。每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandle">
+<meta property="og:description" content="¶ChannelPipeline ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示  在 ChannelPipeline.html 有非常详细的文档。 每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHa">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzGcXn.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzJzV0.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzJzV0.png">
 <meta property="article:published_time" content="2018-06-20T04:00:48.000Z">
-<meta property="article:modified_time" content="2020-06-17T06:53:20.651Z">
+<meta property="article:modified_time" content="2021-03-22T05:25:36.509Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s1.ax1x.com/2018/06/19/CzGcXn.png">
@@ -148,7 +148,7 @@
   </li>
         <li class="menu-item menu-item-推荐">
 
-    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
 
   </li>
         <li class="menu-item menu-item-地图">
@@ -164,11 +164,6 @@
         <li class="menu-item menu-item-百科">
 
     <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
-
-  </li>
-        <li class="menu-item menu-item-叽喳">
-
-    <a href="/noise/index.html" rel="section"><i class="fa fa-fw fa-comment"></i>叽喳</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -254,7 +249,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 14:53:20" itemprop="dateModified" datetime="2020-06-17T14:53:20+08:00">2020-06-17</time>
+                <time title="修改时间：2021-03-22 13:25:36" itemprop="dateModified" datetime="2021-03-22T13:25:36+08:00">2021-03-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -301,66 +296,84 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-
-<h2 id="ChannelPipeline"><a href="#ChannelPipeline" class="headerlink" title="ChannelPipeline"></a>ChannelPipeline</h2><p>ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示<br><img src="https://s1.ax1x.com/2018/06/19/CzGcXn.png" alt="ChannelPipeline"><br>在 <a href="https://netty.io/4.0/api/io/netty/channel/ChannelPipeline.html" target="_blank" rel="noopener">ChannelPipeline.html</a> 有非常详细的文档。<br>每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandlerContext链表。</p>
+<h2 id="ChannelPipeline"><a class="header-anchor" href="#ChannelPipeline">¶</a>ChannelPipeline</h2>
+<p>ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示<br>
+<img src="https://s1.ax1x.com/2018/06/19/CzGcXn.png" alt="ChannelPipeline"><br>
+在 <a href="https://netty.io/4.0/api/io/netty/channel/ChannelPipeline.html" target="_blank" rel="noopener">ChannelPipeline.html</a> 有非常详细的文档。<br>
+每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandlerContext链表。</p>
 <a id="more"></a>
-
-<h2 id="DefaultChannelPipeline"><a href="#DefaultChannelPipeline" class="headerlink" title="DefaultChannelPipeline"></a>DefaultChannelPipeline</h2><p><code>DefaultChannelPipeline</code> 是Netty的实现类，我们看看他的内部实现。</p>
+<h2 id="DefaultChannelPipeline"><a class="header-anchor" href="#DefaultChannelPipeline">¶</a>DefaultChannelPipeline</h2>
+<p><code>DefaultChannelPipeline</code> 是Netty的实现类，我们看看他的内部实现。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultChannelPipeline</span> <span class="keyword">implements</span> <span class="title">ChannelPipeline</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">final</span> AbstractChannelHandlerContext head; ➊</span><br><span class="line">    <span class="keyword">final</span> AbstractChannelHandlerContext tail;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Channel channel; ➋</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ChannelFuture succeededFuture; ➌</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> VoidChannelPromise voidPromise;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;EventExecutorGroup, EventExecutor&gt; childExecutors;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> MessageSizeEstimator.Handle estimatorHandle;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> firstRegistration = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 ➋ 处我们看到了支撑业务的的 <code>Channel</code>, ➌ 是一个成功的回调函数。而比较有趣的就是这个 head 和 tail了，我们都知道Pipeline就像一个管道一样将流程贯通起来，那Head和Tail看起来就是头和尾的意思。我们看看这2个变量的赋值。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="title">DefaultChannelPipeline</span><span class="params">(Channel channel)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.channel = ObjectUtil.checkNotNull(channel, <span class="string">"channel"</span>);</span><br><span class="line">    succeededFuture = <span class="keyword">new</span> SucceededChannelFuture(channel, <span class="keyword">null</span>);</span><br><span class="line">    voidPromise =  <span class="keyword">new</span> VoidChannelPromise(channel, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    tail = <span class="keyword">new</span> TailContext(<span class="keyword">this</span>);</span><br><span class="line">    head = <span class="keyword">new</span> HeadContext(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    head.next = tail;</span><br><span class="line">    tail.prev = head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们在这里看到tail 和 head 分别是Netty自己实现的类，我们来看看类声明。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">TailContext</span> <span class="keyword">extends</span> <span class="title">AbstractChannelHandlerContext</span> <span class="keyword">implements</span> <span class="title">ChannelInboundHandler</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">final</span> <span class="title">class</span> <span class="title">HeadContext</span> <span class="keyword">extends</span> <span class="title">AbstractChannelHandlerContext</span></span></span><br><span class="line"><span class="class">            <span class="keyword">implements</span> <span class="title">ChannelOutboundHandler</span>, <span class="title">ChannelInboundHandler</span></span></span><br></pre></td></tr></table></figure>
 <p>Wow，很精妙的实现，分别是一个 ChannelInboundHandler 和一个 ChannelOutboundHandler。</p>
-<h2 id="Pipeline-增加-Handler"><a href="#Pipeline-增加-Handler" class="headerlink" title="Pipeline 增加 Handler"></a>Pipeline 增加 Handler</h2><p>我们知道我们实现具体的业务逻辑是在 <code>Handler</code> 中，我们在Demo中有一个声明</p>
+<h2 id="Pipeline-增加-Handler"><a class="header-anchor" href="#Pipeline-增加-Handler">¶</a>Pipeline 增加 Handler</h2>
+<p>我们知道我们实现具体的业务逻辑是在 <code>Handler</code> 中，我们在Demo中有一个声明</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ch.pipeline().addLast(<span class="keyword">new</span> DiscardHandler());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>我们在这里添加一个 <code>DiscardHandler</code>,我们探索下这个 <code>addLast()</code> 行为究竟做了什么。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> ChannelPipeline <span class="title">addLast</span><span class="params">(EventExecutorGroup group, String name, ChannelHandler handler)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> AbstractChannelHandlerContext newCtx;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        newCtx = newContext(group, filterName(name, handler), handler);</span><br><span class="line">        addLast0(newCtx); ➊ </span><br><span class="line">    &#125;</span><br><span class="line">    callHandlerAdded0(newCtx);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 ➊ 处我们发现最为重要的增加逻辑就是在 <code>addLast0()</code> 中</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addLast0</span><span class="params">(AbstractChannelHandlerContext newCtx)</span> </span>&#123;</span><br><span class="line">    AbstractChannelHandlerContext prev = tail.prev;</span><br><span class="line">    newCtx.prev = prev;</span><br><span class="line">    newCtx.next = tail;</span><br><span class="line">    prev.next = newCtx;</span><br><span class="line">    tail.prev = newCtx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里是一个很标准的链表操作，看到这里我们就可以大致才出来<code>addXXX()</code>一系列的行为都是类似，用一张图来表示下<br><img src="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"></p>
+<p>这里是一个很标准的链表操作，看到这里我们就可以大致才出来<code>addXXX()</code>一系列的行为都是类似，用一张图来表示下<br>
+<img src="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"></p>
 <p>我们一直操作的都是在 <code>Head</code> 和 <code>Tail</code> 之间，我们可以任意的在之间增加或者删除具体的 <code>Handler</code></p>
-<h2 id="Pipeline的调用顺序"><a href="#Pipeline的调用顺序" class="headerlink" title="Pipeline的调用顺序"></a>Pipeline的调用顺序</h2><p>万物的开始我们知道从接受数据开始在<br><code>io.netty.channel.nio.AbstractNioByteChannel.NioByteUnsafe#read</code> 中有一行</p>
+<h2 id="Pipeline的调用顺序"><a class="header-anchor" href="#Pipeline的调用顺序">¶</a>Pipeline的调用顺序</h2>
+<p>万物的开始我们知道从接受数据开始在<br>
+<code>io.netty.channel.nio.AbstractNioByteChannel.NioByteUnsafe#read</code> 中有一行</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">allocHandle.incMessagesRead(<span class="number">1</span>);</span><br><span class="line">readPending = <span class="keyword">false</span>;</span><br><span class="line">pipeline.fireChannelRead(byteBuf); ➊</span><br><span class="line">byteBuf = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-<p>➊ 就是万物的开始，从此开始进入Pipeline，然我又在<br><code>io.netty.channel.DefaultChannelPipeline#fireChannelRead</code>中获得</p>
+<p>➊ 就是万物的开始，从此开始进入Pipeline，然我又在<br>
+<code>io.netty.channel.DefaultChannelPipeline#fireChannelRead</code>中获得</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> ChannelPipeline <span class="title">fireChannelRead</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    AbstractChannelHandlerContext.invokeChannelRead(head, msg); ➋</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>➋ 处我们可以看到我们第一次阅读数据是从HeadContext开始的<br>在 <code>io.netty.channel.AbstractChannelHandlerContext#fireChannelRead</code></p>
+<p>➋ 处我们可以看到我们第一次阅读数据是从HeadContext开始的<br>
+在 <code>io.netty.channel.AbstractChannelHandlerContext#fireChannelRead</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ChannelHandlerContext <span class="title">fireChannelRead</span><span class="params">(<span class="keyword">final</span> Object msg)</span> </span>&#123;</span><br><span class="line">    invokeChannelRead(findContextInbound(), msg); ➌</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>➌ 处查找InBoundHandler，这个函数还蛮有意思</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> AbstractChannelHandlerContext <span class="title">findContextInbound</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    AbstractChannelHandlerContext ctx = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        ctx = ctx.next;</span><br><span class="line">    &#125; <span class="keyword">while</span> (!ctx.inbound);</span><br><span class="line">    <span class="keyword">return</span> ctx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>是一个标准的循环，我们一直去找到下一个Inbound的Handler去处理。</p>
-<h2 id="小结1"><a href="#小结1" class="headerlink" title="小结1"></a>小结1</h2><p>在Head的调用中有点特殊有点复杂，我们使用时序图来理解下。</p>
+<h2 id="小结1"><a class="header-anchor" href="#小结1">¶</a>小结1</h2>
+<p>在Head的调用中有点特殊有点复杂，我们使用时序图来理解下。</p>
 <div style="width:100%; overflow-y:scroll;" id="diagram"></div>
 <script>
-    var data =
-    ['Title: Pipeline的Head处理流程',
-     'NioByteUnsafe->DefaultChannelPipeline: 1. fireChannelRead(byteBuf)',
-     'DefaultChannelPipeline->DefaultChannelPipeline: 2.invokeChannelRead(head, msg)',
-     'DefaultChannelPipeline->DefaultChannelPipeline: 3. ((ChannelInboundHandler) handler()).channelRead(this, msg)',
+	var data =
+	['Title: Pipeline的Head处理流程',
+	 'NioByteUnsafe->DefaultChannelPipeline: 1. fireChannelRead(byteBuf)',
+	 'DefaultChannelPipeline->DefaultChannelPipeline: 2.invokeChannelRead(head, msg)',
+	 'DefaultChannelPipeline->DefaultChannelPipeline: 3. ((ChannelInboundHandler) handler()).channelRead(this, msg)',
      'DefaultChannelPipeline->HeadContext: 4. fireChannelRead(msg)',
      'HeadContext->ChannelHandlerContext: 5.invokeChannelRead(findContextInbound(), msg)'
     ].join('\n');
-      var diagram = Diagram.parse(data);
-      diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
+  	var diagram = Diagram.parse(data);
+  	diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
 </script>
-
-<p>通过 <strong>findContextInbound()</strong> 就获得我们装载的第一个InboundHandler。<br>通过分析我们得知Pipeline的下一次的调用依赖的是 <code>io.netty.channel.AbstractChannelHandlerContext#fireChannelRead</code> 这个函数。所以在自己编写的 <code>ChannelInboundHandlerAdapter</code> 实现类中，我们在实现 <code>channelRead</code>方法的时候，如果我们需要调用下一层，我们需要手动 <code>ctx.fireChannelRead(msg);</code></p>
-<h2 id="延伸-Pipeline-的-Write操作"><a href="#延伸-Pipeline-的-Write操作" class="headerlink" title="延伸 Pipeline 的 Write操作"></a>延伸 Pipeline 的 Write操作</h2><p>从Head的Read操作中，我们可以猜测出，Write也就是Tail的Write操作，我们去验证下自己的思路。<br>在<code>io.netty.channel.DefaultChannelPipeline#writeAndFlush(java.lang.Object)</code>处我们发现</p>
+<p>通过 <strong>findContextInbound()</strong> 就获得我们装载的第一个InboundHandler。<br>
+通过分析我们得知Pipeline的下一次的调用依赖的是 <code>io.netty.channel.AbstractChannelHandlerContext#fireChannelRead</code> 这个函数。所以在自己编写的 <code>ChannelInboundHandlerAdapter</code> 实现类中，我们在实现 <code>channelRead</code>方法的时候，如果我们需要调用下一层，我们需要手动 <code>ctx.fireChannelRead(msg);</code></p>
+<h2 id="延伸-Pipeline-的-Write操作"><a class="header-anchor" href="#延伸-Pipeline-的-Write操作">¶</a>延伸 Pipeline 的 Write操作</h2>
+<p>从Head的Read操作中，我们可以猜测出，Write也就是Tail的Write操作，我们去验证下自己的思路。<br>
+在<code>io.netty.channel.DefaultChannelPipeline#writeAndFlush(java.lang.Object)</code>处我们发现</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> ChannelFuture <span class="title">writeAndFlush</span><span class="params">(Object msg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> tail.writeAndFlush(msg); ➊</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>➊ 处证明处理的流程是从 Tail开始的</p>
 <p><code>io.netty.channel.AbstractChannelHandlerContext#write(java.lang.Object, boolean, io.netty.channel.ChannelPromise)</code> 中</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(Object msg, <span class="keyword">boolean</span> flush, ChannelPromise promise)</span> </span>&#123;</span><br><span class="line">    AbstractChannelHandlerContext next = findContextOutbound(); ➋</span><br><span class="line">    EventExecutor executor = next.executor();</span><br><span class="line">    <span class="keyword">if</span> (executor.inEventLoop()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (flush) &#123;</span><br><span class="line">            next.invokeWriteAndFlush(m, promise);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            next.invokeWrite(m, promise);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>➋ 和FindInBound多么相似，也就是找个下一个OutBound<br>最终的写入处是在<br><code>io.netty.channel.DefaultChannelPipeline.HeadContext#write</code></p>
+<p>➋ 和FindInBound多么相似，也就是找个下一个OutBound<br>
+最终的写入处是在<br>
+<code>io.netty.channel.DefaultChannelPipeline.HeadContext#write</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    unsafe.write(msg, promise);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们看到熟悉的unsafe，根据我们这么久以来和Netty打交道的经验，这里应该就是Java原生的Nio部分。在具体的实现部分</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(Object msg, ChannelPromise promise)</span> </span>&#123;</span><br><span class="line">    ChannelOutboundBuffer outboundBuffer = <span class="keyword">this</span>.outboundBuffer;</span><br><span class="line">    outboundBuffer.addMessage(msg, size, promise);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们将需要写入的数据放入了 <code>outboundBuffer</code> 中。<br>具体的写入逻辑在 <code>flush</code> 中，最终会调用 <code>io.netty.channel.socket.nio.NioSocketChannel#doWrite</code> 这部分就留给读者自行阅读了。这个时候我们再回顾下 <img src="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"> 大家会发现Netty的Pipeline实现的是如此的优雅，核心的逻辑清晰明了。</p>
-<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><ul>
+<p>我们将需要写入的数据放入了 <code>outboundBuffer</code> 中。<br>
+具体的写入逻辑在 <code>flush</code> 中，最终会调用 <code>io.netty.channel.socket.nio.NioSocketChannel#doWrite</code> 这部分就留给读者自行阅读了。这个时候我们再回顾下 <img src="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"> 大家会发现Netty的Pipeline实现的是如此的优雅，核心的逻辑清晰明了。</p>
+<h2 id="知识点"><a class="header-anchor" href="#知识点">¶</a>知识点</h2>
+<ul>
 <li>ServerChannel 如何监听事件</li>
 <li>BossEventLoopGroup 如何将事件转让给 WorkerEventLoopGroup （ServerBootstrapAcceptor用途）</li>
 </ul>
-<h2 id="附录：ChannelPipeline事件"><a href="#附录：ChannelPipeline事件" class="headerlink" title="附录：ChannelPipeline事件"></a>附录：ChannelPipeline事件</h2><ul>
-<li>Inbound 事件:<ul>
+<h2 id="附录：ChannelPipeline事件"><a class="header-anchor" href="#附录：ChannelPipeline事件">¶</a>附录：ChannelPipeline事件</h2>
+<ul>
+<li>Inbound 事件:
+<ul>
 <li>ChannelHandlerContext.fireChannelRegistered()</li>
 <li>ChannelHandlerContext.fireChannelActive()</li>
 <li>ChannelHandlerContext.fireChannelRead(Object)</li>
@@ -372,7 +385,8 @@
 <li>ChannelHandlerContext.fireChannelUnregistered()</li>
 </ul>
 </li>
-<li>Outbound 事件:<ul>
+<li>Outbound 事件:
+<ul>
 <li>ChannelHandlerContext.bind(SocketAddress, ChannelPromise)</li>
 <li>ChannelHandlerContext.connect(SocketAddress, SocketAddress, ChannelPromise)</li>
 <li>ChannelHandlerContext.write(Object, ChannelPromise)</li>
@@ -416,6 +430,11 @@
       <footer class="post-footer">
 
         
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
 
 
         
@@ -442,10 +461,18 @@
           
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
         </ul>
         <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
             <div class="tab-pane livere" id="comment-livere">
               
   <div class="comments">
@@ -522,19 +549,19 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">103</span>
+          <a href="/archives/">
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -642,20 +669,23 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
 
 <div class="copyright">
   
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-yanick"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
-<p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
-
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
+<!--- 
+<p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+--->
 
         
 <div class="busuanzi-count">
@@ -803,9 +833,29 @@
 
 
 
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
-<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
 <script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
@@ -837,6 +887,20 @@
   
 
   
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 <script>
   var disqus_config = function() {

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2020-10-09T10:05:07.579Z</updated>
+  <updated>2021-03-22T05:25:36.517Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -17,11 +17,399 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Rank N Types</title>
+    <link href="http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/"/>
+    <id>http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/</id>
+    <published>2021-02-09T01:48:01.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210209163003.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;前几日在和朋友讨论一个 &lt;code&gt;Rust&lt;/code&gt; 的编程问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="proggramming" scheme="http://blog.yanick.site/categories/proggramming/"/>
+    
+    
+      <category term="proggramming" scheme="http://blog.yanick.site/tags/proggramming/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Isito 1.8 新功能&amp;#58 DNS Agent</title>
+    <link href="http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/"/>
+    <id>http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/</id>
+    <published>2021-02-07T04:28:41.000Z</published>
+    <updated>2021-03-22T05:25:36.513Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175028.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;1.8&lt;/code&gt; 的版本中，&lt;code&gt;istio&lt;/code&gt; 悄悄的上了一个预览版的功能 &lt;a href=&quot;https://istio.io/latest/blog/2020/dns-proxy/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;DNS Proxy&lt;/a&gt;，这个功能极为的强大，让我们一起来看看吧。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Learn By Game&amp;#58 01 环境准备</title>
+    <link href="http://blog.yanick.site/2021/01/24/game/learn-by-game/learn-by-game-01/"/>
+    <id>http://blog.yanick.site/2021/01/24/game/learn-by-game/learn-by-game-01/</id>
+    <published>2021-01-24T10:02:48.000Z</published>
+    <updated>2021-03-22T05:25:36.505Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124180700.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;因为女票只想使用 &lt;code&gt;Java&lt;/code&gt; 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="自学" scheme="http://blog.yanick.site/categories/%E8%87%AA%E5%AD%A6/"/>
+    
+      <category term="Game" scheme="http://blog.yanick.site/categories/%E8%87%AA%E5%AD%A6/Game/"/>
+    
+    
+      <category term="Game" scheme="http://blog.yanick.site/tags/Game/"/>
+    
+      <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>The Hard Way Learn Computer Science [实践班]</title>
+    <link href="http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/"/>
+    <id>http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/</id>
+    <published>2021-01-13T02:49:48.000Z</published>
+    <updated>2021-03-22T05:25:36.505Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210113101402.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;我们在 &lt;a href=&quot;/2020/11/17/hard-way/learn-by-self-hard-way/&quot;&gt;The Hard Way Learn Computer Science&lt;/a&gt; 分享了一些学习的书籍和视频，不过都理论大过实践，所以我的女朋友觉得贼难，那我们今天就实践大于理论来分享一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="自学" scheme="http://blog.yanick.site/categories/%E8%87%AA%E5%AD%A6/"/>
+    
+    
+      <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>年轻的程序员请尽量减少抽象</title>
+    <link href="http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/"/>
+    <id>http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/</id>
+    <published>2020-12-25T10:00:48.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201228145412.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方面的细节。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
+    
+    
+      <category term="rethink" scheme="http://blog.yanick.site/tags/rethink/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring Cloud Run In Istio</title>
+    <link href="http://blog.yanick.site/2020/12/20/networking/istio/spring-cloud-with-istio/"/>
+    <id>http://blog.yanick.site/2020/12/20/networking/istio/spring-cloud-with-istio/</id>
+    <published>2020-12-20T06:30:00.000Z</published>
+    <updated>2021-03-22T05:25:36.513Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144511.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;istio&lt;/code&gt; 迈入 &lt;code&gt;1.6&lt;/code&gt; 之后趋于稳定，大家都慢慢的开始尝试起来，摆在大家面前会有这么一个问题，原来的旧系统如何兼容 &lt;code&gt;istio&lt;/code&gt;？&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="spring" scheme="http://blog.yanick.site/categories/spring/"/>
+    
+      <category term="istio" scheme="http://blog.yanick.site/categories/spring/istio/"/>
+    
+    
+      <category term="spring" scheme="http://blog.yanick.site/tags/spring/"/>
+    
+      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSL CA HTTPS</title>
+    <link href="http://blog.yanick.site/2020/11/28/other/ca/"/>
+    <id>http://blog.yanick.site/2020/11/28/other/ca/</id>
+    <published>2020-11-28T14:00:48.000Z</published>
+    <updated>2021-03-22T05:25:36.513Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="ca" scheme="http://blog.yanick.site/categories/ca/"/>
+    
+    
+      <category term="ca" scheme="http://blog.yanick.site/tags/ca/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>The Hard Way Learn Computer Science</title>
+    <link href="http://blog.yanick.site/2020/11/17/hard-way/learn-by-self-hard-way/"/>
+    <id>http://blog.yanick.site/2020/11/17/hard-way/learn-by-self-hard-way/</id>
+    <published>2020-11-17T12:49:48.000Z</published>
+    <updated>2021-03-22T05:25:36.505Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201117213257.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;写给我的女朋友，一个不愿意减肥的小可爱&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="自学" scheme="http://blog.yanick.site/categories/%E8%87%AA%E5%AD%A6/"/>
+    
+    
+      <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LSM Tree 与 LevelDB</title>
+    <link href="http://blog.yanick.site/2020/11/08/algorithm/lsm-tree/"/>
+    <id>http://blog.yanick.site/2020/11/08/algorithm/lsm-tree/</id>
+    <published>2020-11-08T05:46:07.000Z</published>
+    <updated>2021-03-22T05:25:36.501Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/11/09/Sgjak.png&quot; alt=&quot;Sgjak.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;我们在 &lt;a href=&quot;/2020/10/16/rust/talent-plan/project-2/&quot;&gt;&lt;code&gt;Rust Project 2: Log-structured file I/O 解读&lt;/code&gt;&lt;/a&gt; 中已经实践过一个 &lt;code&gt;log-structed map&lt;/code&gt;，我们今天看看真实世界的 &lt;code&gt;log-structured merge-tree&lt;/code&gt;，这是一个优化 &lt;code&gt;写&lt;/code&gt; 操作的数据结构。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="algorithm" scheme="http://blog.yanick.site/categories/algorithm/"/>
+    
+      <category term="lsm" scheme="http://blog.yanick.site/categories/algorithm/lsm/"/>
+    
+    
+      <category term="algorithm" scheme="http://blog.yanick.site/tags/algorithm/"/>
+    
+      <category term="lsm" scheme="http://blog.yanick.site/tags/lsm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>用 Rust 实现一个 CHIP-8 模拟器</title>
+    <link href="http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/"/>
+    <id>http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/</id>
+    <published>2020-11-05T09:38:10.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/11/05/SUbRO.png&quot; alt=&quot;SUbRO.png&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;CHIP-8是一个解释型语言，由Joseph Weisbecker开发。最初CHIP-8在上个世纪70年代被使用在COSMAC-VIP和Telmac 1800上。许多游戏如Pong，Space Invaders，Tetris都曾使用该语言编写。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们今天用 &lt;code&gt;Rust&lt;/code&gt; 来模拟实现这个 &lt;code&gt;CHIP-8&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="CHIP-8" scheme="http://blog.yanick.site/categories/rust/CHIP-8/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="CHIP-8" scheme="http://blog.yanick.site/tags/CHIP-8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 Rust 为 Envoy 构建插件</title>
+    <link href="http://blog.yanick.site/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/"/>
+    <id>http://blog.yanick.site/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/</id>
+    <published>2020-10-30T08:04:12.000Z</published>
+    <updated>2021-03-22T05:25:36.513Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/30/NaNFT.png&quot; alt=&quot;NaNFT.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天就带大家使用 &lt;code&gt;Rust&lt;/code&gt; 构建 &lt;code&gt;WebAssembly&lt;/code&gt; 作为 &lt;code&gt;Envoy&lt;/code&gt; 的插件。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="envoy" scheme="http://blog.yanick.site/categories/rust/envoy/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Isito の Pilot 组件</title>
+    <link href="http://blog.yanick.site/2020/10/28/networking/istio/isito-pilot/"/>
+    <id>http://blog.yanick.site/2020/10/28/networking/istio/isito-pilot/</id>
+    <published>2020-10-28T04:28:41.000Z</published>
+    <updated>2021-03-22T05:25:36.513Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/29/Nhq9u.png&quot; alt=&quot;Nhq9u.png&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文基于 istio: release-1.7&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rust Project 3&amp;#58  Synchronous client-server networking 解读</title>
+    <link href="http://blog.yanick.site/2020/10/20/rust/talent-plan/project-3/"/>
+    <id>http://blog.yanick.site/2020/10/20/rust/talent-plan/project-3/</id>
+    <published>2020-10-20T12:52:41.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/21/NciWO.png&quot; alt=&quot;NciWO.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;上次讲完了我们单机模式下的 &lt;code&gt;KV Store&lt;/code&gt;，这次接着解读，我们将访问模式从 &lt;code&gt;CMD&lt;/code&gt; 变成 &lt;code&gt;Networking&lt;/code&gt; 的模式。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="pingcap" scheme="http://blog.yanick.site/categories/rust/pingcap/"/>
+    
+      <category term="talent-plan" scheme="http://blog.yanick.site/categories/rust/pingcap/talent-plan/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="pingcap" scheme="http://blog.yanick.site/tags/pingcap/"/>
+    
+      <category term="talent-plan" scheme="http://blog.yanick.site/tags/talent-plan/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rust Project 2&amp;#58 Log-structured file I/O 解读</title>
+    <link href="http://blog.yanick.site/2020/10/16/rust/talent-plan/project-2/"/>
+    <id>http://blog.yanick.site/2020/10/16/rust/talent-plan/project-2/</id>
+    <published>2020-10-16T05:52:41.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/16/txTC8.png&quot; alt=&quot;txTC8.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PingCAP Talent Plan&lt;/code&gt; 是很不错的入门教程，今天我们来分析下 &lt;code&gt;Project 2&lt;/code&gt; 的项目代码。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="pingcap" scheme="http://blog.yanick.site/categories/rust/pingcap/"/>
+    
+      <category term="talent-plan" scheme="http://blog.yanick.site/categories/rust/pingcap/talent-plan/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="pingcap" scheme="http://blog.yanick.site/tags/pingcap/"/>
+    
+      <category term="talent-plan" scheme="http://blog.yanick.site/tags/talent-plan/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Log-structured File System</title>
+    <link href="http://blog.yanick.site/2020/10/15/other/lfs/"/>
+    <id>http://blog.yanick.site/2020/10/15/other/lfs/</id>
+    <published>2020-10-15T11:20:31.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/15/tTm8U.png&quot; alt=&quot;tTm8U.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://people.eecs.berkeley.edu/~brewer/cs262/LFS.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;The Design and Implementation of a Log-Structured File System&lt;/a&gt; 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="lsf" scheme="http://blog.yanick.site/categories/lsf/"/>
+    
+      <category term="file-system" scheme="http://blog.yanick.site/categories/lsf/file-system/"/>
+    
+    
+      <category term="lsf" scheme="http://blog.yanick.site/tags/lsf/"/>
+    
+      <category term="file-system" scheme="http://blog.yanick.site/tags/file-system/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rust Dynamic Dispatching</title>
+    <link href="http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/"/>
+    <id>http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/</id>
+    <published>2020-10-13T09:38:10.000Z</published>
+    <updated>2021-03-22T05:25:36.517Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://n1.i5h5.com/2020/10/14/torLS.png&quot; alt=&quot;torLS.png&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="deep-dive" scheme="http://blog.yanick.site/categories/rust/deep-dive/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
+    
+  </entry>
+  
+  <entry>
     <title>HTTP 1 &amp; 2</title>
     <link href="http://blog.yanick.site/2020/10/08/networking/http/http/"/>
     <id>http://blog.yanick.site/2020/10/08/networking/http/http/</id>
     <published>2020-10-08T08:04:12.000Z</published>
-    <updated>2020-10-09T10:05:07.579Z</updated>
+    <updated>2021-03-22T05:25:36.513Z</updated>
     
     <summary type="html">
     
@@ -46,7 +434,7 @@
     <link href="http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/"/>
     <id>http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/</id>
     <published>2020-09-30T07:35:17.000Z</published>
-    <updated>2020-10-09T10:05:07.579Z</updated>
+    <updated>2021-03-22T05:25:36.513Z</updated>
     
     <summary type="html">
     
@@ -71,7 +459,7 @@
     <link href="http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/"/>
     <id>http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/</id>
     <published>2020-09-25T02:09:07.000Z</published>
-    <updated>2020-09-30T05:40:07.343Z</updated>
+    <updated>2021-03-22T05:25:36.513Z</updated>
     
     <summary type="html">
     
@@ -96,7 +484,7 @@
     <link href="http://blog.yanick.site/2020/09/23/apm/apm/"/>
     <id>http://blog.yanick.site/2020/09/23/apm/apm/</id>
     <published>2020-09-23T06:41:01.000Z</published>
-    <updated>2020-09-23T10:00:06.216Z</updated>
+    <updated>2021-03-22T05:25:36.501Z</updated>
     
     <summary type="html">
     
@@ -109,407 +497,6 @@
     
     
       <category term="apm" scheme="http://blog.yanick.site/tags/apm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>虚拟内存杂谈</title>
-    <link href="http://blog.yanick.site/2020/09/22/os/mmu/"/>
-    <id>http://blog.yanick.site/2020/09/22/os/mmu/</id>
-    <published>2020-09-22T02:59:35.000Z</published>
-    <updated>2020-09-22T11:05:06.132Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/22/H0y9L.png&quot; alt=&quot;H0y9L.png&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;MMU是Memory Management Unit的缩写，中文名是内存管理单元，有时称作分页内存管理单元（英语：paged memory management unit，缩写为PMMU）。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="os" scheme="http://blog.yanick.site/categories/os/"/>
-    
-      <category term="mmu" scheme="http://blog.yanick.site/categories/os/mmu/"/>
-    
-    
-      <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
-    
-      <category term="mmu" scheme="http://blog.yanick.site/tags/mmu/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Actix &amp;#58 Rust 中 Actor 模型的实现</title>
-    <link href="http://blog.yanick.site/2020/09/12/rust/actix/"/>
-    <id>http://blog.yanick.site/2020/09/12/rust/actix/</id>
-    <published>2020-09-12T10:19:04.000Z</published>
-    <updated>2020-09-15T10:55:07.507Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/12/1ZxkC.png&quot; alt=&quot;1ZxkC.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;我们聊完了 &lt;code&gt;Rust&lt;/code&gt; 的异步编程框架，我们下来看看更加抽象的 &lt;code&gt;Actor&lt;/code&gt; 模型的实现。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="async" scheme="http://blog.yanick.site/categories/rust/async/"/>
-    
-      <category term="actor" scheme="http://blog.yanick.site/categories/rust/async/actor/"/>
-    
-      <category term="actix" scheme="http://blog.yanick.site/categories/rust/async/actor/actix/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="async" scheme="http://blog.yanick.site/tags/async/"/>
-    
-      <category term="actor" scheme="http://blog.yanick.site/tags/actor/"/>
-    
-      <category term="actix" scheme="http://blog.yanick.site/tags/actix/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>真实世界中的 Rust 异步编程</title>
-    <link href="http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/"/>
-    <id>http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/</id>
-    <published>2020-09-08T08:50:04.000Z</published>
-    <updated>2020-09-12T06:00:07.489Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/08/1zH7t.png&quot; alt=&quot;1zH7t.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在上一篇 &lt;a href=&quot;/2020/09/04/rust/understanding-rust-async/&quot;&gt;解密 Rust 异步编程&lt;/a&gt; 中我们已经知道了 &lt;code&gt;Funture&lt;/code&gt; 工作的原理，让我们看看真实世界里面是如何工作的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="async" scheme="http://blog.yanick.site/categories/rust/async/"/>
-    
-      <category term="tokio" scheme="http://blog.yanick.site/categories/rust/async/tokio/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="async" scheme="http://blog.yanick.site/tags/async/"/>
-    
-      <category term="tokio" scheme="http://blog.yanick.site/tags/tokio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>解密 Rust 异步编程</title>
-    <link href="http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/"/>
-    <id>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</id>
-    <published>2020-09-04T04:09:30.000Z</published>
-    <updated>2020-09-17T05:45:05.991Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/04/1E5E4.png&quot; alt=&quot;1E5E4.png&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="async" scheme="http://blog.yanick.site/categories/rust/async/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="async" scheme="http://blog.yanick.site/tags/async/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mosn源码速读</title>
-    <link href="http://blog.yanick.site/2020/08/18/go/mosn/"/>
-    <id>http://blog.yanick.site/2020/08/18/go/mosn/</id>
-    <published>2020-08-18T09:51:26.000Z</published>
-    <updated>2020-09-03T13:12:43.395Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/20/uEJCp.png&quot; alt=&quot;uEJCp.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;本文基于 &lt;code&gt;0.15.0&lt;/code&gt; 版本，因为 &lt;code&gt;Mosn&lt;/code&gt; 代码非常的巨大，对于 &lt;code&gt;*&lt;/code&gt; 开头的章节作为补充部分，可以跳过。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
-    
-      <category term="mosn" scheme="http://blog.yanick.site/categories/go/mosn/"/>
-    
-      <category term="gateway" scheme="http://blog.yanick.site/categories/go/mosn/gateway/"/>
-    
-    
-      <category term="go" scheme="http://blog.yanick.site/tags/go/"/>
-    
-      <category term="mosn" scheme="http://blog.yanick.site/tags/mosn/"/>
-    
-      <category term="gateway" scheme="http://blog.yanick.site/tags/gateway/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面试拾遗：Epoll 之下的线程模型 / Envoy 快速之谜</title>
-    <link href="http://blog.yanick.site/2020/08/10/networking/epoll-thread/"/>
-    <id>http://blog.yanick.site/2020/08/10/networking/epoll-thread/</id>
-    <published>2020-08-10T14:54:04.000Z</published>
-    <updated>2020-08-17T01:20:07.194Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/11/bgfwp.png&quot; alt=&quot;bgfwp.png&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="networking" scheme="http://blog.yanick.site/categories/networking/"/>
-    
-      <category term="epoll" scheme="http://blog.yanick.site/categories/networking/epoll/"/>
-    
-    
-      <category term="networking" scheme="http://blog.yanick.site/tags/networking/"/>
-    
-      <category term="epoll" scheme="http://blog.yanick.site/tags/epoll/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes 面试散记</title>
-    <link href="http://blog.yanick.site/2020/08/04/kubernetes/kubernetes-interview/"/>
-    <id>http://blog.yanick.site/2020/08/04/kubernetes/kubernetes-interview/</id>
-    <published>2020-08-04T14:38:04.000Z</published>
-    <updated>2020-08-11T01:55:06.096Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/04/bty5E.png&quot; alt=&quot;bty5E.png&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
-    
-      <category term="interview" scheme="http://blog.yanick.site/categories/kubernetes/interview/"/>
-    
-    
-      <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
-    
-      <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一次有趣的 Java 面试</title>
-    <link href="http://blog.yanick.site/2020/07/31/java/java-interview/"/>
-    <id>http://blog.yanick.site/2020/07/31/java/java-interview/</id>
-    <published>2020-07-31T11:04:04.000Z</published>
-    <updated>2020-08-17T00:55:07.181Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/08/03/bHP5z.png&quot; alt=&quot;bHP5z.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;笔者很久没有面试的时候被问过深度的 &lt;code&gt;GC&lt;/code&gt; 知识了，看看腾讯的高级技术专家是如何面试 &lt;code&gt;Java&lt;/code&gt; 的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
-    
-      <category term="interview" scheme="http://blog.yanick.site/categories/java/interview/"/>
-    
-    
-      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
-    
-      <category term="interview" scheme="http://blog.yanick.site/tags/interview/"/>
-    
-      <category term="jvm" scheme="http://blog.yanick.site/tags/jvm/"/>
-    
-      <category term="classloader" scheme="http://blog.yanick.site/tags/classloader/"/>
-    
-      <category term="gc" scheme="http://blog.yanick.site/tags/gc/"/>
-    
-      <category term="netty" scheme="http://blog.yanick.site/tags/netty/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>云原生的下一步</title>
-    <link href="http://blog.yanick.site/2020/07/30/architecture/next/"/>
-    <id>http://blog.yanick.site/2020/07/30/architecture/next/</id>
-    <published>2020-07-30T06:45:43.000Z</published>
-    <updated>2020-08-04T06:10:06.603Z</updated>
-    
-    <summary type="html">
-    
-      &lt;iframe width=&quot;100%&quot; height=&quot;400&quot; src=&quot;https://time.graphics/embed?v=1&amp;id=398280&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
-&lt;div&gt;&lt;a rel=&quot;nofollow noopener&quot; style=&quot;font-size: 12px; text-decoration: none;&quot; title=&quot;Powered by Time.Graphics&quot; href=&quot;https://time.graphics&quot; target=&quot;_blank&quot;&gt;Powered by Time.Graphics&lt;/a&gt;&lt;/div&gt;
-    
-    </summary>
-    
-      <category term="architecture" scheme="http://blog.yanick.site/categories/architecture/"/>
-    
-    
-      <category term="architecture" scheme="http://blog.yanick.site/tags/architecture/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go 面试汇总</title>
-    <link href="http://blog.yanick.site/2020/07/29/go/interview/"/>
-    <id>http://blog.yanick.site/2020/07/29/go/interview/</id>
-    <published>2020-07-29T02:31:37.000Z</published>
-    <updated>2020-07-29T15:20:07.762Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/07/29/bnUSE.png&quot; alt=&quot;bnUSE.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;作为一个跨界的 &lt;code&gt;Java Boy&lt;/code&gt; 面对 &lt;code&gt;Go&lt;/code&gt; 的岗位还是先整理一波。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>微服务框架 - 2020</title>
-    <link href="http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/"/>
-    <id>http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/</id>
-    <published>2020-07-19T12:49:48.000Z</published>
-    <updated>2020-07-20T06:00:08.047Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/07/20/UBmpO.png&quot; alt=&quot;UBmpO.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在 &lt;a href=&quot;2020/06/20/java/other/2020-new-direction/&quot;&gt;Java社区的新方向&lt;/a&gt; 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
-    
-      <category term="微服务" scheme="http://blog.yanick.site/categories/java/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    
-      <category term="框架" scheme="http://blog.yanick.site/categories/java/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E6%A1%86%E6%9E%B6/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>架构亦非玄学</title>
-    <link href="http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/"/>
-    <id>http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/</id>
-    <published>2020-07-14T10:06:55.000Z</published>
-    <updated>2020-07-18T11:05:08.235Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/07/15/UbEWe.png&quot; alt=&quot;UbEWe.png&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;套用一句杜甫的话 &lt;code&gt;架构本天成，妙手偶得之&lt;/code&gt;。而现在的互联网仿佛在神话架构师这样的角色。在这里不是要去否定 &lt;code&gt;martinfowler&lt;/code&gt; 这样伟大的架构师，但是&lt;code&gt;martin&lt;/code&gt; 老师实在是向社会输出了太多 &lt;code&gt;New Concept&lt;/code&gt;，虽然本意是好的，然而在在多数的从业人眼中，架构变成了一个玄之又玄的东西。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="architecture" scheme="http://blog.yanick.site/categories/architecture/"/>
-    
-    
-      <category term="architecture" scheme="http://blog.yanick.site/tags/architecture/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>微服务：Why | What | How</title>
-    <link href="http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/"/>
-    <id>http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/</id>
-    <published>2020-07-07T10:10:56.000Z</published>
-    <updated>2020-07-18T11:05:08.239Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://shop.io.mi-img.com/app/shop/img?id=shop_8a4438ee9fca734d3e3693ffd6a44a30.png&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;客户为「本质需求」买单。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="architecture" scheme="http://blog.yanick.site/categories/architecture/"/>
-    
-      <category term="mircoservice" scheme="http://blog.yanick.site/categories/architecture/mircoservice/"/>
-    
-    
-      <category term="architecture" scheme="http://blog.yanick.site/tags/architecture/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>为什么我厌倦了产品研发(2B)</title>
-    <link href="http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/"/>
-    <id>http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/</id>
-    <published>2020-07-06T10:12:35.000Z</published>
-    <updated>2020-07-06T10:24:33.553Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这不是什么丧气的话，只是这条路暂时不太走得通罢了。从这有限的产品经历看起来，构建一个产品并不容易。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://wx1.sbimg.cn/2020/07/06/Cmr9M.png&quot; alt=&quot;Cmr9M.png&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>警惕从开发转变为运维</title>
-    <link href="http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/"/>
-    <id>http://blog.yanick.site/2020/07/03/rethink/do-be-a-ops-from-a-developer/</id>
-    <published>2020-07-03T06:54:45.000Z</published>
-    <updated>2020-07-06T08:46:19.011Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在这有限的三年工作中，我们尝试着从传统的开发|运维分离的体系转换为 &lt;code&gt;Devops&lt;/code&gt; 的体系，收益很多：有且不限于&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如何编写更易于部署的代码&lt;/li&gt;
-&lt;li&gt;了解K8S这样的运行支撑层的工作原理&lt;/li&gt;
-&lt;li&gt;促进团队的产能&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;但是在这过程之中我们也发现了很糟糕之处，今天就这些糟糕的情况讲一讲。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>为何有些软件知识自学如此的困难</title>
-    <link href="http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/"/>
-    <id>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</id>
-    <published>2020-06-28T05:56:21.000Z</published>
-    <updated>2020-06-29T03:35:53.875Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近常常思考一个问题：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;什么是技术&lt;/li&gt;
-&lt;li&gt;什么又是核心竞争力&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我在 &lt;a href=&quot;https://www.v2ex.com/t/684596&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;v2ex&lt;/a&gt; 也问了这个，从大家的收藏的数量看起来大家也一定有一样的困扰。从别人那没有获得什么中肯的答案，多数答案都有像是解释，周末的时候在豆瓣上找到了那本书 &lt;a href=&quot;https://book.douban.com/subject/25846075/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;技术的本质&lt;/a&gt;。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="闲聊" scheme="http://blog.yanick.site/categories/%E9%97%B2%E8%81%8A/"/>
-    
     
   </entry>
   

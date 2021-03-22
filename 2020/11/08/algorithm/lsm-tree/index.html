@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="我们在 Rust Project 2: Log-structured file I&#x2F;O 解读 中已经实践过一个 log-structed map，我们今天看看真实世界的 log-structured merge-tree，这是一个优化 写 操作的数据结构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LSM Tree 与 LevelDB">
+<meta property="og:url" content="http://blog.yanick.site/2020/11/08/algorithm/lsm-tree/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="我们在 Rust Project 2: Log-structured file I&#x2F;O 解读 中已经实践过一个 log-structed map，我们今天看看真实世界的 log-structured merge-tree，这是一个优化 写 操作的数据结构。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/11/09/Sgjak.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108220445.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/11/08/S4nBu.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/11/08/S4dmX.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201109171348.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/11/08/S4e9D.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108222116.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/11/08/S46Qp.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108223732.png">
+<meta property="article:published_time" content="2020-11-08T05:46:07.000Z">
+<meta property="article:modified_time" content="2021-03-22T05:25:36.501Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="algorithm">
+<meta property="article:tag" content="lsm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/11/09/Sgjak.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2020/11/08/algorithm/lsm-tree/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>LSM Tree 与 LevelDB | Yanick's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-专栏">
+
+    <a href="/column/" rel="section"><i class="fa fa-fw fa-edit"></i>专栏</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/11/08/algorithm/lsm-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LSM Tree 与 LevelDB
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-08 13:46:07" itemprop="dateCreated datePublished" datetime="2020-11-08T13:46:07+08:00">2020-11-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-22 13:25:36" itemprop="dateModified" datetime="2021-03-22T13:25:36+08:00">2021-03-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/lsm/" itemprop="url" rel="index"><span itemprop="name">lsm</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/11/08/algorithm/lsm-tree/" class="post-meta-item leancloud_visitors" data-flag-title="LSM Tree 与 LevelDB" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://s3.jpg.cm/2020/11/09/Sgjak.png" alt="Sgjak.png"></p>
+<p>我们在 <a href="/2020/10/16/rust/talent-plan/project-2/"><code>Rust Project 2: Log-structured file I/O 解读</code></a> 中已经实践过一个 <code>log-structed map</code>，我们今天看看真实世界的 <code>log-structured merge-tree</code>，这是一个优化 <code>写</code> 操作的数据结构。</p>
+<a id="more"></a>
+<h2 id="LSM-Tree"><a class="header-anchor" href="#LSM-Tree">¶</a>LSM Tree</h2>
+<p>在原始的 <a href="http://paperhub.s3.amazonaws.com/18e91eb4db2114a06ea614f0384f2784.pdf" target="_blank" rel="noopener"><code>The Log-Structured Merge-Tree (LSM Tree)</code></a> 的设计中，我们在内存中维护一个 C<sub>0</sub>  树，我们不断的向这个树中  <code>Append</code> 数据，当内存中的 C<sub>0</sub> 超过一定大小，我们将部分数据落入磁盘的 C<sub>1</sub> 树，分级之后还有 C<sub>2</sub> 树 C<sub>3</sub> 树 C<sub>K</sub> 树，每一颗树都比前一颗树更大。不过在 <code>LevelDB</code> 中的设计有所形变。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108220445.png" alt="lsm tree"></p>
+<h3 id="SSTables"><a class="header-anchor" href="#SSTables">¶</a>SSTables</h3>
+<p>在 <code>LevelDB</code> 的 <code>LSM Tree</code> 的数据结构中，我们映射到持久化的磁盘对象时候用的对象叫 <code>SSTable [Sorted Strings Table]</code> 在 <code>SSTABLE</code> 中由多个 <code>Segement</code> 构成，这和我们在 <code>LS file system</code> 中一样，减少小碎片文件的写入。</p>
+<p><img src="https://s3.jpg.cm/2020/11/08/S4nBu.png" alt="S4nBu.png"></p>
+<p>不过值得注意的，在 <code>Segment</code> 中的 <code>KV</code> 对象都是排序好的。</p>
+<h3 id="写入数据"><a class="header-anchor" href="#写入数据">¶</a>写入数据</h3>
+<p>所有的数据在一开始，我们都先通过 <code>WAL LOG</code> 落盘，方便断电恢复。</p>
+<p>和大部分的数据库一样，我们还是要在内存中维护一个 <code>索引</code> 关系，这里我们一般使用 <a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree" target="_blank" rel="noopener"><code>红黑树</code></a></p>
+<p>写操作被存储在这个红黑树中，直到树达到预定义的大小。一旦红黑树有了足够的条目，它将作为磁盘上排序后的一个段刷新到磁盘上。</p>
+<p><img src="https://s3.jpg.cm/2020/11/08/S4dmX.png" alt="S4dmX.png"></p>
+<p>在内存中的阶段一般也称之为 <code>memtable</code>，因为此时还没写入磁盘，我们依然需要提供可检索的能力。</p>
+<h4 id="Write-In-LevelDB"><a class="header-anchor" href="#Write-In-LevelDB">¶</a>Write In LevelDB</h4>
+<p>在 <code>leveldb</code> 的实现定义中，写入的操作如下定义</p>
+<figure class="highlight cpp"><figcaption><span>db_impl.cc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::Put</span><span class="params">(<span class="keyword">const</span> WriteOptions&amp; o, <span class="keyword">const</span> Slice&amp; key, <span class="keyword">const</span> Slice&amp; val)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> DB::Put(o, key, val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>WriteOptions 控制着我们是否需要 <code>sync</code>，也就是刷到磁盘上</li>
+</ul>
+<h5 id="Write-Log"><a class="header-anchor" href="#Write-Log">¶</a>Write Log</h5>
+<p>真实的写操作</p>
+<figure class="highlight cpp"><figcaption><span>db_impl.cc </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::Write</span><span class="params">(<span class="keyword">const</span> WriteOptions&amp; options, WriteBatch* updates)</span> </span>&#123;</span><br><span class="line">  <span class="function">Writer <span class="title">w</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  w.batch = updates;</span><br><span class="line">  w.sync = options.sync;</span><br><span class="line">  w.done = <span class="literal">false</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function">MutexLock <span class="title">l</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  writers_.push_back(&amp;w);</span><br><span class="line">  <span class="comment">// 排队写入，直到我们在 front</span></span><br><span class="line">  <span class="keyword">while</span> (!w.done &amp;&amp; &amp;w != writers_.front()) &#123;</span><br><span class="line">    w.cv.Wait();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果已经完成，就直接返回，这里注意就是因为上面的Wait，有可能在队列里面已经被其他人消费了。</span></span><br><span class="line">  <span class="keyword">if</span> (w.done) &#123;</span><br><span class="line">    <span class="keyword">return</span> w.status;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// May temporarily unlock and wait.</span></span><br><span class="line">  Status status = MakeRoomForWrite(updates == <span class="literal">nullptr</span>);</span><br><span class="line">  <span class="keyword">uint64_t</span> last_sequence = versions_-&gt;LastSequence(); <span class="comment">// 拿到最新的序列号</span></span><br><span class="line">  Writer* last_writer = &amp;w;</span><br><span class="line">  <span class="keyword">if</span> (status.ok() &amp;&amp; updates != <span class="literal">nullptr</span>) &#123;  <span class="comment">// nullptr batch is for compactions</span></span><br><span class="line">    WriteBatch* write_batch = BuildBatchGroup(&amp;last_writer); <span class="comment">// 这里会把 writers 队列中的其他适合的写操作一起执行</span></span><br><span class="line">    WriteBatchInternal::SetSequence(write_batch, last_sequence + <span class="number">1</span>); <span class="comment">// 将序号 +1</span></span><br><span class="line">    last_sequence += WriteBatchInternal::Count(write_batch); <span class="comment">// 因为这里有聚合操作，所以序号 + N</span></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">      mutex_.Unlock(); <span class="comment">// 把锁释放了，因为我们已经从 writers 中拿到了我们想要的数据，而且 SEQ 也已经定下来的了</span></span><br><span class="line">      status = log_-&gt;AddRecord(WriteBatchInternal::Contents(write_batch)); <span class="comment">// 写入 WAL Log</span></span><br><span class="line">      <span class="keyword">bool</span> sync_error = <span class="literal">false</span>;</span><br><span class="line">      <span class="keyword">if</span> (status.ok() &amp;&amp; options.sync) &#123;</span><br><span class="line">        status = logfile_-&gt;Sync();</span><br><span class="line">        <span class="keyword">if</span> (!status.ok()) &#123;</span><br><span class="line">          sync_error = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (status.ok()) &#123;</span><br><span class="line">        status = WriteBatchInternal::InsertInto(write_batch, mem_); <span class="comment">// 这里写入，mem_ 是 MemTable，也就是在内存中的那些数据</span></span><br><span class="line">      &#125;</span><br><span class="line">      mutex_.Lock();</span><br><span class="line">      <span class="keyword">if</span> (sync_error) &#123;</span><br><span class="line">        RecordBackgroundError(status);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (write_batch == tmp_batch_) tmp_batch_-&gt;Clear();</span><br><span class="line"></span><br><span class="line">    versions_-&gt;SetLastSequence(last_sequence);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// .... 唤醒机制</span></span><br><span class="line">  <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div>
+    <label class="author-mark-label">作者注</label>
+    <p class="author-mark">如果希望通过 Debug 来阅读代码，可以在 db_test.cc 中设定断点。</p>
+</div>
+<p>从上面的代码我们可以看到如何处理 <code>WAL log</code> 的逻辑，下一步就是如何写入我们的 <code>memtable</code> 中了。</p>
+<figure class="highlight cpp"><figcaption><span>write_batch.cc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">WriteBatchInternal::InsertInto</span><span class="params">(<span class="keyword">const</span> WriteBatch* b, MemTable* memtable)</span> </span>&#123;</span><br><span class="line">  MemTableInserter inserter;</span><br><span class="line">  inserter.sequence_ = WriteBatchInternal::Sequence(b);</span><br><span class="line">  inserter.mem_ = memtable;</span><br><span class="line">  <span class="keyword">return</span> b-&gt;Iterate(&amp;inserter); <span class="comment">//创建一个 Inserter，然后将其插入</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Write-MemTable"><a class="header-anchor" href="#Write-MemTable">¶</a>Write MemTable</h5>
+<p>跳过中间那些 foreach 执行的部分，我们看看真正的 <code>PUT</code> 逻辑，在 <code>MemTableInserter::Put</code> 中</p>
+<figure class="highlight cpp"><figcaption><span>MemTableInserter::Put</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Put</span><span class="params">(<span class="keyword">const</span> Slice&amp; key, <span class="keyword">const</span> Slice&amp; value)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  mem_-&gt;Add(sequence_, kTypeValue, key, value);</span><br><span class="line">  sequence_++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MemTable Add 的逻辑很简单，开辟空间，扔进去</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MemTable::Add</span><span class="params">(SequenceNumber s, ValueType type, <span class="keyword">const</span> Slice&amp; key,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="keyword">const</span> Slice&amp; value)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">size_t</span> key_size = key.size();</span><br><span class="line">  <span class="keyword">size_t</span> val_size = value.size();</span><br><span class="line">  <span class="keyword">size_t</span> internal_key_size = key_size + <span class="number">8</span>;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> encoded_len = VarintLength(internal_key_size) +</span><br><span class="line">                             internal_key_size + VarintLength(val_size) +</span><br><span class="line">                             val_size;</span><br><span class="line">  <span class="comment">// 开辟一个 buf 空间给这个 kv</span></span><br><span class="line">  <span class="keyword">char</span>* buf = arena_.Allocate(encoded_len);</span><br><span class="line">  <span class="keyword">char</span>* p = EncodeVarint32(buf, internal_key_size);</span><br><span class="line">  <span class="comment">// copy 进去</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">memcpy</span>(p, key.data(), key_size);</span><br><span class="line">  p += key_size;</span><br><span class="line">  EncodeFixed64(p, (s &lt;&lt; <span class="number">8</span>) | type);</span><br><span class="line">  p += <span class="number">8</span>;</span><br><span class="line">  p = EncodeVarint32(p, val_size);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">memcpy</span>(p, value.data(), val_size);</span><br><span class="line">  assert(p + val_size == buf + encoded_len);</span><br><span class="line">  <span class="comment">// 将索引写入 Table 中 [其实是SkipList] </span></span><br><span class="line">  table_.Insert(buf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>SkipList</code> 就不做多解释了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201109171348.png" alt=""></p>
+<p>详细<a href="#%E5%8F%82%E8%80%83">参考</a>。</p>
+<h5 id="Write-Disk"><a class="header-anchor" href="#Write-Disk">¶</a>Write Disk</h5>
+<p>而对于 <code>MemTable</code> 满了如何写入磁盘，这里的操作在我们略过的 <code>MakeRoomForWrite</code> 中</p>
+<figure class="highlight cpp"><figcaption><span>DBImpl::MakeRoomForWrite</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::MakeRoomForWrite</span><span class="params">(<span class="keyword">bool</span> force)</span> </span>&#123;</span><br><span class="line">  mutex_.AssertHeld();</span><br><span class="line">  <span class="keyword">bool</span> allow_delay = !force;</span><br><span class="line">  Status s;</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!bg_error_.ok()) &#123;</span><br><span class="line">        <span class="comment">// ... 中间跳过了很多 case</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Attempt to switch to a new memtable and trigger compaction of old</span></span><br><span class="line">      <span class="comment">// 尝试创建一个新的 memtable，并且将 旧数据进行压实</span></span><br><span class="line">      assert(versions_-&gt;PrevLogNumber() == <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 创建了一个新的日志文件</span></span><br><span class="line">      <span class="keyword">uint64_t</span> new_log_number = versions_-&gt;NewFileNumber();</span><br><span class="line">      WritableFile* lfile = <span class="literal">nullptr</span>;</span><br><span class="line">      s = env_-&gt;NewWritableFile(LogFileName(dbname_, new_log_number), &amp;lfile);</span><br><span class="line">      <span class="keyword">if</span> (!s.ok()) &#123;</span><br><span class="line">        versions_-&gt;ReuseFileNumber(new_log_number);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">delete</span> log_;</span><br><span class="line">      <span class="keyword">delete</span> logfile_;</span><br><span class="line">      logfile_ = lfile;</span><br><span class="line">      logfile_number_ = new_log_number;</span><br><span class="line">      log_ = <span class="keyword">new</span> <span class="built_in">log</span>::Writer(lfile);</span><br><span class="line">      imm_ = mem_;</span><br><span class="line">      has_imm_.store(<span class="literal">true</span>, <span class="built_in">std</span>::memory_order_release);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 创建一个新的 MemTable</span></span><br><span class="line">      mem_ = <span class="keyword">new</span> MemTable(internal_comparator_);</span><br><span class="line">      mem_-&gt;Ref();</span><br><span class="line">      force = <span class="literal">false</span>; </span><br><span class="line"></span><br><span class="line">      <span class="comment">// 找寻恰当的时候进行压实</span></span><br><span class="line">      MaybeScheduleCompaction();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="CompactMemTable"><a class="header-anchor" href="#CompactMemTable">¶</a>CompactMemTable</h5>
+<figure class="highlight cpp"><figcaption><span>DBImpl::CompactMemTable</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DBImpl::CompactMemTable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  mutex_.AssertHeld();</span><br><span class="line">  assert(imm_ != <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Save the contents of the memtable as a new Table</span></span><br><span class="line">  VersionEdit edit;</span><br><span class="line">  Version* base = versions_-&gt;current();</span><br><span class="line">  base-&gt;Ref();</span><br><span class="line">  Status s = WriteLevel0Table(imm_, &amp;edit, base); <span class="comment">// 内存的数据往 level0 写，最近的数据嘛</span></span><br><span class="line">  base-&gt;Unref();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (s.ok() &amp;&amp; shutting_down_.load(<span class="built_in">std</span>::memory_order_acquire)) &#123;</span><br><span class="line">    s = Status::IOError(<span class="string">"Deleting DB during memtable compaction"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除值"><a class="header-anchor" href="#删除值">¶</a>删除值</h4>
+<p>和之前处理逻辑一样，我们增加一个特殊的值，<code>append</code> 到 <code>log</code> 中，标记此值已死亡。</p>
+<h3 id="读取数据"><a class="header-anchor" href="#读取数据">¶</a>读取数据</h3>
+<p>为了方便在 <code>SSTable</code> 中查询数据。<code>Index Table</code> 被放置于每一个 <code>SSTable</code> 的尾端，一般是 <code>sparse index [稀疏索引]</code>，我们载入这个块的时候，讲 <code>Index Table</code> 载入内存，提供查询的能力。</p>
+<p><img src="https://s3.jpg.cm/2020/11/08/S4e9D.png" alt="S4e9D.png"></p>
+<p>当我们查找某个 <code>Key</code>，比如 <code>Dollar</code> 这个值势必在 <code>dog</code> 和 <code>downgrade</code> 之间，因此我们只需要扫描 <code>17208</code> 到 <code>19504</code> 但是如果数据没有的情况下，我们可能会扫描全表，因此我们加入 <a href="https://yetanotherdevblog.com/bloom-filters/" target="_blank" rel="noopener"><code>bloom filter</code></a> 来帮助我们快速确认是否某个值根本不存在。</p>
+<h4 id="精准读"><a class="header-anchor" href="#精准读">¶</a>精准读</h4>
+<p>考虑下这样数据结构下的读操作</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108222116.png" alt=""></p>
+<p>如果我们想要读取 <code>23</code> 的值得话，按照图中标示的顺序，会先读取内存，在从<code>Level0</code>依次往高层读取，直到找到<code>key=23</code>的数据。</p>
+<blockquote>
+<p>这大概也是 LevelDB 的由来吧</p>
+</blockquote>
+<hr>
+<p>不过显然每次去磁盘读取并不会快。因此至少有一些部分可以优化</p>
+<ul>
+<li>将所有的 <code>SSTable</code> 的 <code>Index</code>  保存在内存中</li>
+<li>尽可能的多缓存我们的 <code>SSTable</code> 在内存中</li>
+</ul>
+<h4 id="Read-In-LevelDB"><a class="header-anchor" href="#Read-In-LevelDB">¶</a>Read In LevelDB</h4>
+<figure class="highlight cpp"><figcaption><span>DBImpl::Get</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::Get</span><span class="params">(<span class="keyword">const</span> ReadOptions&amp; options, <span class="keyword">const</span> Slice&amp; key,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="built_in">std</span>::<span class="built_in">string</span>* value)</span> </span>&#123;</span><br><span class="line">  Status s;</span><br><span class="line">  <span class="function">MutexLock <span class="title">l</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  SequenceNumber snapshot;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 先限制下最新的数据到哪里</span></span><br><span class="line">  <span class="keyword">if</span> (options.snapshot != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    snapshot =</span><br><span class="line">        <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> SnapshotImpl*&gt;(options.snapshot)-&gt;sequence_number();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    snapshot = versions_-&gt;LastSequence();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  MemTable* mem = mem_;</span><br><span class="line">  MemTable* imm = imm_;</span><br><span class="line">  Version* current = versions_-&gt;current();</span><br><span class="line">  mem-&gt;Ref();</span><br><span class="line">  <span class="keyword">if</span> (imm != <span class="literal">nullptr</span>) imm-&gt;Ref();</span><br><span class="line">  current-&gt;Ref();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">bool</span> have_stat_update = <span class="literal">false</span>;</span><br><span class="line">  Version::GetStats stats;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Unlock while reading from files and memtables</span></span><br><span class="line">  &#123;</span><br><span class="line">    mutex_.Unlock();</span><br><span class="line">    <span class="comment">// First look in the memtable, then in the immutable memtable (if any).</span></span><br><span class="line">    <span class="comment">// 这里我们先去 mem 中获取也就是内存中的</span></span><br><span class="line">    <span class="function">LookupKey <span class="title">lkey</span><span class="params">(key, snapshot)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (mem-&gt;Get(lkey, value, &amp;s)) &#123;</span><br><span class="line">      <span class="comment">// Done</span></span><br><span class="line">      <span class="comment">// 然后尝试从 imm，也就是即将持久化的内存对象中找</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (imm != <span class="literal">nullptr</span> &amp;&amp; imm-&gt;Get(lkey, value, &amp;s)) &#123;</span><br><span class="line">      <span class="comment">// Done</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 最后才从其他地方找</span></span><br><span class="line">      s = current-&gt;Get(options, lkey, value, &amp;stats);</span><br><span class="line">      have_stat_update = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mutex_.Lock();</span><br><span class="line">  &#125;</span><br><span class="line">  mem-&gt;Unref();</span><br><span class="line">  <span class="keyword">if</span> (imm != <span class="literal">nullptr</span>) imm-&gt;Unref();</span><br><span class="line">  current-&gt;Unref();</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在 <code>mem</code> 和 <code>imm</code> 中没办法找到之后采去 <code>level</code> 文件中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">Version::Get</span><span class="params">(<span class="keyword">const</span> ReadOptions&amp; options, <span class="keyword">const</span> LookupKey&amp; k,</span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="built_in">std</span>::<span class="built_in">string</span>* value, GetStats* stats)</span> </span>&#123;</span><br><span class="line">  stats-&gt;seek_file = <span class="literal">nullptr</span>;</span><br><span class="line">  stats-&gt;seek_file_level = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">State</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">Match</span><span class="params">(<span class="keyword">void</span>* arg, <span class="keyword">int</span> level, FileMetaData* f)</span> </span>&#123;</span><br><span class="line">      State* state = <span class="keyword">reinterpret_cast</span>&lt;State*&gt;(arg);</span><br><span class="line"></span><br><span class="line">      state-&gt;last_file_read = f;</span><br><span class="line">      state-&gt;last_file_read_level = level;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 从内存缓存的 `table cache`中查找，不过这里我们只缓存了 `key`，`value` 在里面还需要取一下</span></span><br><span class="line">      <span class="comment">// PS: Table Cache 是基于 LRU 实现的</span></span><br><span class="line">      state-&gt;s = state-&gt;vset-&gt;table_cache_-&gt;Get(*state-&gt;options, f-&gt;number,</span><br><span class="line">                                                f-&gt;file_size, state-&gt;ikey,</span><br><span class="line">                                                &amp;state-&gt;saver, SaveValue);</span><br><span class="line">      <span class="keyword">if</span> (!state-&gt;s.ok()) &#123;</span><br><span class="line">        state-&gt;found = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  ForEachOverlapping(state.saver.user_key, state.ikey, &amp;state, &amp;State::Match);</span><br><span class="line">  <span class="keyword">return</span> state.found ? state.s : Status::NotFound(Slice());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">TableCache::Get</span><span class="params">(<span class="keyword">const</span> ReadOptions&amp; options, <span class="keyword">uint64_t</span> file_number,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="keyword">uint64_t</span> file_size, <span class="keyword">const</span> Slice&amp; k, <span class="keyword">void</span>* arg,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="keyword">void</span> (*handle_result)(<span class="keyword">void</span>*, <span class="keyword">const</span> Slice&amp;,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             <span class="keyword">const</span> Slice&amp;))</span> </span>&#123;</span><br><span class="line">  Cache::Handle* handle = <span class="literal">nullptr</span>;</span><br><span class="line">  <span class="comment">// 找到对应的 Table</span></span><br><span class="line">  Status s = FindTable(file_number, file_size, &amp;handle);</span><br><span class="line">  <span class="keyword">if</span> (s.ok()) &#123;</span><br><span class="line">    <span class="comment">// 找到了 Table，我们下面就去取这个 Value 在 InternalGet，这里不展开了。</span></span><br><span class="line">    Table* t = <span class="keyword">reinterpret_cast</span>&lt;TableAndFile*&gt;(cache_-&gt;Value(handle))-&gt;table;</span><br><span class="line">    s = t-&gt;InternalGet(options, k, arg, handle_result);</span><br><span class="line">    cache_-&gt;Release(handle);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们没有找到，那种按照层级查找的代码啊？其实我们漏了一个很重要的函数也就是 <code>ForEachOverlapping</code></p>
+<figure class="highlight cpp"><figcaption><span>Version::ForEachOverlapping</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Version::ForEachOverlapping</span><span class="params">(Slice user_key, Slice internal_key, <span class="keyword">void</span>* arg,</span></span></span><br><span class="line"><span class="function"><span class="params">                                 <span class="keyword">bool</span> (*func)(<span class="keyword">void</span>*, <span class="keyword">int</span>, FileMetaData*))</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> Comparator* ucmp = vset_-&gt;icmp_.user_comparator();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Search level-0 in order from newest to oldest.</span></span><br><span class="line">  <span class="comment">// 从 Level-0 开始的逆序查找，因为大部分时候，Level-0 能找到，局部性原则嘛</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;FileMetaData*&gt; tmp;</span><br><span class="line">  tmp.reserve(files_[<span class="number">0</span>].size());</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">uint32_t</span> i = <span class="number">0</span>; i &lt; files_[<span class="number">0</span>].size(); i++) &#123;</span><br><span class="line">    FileMetaData* f = files_[<span class="number">0</span>][i];</span><br><span class="line">    <span class="keyword">if</span> (ucmp-&gt;Compare(user_key, f-&gt;smallest.user_key()) &gt;= <span class="number">0</span> &amp;&amp;</span><br><span class="line">        ucmp-&gt;Compare(user_key, f-&gt;largest.user_key()) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">      tmp.push_back(f);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!tmp.empty()) &#123;</span><br><span class="line">    <span class="built_in">std</span>::sort(tmp.begin(), tmp.end(), NewestFirst);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">uint32_t</span> i = <span class="number">0</span>; i &lt; tmp.size(); i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!(*func)(arg, <span class="number">0</span>, tmp[i])) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Search other levels. 查找其他的层级</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> level = <span class="number">1</span>; level &lt; config::kNumLevels; level++) &#123;</span><br><span class="line">    <span class="keyword">size_t</span> num_files = files_[level].size();</span><br><span class="line">    <span class="keyword">if</span> (num_files == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 二分查找 INdex</span></span><br><span class="line">    <span class="keyword">uint32_t</span> index = FindFile(vset_-&gt;icmp_, files_[level], internal_key);</span><br><span class="line">    <span class="keyword">if</span> (index &lt; num_files) &#123;</span><br><span class="line">      FileMetaData* f = files_[level][index];</span><br><span class="line">      <span class="keyword">if</span> (ucmp-&gt;Compare(user_key, f-&gt;smallest.user_key()) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// All of "f" is past any data for user_key</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(*func)(arg, level, f)) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="压缩"><a class="header-anchor" href="#压缩">¶</a>压缩</h3>
+<p>很多值会变的重复起来，和我们之前遇见的情况一样。</p>
+<p><img src="https://s3.jpg.cm/2020/11/08/S46Qp.png" alt="S46Qp.png"></p>
+<p>我们进行压缩并且删除老数据。</p>
+<h3 id="流程"><a class="header-anchor" href="#流程">¶</a>流程</h3>
+<ul>
+<li>写入的时候，我们在内存中使用 <code>RD Tree / SkipList</code> 在必要的时候触发持久化</li>
+<li>持久化的时候，按照排序的方式进行写入</li>
+<li>读取数据的时候，先通过 <code>bloom</code> 过滤，然后再遍历 <code>offset</code>，把所有的 <code>Key</code> 放在内存里也可以</li>
+<li>读取 <code>offset</code> 范围内的对象，然后找到再返回</li>
+</ul>
+<p>在 <code>Read</code> <code>Write</code> <code>Space</code> 也有类似于 <code>CAP</code> 的定理</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108223732.png" alt=""></p>
+<hr>
+<p>讲了一大串和 <code>时序数据库</code>  有啥关系呢？时序数据库是一个大规模写的系统，查询也有，不过倒是容忍多高，因此大多数的 <code>TSDB [Time Series Database]</code> 都是使用 <code>LSM</code> 来进行储存的。解决完单机的储存，对于分布式系统，靠一台机器肯定是不行的，因此我们就要想到如何把数据分散到不同的机器上。</p>
+<h2 id="分布式存储"><a class="header-anchor" href="#分布式存储">¶</a>分布式存储</h2>
+<p>分布式存储首先要考虑的是如何将数据分布到多台机器上面，也就是 <code>分片（sharding）</code>问题</p>
+<ul>
+<li>哈希分片：这种方法实现简单，均衡性较好，但是集群不易扩展。[因为增加机器就涉及到Hash值改变]</li>
+<li>一致性哈希：这种方案均衡性好，集群扩展容易，迁移的数据会少一些</li>
+<li>范围划分：通常配合全局有序，复杂度在于合并和分裂。代表有Hbase。</li>
+<li>结合时序数据库的特点，根据 <code>metric</code> + <code>tags</code> 分片。</li>
+</ul>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
+<ul>
+<li><a href="http://paperhub.s3.amazonaws.com/18e91eb4db2114a06ea614f0384f2784.pdf" target="_blank" rel="noopener">The Log-Structured Merge-Tree (LSM Tree)</a></li>
+<li><a href="https://yetanotherdevblog.com/lsm/" target="_blank" rel="noopener">Understanding LSM Trees: What Powers Write-Heavy Databases</a></li>
+<li><a href="https://www.geeksforgeeks.org/skip-list/" target="_blank" rel="noopener">skip-list-set-1</a></li>
+<li><a href="https://www.geeksforgeeks.org/skip-list-set-2-insertion/?ref=rp" target="_blank" rel="noopener">skip-list-set-2-insertion</a></li>
+<li><a href="https://www.geeksforgeeks.org/skip-list-set-3-searching-deletion" target="_blank" rel="noopener">skip-list-set-3-searching-deletion</a></li>
+<li><a href="https://arxiv.org/pdf/1907.05443.pdf" target="_blank" rel="noopener">Learning Key-Value Store Design</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+              <a href="/tags/lsm/" rel="tag"># lsm</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/" rel="prev" title="用 Rust 实现一个 CHIP-8 模拟器">
+      <i class="fa fa-chevron-left"></i> 用 Rust 实现一个 CHIP-8 模拟器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/17/hard-way/learn-by-self-hard-way/" rel="next" title="The Hard Way Learn Computer Science">
+      The Hard Way Learn Computer Science <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LSM-Tree"><span class="nav-number">1.</span> <span class="nav-text">LSM Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSTables"><span class="nav-number">1.1.</span> <span class="nav-text">SSTables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入数据"><span class="nav-number">1.2.</span> <span class="nav-text">写入数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Write-In-LevelDB"><span class="nav-number">1.2.1.</span> <span class="nav-text">Write In LevelDB</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Write-Log"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Write Log</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Write-MemTable"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">Write MemTable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Write-Disk"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">Write Disk</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CompactMemTable"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">CompactMemTable</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除值"><span class="nav-number">1.2.2.</span> <span class="nav-text">删除值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取数据"><span class="nav-number">1.3.</span> <span class="nav-text">读取数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#精准读"><span class="nav-number">1.3.1.</span> <span class="nav-text">精准读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Read-In-LevelDB"><span class="nav-number">1.3.2.</span> <span class="nav-text">Read In LevelDB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#压缩"><span class="nav-number">1.4.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">1.5.</span> <span class="nav-text">流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式存储"><span class="nav-number">2.</span> <span class="nav-text">分布式存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
+<!--- 
+<p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+--->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/11/08/algorithm/lsm-tree/";
+    this.page.identifier = "2020/11/08/algorithm/lsm-tree/";
+    this.page.title = "LSM Tree 与 LevelDB";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

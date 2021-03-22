@@ -13,11 +13,11 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="自从公司的运行平台全线迁入了 Kubenetes 之后总是觉得 Devops 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 Java 编程语言而来，那我们先聊聊云原生。">
@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png">
 <meta property="article:published_time" content="2019-05-29T13:56:52.000Z">
-<meta property="article:modified_time" content="2020-06-29T03:35:53.871Z">
+<meta property="article:modified_time" content="2021-03-22T05:25:36.505Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-推荐">
 
-    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
 
   </li>
         <li class="menu-item menu-item-地图">
@@ -162,11 +162,6 @@
         <li class="menu-item menu-item-百科">
 
     <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
-
-  </li>
-        <li class="menu-item menu-item-叽喳">
-
-    <a href="/noise/index.html" rel="section"><i class="fa fa-fw fa-comment"></i>叽喳</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -252,8 +247,17 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-29 11:35:53" itemprop="dateModified" datetime="2020-06-29T11:35:53+08:00">2020-06-29</time>
+                <time title="修改时间：2021-03-22 13:25:36" itemprop="dateModified" datetime="2021-03-22T13:25:36+08:00">2021-03-22</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
 
           
             <span id="/2019/05/29/java/fxxk-java-in-cloud-native/" class="post-meta-item leancloud_visitors" data-flag-title="云原生之下的Java" title="阅读次数">
@@ -275,9 +279,8 @@
       
         <p>自从公司的运行平台全线迁入了 <code>Kubenetes</code> 之后总是觉得 <code>Devops</code> 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 <code>Java</code> 编程语言而来，那我们先聊聊云原生。</p>
 <a id="more"></a>
-
 <p><code>Cloud Native</code> 在我的理解是，虚拟化之后企业上云，现在的企业几乎底层设施都已经云化之后，对应用的一种倒逼，<code>Cloud Native</code>是一个框，什么都可以往里面扔，但是有些基础是被大家共识的，首先云原生当然和编程语言无关，说的是一个应用如何被创建/部署，后续的就引申出了比如<code>Devops</code>之类的新的理念，但是回到问题的本身，<code>Cloud Native</code>提出的一个很重要的要求，<strong>应用如何部署</strong> 这个问题从以前由应用决定，现在变成了，基础设施 <strong>决定</strong> 应用应该如何部署。</p>
-<p>让我们回到一切的开始，首先<code>云原生</code>亦或者是<code>Devops</code>都有一个基础的要求，当前版本的代码能够在任何一个环境运行，看起来是不是一个很简单的需求，但是这个需求有一个隐喻所有的环境的基础设施是一样的，显然不能你的开发环境是 <code>Windows</code> 测试环境<code>Debian</code>生产环境又是<code>Centos</code>那怎么解决呢，从这一环，我们需要一个<code>工具箱</code>然后往这个工具箱里面扔我们需要的工具了。首先我们需要的就是 <code>Cloud Native</code>工具箱中最为明显的产品 <code>Docker/Continar</code>，经常有 <code>Java</code>开发者问我，<code>Docker</code> 有什么用，我的回答是，<code>Docker</code> 对<code>Java</code> 不是必须的，但是对于其他的语言往往是如果伊甸园中的苹果一样的诱人，打个比方，一个随系统打包的二进制发行版本，可以在任何地方运行，是不是让人很激动，对于大部分的<code>Java</code>开发者可能无感，对于C语言项目的编写者，那些只要不是基于虚拟机的语言，他们都需要系统提供运行环境，而系统千变万化，当然开发者不愿意为了不同的系统进行适配，在以前我们需要交叉编译，现在我们把这个复杂的事情交给了<code>Docker</code>，让<code>Docker</code>如同<code>Java</code>一样，一次编写处处运行，这样的事情简直就像是端了<code>Java</code>的饭碗，以前我们交付一个复杂的系统，往往连着操作系统一起交付，而客户可能买了一些商业系统，为了适配有可能还要改代码，现在你有了<code>Docker</code>，开发者喜大普奔，而这里的代价呢？<code>C&amp;C++&amp;GO</code>他们失去的是枷锁，获得全世界，而Java如同被革命一般，失去了 <code>Once Code，Everywhere Run</code>，获得的是更大的 <code>Docker Image Size</code>，获得被人诟病的 <code>Big Size Runtime</code>。</p>
+<p>让我们回到一切的开始，首先<code>云原生</code>亦或者是<code>Devops</code>都有一个基础的要求，当前版本的代码能够在任何一个环境运行，看起来是不是一个很简单的需求，但是这个需求有一个隐喻所有的环境的基础设施是一样的，显然不能你的开发环境是 <code>Windows</code> 测试环境<code>Debian</code>生产环境又是<code>Centos</code>那怎么解决呢，从这一环，我们需要一个<code>工具箱</code>然后往这个工具箱里面扔我们需要的工具了。首先我们需要的就是 <code>Cloud Native</code>工具箱中最为明显的产品 <code>Docker/Continar</code>，经常有 <code>Java </code>开发者问我，<code>Docker</code> 有什么用，我的回答是，<code>Docker</code> 对<code>Java</code> 不是必须的，但是对于其他的语言往往是如果伊甸园中的苹果一样的诱人，打个比方，一个随系统打包的二进制发行版本，可以在任何地方运行，是不是让人很激动，对于大部分的<code>Java</code>开发者可能无感，对于C语言项目的编写者，那些只要不是基于虚拟机的语言，他们都需要系统提供运行环境，而系统千变万化，当然开发者不愿意为了不同的系统进行适配，在以前我们需要交叉编译，现在我们把这个复杂的事情交给了<code>Docker</code>，让<code>Docker</code>如同<code>Java</code>一样，一次编写处处运行，这样的事情简直就像是端了<code>Java</code>的饭碗，以前我们交付一个复杂的系统，往往连着操作系统一起交付，而客户可能买了一些商业系统，为了适配有可能还要改代码，现在你有了<code>Docker</code>，开发者喜大普奔，而这里的代价呢？<code>C&amp;C++&amp;GO</code>他们失去的是枷锁，获得全世界，而Java如同被革命一般，失去了 <code>Once Code，Everywhere Run</code>，获得的是更大的 <code>Docker Image Size</code>，获得被人诟病的 <code>Big Size Runtime</code>。</p>
 <p><img src="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png" alt=""></p>
 <p>当我们从代码构建完成了镜像，<code>Cloud Navtive</code>的故事才刚刚开始，当你的<code>Team Leader</code>要求你的系统架构是<code>MicroServices</code>的，你把原来的项目进行拆分了，或者是开发的就拆分的足够小的时候，你发现因为代码拆分开了，出现了一点点的代码的重复，有适合也避免不了的，你的依赖库也变的 <code>xN</code>，隔壁Go程序员想了想，不行我们就搞个 <code>.so</code> 共享一部分代码吧，然后看了构建出来的二进制文件才 <code>15MB</code>，运维大手一挥，这点大小有啥要共享的，<code>Java</code> 程序员望了望了自己的 <code>Jar</code> 包，<code>60MB</code>还行吧，维护镜像仓库的运维同事这个时候跑出来，你的镜像怎么有 <code>150MB</code> 了， 你看看你们把磁盘都塞满了，只能苦笑，运维小哥坑次坑次的给打包机加了一块硬盘，顺便问你马上部署了，你需要多大的<strong>配额</strong>，你说道 2C4G，运维一脸嫌弃的问你，为什么隔壁GO项目组的同事才需要 <code>0.5C512MB</code>。你当然也不用告诉他，<code>SpringBoot</code> 依赖的了 <code>XXX</code>,<code>YYY</code>,<code>ZZZ</code> 的库，虽然一半的功能你都没用到。</p>
 <p>部署到线上，刚刚准备喘口气，突然发现新的需求又来了，虽然是一个很小的功能，但是和现在的系统内的任何一个服务都没有什么直接关联性，你提出再新写一个服务，运维主管抱怨道，现在的服务器资源还是很紧张，你尝试着用现在最流行的 <code>Vertx</code>开发一个简单的Web服务，你对构建出来的jar 只有 10MB 很满意，可是镜像加起来还是有 60 MB，也算一种进步，你找到QA主管，准备Show一下你用了Java社区最酷的框架，最强的性能，QA主管找了一个台 1C2G 的服务让你压测一下，你发现你怎么也拼不过别人Go系统，你研究之后发现，原来协程模型在这样的少核心的情况下性能要更好，你找运维希望能升级下配置，你走到运维门口的时候，你停了下来，醒醒吧，不是你错了，而是时代变了。</p>
@@ -318,6 +321,11 @@
       <footer class="post-footer">
 
         
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
 
 
         
@@ -344,10 +352,18 @@
           
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
         </ul>
         <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
             <div class="tab-pane livere" id="comment-livere">
               
   <div class="comments">
@@ -423,19 +439,19 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">103</span>
+          <a href="/archives/">
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -543,20 +559,23 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
 
 <div class="copyright">
   
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-yanick"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
-<p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
-
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
+<!--- 
+<p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+--->
 
         
 <div class="busuanzi-count">
@@ -704,9 +723,29 @@
 
 
 
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
-<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
 <script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
@@ -738,6 +777,20 @@
   
 
   
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 <script>
   var disqus_config = function() {

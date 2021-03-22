@@ -13,11 +13,11 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":-1},"disqus":null,"text":"Disqus","order":-2},"activeClass":"livere"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-26T09:56:26.000Z">
-<meta property="article:modified_time" content="2020-06-17T06:53:20.655Z">
+<meta property="article:modified_time" content="2021-03-22T05:25:36.517Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="思考">
 <meta property="article:tag" content="Go">
@@ -147,7 +147,7 @@
   </li>
         <li class="menu-item menu-item-推荐">
 
-    <a href="/annual-recommend/2020.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
 
   </li>
         <li class="menu-item menu-item-地图">
@@ -163,11 +163,6 @@
         <li class="menu-item menu-item-百科">
 
     <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
-
-  </li>
-        <li class="menu-item menu-item-叽喳">
-
-    <a href="/noise/index.html" rel="section"><i class="fa fa-fw fa-comment"></i>叽喳</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -253,7 +248,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-17 14:53:20" itemprop="dateModified" datetime="2020-06-17T14:53:20+08:00">2020-06-17</time>
+                <time title="修改时间：2021-03-22 13:25:36" itemprop="dateModified" datetime="2021-03-22T13:25:36+08:00">2021-03-22</time>
               </span>
 
           
@@ -276,28 +271,38 @@
       
         <p>Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。</p>
 <a id="more"></a>
-
 <blockquote>
-<p>Go was designed atGooglein 2007 to improveprogramming productivityin an era of multicore, networked machines and large codebases.The designers wanted to address criticism of other languages in use atGoogle, but keep their useful characteristics:</p>
+<p>Go was designed atGooglein 2007 to improveprogramming productivityin an era of multicore, networked machines and large codebases.The designers wanted to address criticism of other languages in use atGoogle, but keep their useful characteristics:</p>
 <ul>
-<li>static typing and run-time efficiency (likeC++),</li>
-<li>readability and usability (likePythonorJavaScript),</li>
-<li>high-performance networking and multiprocessing.<br>The designers were primarily motivated by their shareddislike of C++.</li>
+<li>static typing and run-time efficiency (likeC++),</li>
+<li>readability and usability (likePythonorJavaScript),</li>
+<li>high-performance networking and multiprocessing.<br>
+The designers were primarily motivated by their shareddislike of C++.</li>
 </ul>
 </blockquote>
 <p>Go 在编程语言届里面也是一个新生儿了，从维基百科的短短几行里面我们可以发现，Go在诞生之初就是为了提高编程效率，但是侧重的点是 多核，网络，大型的源码管理。因此我们发现 Go 在实际的体验中，我们也常常用于构建高性能的分布式系统。在 Google 内部，Go 的诞生也是为了填平 C 与 Python 之间的鸿沟，正如定位所言，恰恰属于两者之间。</p>
-<h1 id="良好的并发"><a href="#良好的并发" class="headerlink" title="良好的并发"></a>良好的并发</h1><p>Go 是一个拥有良好并发资质的语言，我们可以轻易的通过 goroutine 写出简单可靠且高性能的应用，但是值得注意的是，Go并不是拥有极致并发能力的语言，因为对于他来说，始终有着两座大山：GC 与 goroutine，goroutine是一个简单的编程模型，但是并不是一个高性能的编程模式，callback &gt;= reactive &gt;= goroutine &gt; blocking，可以参考下 <a href="https://www.techempower.com/benchmarks/" target="_blank" rel="noopener">techempower</a> 与 <a href="https://timyang.net/programming/c-erlang-java-performance/" target="_blank" rel="noopener">c-erlang-java-performance</a> 实际上能够做到性能机制的依然需要2个致命的要素 <code>无GC</code> 与 <code>低线程切换</code></p>
-<h1 id="泛型缺失"><a href="#泛型缺失" class="headerlink" title="泛型缺失"></a>泛型缺失</h1><p>这个问题已经不用再提及了，对于Google的工程师因为可能长时间的和 Bytes 打交道，对于OOP那套是无感的（实际上是类型系统的延展），因此反而带来了更多的负面性质，因为我们缺少了大量在 FP 中可以执行的操作符，比如 Map，Reduce，Filter。</p>
-<h1 id="关于易读性"><a href="#关于易读性" class="headerlink" title="关于易读性"></a>关于易读性</h1><p>我认为 Go 的可读写方向其实指 好读 而非 易读，举个例子</p>
-<div class="tabs" id="快速排序"><ul class="nav-tabs"><li class="tab active"><a href="#快速排序-1">Haskell</a></li><li class="tab"><a href="#快速排序-2">Go</a></li></ul><div class="tab-content"><div class="tab-pane active" id="快速排序-1"><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">quicksort</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; [a]  </span><br><span class="line"><span class="title">quicksort</span> [] = []  </span><br><span class="line"><span class="title">quicksort</span> (x:xs) =   </span><br><span class="line">    <span class="keyword">let</span> smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]  </span><br><span class="line">        biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]  </span><br><span class="line">    <span class="keyword">in</span>  smallerSorted ++ [x] ++ biggerSorted</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="快速排序-2"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Generates a slice of size, size filled with random numbers</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateSlice</span><span class="params">(size <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, size, size)</span><br><span class="line">    rand.Seed(time.Now().UnixNano())</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">        slice[i] = rand.Intn(<span class="number">999</span>) - rand.Intn(<span class="number">999</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slice</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quicksort</span><span class="params">(a []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    left, right := <span class="number">0</span>, <span class="built_in">len</span>(a)<span class="number">-1</span></span><br><span class="line">     </span><br><span class="line">    pivot := rand.Int() % <span class="built_in">len</span>(a)</span><br><span class="line">     </span><br><span class="line">    a[pivot], a[right] = a[right], a[pivot]</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> i, _ := <span class="keyword">range</span> a &#123;</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[right] &#123;</span><br><span class="line">            a[left], a[i] = a[i], a[left]</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    a[left], a[right] = a[right], a[left]</span><br><span class="line">     </span><br><span class="line">    quicksort(a[:left])</span><br><span class="line">    quicksort(a[left+<span class="number">1</span>:])</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
-
+<h1>良好的并发</h1>
+<p>Go 是一个拥有良好并发资质的语言，我们可以轻易的通过 goroutine 写出简单可靠且高性能的应用，但是值得注意的是，Go并不是拥有极致并发能力的语言，因为对于他来说，始终有着两座大山：GC 与 goroutine，goroutine是一个简单的编程模型，但是并不是一个高性能的编程模式，callback &gt;= reactive &gt;= goroutine &gt; blocking，可以参考下 <a href="https://www.techempower.com/benchmarks/" target="_blank" rel="noopener">techempower</a> 与 <a href="https://timyang.net/programming/c-erlang-java-performance/" target="_blank" rel="noopener">c-erlang-java-performance</a> 实际上能够做到性能机制的依然需要2个致命的要素 <code>无GC</code> 与 <code>低线程切换</code></p>
+<h1>泛型缺失</h1>
+<p>这个问题已经不用再提及了，对于Google的工程师因为可能长时间的和 Bytes 打交道，对于OOP那套是无感的（实际上是类型系统的延展），因此反而带来了更多的负面性质，因为我们缺少了大量在 FP 中可以执行的操作符，比如 Map，Reduce，Filter。</p>
+<h1>关于易读性</h1>
+<p>我认为 Go 的可读写方向其实指 好读 而非 易读，举个例子</p>
+<div class="tabs" id="快速排序"><ul class="nav-tabs"><li class="tab active"><a href="#快速排序-1">Haskell</a></li><li class="tab"><a href="#快速排序-2">Go</a></li></ul><div class="tab-content"><div class="tab-pane active" id="快速排序-1"><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">quicksort</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; [a]  </span><br><span class="line"><span class="title">quicksort</span> [] = []  </span><br><span class="line"><span class="title">quicksort</span> (x:xs) =   </span><br><span class="line">    <span class="keyword">let</span> smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]  </span><br><span class="line">        biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]  </span><br><span class="line">    <span class="keyword">in</span>  smallerSorted ++ [x] ++ biggerSorted</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="快速排序-2"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Generates a slice of size, size filled with random numbers</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateSlice</span><span class="params">(size <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, size, size)</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">		slice[i] = rand.Intn(<span class="number">999</span>) - rand.Intn(<span class="number">999</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> slice</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quicksort</span><span class="params">(a []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    left, right := <span class="number">0</span>, <span class="built_in">len</span>(a)<span class="number">-1</span></span><br><span class="line">     </span><br><span class="line">    pivot := rand.Int() % <span class="built_in">len</span>(a)</span><br><span class="line">     </span><br><span class="line">    a[pivot], a[right] = a[right], a[pivot]</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> i, _ := <span class="keyword">range</span> a &#123;</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[right] &#123;</span><br><span class="line">            a[left], a[i] = a[i], a[left]</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    a[left], a[right] = a[right], a[left]</span><br><span class="line">     </span><br><span class="line">    quicksort(a[:left])</span><br><span class="line">    quicksort(a[left+<span class="number">1</span>:])</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
 <p>从上文我们可以发现 Go 的易读其实相较于 C 进步一大步，而对于真正易读的语言又差了一大步。</p>
-<h1 id="Go-擅长的地方"><a href="#Go-擅长的地方" class="headerlink" title="Go 擅长的地方"></a>Go 擅长的地方</h1><h2 id="网络和Web服务器"><a href="#网络和Web服务器" class="headerlink" title="网络和Web服务器"></a>网络和Web服务器</h2><p>对于大部分人来说，Go能够编译出二进制运行文件 + 良好的并发控制，这简直是为了网络服务器和Web服务器的最佳选择，大家也是这么做的，我们使用Go作为Web服务器。</p>
-<h2 id="自动化与命令行工作"><a href="#自动化与命令行工作" class="headerlink" title="自动化与命令行工作"></a>自动化与命令行工作</h2><p>Go 是非常适合的自动化工具，对于Python，Java等需要依赖很重的运行时，因此Go既轻量级又快速，并且处理的相对简单的技术逻辑，在社区中已经有人尝试使用 Go 来取缔 Bash Script 对于大部分来说，想要抹平 Bash 在不同系统上的差异可能还真不如直接使用 Go，也替换了那一步 Python 用户。</p>
-<h2 id="生产机代码的维护"><a href="#生产机代码的维护" class="headerlink" title="生产机代码的维护"></a>生产机代码的维护</h2><p>比如有 gofmt ，lint ，各种检查机制，这些和上面一种情况类型。</p>
-<h1 id="Go-不擅长的地方"><a href="#Go-不擅长的地方" class="headerlink" title="Go 不擅长的地方"></a>Go 不擅长的地方</h1><h2 id="业务属性较多的地方"><a href="#业务属性较多的地方" class="headerlink" title="业务属性较多的地方"></a>业务属性较多的地方</h2><p>无论是 ORM 框架，还是Web框架，Go社区相较于已经成熟的 Java 社区，都是造了一堆玩具状态，并不是不能很高效的进行业务开发。</p>
-<h2 id="极限性能要求"><a href="#极限性能要求" class="headerlink" title="极限性能要求"></a>极限性能要求</h2><p>OS Kenerl，Banking，Game 这些领域依然不是带有GC的语言可以打入的领域。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1>Go 擅长的地方</h1>
+<h2 id="网络和Web服务器"><a class="header-anchor" href="#网络和Web服务器">¶</a>网络和Web服务器</h2>
+<p>对于大部分人来说，Go能够编译出二进制运行文件 + 良好的并发控制，这简直是为了网络服务器和Web服务器的最佳选择，大家也是这么做的，我们使用Go作为Web服务器。</p>
+<h2 id="自动化与命令行工作"><a class="header-anchor" href="#自动化与命令行工作">¶</a>自动化与命令行工作</h2>
+<p>Go 是非常适合的自动化工具，对于Python，Java等需要依赖很重的运行时，因此Go既轻量级又快速，并且处理的相对简单的技术逻辑，在社区中已经有人尝试使用 Go 来取缔 Bash Script 对于大部分来说，想要抹平 Bash 在不同系统上的差异可能还真不如直接使用 Go，也替换了那一步 Python 用户。</p>
+<h2 id="生产机代码的维护"><a class="header-anchor" href="#生产机代码的维护">¶</a>生产机代码的维护</h2>
+<p>比如有 gofmt ，lint ，各种检查机制，这些和上面一种情况类型。</p>
+<h1>Go 不擅长的地方</h1>
+<h2 id="业务属性较多的地方"><a class="header-anchor" href="#业务属性较多的地方">¶</a>业务属性较多的地方</h2>
+<p>无论是 ORM 框架，还是Web框架，Go社区相较于已经成熟的 Java 社区，都是造了一堆玩具状态，并不是不能很高效的进行业务开发。</p>
+<h2 id="极限性能要求"><a class="header-anchor" href="#极限性能要求">¶</a>极限性能要求</h2>
+<p>OS Kenerl，Banking，Game 这些领域依然不是带有GC的语言可以打入的领域。</p>
+<h1>参考</h1>
+<ul>
 <li><a href="https://www.reddit.com/r/golang/comments/8bdewx/is_golang_a_good_choice_for_a_crud_based_rest_api/" target="_blank" rel="noopener">Is Golang a good choice for a CRUD based ReST API?</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
@@ -343,6 +348,11 @@
           </div>
 
         
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
 
 
         
@@ -369,10 +379,18 @@
           
       <div class="tabs tabs-comment">
         <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
             <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
         </ul>
         <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
             <div class="tab-pane livere" id="comment-livere">
               
   <div class="comments">
@@ -437,7 +455,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#良好的并发"><span class="nav-number">1.</span> <span class="nav-text">良好的并发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#泛型缺失"><span class="nav-number">2.</span> <span class="nav-text">泛型缺失</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于易读性"><span class="nav-number">3.</span> <span class="nav-text">关于易读性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-擅长的地方"><span class="nav-number">4.</span> <span class="nav-text">Go 擅长的地方</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络和Web服务器"><span class="nav-number">4.1.</span> <span class="nav-text">网络和Web服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动化与命令行工作"><span class="nav-number">4.2.</span> <span class="nav-text">自动化与命令行工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产机代码的维护"><span class="nav-number">4.3.</span> <span class="nav-text">生产机代码的维护</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-不擅长的地方"><span class="nav-number">5.</span> <span class="nav-text">Go 不擅长的地方</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#业务属性较多的地方"><span class="nav-number">5.1.</span> <span class="nav-text">业务属性较多的地方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极限性能要求"><span class="nav-number">5.2.</span> <span class="nav-text">极限性能要求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">良好的并发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">泛型缺失</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">关于易读性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">Go 擅长的地方</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络和Web服务器"><span class="nav-number">4.1.</span> <span class="nav-text">网络和Web服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动化与命令行工作"><span class="nav-number">4.2.</span> <span class="nav-text">自动化与命令行工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产机代码的维护"><span class="nav-number">4.3.</span> <span class="nav-text">生产机代码的维护</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">5.</span> <span class="nav-text">Go 不擅长的地方</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#业务属性较多的地方"><span class="nav-number">5.1.</span> <span class="nav-text">业务属性较多的地方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极限性能要求"><span class="nav-number">5.2.</span> <span class="nav-text">极限性能要求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -449,19 +467,19 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">103</span>
+          <a href="/archives/">
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -569,20 +587,23 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
 
 <div class="copyright">
   
   &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-yanick"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
-<p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
-
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
+<!--- 
+<p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+--->
 
         
 <div class="busuanzi-count">
@@ -730,9 +751,29 @@
 
 
 
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
-<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
 <script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
@@ -764,6 +805,20 @@
   
 
   
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 <script>
   var disqus_config = function() {

@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="年轻的程序员请尽量减少抽象">
+<meta property="og:url" content="http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201228145412.png">
+<meta property="article:published_time" content="2020-12-25T10:00:48.000Z">
+<meta property="article:modified_time" content="2021-03-22T05:25:36.517Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="rethink">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201228145412.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>年轻的程序员请尽量减少抽象 | Yanick's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-专栏">
+
+    <a href="/column/" rel="section"><i class="fa fa-fw fa-edit"></i>专栏</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-fw fa-paper-plane"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-fw fa-map"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-fw fa-link"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="http://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wikipedia-w"></i>百科</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          年轻的程序员请尽量减少抽象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-25 18:00:48" itemprop="dateCreated datePublished" datetime="2020-12-25T18:00:48+08:00">2020-12-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-22 13:25:36" itemprop="dateModified" datetime="2021-03-22T13:25:36+08:00">2021-03-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/rethink/" itemprop="url" rel="index"><span itemprop="name">rethink</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/12/25/rethink/not-more-abstraction/" class="post-meta-item leancloud_visitors" data-flag-title="年轻的程序员请尽量减少抽象" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201228145412.png" alt=""></p>
+<blockquote>
+<p>Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方面的细节。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="抽象的价值"><a class="header-anchor" href="#抽象的价值">¶</a>抽象的价值</h2>
+<p>为什么需要抽象，一方面我们需要将不重要的细节隐藏起来，另外一方面因为我们每个人都不是全知全能之神，我们需要站在别人的肩膀之上完成更高层级的事情。</p>
+<blockquote>
+<p>比如我们需要在城市中投递快递，无论是 <code>中通快递</code> <code>申通快递</code> <code>顺丰快递</code> 对于快递的抽象就是将某个物品从 <code>A</code> 传输到 <code>B</code>，因此对于我们来说，快递就是一个传递性的协议。</p>
+</blockquote>
+<p>但是值得注意的是</p>
+<blockquote>
+<p>The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise.<br>
+抽象不是模糊不清的复用，而是创建一个绝对精准的新语义层</p>
+</blockquote>
+<p>如果现在没有出现的抽象，绝大多数的时候我们不需要再继续抽象。因为我的抽象往往作为别者的依赖，如果出现 <code>坏抽象</code> 的时候，<code>坏抽象</code> 会变成病毒般的传播起来，而坏抽象往往会有这么几个味道</p>
+<h2 id="坏抽象"><a class="header-anchor" href="#坏抽象">¶</a>坏抽象</h2>
+<blockquote>
+<p>You thought that the abstraction world was made of rivers of honey, roads of chocolate and clouds of marshmallow? Everything has a cost: using abstractions should be a thoughtful decision.</p>
+</blockquote>
+<h3 id="为了解决重复的抽象"><a class="header-anchor" href="#为了解决重复的抽象">¶</a>为了解决重复的抽象</h3>
+<blockquote>
+<p>Duplication is far cheaper than the wrong abstraction. [重复比糟糕的抽象好得多]</p>
+</blockquote>
+<ul>
+<li>程序员 A 看到一段重复的代码。</li>
+<li>程序员 A 将其提出出来并给他起了一个名字。</li>
+</ul>
+<p><code>此时创建了一个新的抽象，也许是函数/类/模块</code></p>
+<ul>
+<li>程序员 A 基于新的抽象将代码进行了重构。</li>
+</ul>
+<p><code>此时的代码看其里非常的完美</code></p>
+<p><em><strong>一段时间之后</strong></em></p>
+<p><code>新的需求产生，现在的抽象几乎是满足需求的</code></p>
+<ul>
+<li>程序员 B 被安排来实现这个任务</li>
+<li>程序员 B 由于并非每种情况都完全相同，因此他们更改代码以采用一个参数，然后添加逻辑以根据该参数的值有条件地做正确的事情。</li>
+</ul>
+<p><code>原本一样的抽象开始有点不一样</code></p>
+<ul>
+<li>另一个新要求到来了。</li>
+<li>程序员 X<br>
+<code>另一个附加参数</code> <code>另一个新的条件</code> <code>循环直到代码变得令人费解</code></li>
+</ul>
+<p>既有的系统代码代表了正确，不幸的是随着复杂度的上升，保留的压力会越来越大，那些正确的代码让你小心翼翼，你只能加上 <code>more &amp; more</code> 的条件 <code>flag</code> 来完成你的新任务，在 <code>梭罗</code> 的 《瓦尔登湖》 中指出，剥夺你人生自由的恰好就是那些你拥有的。</p>
+<div>
+    <label class="author-mark-label">小声比比</label>
+    <p class="author-mark">尤其是在一些抽象能力比较弱的语言 (说的就是你Go) 上，基于反射的抽象只会让你更加难理解</p>
+</div>
+<h3 id="糟糕的命名"><a class="header-anchor" href="#糟糕的命名">¶</a>糟糕的命名</h3>
+<blockquote>
+<p>There are only two hard things in Computer Science: cache invalidation and naming things.</p>
+</blockquote>
+<p>想想当你定义了一个 <code>deleteUser</code> 函数的时候，在执行这个函数的时候，我们将这个 <code>User</code> 置为 <code>Disable</code> 并且将其账号余额给清空了，拜托，下一个接手的程序员如果能从 <code>deleteUser</code> 里面读到这些就有鬼了。</p>
+<h3 id="简化问题"><a class="header-anchor" href="#简化问题">¶</a>简化问题</h3>
+<p>让你设计一个 <code>Json</code> 转换成 <code>Xml</code> 的神奇函数，你想要这个函数简单通俗易懂。你定义了一个 <code>Parser</code> Class，然后给他一个万能的 <code>Parser::parse(String json)</code> 函数，这个糟糕的设计没有任何参数，我试图在转换的过程中将某些字段忽略，我们就不得不去破坏抽象了。</p>
+<p>过渡简化问题就好像只有一个旋钮的洗衣机，我们可以用 <code>旋转</code> + <code>按下</code> 来完成我的任务，但是多放几个按钮也许更高效的多。</p>
+<h3 id="脱离现实的OOP"><a class="header-anchor" href="#脱离现实的OOP">¶</a>脱离现实的OOP</h3>
+<p><code>OOP</code> 是一个很不错的工具，但并不是灵丹妙药，在使用 <code>OOP</code> 之前考虑下是不是用简单的函数就可以满足你的需求，这也是为什么现在大量的语言都在将 <code>FP</code> 的精华融入系统之中。</p>
+<p>创建一个 <code>class</code> 的时候，考虑一下三点：</p>
+<ol>
+<li>简化和消除复杂性。</li>
+<li>其他的类可以使用它，但他不需要是一个全局的 <code>magic class</code>。</li>
+<li>将数据和作用于数据的函数封装在一起。</li>
+</ol>
+<h3 id="面向未来"><a class="header-anchor" href="#面向未来">¶</a>面向未来</h3>
+<blockquote>
+<p>premature optimization is the root of all evil</p>
+</blockquote>
+<p>这简直就是 <code>Java</code> 程序员的重灾区，一大堆单一实现的 <code>interface</code>，当在 <code>codereview</code> 的时候，每一个人都抱着我这是为了未来的可拓展性，<code>面向未来</code> 只会带来复杂性，在需要抽象时使用抽象。</p>
+<p><code>programming to interfaces(面向接口编程)</code> 显然不是你的接口，你的 <code>Customer</code> 只有唯一的一个实现类 <code>CustomerImpl</code> 实际上并没有多态性和可替换性，这里就是一个虚假的多态。</p>
+<h2 id="抽象泄露"><a class="header-anchor" href="#抽象泄露">¶</a>抽象泄露</h2>
+<blockquote>
+<p>all non-trivial abstractions, to some degree, are leaky. [在某种程度上，所有非平凡的抽象都是泄漏的]</p>
+</blockquote>
+<p>首先想一想抽象会是完美的吗？<br>
+如果我们将汽车抽象成一个带方向盘和四个轮子的大铁盒子，会导致什么，当我们的车正常行驶的时候一切刚刚好，但是车出现故障的，我们并不会知道车发生了什么，因为这一切都在你的抽象范围呢，我们为这个车加上一个中控，然后显示故障码？相信我在真实的世界里面，故障是无可穷举的。而恰到好处的抽象并不意味着滴水不漏，<code>Leaky Abstraction</code> 也是一个可选项。<br>
+但是 <code>Leaky Abstraction</code> 有些时候就是对操作者有益，而有些时候是非常糟糕的。比如  <code>NFS</code> 这样的远程文件系统，可以让用户如同操作本地文件一般操纵远程的文件，对于用户来说会出现 <code>Connection Error</code> 这是本地文件从来不会发生的错误，这就是一种抽象泄露，所幸这种泄露并没有什么糟糕之处。<br>
+但是另外一种当你在教导某人在编写一个 <a href="http://www.gwtproject.org/" target="_blank" rel="noopener"><code>GWT</code></a> 系统，<code>GWT</code> 目的就是用 <code>Java</code> 来编写 <code>JS+HTML</code> 的系统，隐藏了 <code>JS</code> 的实现，此时如果用户将 <code>JS</code> 禁用了，<code>Java</code> 程序员就面临着一无所知的境地。</p>
+<blockquote>
+<p>The law of leaky abstractions means that whenever somebody comes up with a wizzy new code-generation tool that is supposed to make us all ever-so-efficient, you hear a lot of people saying “learn how to do it manually first, then use the wizzy tool to save time.” Code generation tools which pretend to abstract out something, like all abstractions, leak, and the only way to deal with the leaks competently is to learn about how the abstractions work and what they are abstracting. So the abstractions save us time working, but they don’t save us time learning.</p>
+</blockquote>
+<p>我们拥有越来越高的编程工具并具有越来越好的抽象性，反而成为熟练的程序员也变得越来越困难。每一层都不是完美的抽象，总是存在着泄露。</p>
+<p>抽象泄露也不一定都坏的，我们在汽车的抽象中，我们将离合，控制盘，刹车，油门泄露给用户，一个老道的用户可以根据油门的感觉，刹车的时间都可以判断车出现了什么故障，这样的泄露也不全是缺点，就好像电视机的遥控器总不是按键越少越好。</p>
+<p>编程中的 <code>ORM</code> 总是处于如此糟糕的境地，无论你花了多少的努力想要把 <code>SQL</code> 隐藏在 <code>Proggraming</code> 之下，<a href="https://hibernate.org/orm/" target="_blank" rel="noopener"><code>hibernate</code></a> 用了 500 多页的教程来教导你如何用代码规避一个复杂的 <code>SQL</code>，而用户只会选择将 SQL 写在代码之中。</p>
+<hr>
+<p>谨记：<br>
+所有的抽象</p>
+<ul>
+<li>当脱离上下文的时候就变的无效</li>
+<li>并不完美</li>
+<li>与现实世界关联</li>
+</ul>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
+<ul>
+<li><a href="http://sriku.org/blog/2019/08/11/abstraction-is-the-root-of-all-evil/" target="_blank" rel="noopener">abstraction is the root of all evil</a></li>
+<li><a href="https://wiki.c2.com/?TooMuchAbstraction" target="_blank" rel="noopener">TooMuchAbstraction</a></li>
+<li><a href="https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction" target="_blank" rel="noopener">the wrong abstraction</a></li>
+<li><a href="http://www.codemanship.co.uk/parlezuml/blog/?postid=934" target="_blank" rel="noopener">Reused Abstractions Principle (RAP)</a></li>
+<li><a href="https://hackernoon.com/abstract-programmers-acada09df860" target="_blank" rel="noopener">‘Abstraction’ is a dirty word.</a></li>
+<li><a href="https://thevaluable.dev/abstraction-type-software-example/" target="_blank" rel="noopener">A Detailed Guide to Abstraction in Software with Examples</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rethink/" rel="tag"># rethink</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/20/networking/istio/spring-cloud-with-istio/" rel="prev" title="Spring Cloud Run In Istio">
+      <i class="fa fa-chevron-left"></i> Spring Cloud Run In Istio
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/13/hard-way/learn-by-self-hard-way-practices/" rel="next" title="The Hard Way Learn Computer Science [实践班]">
+      The Hard Way Learn Computer Science [实践班] <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象的价值"><span class="nav-number">1.</span> <span class="nav-text">抽象的价值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#坏抽象"><span class="nav-number">2.</span> <span class="nav-text">坏抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为了解决重复的抽象"><span class="nav-number">2.1.</span> <span class="nav-text">为了解决重复的抽象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#糟糕的命名"><span class="nav-number">2.2.</span> <span class="nav-text">糟糕的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化问题"><span class="nav-number">2.3.</span> <span class="nav-text">简化问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脱离现实的OOP"><span class="nav-number">2.4.</span> <span class="nav-text">脱离现实的OOP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向未来"><span class="nav-number">2.5.</span> <span class="nav-text">面向未来</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象泄露"><span class="nav-number">3.</span> <span class="nav-text">抽象泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom icon-zhihu"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px"></a>提供CDN加速/云存储服务</p>
+<!--- 
+<p>Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a></p>
+--->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/";
+    this.page.identifier = "2020/12/25/rethink/not-more-abstraction/";
+    this.page.title = "年轻的程序员请尽量减少抽象";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
