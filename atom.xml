@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-03-22T05:25:36.517Z</updated>
+  <updated>2021-03-26T08:24:17.838Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RT-Thread 简明阅读</title>
+    <link href="http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/"/>
+    <id>http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/</id>
+    <published>2021-03-25T05:46:07.000Z</published>
+    <updated>2021-03-26T08:24:17.838Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210325155834.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;对于一个&lt;code&gt;软件工程师&lt;/code&gt;来说，我并不是很关心 &lt;code&gt;BootLoader&lt;/code&gt; 这些东西，几乎都比较接近于硬件，&lt;code&gt;Linux&lt;/code&gt; 的代码又普遍太过于工业级，因此尝试用 &lt;code&gt;rt-thread&lt;/code&gt; 这样一&lt;br&gt;
+个比较小型的 &lt;code&gt;real time&lt;/code&gt; 系统来解析操作系统的工作。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For My Lovely Wife&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="os" scheme="http://blog.yanick.site/categories/os/"/>
+    
+      <category term="rt-thread" scheme="http://blog.yanick.site/categories/os/rt-thread/"/>
+    
+    
+      <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
+    
+      <category term="rt-thread" scheme="http://blog.yanick.site/tags/rt-thread/"/>
+    
+  </entry>
   
   <entry>
     <title>Rank N Types</title>
@@ -476,27 +505,6 @@
       <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
     
       <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>APM 杂谈</title>
-    <link href="http://blog.yanick.site/2020/09/23/apm/apm/"/>
-    <id>http://blog.yanick.site/2020/09/23/apm/apm/</id>
-    <published>2020-09-23T06:41:01.000Z</published>
-    <updated>2021-03-22T05:25:36.501Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/23/HTv8R.png&quot; alt=&quot;HTv8R.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;人人都需要的 &lt;code&gt;Application Performance Monitoring&lt;/code&gt; 了解一下&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="apm" scheme="http://blog.yanick.site/categories/apm/"/>
-    
-    
-      <category term="apm" scheme="http://blog.yanick.site/tags/apm/"/>
     
   </entry>
   
