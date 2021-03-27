@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-03-26T08:24:17.838Z</updated>
+  <updated>2021-03-27T02:49:14.925Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Opentelemetry Collector 源码解读</title>
+    <link href="http://blog.yanick.site/2021/03/26/go/ot/"/>
+    <id>http://blog.yanick.site/2021/03/26/go/ot/</id>
+    <published>2021-03-26T05:46:07.000Z</published>
+    <updated>2021-03-27T02:49:14.925Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210326194325.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;opentelemetry&lt;/code&gt; 作为 &lt;code&gt;CNCF&lt;/code&gt; 社区的全新项目，最为核心的就是 &lt;code&gt;Collector&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+      <category term="opentelemetry" scheme="http://blog.yanick.site/categories/go/opentelemetry/"/>
+    
+    
+      <category term="go" scheme="http://blog.yanick.site/tags/go/"/>
+    
+      <category term="opentelemetry" scheme="http://blog.yanick.site/tags/opentelemetry/"/>
+    
+  </entry>
   
   <entry>
     <title>RT-Thread 简明阅读</title>
@@ -480,31 +505,6 @@
       <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
     
       <category term="tcp" scheme="http://blog.yanick.site/tags/tcp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 网络大全</title>
-    <link href="http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/"/>
-    <id>http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/</id>
-    <published>2020-09-25T02:09:07.000Z</published>
-    <updated>2021-03-22T05:25:36.513Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/09/28/JJUHE.png&quot; alt=&quot;JJUHE.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;不是很喜欢起这么大的一个名字，不过好像也没啥办法，这次带大家一起聊聊，&lt;code&gt;Linux Network&lt;/code&gt; 的全貌（从软件工程师的角度）&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
-    
-      <category term="network" scheme="http://blog.yanick.site/categories/linux/network/"/>
-    
-    
-      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
-    
-      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
     
   </entry>
   
