@@ -95,6 +95,60 @@
       </tags>
   </entry>
   <entry>
+    <title>使用Daocloud持续部署Hexo</title>
+    <url>/2016/05/26/docker/use-daocloud-hexo/</url>
+    <content><![CDATA[<p>开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo <a href="https://www.zhihu.com/question/21981094" target="_blank" rel="noopener">优缺点对比</a>. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。</p>
+<h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
+<p>静态博客的核心就在于整个生成的网站是全静态，没有任何与服务器交互的部分，所以服务器只要提供HTTP服务即可，所以可以部署在Github, Coding, BAE最便宜的静态实例之上。这些都是网上的教程很多，大家百度一波就好了，就在我把自己的HEXO博客挂在BAE的静态实例之上，就在考虑为什么不把博客放在Daoclou之上呢，Docker的容器化简直是现在是最火的方向。</p>
+<p>整理下思路，大致上也就是</p>
+<ol>
+<li>Step 1 ：打包一个Http server</li>
+<li>Step 2 ：把Pages放进web目录</li>
+<li>Step 3 ：启动服务器</li>
+</ol>
+<p>思路搞清楚，那我们就开始搞起来吧，首先我们需要的是一个WebServer，Nginx大家都耳熟能详，我们仅仅需要的是一个web 服务器，所以我选择使用Lighttpd，为什么选择这个可能是看见Light，我觉得占用的内存会低很多，毕竟我们使用的是免费的资源，配置还是很一般的。</p>
+<h2 id="编写Dockerfile"><a class="header-anchor" href="#编写Dockerfile">¶</a>编写Dockerfile</h2>
+<p>Dockerfile</p>
+<pre><code>FROM jprjr/lighttpd
+#添加静态页面
+ADD public/ /srv/http/
+#启动服务器
+ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lighttpd/lighttpd.conf&quot;]
+</code></pre>
+<p>内容只有这么多，注意public目录是放置Hexo generate 生成的全静态页面目录</p>
+<h2 id="部署项目"><a class="header-anchor" href="#部署项目">¶</a>部署项目</h2>
+<p>首先当然将我们的代码上传至Coding or Github，建议对国有的支持，我选择了将整个项目创建于 Coding上，最终的项目如<br>
+<a href="https://coding.net/u/yann/p/my-blog-page/git" target="_blank" rel="noopener">Coding-Hexo-项目</a></p>
+<ol>
+<li>创建一个新的构建<br>
+<img src="http://cache.yannxia.info/%E5%88%9B%E5%BB%BA%E6%96%B0%E6%9E%84%E5%BB%BA.png" alt="创建新构建"><br>
+<img src="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="构建成功"></li>
+<li>构建成功后进行部署<br>
+<img src="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="部署成功"><br>
+<img src="http://cache.yannxia.info/%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D.png" alt="绑定域名"><br>
+最后就是一路下一步，等待成功就Ok</li>
+</ol>
+<h2 id="检验成果"><a class="header-anchor" href="#检验成果">¶</a>检验成果</h2>
+<p>从执行的域名就可以访问，<br>
+<img src="http://cache.yannxia.info/5D5B2352-D79F-4AE1-936B-8046C3B39490.png" alt="访问域名"></p>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>整来来说这么使用Daocloud进行Docker部署和Bae部署Hexo的静态是一样的道理，也能做到持续集成，但是我们仍然和hexo的命令没有完整的结合在一起，下一步实现一个Hook或者使用Python编写一个基于主分支修改之后，Daocloud也可以自动更新的方案。</p>
+<p>最后的最后，感谢Daocloud提供服务。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>Docker</category>
+        <category>Daocloud</category>
+        <category>Ci</category>
+        <category>Lighttpd</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Daocloud</tag>
+        <tag>Ci</tag>
+        <tag>Lighttpd</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>兵法与项目管理</title>
     <url>/2019/04/13/cs/art-of-software/</url>
     <content><![CDATA[<p>孙子兵法有云：“凡战者，以正合，以奇胜。” 讲的是从战略是正面要刚得住，而依靠一支尖刀部队打开战场的僵局，而获得战场的胜利。项目管理也应担如此，然而往往大部分的项目截取了后半段而忽略了前半段，呜呼哀哉。</p>
@@ -162,60 +216,6 @@
         <category>java</category>
         <category>apollo</category>
       </categories>
-  </entry>
-  <entry>
-    <title>使用Daocloud持续部署Hexo</title>
-    <url>/2016/05/26/docker/use-daocloud-hexo/</url>
-    <content><![CDATA[<p>开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo <a href="https://www.zhihu.com/question/21981094" target="_blank" rel="noopener">优缺点对比</a>. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。</p>
-<h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
-<p>静态博客的核心就在于整个生成的网站是全静态，没有任何与服务器交互的部分，所以服务器只要提供HTTP服务即可，所以可以部署在Github, Coding, BAE最便宜的静态实例之上。这些都是网上的教程很多，大家百度一波就好了，就在我把自己的HEXO博客挂在BAE的静态实例之上，就在考虑为什么不把博客放在Daoclou之上呢，Docker的容器化简直是现在是最火的方向。</p>
-<p>整理下思路，大致上也就是</p>
-<ol>
-<li>Step 1 ：打包一个Http server</li>
-<li>Step 2 ：把Pages放进web目录</li>
-<li>Step 3 ：启动服务器</li>
-</ol>
-<p>思路搞清楚，那我们就开始搞起来吧，首先我们需要的是一个WebServer，Nginx大家都耳熟能详，我们仅仅需要的是一个web 服务器，所以我选择使用Lighttpd，为什么选择这个可能是看见Light，我觉得占用的内存会低很多，毕竟我们使用的是免费的资源，配置还是很一般的。</p>
-<h2 id="编写Dockerfile"><a class="header-anchor" href="#编写Dockerfile">¶</a>编写Dockerfile</h2>
-<p>Dockerfile</p>
-<pre><code>FROM jprjr/lighttpd
-#添加静态页面
-ADD public/ /srv/http/
-#启动服务器
-ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lighttpd/lighttpd.conf&quot;]
-</code></pre>
-<p>内容只有这么多，注意public目录是放置Hexo generate 生成的全静态页面目录</p>
-<h2 id="部署项目"><a class="header-anchor" href="#部署项目">¶</a>部署项目</h2>
-<p>首先当然将我们的代码上传至Coding or Github，建议对国有的支持，我选择了将整个项目创建于 Coding上，最终的项目如<br>
-<a href="https://coding.net/u/yann/p/my-blog-page/git" target="_blank" rel="noopener">Coding-Hexo-项目</a></p>
-<ol>
-<li>创建一个新的构建<br>
-<img src="http://cache.yannxia.info/%E5%88%9B%E5%BB%BA%E6%96%B0%E6%9E%84%E5%BB%BA.png" alt="创建新构建"><br>
-<img src="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="构建成功"></li>
-<li>构建成功后进行部署<br>
-<img src="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="部署成功"><br>
-<img src="http://cache.yannxia.info/%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D.png" alt="绑定域名"><br>
-最后就是一路下一步，等待成功就Ok</li>
-</ol>
-<h2 id="检验成果"><a class="header-anchor" href="#检验成果">¶</a>检验成果</h2>
-<p>从执行的域名就可以访问，<br>
-<img src="http://cache.yannxia.info/5D5B2352-D79F-4AE1-936B-8046C3B39490.png" alt="访问域名"></p>
-<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
-<p>整来来说这么使用Daocloud进行Docker部署和Bae部署Hexo的静态是一样的道理，也能做到持续集成，但是我们仍然和hexo的命令没有完整的结合在一起，下一步实现一个Hook或者使用Python编写一个基于主分支修改之后，Daocloud也可以自动更新的方案。</p>
-<p>最后的最后，感谢Daocloud提供服务。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>Docker</category>
-        <category>Daocloud</category>
-        <category>Ci</category>
-        <category>Lighttpd</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Daocloud</tag>
-        <tag>Ci</tag>
-        <tag>Lighttpd</tag>
-      </tags>
   </entry>
   <entry>
     <title>如何用C语言写一个五子棋</title>
@@ -846,33 +846,6 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </tags>
   </entry>
   <entry>
-    <title>克市与乌市随记</title>
-    <url>/2019/02/27/life/something-about-it-in-karamay/</url>
-    <content><![CDATA[<p>机缘巧合之下，能够到<a href="https://baike.baidu.com/item/%E5%85%8B%E6%8B%89%E7%8E%9B%E4%BE%9D/36972" target="_blank" rel="noopener"><code>克拉玛依</code></a>这里和 <a href="http://www.hongyousoft.com.cn/" target="_blank" rel="noopener"><code>红有软件</code></a>的前后进行过为了 3 周的<code>IT咨询</code>功能在，从一个<code>IT</code>从业者的眼中看<code>克拉玛依</code>这个依靠油田拔地而起的城市，按照当地人的说法，这个城市几乎都围绕着<code>石油</code>，<code>IT</code>也不例外，<code>数字油田建设</code>是<code>IT</code>发展的核心。</p>
-<a id="more"></a>
-<p>以实施咨询的<code>红有软件</code>公司为例，前身是石油勘探院下属的一个研究性科室，在改革的浪潮下，<code>1996</code>年的时候从石油勘探院的剥离成立一个独立公司<code>红有软件</code>，凭借着多年在石油系统的专研，为石油系统提供了一系列优秀的程序，在多年的实践过程中，在大力出奇迹的情况下，搞了一个平台系统，用户只需要在页面点点，配合一点数据源之类的就可以生成报表等，对这玩意就是一个简单的<code>ERP</code>系统。这个平台在 <code>2017</code> 的时候准备过渡到<code>第三代</code>基于微服务重构。虽然至今(<code>2019</code>)也是只是完成了一点点，实际上这个进度和大部分的国企单位的进度是类似的。</p>
-<p>当然克市也面临着一系列的问题，整个城市地处边陲，<code>IT</code>虽然理论上是不以地理为核心，然后过于遥远的地理位置，导致这里的<code>IT</code>人才往往留不住，年轻人还行向往去<code>北京</code>这样的一线城市，哪怕是因为<code>北京</code>的高房价，也会选择去<code>西安</code>这样的中部城市，这和国内大部分的城市一样，产业往往过于单一，年轻人并没有什么建设家乡的机会，公务员/事业单位是城市主任，产业往往也以支撑的工业和农业为主，并且因为克市作为一个资源城市，整体的收入也不算低，所以克市很多富裕的家庭也希望自己的孩子下一代不在这个城市，而<code>克市</code>的软件从业者多以<code>35+</code>的中年人为主，在这里可能就没有中年危机了，软件公司依附于国企，工作风格也与国企类似。</p>
-<p>当地的<code>IT</code>多半依靠的强大的商务关系，相对于<code>克拉玛依</code>这个政企不分的城市（17 年开始分市长和石油公司总经理，原来是不做区分的），大部分的系统算是一个定制化开发点单页应用的，关于核心的生产系统，也是当地的 IT 企业所接触不到的，这些系统大部分和硬件绑定的极为紧密。</p>
-<p>当地的网络环境也是影响程序员一个重要的因素，毕竟一个不能够访问<code>Github</code>的地方，会让你无限的头疼。</p>
-<p>最后附上边陲小镇程序员的合影：</p>
-<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q04qnk3pj21400u0wgy.jpg" alt=""></p>
-<hr>
-<p>除了<code>IT</code>之外，这里的物价真是不便宜，餐饮成本与上海持平，就谈不上和北京做些比较了。不过倒是本地的晚上正式的饭局价格尚且可以，人均<code>100</code>出口已经可以算的上是大鱼大肉了，无理由的猜猜应该是因为<code>红肉的成本略低</code>。</p>
-<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q03eanzwj21400u0dk9.jpg" alt=""></p>
-<p>的确是因为靠山吃山靠水吃水，当地的饮食以<code>牛羊肉</code>为主，蔬菜并不多样，常见的是<code>胡萝卜</code>，<code>洋葱（皮牙子）</code>，当地如果吃上几天吃腻了，还是得吃点<code>皮辣红</code>解解腻，不过当地的羊肉的确是一句，味道极为美味。</p>
-<p>乌鲁木齐相较于克拉玛依更像一个沿海的城市，除了低气温和一些民族饭馆，和大部分的城市一样，高架桥，硕大的高铁站，有个 3 个航站楼的机场，友谊商城开着各种熟悉名字的饭馆和品牌店，路上的也以汉人为主，城市中的外来务工者，<code>四川</code>，<code>山东</code>的也不少和其他如出一辙。</p>
-<hr>
-<p>PS：国企同学们依然保留着打乒乓球的优良传统，上一次看到乒乓球桌是在<code>南方电网</code>。</p>
-<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0pzz1cxhpj20sm0mqwxm.jpg" alt=""></p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>游记</category>
-      </categories>
-      <tags>
-        <tag>游记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2018年初面试回顾</title>
     <url>/2018/04/11/life/interview-review/</url>
     <content><![CDATA[<p>抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击<br>
@@ -1016,6 +989,33 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <tags>
         <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>克市与乌市随记</title>
+    <url>/2019/02/27/life/something-about-it-in-karamay/</url>
+    <content><![CDATA[<p>机缘巧合之下，能够到<a href="https://baike.baidu.com/item/%E5%85%8B%E6%8B%89%E7%8E%9B%E4%BE%9D/36972" target="_blank" rel="noopener"><code>克拉玛依</code></a>这里和 <a href="http://www.hongyousoft.com.cn/" target="_blank" rel="noopener"><code>红有软件</code></a>的前后进行过为了 3 周的<code>IT咨询</code>功能在，从一个<code>IT</code>从业者的眼中看<code>克拉玛依</code>这个依靠油田拔地而起的城市，按照当地人的说法，这个城市几乎都围绕着<code>石油</code>，<code>IT</code>也不例外，<code>数字油田建设</code>是<code>IT</code>发展的核心。</p>
+<a id="more"></a>
+<p>以实施咨询的<code>红有软件</code>公司为例，前身是石油勘探院下属的一个研究性科室，在改革的浪潮下，<code>1996</code>年的时候从石油勘探院的剥离成立一个独立公司<code>红有软件</code>，凭借着多年在石油系统的专研，为石油系统提供了一系列优秀的程序，在多年的实践过程中，在大力出奇迹的情况下，搞了一个平台系统，用户只需要在页面点点，配合一点数据源之类的就可以生成报表等，对这玩意就是一个简单的<code>ERP</code>系统。这个平台在 <code>2017</code> 的时候准备过渡到<code>第三代</code>基于微服务重构。虽然至今(<code>2019</code>)也是只是完成了一点点，实际上这个进度和大部分的国企单位的进度是类似的。</p>
+<p>当然克市也面临着一系列的问题，整个城市地处边陲，<code>IT</code>虽然理论上是不以地理为核心，然后过于遥远的地理位置，导致这里的<code>IT</code>人才往往留不住，年轻人还行向往去<code>北京</code>这样的一线城市，哪怕是因为<code>北京</code>的高房价，也会选择去<code>西安</code>这样的中部城市，这和国内大部分的城市一样，产业往往过于单一，年轻人并没有什么建设家乡的机会，公务员/事业单位是城市主任，产业往往也以支撑的工业和农业为主，并且因为克市作为一个资源城市，整体的收入也不算低，所以克市很多富裕的家庭也希望自己的孩子下一代不在这个城市，而<code>克市</code>的软件从业者多以<code>35+</code>的中年人为主，在这里可能就没有中年危机了，软件公司依附于国企，工作风格也与国企类似。</p>
+<p>当地的<code>IT</code>多半依靠的强大的商务关系，相对于<code>克拉玛依</code>这个政企不分的城市（17 年开始分市长和石油公司总经理，原来是不做区分的），大部分的系统算是一个定制化开发点单页应用的，关于核心的生产系统，也是当地的 IT 企业所接触不到的，这些系统大部分和硬件绑定的极为紧密。</p>
+<p>当地的网络环境也是影响程序员一个重要的因素，毕竟一个不能够访问<code>Github</code>的地方，会让你无限的头疼。</p>
+<p>最后附上边陲小镇程序员的合影：</p>
+<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q04qnk3pj21400u0wgy.jpg" alt=""></p>
+<hr>
+<p>除了<code>IT</code>之外，这里的物价真是不便宜，餐饮成本与上海持平，就谈不上和北京做些比较了。不过倒是本地的晚上正式的饭局价格尚且可以，人均<code>100</code>出口已经可以算的上是大鱼大肉了，无理由的猜猜应该是因为<code>红肉的成本略低</code>。</p>
+<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q03eanzwj21400u0dk9.jpg" alt=""></p>
+<p>的确是因为靠山吃山靠水吃水，当地的饮食以<code>牛羊肉</code>为主，蔬菜并不多样，常见的是<code>胡萝卜</code>，<code>洋葱（皮牙子）</code>，当地如果吃上几天吃腻了，还是得吃点<code>皮辣红</code>解解腻，不过当地的羊肉的确是一句，味道极为美味。</p>
+<p>乌鲁木齐相较于克拉玛依更像一个沿海的城市，除了低气温和一些民族饭馆，和大部分的城市一样，高架桥，硕大的高铁站，有个 3 个航站楼的机场，友谊商城开着各种熟悉名字的饭馆和品牌店，路上的也以汉人为主，城市中的外来务工者，<code>四川</code>，<code>山东</code>的也不少和其他如出一辙。</p>
+<hr>
+<p>PS：国企同学们依然保留着打乒乓球的优良传统，上一次看到乒乓球桌是在<code>南方电网</code>。</p>
+<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0pzz1cxhpj20sm0mqwxm.jpg" alt=""></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>游记</category>
+      </categories>
+      <tags>
+        <tag>游记</tag>
       </tags>
   </entry>
   <entry>
@@ -1571,63 +1571,6 @@ HTTP 当然懂一点总是有用的，毕竟是网络的时代了，配了很多
       </categories>
   </entry>
   <entry>
-    <title>给客户提供的服务</title>
-    <url>/2020/05/08/rethink/different-way-for-cosumer/</url>
-    <content><![CDATA[<p>自古甲方是大爷，甲方选乙方如同青楼点小姐，甲方亦然自己的口味也要看小姐能提供什么类型，好御姐这口就不能找一个萝莉妹子陪。那就聊聊这几年看过的客户所需要的服务：</p>
-<a id="more"></a>
-<h1>万事俱备就差程序员系列</h1>
-<p>一般这么说的客户，可能就是差点干活的，也就是当个乙方人力外包的命，这种服务最累又赚不到什么钱，流水的程序员铁打的甲方，固定的预算，一般也就是干着最脏最累的活。</p>
-<h1>我有一个想做的东西</h1>
-<p>这种客户是最多的，甲方内部立项某一个前沿性的项目【ServiceMesh】之类的，客户大概知道这玩意能做啥，但是并没有想好项目的形态，此类项目普遍存在着一种状况 <strong>期望过大，而预算过低</strong>，因为这些年的程序员的人力成本增长，一个前沿性的项目可能投入100W并不能得到什么回报，因此对于这样的项目，控制住客户的期望，和降低自己的成本是项目的重中之重。</p>
-<h2 id="降低期望"><a class="header-anchor" href="#降低期望">¶</a>降低期望</h2>
-<p>如果此类项目/产品 在市面上未有什么开源产品或者是商业产品，此时还是比较好控制用户的欲望的，然而如果市场上已经有同类产品，那就很容易变成如下情况 <code>100W的预算帮我做一个[网易轻舟](https://www.163yun.com/product-nsf)</code>，客户常常觉得吧，不就是把开源的产品这样再这样，然后这样揉在一起就可以了？</p>
-<h2 id="降低成本"><a class="header-anchor" href="#降低成本">¶</a>降低成本</h2>
-<p>在施工的时候，传统的构建方式是在现场构建，但是有一种比较降低成本的方式：<a href="https://zhuanlan.zhihu.com/p/64324537" target="_blank" rel="noopener">装配式建筑PC构件</a> 对于软件实施的过程中我们也可以参考这样的模式，将大部分的重叠功能作为预制件交付出去。在这种的情况下，我们可以在内部培养较为高级且专精的研发团队，可以攻坚复杂的部分。</p>
-<blockquote>
-<p>其实和传统的企业，需要中间件部门一样，对于大部分业务研发部门不可能做到对于中间件熟悉，因此需要独立的团队进行研发与维护。</p>
-</blockquote>
-<p>但是对于降低成本更重要的是市场的规模化，因此在这个产品开始孵化之前就需要做一次<code>项目尸检</code>，这个项目真的可以规模化吗？</p>
-<h1>依赖性质</h1>
-<p>还有一种就是，客户因为研发力量薄弱，对于乙方特别看中的类型，甚至于把乙方当做一个亲儿子看待，这种客户可遇而不可求。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rethink</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>死亡行军与自我革命</title>
-    <url>/2020/03/31/rethink/another-hard-way-to-die/</url>
-    <content><![CDATA[<p>在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是<strong>死亡行军</strong>。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。</p>
-<a id="more"></a>
-<h1>虽有雄心，无力实现</h1>
-<p>笔者所参与的项目，大致上是一个可交互的服务管理系统，其实比较像 vmware 的一个软件，我们管理的对象是应用本身，但是在设计的过程中，我们不仅仅在技术层面上有所创新，更加在业务层面上也有限制，这时候反而带来了一个很复杂的问题。<code>技术工具</code> 与 <code>业务工具</code> 本质上是有很强的矛盾点的。<code>技术工具</code>的目标是帮助开发者，运维等方便快捷的完成任务，侧重在自由灵活的实现某种能力：比如Jenkins，K8s此类的工具，而 <code>业务工具</code> 是为管理者管理所使用的，更多的是严格的规范管理。举一个这两者交界比较多的软件而言，比如数据分析工具BI等，工具本身提供的是对于多数据源的支持，可视化的支持，这些是开发者所需要的，管理者需要的是开发者最终产生的报表内容，因此我们最终只能选择满足一个客户（当然也可以产生多个产品满足不一样的客户）。因为这样的背景，我们在后续的工作中却发现，我们不仅仅针对管理者的功能没做好（因为企业的管理维度是千变万化的，而所开发的产品只能满足一部分的需求），对于开发者部分的功能也没有做好（因为包含的业务属性，在灵活性方面不得不去做一个妥协）</p>
-<p><img src="https://s1.ax1x.com/2020/03/31/GMeNLQ.png" alt="GMeNLQ.png"><br>
-如图所示，你最终的落脚处一定是: Win-win / Lose-lose 绝非有第三种的可能。</p>
-<h1>To be or not to be</h1>
-<p>生活总是充满了苦难，并非我们需要苦难帮助我们成长，只是生活缺少不了苦难。做了一段时间的产品之后，我们也渐渐的发现，整个DMP的产品体系内有一部分的<strong>组件</strong>是价值较低，但是依然需要有人投入精力进行维护的。我认为这一部分的组件，我认为是低价值的，比如<strong>配置中心</strong>，用户中心，增强的Eureka等，这些组件依然存在着或多或少的问题，我们无法抛弃他们（还是我们舍不得抛弃它们），梭罗如言：牧羊人继承了羊栏的代价是他的自由。我们也为了这些组件从一个灵动飘逸的团队慢慢的变的沉重和笨拙。</p>
-<blockquote>
-<p>无产者在这个革命中失去的只是锁链。他们获得的将是整个世界。</p>
-</blockquote>
-<p>我们也到了为自己革命的时刻，放弃幻想从新起航。扔掉那些低价值意义不明的组件，深耕于高价值有意义的组件，吾辈亦继承DMP之名，简装上阵。</p>
-<h1>Make customers succes</h1>
-<p>如何定义成功，从一个ToB企业的角度，我们的成功显然是建立在成功的帮助客户，亦证：让客户成功是让我们成功的途径。而让客户成功的最重要的因素是找到客户需求，并且帮他满足他的需求，这里面困难之处不能一一道明，不仅仅有客户不知道自己的需求，需求怎么样才算是满足，还有就是如何满足客户的需求。</p>
-<h2 id="产品-or-方案"><a class="header-anchor" href="#产品-or-方案">¶</a>产品 or 方案</h2>
-<p>从旧日的经验看来，强推一个通用的产品是可以满足客户的80%的需求，但是这剩下来的20%，我们却不得不花整个项目过半的时间去满足，从客户的角度也会反馈为响应时间过长，而选择一个恰当的开源产品，满足客户的50%的需求，这剩下来的50%的需求可能会花更少的时间来迎合此类客户特定的场景，因此在真正的去客户进行交付的时候，我们的选择不是单一的，如何保质保量的交付才是我们需要考虑的。因此交付的是我们的产品？还是我们的方案？我认为都是可以的。</p>
-<h2 id="ToB-即服务"><a class="header-anchor" href="#ToB-即服务">¶</a>ToB 即服务</h2>
-<p>toB 的主战场并非是产品本身如何，而且围绕着产品的交付过程和最终的运维阶段如何保证客户的业务连续性。交付Jenkins亦或者DCS这并非是问题的关键，此两者皆为工作，在充分的考虑之下，我们选择一个更容易交付工具，而客户所期待的并非是我们交付的工具，此基于工具我们究竟可以完成多么完美流程的CICD过程，而我们研发产品的初心不也是因为拓展开源产品所不足，而在此之前，我们应该多加反思，这个项目真的需要使用我们自研的产品吗？</p>
-<h1>Do not follow your passion</h1>
-<p>Ben Horowitz 在哥伦比亚大学2015届毕业典礼上的演讲：在你热爱的和你擅长的中，你应该选择哪一个呢？<a href="https://a16z.com/2015/05/28/some-career-advice-for-all-you-recent-graduates/" target="_blank" rel="noopener">原文链接</a> 且不论其他的同事做的怎么样，对于我来说 <strong>kubernetes</strong> 在很长的一段时间内都是我的噩梦（至今我的github的status依然是：🖕Fucking Kubernetes），并非是 k8s 做的不够好，而是我并不擅长于此，而在这之中摸爬滚打就变成了在焦油坑中煎熬。</p>
-<h2 id="在自己擅长的地方深耕"><a class="header-anchor" href="#在自己擅长的地方深耕">¶</a>在自己擅长的地方深耕</h2>
-<p>在网关做到2.x版本的时候，我和何晶都有一段时间不知道给网关增加什么新功能，在之后我们可能选择增加一些额外的功能（当然最终并非是我们在构建），现在回想起来，我觉得这并不是一个好的方式，我们试图在培养同事在不同的技术栈上，比如Skywalking，对于他来说围绕着SW的APM可以做非常多的事情，此时让他再去深入理解k8s，显然是不合适的。围绕着API我们依然可以做很多有趣的尝试，因此让擅长的同事做擅长的事情，这是很重要的一件事情。</p>
-<p>因此我们今年也有了 <a href="https://dwiki.daocloud.io/pages/viewpage.action?pageId=60898721" target="_blank" rel="noopener">女娲计划</a> ，并且相较于从前，我们不再是以产品作为唯一的方向，以领域作为方向，这一领域内的知识与工具皆可为我所用。</p>
-<h2 id="善假于物也"><a class="header-anchor" href="#善假于物也">¶</a>善假于物也</h2>
-<p>但是我们总归是有不擅长的领域，而又不得不去做的，我认为此时寻求下外援也不是什么错误，比如K8S可以咨询Kay的团队，倘若真是有所不得，那从外部借助一些力量也是可以的。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rethink</category>
-      </categories>
-  </entry>
-  <entry>
     <title>警惕从开发转变为运维</title>
     <url>/2020/07/03/rethink/do-be-a-ops-from-a-developer/</url>
     <content><![CDATA[<p>在这有限的三年工作中，我们尝试着从传统的开发|运维分离的体系转换为 <code>Devops</code> 的体系，收益很多：有且不限于</p>
@@ -1677,19 +1620,57 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </categories>
   </entry>
   <entry>
-    <title>微服务2019的新趋势</title>
-    <url>/2019/03/06/rethink/microservice-trend-in-2019/</url>
-    <content><![CDATA[<p>微服务在<code>2019</code>的新趋势，势必是基础设施下行，应用支撑上行。下文展开了说。<br>
-<img src="https://ws1.sinaimg.cn/large/eddc95fcly1g0sv992p3pj219s0ygh35.jpg" alt=""></p>
+    <title>死亡行军与自我革命</title>
+    <url>/2020/03/31/rethink/another-hard-way-to-die/</url>
+    <content><![CDATA[<p>在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是<strong>死亡行军</strong>。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。</p>
 <a id="more"></a>
-<h2 id="基础组件下线"><a class="header-anchor" href="#基础组件下线">¶</a>基础组件下线</h2>
-<p><code>2019</code> 应该是 <code>service mesh</code> 的元年，随着 <code>kubernetes</code> 的普及，<code>kubernetes</code>让<code>PAAS</code>成了开发者也需要关系的地方，其中最为复杂的就应该是 <code>网络部分</code>，基于<code>kubernetes</code>的网络标准，可以实现大量原本需要 <code>sidecar</code> 才能做到的微服务流量管理。</p>
-<h2 id="应用支撑上行"><a class="header-anchor" href="#应用支撑上行">¶</a>应用支撑上行</h2>
-<p>微服务已经发展了有一些时间了，比如网关，熔断这些相对单一的组件的已经大部分进入了成熟的维护阶段，现阶段大家对微服务平台的诉求已经变成整合性的。</p>
-<ul>
-<li>APM：传统基于虚拟机的监控已经不满足现在的微服务的监控需求，需要改造，这个 APM 又如何和微服务系统深入集成又是需要注意的</li>
-<li>分布式事务：分布式事务总是需要的，避免不开的选择。</li>
-</ul>
+<h1>虽有雄心，无力实现</h1>
+<p>笔者所参与的项目，大致上是一个可交互的服务管理系统，其实比较像 vmware 的一个软件，我们管理的对象是应用本身，但是在设计的过程中，我们不仅仅在技术层面上有所创新，更加在业务层面上也有限制，这时候反而带来了一个很复杂的问题。<code>技术工具</code> 与 <code>业务工具</code> 本质上是有很强的矛盾点的。<code>技术工具</code>的目标是帮助开发者，运维等方便快捷的完成任务，侧重在自由灵活的实现某种能力：比如Jenkins，K8s此类的工具，而 <code>业务工具</code> 是为管理者管理所使用的，更多的是严格的规范管理。举一个这两者交界比较多的软件而言，比如数据分析工具BI等，工具本身提供的是对于多数据源的支持，可视化的支持，这些是开发者所需要的，管理者需要的是开发者最终产生的报表内容，因此我们最终只能选择满足一个客户（当然也可以产生多个产品满足不一样的客户）。因为这样的背景，我们在后续的工作中却发现，我们不仅仅针对管理者的功能没做好（因为企业的管理维度是千变万化的，而所开发的产品只能满足一部分的需求），对于开发者部分的功能也没有做好（因为包含的业务属性，在灵活性方面不得不去做一个妥协）</p>
+<p><img src="https://s1.ax1x.com/2020/03/31/GMeNLQ.png" alt="GMeNLQ.png"><br>
+如图所示，你最终的落脚处一定是: Win-win / Lose-lose 绝非有第三种的可能。</p>
+<h1>To be or not to be</h1>
+<p>生活总是充满了苦难，并非我们需要苦难帮助我们成长，只是生活缺少不了苦难。做了一段时间的产品之后，我们也渐渐的发现，整个DMP的产品体系内有一部分的<strong>组件</strong>是价值较低，但是依然需要有人投入精力进行维护的。我认为这一部分的组件，我认为是低价值的，比如<strong>配置中心</strong>，用户中心，增强的Eureka等，这些组件依然存在着或多或少的问题，我们无法抛弃他们（还是我们舍不得抛弃它们），梭罗如言：牧羊人继承了羊栏的代价是他的自由。我们也为了这些组件从一个灵动飘逸的团队慢慢的变的沉重和笨拙。</p>
+<blockquote>
+<p>无产者在这个革命中失去的只是锁链。他们获得的将是整个世界。</p>
+</blockquote>
+<p>我们也到了为自己革命的时刻，放弃幻想从新起航。扔掉那些低价值意义不明的组件，深耕于高价值有意义的组件，吾辈亦继承DMP之名，简装上阵。</p>
+<h1>Make customers succes</h1>
+<p>如何定义成功，从一个ToB企业的角度，我们的成功显然是建立在成功的帮助客户，亦证：让客户成功是让我们成功的途径。而让客户成功的最重要的因素是找到客户需求，并且帮他满足他的需求，这里面困难之处不能一一道明，不仅仅有客户不知道自己的需求，需求怎么样才算是满足，还有就是如何满足客户的需求。</p>
+<h2 id="产品-or-方案"><a class="header-anchor" href="#产品-or-方案">¶</a>产品 or 方案</h2>
+<p>从旧日的经验看来，强推一个通用的产品是可以满足客户的80%的需求，但是这剩下来的20%，我们却不得不花整个项目过半的时间去满足，从客户的角度也会反馈为响应时间过长，而选择一个恰当的开源产品，满足客户的50%的需求，这剩下来的50%的需求可能会花更少的时间来迎合此类客户特定的场景，因此在真正的去客户进行交付的时候，我们的选择不是单一的，如何保质保量的交付才是我们需要考虑的。因此交付的是我们的产品？还是我们的方案？我认为都是可以的。</p>
+<h2 id="ToB-即服务"><a class="header-anchor" href="#ToB-即服务">¶</a>ToB 即服务</h2>
+<p>toB 的主战场并非是产品本身如何，而且围绕着产品的交付过程和最终的运维阶段如何保证客户的业务连续性。交付Jenkins亦或者DCS这并非是问题的关键，此两者皆为工作，在充分的考虑之下，我们选择一个更容易交付工具，而客户所期待的并非是我们交付的工具，此基于工具我们究竟可以完成多么完美流程的CICD过程，而我们研发产品的初心不也是因为拓展开源产品所不足，而在此之前，我们应该多加反思，这个项目真的需要使用我们自研的产品吗？</p>
+<h1>Do not follow your passion</h1>
+<p>Ben Horowitz 在哥伦比亚大学2015届毕业典礼上的演讲：在你热爱的和你擅长的中，你应该选择哪一个呢？<a href="https://a16z.com/2015/05/28/some-career-advice-for-all-you-recent-graduates/" target="_blank" rel="noopener">原文链接</a> 且不论其他的同事做的怎么样，对于我来说 <strong>kubernetes</strong> 在很长的一段时间内都是我的噩梦（至今我的github的status依然是：🖕Fucking Kubernetes），并非是 k8s 做的不够好，而是我并不擅长于此，而在这之中摸爬滚打就变成了在焦油坑中煎熬。</p>
+<h2 id="在自己擅长的地方深耕"><a class="header-anchor" href="#在自己擅长的地方深耕">¶</a>在自己擅长的地方深耕</h2>
+<p>在网关做到2.x版本的时候，我和何晶都有一段时间不知道给网关增加什么新功能，在之后我们可能选择增加一些额外的功能（当然最终并非是我们在构建），现在回想起来，我觉得这并不是一个好的方式，我们试图在培养同事在不同的技术栈上，比如Skywalking，对于他来说围绕着SW的APM可以做非常多的事情，此时让他再去深入理解k8s，显然是不合适的。围绕着API我们依然可以做很多有趣的尝试，因此让擅长的同事做擅长的事情，这是很重要的一件事情。</p>
+<p>因此我们今年也有了 <a href="https://dwiki.daocloud.io/pages/viewpage.action?pageId=60898721" target="_blank" rel="noopener">女娲计划</a> ，并且相较于从前，我们不再是以产品作为唯一的方向，以领域作为方向，这一领域内的知识与工具皆可为我所用。</p>
+<h2 id="善假于物也"><a class="header-anchor" href="#善假于物也">¶</a>善假于物也</h2>
+<p>但是我们总归是有不擅长的领域，而又不得不去做的，我认为此时寻求下外援也不是什么错误，比如K8S可以咨询Kay的团队，倘若真是有所不得，那从外部借助一些力量也是可以的。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>rethink</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>给客户提供的服务</title>
+    <url>/2020/05/08/rethink/different-way-for-cosumer/</url>
+    <content><![CDATA[<p>自古甲方是大爷，甲方选乙方如同青楼点小姐，甲方亦然自己的口味也要看小姐能提供什么类型，好御姐这口就不能找一个萝莉妹子陪。那就聊聊这几年看过的客户所需要的服务：</p>
+<a id="more"></a>
+<h1>万事俱备就差程序员系列</h1>
+<p>一般这么说的客户，可能就是差点干活的，也就是当个乙方人力外包的命，这种服务最累又赚不到什么钱，流水的程序员铁打的甲方，固定的预算，一般也就是干着最脏最累的活。</p>
+<h1>我有一个想做的东西</h1>
+<p>这种客户是最多的，甲方内部立项某一个前沿性的项目【ServiceMesh】之类的，客户大概知道这玩意能做啥，但是并没有想好项目的形态，此类项目普遍存在着一种状况 <strong>期望过大，而预算过低</strong>，因为这些年的程序员的人力成本增长，一个前沿性的项目可能投入100W并不能得到什么回报，因此对于这样的项目，控制住客户的期望，和降低自己的成本是项目的重中之重。</p>
+<h2 id="降低期望"><a class="header-anchor" href="#降低期望">¶</a>降低期望</h2>
+<p>如果此类项目/产品 在市面上未有什么开源产品或者是商业产品，此时还是比较好控制用户的欲望的，然而如果市场上已经有同类产品，那就很容易变成如下情况 <code>100W的预算帮我做一个[网易轻舟](https://www.163yun.com/product-nsf)</code>，客户常常觉得吧，不就是把开源的产品这样再这样，然后这样揉在一起就可以了？</p>
+<h2 id="降低成本"><a class="header-anchor" href="#降低成本">¶</a>降低成本</h2>
+<p>在施工的时候，传统的构建方式是在现场构建，但是有一种比较降低成本的方式：<a href="https://zhuanlan.zhihu.com/p/64324537" target="_blank" rel="noopener">装配式建筑PC构件</a> 对于软件实施的过程中我们也可以参考这样的模式，将大部分的重叠功能作为预制件交付出去。在这种的情况下，我们可以在内部培养较为高级且专精的研发团队，可以攻坚复杂的部分。</p>
+<blockquote>
+<p>其实和传统的企业，需要中间件部门一样，对于大部分业务研发部门不可能做到对于中间件熟悉，因此需要独立的团队进行研发与维护。</p>
+</blockquote>
+<p>但是对于降低成本更重要的是市场的规模化，因此在这个产品开始孵化之前就需要做一次<code>项目尸检</code>，这个项目真的可以规模化吗？</p>
+<h1>依赖性质</h1>
+<p>还有一种就是，客户因为研发力量薄弱，对于乙方特别看中的类型，甚至于把乙方当做一个亲儿子看待，这种客户可遇而不可求。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
         <category>rethink</category>
@@ -1717,44 +1698,20 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </categories>
   </entry>
   <entry>
-    <title>关于编程能力的反思</title>
-    <url>/2018/08/18/rethink/rethink-code-ability/</url>
-    <content><![CDATA[<p>我认为编程上有几种类型的问题</p>
-<ol>
-<li>第一种是本源性的问题，比如 <strong>算法</strong> ，明确性问题，有专业的科研从业者。</li>
-<li>第二种是现实生活中的，输入的条件是不稳定的，外部因素也一直在变化。</li>
-<li>第三类是技能无关的技能，比如团队的调节，团队目标的确定等。</li>
-</ol>
+    <title>微服务2019的新趋势</title>
+    <url>/2019/03/06/rethink/microservice-trend-in-2019/</url>
+    <content><![CDATA[<p>微服务在<code>2019</code>的新趋势，势必是基础设施下行，应用支撑上行。下文展开了说。<br>
+<img src="https://ws1.sinaimg.cn/large/eddc95fcly1g0sv992p3pj219s0ygh35.jpg" alt=""></p>
 <a id="more"></a>
-<h2 id="技能精细化"><a class="header-anchor" href="#技能精细化">¶</a>技能精细化</h2>
-<p>这个也很像是在FP的编程代码里面，有一些东西它的输入是稳定的，得到的结果也是完全的自包含的被称之为 <code>PURE</code> 的，但是在我们生活的世界不是 <code>PURE</code> 的。</p>
-<p>人类因为自己的寿命和思维的限制，人类的发展强依赖于分工，在 <a href="http://www.eywedu.net/guofulun/Test004.htm" target="_blank" rel="noopener">&lt;国富论&gt;</a> 里面也是有类似的理念</p>
-<blockquote>
-<p>人们天赋才能的差异，实际上并不象我们所成觉的那么大。人们壮年时在不同职业上表现出来的极不相同的才能，在多数场合，与其说是分工的原因，倒不如说是分工的结果。</p>
-</blockquote>
-<p>所以在职业发展的后期，如果依然依靠的是 <code>技能</code> 作为自己的生活手段，那我们这个时候所能够做的事情，就会变成精细化。比如</p>
+<h2 id="基础组件下线"><a class="header-anchor" href="#基础组件下线">¶</a>基础组件下线</h2>
+<p><code>2019</code> 应该是 <code>service mesh</code> 的元年，随着 <code>kubernetes</code> 的普及，<code>kubernetes</code>让<code>PAAS</code>成了开发者也需要关系的地方，其中最为复杂的就应该是 <code>网络部分</code>，基于<code>kubernetes</code>的网络标准，可以实现大量原本需要 <code>sidecar</code> 才能做到的微服务流量管理。</p>
+<h2 id="应用支撑上行"><a class="header-anchor" href="#应用支撑上行">¶</a>应用支撑上行</h2>
+<p>微服务已经发展了有一些时间了，比如网关，熔断这些相对单一的组件的已经大部分进入了成熟的维护阶段，现阶段大家对微服务平台的诉求已经变成整合性的。</p>
 <ul>
-<li>KV内存数据设计</li>
-<li>Oracle数据库运维优化</li>
-<li>保险业务模型分拆</li>
+<li>APM：传统基于虚拟机的监控已经不满足现在的微服务的监控需求，需要改造，这个 APM 又如何和微服务系统深入集成又是需要注意的</li>
+<li>分布式事务：分布式事务总是需要的，避免不开的选择。</li>
 </ul>
-<p>这个时候，我们每个人的技能会变成一方面专精，其他方面会至少及格，但是一个人没有办法可以解决<code>所有类型</code>的问题，所有你必须要在不同的问题解决之道之间要有选择。所以你需要不断的解决更难的问题的时候，你就必然会导致你的解决问题的范围是 <code>窄化</code>。但是这种 <code>窄化</code> 也不是一个缺点，我们在生活的时时刻刻都是在不断的进行 <code>取舍</code>。</p>
-<h2 id="关于不同的问题"><a class="header-anchor" href="#关于不同的问题">¶</a>关于不同的问题</h2>
-<p>核心的本质上，作为一个被<code>别人需要（有帮助的）</code>的人，<code>解决问题的能力</code> 才是核心，因为我们每个人都依赖于上下游。<br>
-上游可能是我们依赖的开源项目，亦或者是一个内部组件，下游是我们构建的产品，我们就是一个关键的连接点。</p>
-<p>针对不一样的问题，我们的手段也是不一样的，</p>
-<ul>
-<li>比如我们针对 <code>稳定的算法</code> 问题，我们所能做的事情就是学习现在已经最成熟的方法，明白每一个算法的优点和缺点。</li>
-<li>又比如针对 <code>稳定的技术</code> 问题，我们所能做的就是选择正确的技术框架，选择被实践过的成功范式。<br>
-而对于 <code>不稳定输入</code> 的现实问题，我们能做的是在将问题分解，获得尽可能稳定的输入，针对稳定的部分我们就像是知道一道有解的题目（当然也需要广阔的<code>阅历</code>），而其他不稳定部分，我们依然需要控制<code>复杂</code>度，使用恰当的方式和精力投入解决这部分的问题。</li>
-</ul>
-<h2 id="技能高贱之分"><a class="header-anchor" href="#技能高贱之分">¶</a>技能高贱之分</h2>
-<p>在以前我们就听说过，卖原子弹的不如卖茶叶蛋的，这个算是一个经济导向的一种高贱之分，但是现在的技术圈依然有这样的分别，比如后端觉得前端不高级，后端搞大数据的看不起搞业务的，搞AI又看不起大数据。这个的诞生的原因是因为，我之前说的我们大部分评价一个工种的高端与否一来依靠一些简单的社会价值划定（比如工资）二来就看这个行业的入门的门槛。入门的门槛往往就是在第一类的问题，而我们往往忽略了第二类，鄙视第三类的问题。我们在毕业入职公司的都喜欢考算法题，而第二类的问题我们在工作之后才能慢慢的发现这个技能的重要性，而对于第三类的问题，我们甚至会觉得技术管理人是编程无能的，实际从我的观察看来，技术管理人往往会编程更为的复杂，时时刻刻需要面对的是一直处于变化之中的世界。</p>
-<h2 id="有价值的程序员"><a class="header-anchor" href="#有价值的程序员">¶</a>有价值的程序员</h2>
-<p>并不是说写不出一个操作系统的程序员就是毫无价值的，拿一个餐饮行业打个比方，外面千千万万的苍蝇馆，虽然味道不怎么样，但是这些才是正常人填饱肚子的第一选择，程序员的价值也是如此，在一个学习的过程中，我们首先要贡献出自己的价值出来，在既有的技能条件下，将自己手上的事情做好，然后然后不断的提高自己才是正途，实际上往往会有一些不切实地的幻觉，比如想成为这件事情只有我能做，而别人不能做，这样的人很少，大部分的时候，我们都选择<code>效能最高</code>的方式，可能是最为熟悉这方面的事情，而并非是只有你能做，保持<code>学徒</code>的心态，谦卑前行。</p>
-<hr>
-<p>最终最为重要的事情是保护好自己的身体，编程技能会过时，唯一不变的，你需要的是依靠的是自己强健的体魄和坚忍的毅力去完成你所想的一切，多锻炼，健康饮食，毕竟能够笑到最后的才是赢家。</p>
-<p align="right">于 厦门 ● 观音山</p><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
         <category>rethink</category>
       </categories>
@@ -1802,26 +1759,47 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </categories>
   </entry>
   <entry>
-    <title>计算机科学/艺术</title>
-    <url>/2019/04/09/rethink/sc-or-art/</url>
-    <content><![CDATA[<p>不知道，大家是不是一直受《The Art of Computer Programming》这本书的影响颇大，亦或者大家都是理工科的学生，对于那些没有触及到了艺术就有些向往，就往往冠以计算机艺术之名，计算机艺术这个事情说起来是没错的，无论是操作系统，图形学，AI都是算得上人类智慧的结晶，艺术之作。不过对于大多数的初级程序员来说，这样的说法又让大家忽略了计算机科学工程的那一方面。</p>
-<h2 id="软件技能本质上还是一个技能"><a class="header-anchor" href="#软件技能本质上还是一个技能">¶</a>软件技能本质上还是一个技能</h2>
-<p>软件技能（software skill），首先突出的是一个技能的本身，无论是是达芬奇还一个美院平平无奇的学生，他们都是具备了<strong>绘画</strong>这个技能，而这个技能本身会体现出来，这个要看创作者本身，当然一个作者想要有一个更好的艺术性，显然也是需要很强的技能作为支撑的，而很多的程序员都忘了，技能的获取是靠的是训练，一个从来不执笔画画的画家是肯定练不成大师的，而一个写代码总是不动脑子的程序员也是成不了大师的。而这样的程序员往往会有几个很明显的特点：</p>
+    <title>关于编程能力的反思</title>
+    <url>/2018/08/18/rethink/rethink-code-ability/</url>
+    <content><![CDATA[<p>我认为编程上有几种类型的问题</p>
+<ol>
+<li>第一种是本源性的问题，比如 <strong>算法</strong> ，明确性问题，有专业的科研从业者。</li>
+<li>第二种是现实生活中的，输入的条件是不稳定的，外部因素也一直在变化。</li>
+<li>第三类是技能无关的技能，比如团队的调节，团队目标的确定等。</li>
+</ol>
+<a id="more"></a>
+<h2 id="技能精细化"><a class="header-anchor" href="#技能精细化">¶</a>技能精细化</h2>
+<p>这个也很像是在FP的编程代码里面，有一些东西它的输入是稳定的，得到的结果也是完全的自包含的被称之为 <code>PURE</code> 的，但是在我们生活的世界不是 <code>PURE</code> 的。</p>
+<p>人类因为自己的寿命和思维的限制，人类的发展强依赖于分工，在 <a href="http://www.eywedu.net/guofulun/Test004.htm" target="_blank" rel="noopener">&lt;国富论&gt;</a> 里面也是有类似的理念</p>
+<blockquote>
+<p>人们天赋才能的差异，实际上并不象我们所成觉的那么大。人们壮年时在不同职业上表现出来的极不相同的才能，在多数场合，与其说是分工的原因，倒不如说是分工的结果。</p>
+</blockquote>
+<p>所以在职业发展的后期，如果依然依靠的是 <code>技能</code> 作为自己的生活手段，那我们这个时候所能够做的事情，就会变成精细化。比如</p>
 <ul>
-<li>固执且单一：一直都在使用自己熟悉的编程范式与语言进行编程，不愿意接受新的事物</li>
-<li>无有效训练：完成任务即可，对于如何优化和设计毫无动力</li>
+<li>KV内存数据设计</li>
+<li>Oracle数据库运维优化</li>
+<li>保险业务模型分拆</li>
 </ul>
-<h2 id="执泥于艺术那一面"><a class="header-anchor" href="#执泥于艺术那一面">¶</a>执泥于艺术那一面</h2>
-<p>团队中也不缺乏那些聪明而灵活的程序员，本应该走的更远的他们却停滞过于新潮的概念亦或者玄学。而且觉得其中以 《UNIX编程艺术》 这样的书籍作为典范，如果一个程序员张口闭口和你说的都是它的话，那大致可以断定，这是一个玄学程序员。这样的程序员大多数学会了 <code>KISS</code> 之后就抱着这颗大树再也不撒手了，这样的程序员活跃在各大网络论坛和社区之中，他们就是软件行业的<code>禅宗</code>，试图用一些看似有意义的话，让你进行反思，等你反思完成，发现他说的没啥意义的时候，可能已经为时已晚。软件和佛学有点不一样，佛学无法实证，什么内心的愉悦，都是从别人的嘴里讲出来的，因为佛学的禅宗是顺其自然会诞生的，当然也有实证的学派，就比如像苦行僧之类的，而软件本身扎根于计算机，我们所有的行为都是会被01的计算机执行，计算机懂不懂美？我觉得不是不懂的，只有编写的人才懂，这就得要求你，至少写出可行有效的代码，而那些<code>禅宗大师</code>们往往写不出一行能编译通过的代码。</p>
-<h2 id="黑客和画家"><a class="header-anchor" href="#黑客和画家">¶</a>黑客和画家</h2>
-<p>保罗带了一个坏头，把黑客与画家混为一谈，人们往往因为对成功者的顶礼膜拜，就会对其一言一行进行模拟，当然这本书就变成了某些人的灵魂伴侣了。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+<p>这个时候，我们每个人的技能会变成一方面专精，其他方面会至少及格，但是一个人没有办法可以解决<code>所有类型</code>的问题，所有你必须要在不同的问题解决之道之间要有选择。所以你需要不断的解决更难的问题的时候，你就必然会导致你的解决问题的范围是 <code>窄化</code>。但是这种 <code>窄化</code> 也不是一个缺点，我们在生活的时时刻刻都是在不断的进行 <code>取舍</code>。</p>
+<h2 id="关于不同的问题"><a class="header-anchor" href="#关于不同的问题">¶</a>关于不同的问题</h2>
+<p>核心的本质上，作为一个被<code>别人需要（有帮助的）</code>的人，<code>解决问题的能力</code> 才是核心，因为我们每个人都依赖于上下游。<br>
+上游可能是我们依赖的开源项目，亦或者是一个内部组件，下游是我们构建的产品，我们就是一个关键的连接点。</p>
+<p>针对不一样的问题，我们的手段也是不一样的，</p>
+<ul>
+<li>比如我们针对 <code>稳定的算法</code> 问题，我们所能做的事情就是学习现在已经最成熟的方法，明白每一个算法的优点和缺点。</li>
+<li>又比如针对 <code>稳定的技术</code> 问题，我们所能做的就是选择正确的技术框架，选择被实践过的成功范式。<br>
+而对于 <code>不稳定输入</code> 的现实问题，我们能做的是在将问题分解，获得尽可能稳定的输入，针对稳定的部分我们就像是知道一道有解的题目（当然也需要广阔的<code>阅历</code>），而其他不稳定部分，我们依然需要控制<code>复杂</code>度，使用恰当的方式和精力投入解决这部分的问题。</li>
+</ul>
+<h2 id="技能高贱之分"><a class="header-anchor" href="#技能高贱之分">¶</a>技能高贱之分</h2>
+<p>在以前我们就听说过，卖原子弹的不如卖茶叶蛋的，这个算是一个经济导向的一种高贱之分，但是现在的技术圈依然有这样的分别，比如后端觉得前端不高级，后端搞大数据的看不起搞业务的，搞AI又看不起大数据。这个的诞生的原因是因为，我之前说的我们大部分评价一个工种的高端与否一来依靠一些简单的社会价值划定（比如工资）二来就看这个行业的入门的门槛。入门的门槛往往就是在第一类的问题，而我们往往忽略了第二类，鄙视第三类的问题。我们在毕业入职公司的都喜欢考算法题，而第二类的问题我们在工作之后才能慢慢的发现这个技能的重要性，而对于第三类的问题，我们甚至会觉得技术管理人是编程无能的，实际从我的观察看来，技术管理人往往会编程更为的复杂，时时刻刻需要面对的是一直处于变化之中的世界。</p>
+<h2 id="有价值的程序员"><a class="header-anchor" href="#有价值的程序员">¶</a>有价值的程序员</h2>
+<p>并不是说写不出一个操作系统的程序员就是毫无价值的，拿一个餐饮行业打个比方，外面千千万万的苍蝇馆，虽然味道不怎么样，但是这些才是正常人填饱肚子的第一选择，程序员的价值也是如此，在一个学习的过程中，我们首先要贡献出自己的价值出来，在既有的技能条件下，将自己手上的事情做好，然后然后不断的提高自己才是正途，实际上往往会有一些不切实地的幻觉，比如想成为这件事情只有我能做，而别人不能做，这样的人很少，大部分的时候，我们都选择<code>效能最高</code>的方式，可能是最为熟悉这方面的事情，而并非是只有你能做，保持<code>学徒</code>的心态，谦卑前行。</p>
+<hr>
+<p>最终最为重要的事情是保护好自己的身体，编程技能会过时，唯一不变的，你需要的是依靠的是自己强健的体魄和坚忍的毅力去完成你所想的一切，多锻炼，健康饮食，毕竟能够笑到最后的才是赢家。</p>
+<p align="right">于 厦门 ● 观音山</p><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
-        <category>吐槽</category>
+        <category>rethink</category>
       </categories>
-      <tags>
-        <tag>吐槽</tag>
-      </tags>
   </entry>
   <entry>
     <title>Gateway版本迭代反思</title>
@@ -1886,6 +1864,63 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </categories>
   </entry>
   <entry>
+    <title>计算机科学/艺术</title>
+    <url>/2019/04/09/rethink/sc-or-art/</url>
+    <content><![CDATA[<p>不知道，大家是不是一直受《The Art of Computer Programming》这本书的影响颇大，亦或者大家都是理工科的学生，对于那些没有触及到了艺术就有些向往，就往往冠以计算机艺术之名，计算机艺术这个事情说起来是没错的，无论是操作系统，图形学，AI都是算得上人类智慧的结晶，艺术之作。不过对于大多数的初级程序员来说，这样的说法又让大家忽略了计算机科学工程的那一方面。</p>
+<h2 id="软件技能本质上还是一个技能"><a class="header-anchor" href="#软件技能本质上还是一个技能">¶</a>软件技能本质上还是一个技能</h2>
+<p>软件技能（software skill），首先突出的是一个技能的本身，无论是是达芬奇还一个美院平平无奇的学生，他们都是具备了<strong>绘画</strong>这个技能，而这个技能本身会体现出来，这个要看创作者本身，当然一个作者想要有一个更好的艺术性，显然也是需要很强的技能作为支撑的，而很多的程序员都忘了，技能的获取是靠的是训练，一个从来不执笔画画的画家是肯定练不成大师的，而一个写代码总是不动脑子的程序员也是成不了大师的。而这样的程序员往往会有几个很明显的特点：</p>
+<ul>
+<li>固执且单一：一直都在使用自己熟悉的编程范式与语言进行编程，不愿意接受新的事物</li>
+<li>无有效训练：完成任务即可，对于如何优化和设计毫无动力</li>
+</ul>
+<h2 id="执泥于艺术那一面"><a class="header-anchor" href="#执泥于艺术那一面">¶</a>执泥于艺术那一面</h2>
+<p>团队中也不缺乏那些聪明而灵活的程序员，本应该走的更远的他们却停滞过于新潮的概念亦或者玄学。而且觉得其中以 《UNIX编程艺术》 这样的书籍作为典范，如果一个程序员张口闭口和你说的都是它的话，那大致可以断定，这是一个玄学程序员。这样的程序员大多数学会了 <code>KISS</code> 之后就抱着这颗大树再也不撒手了，这样的程序员活跃在各大网络论坛和社区之中，他们就是软件行业的<code>禅宗</code>，试图用一些看似有意义的话，让你进行反思，等你反思完成，发现他说的没啥意义的时候，可能已经为时已晚。软件和佛学有点不一样，佛学无法实证，什么内心的愉悦，都是从别人的嘴里讲出来的，因为佛学的禅宗是顺其自然会诞生的，当然也有实证的学派，就比如像苦行僧之类的，而软件本身扎根于计算机，我们所有的行为都是会被01的计算机执行，计算机懂不懂美？我觉得不是不懂的，只有编写的人才懂，这就得要求你，至少写出可行有效的代码，而那些<code>禅宗大师</code>们往往写不出一行能编译通过的代码。</p>
+<h2 id="黑客和画家"><a class="header-anchor" href="#黑客和画家">¶</a>黑客和画家</h2>
+<p>保罗带了一个坏头，把黑客与画家混为一谈，人们往往因为对成功者的顶礼膜拜，就会对其一言一行进行模拟，当然这本书就变成了某些人的灵魂伴侣了。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>吐槽</category>
+      </categories>
+      <tags>
+        <tag>吐槽</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>前后端分离的罪与罚</title>
+    <url>/2020/02/18/rethink/separate-front-end/</url>
+    <content><![CDATA[<p>什么时候开始吹起了前后端分离的风，在我的回忆里是应该随着 <code>One Page Application</code> 的风来的，突然有那么一段时间 <code>Vue</code>,<code>Angular</code>,<code>React</code>就像雨后春笋长出来一样，前端离开了后端也可以玩转整个处理的流程了，工种的区分的也慢慢的变成前后端两只岗位了，甚至于过了一段时间出现了 <code>Fullstack</code> 的开发者。</p>
+<a id="more"></a>
+<h2 id="为什么会需要前后端分离"><a class="header-anchor" href="#为什么会需要前后端分离">¶</a>为什么会需要前后端分离</h2>
+<p>原因也很简单，现代的IT技术已经非常的复杂，需要专人专岗了,年轻的朋友们可能已经没听过 <code>Web2.0</code> 了，让我们温顾一下：</p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/Web_2.0" target="_blank" rel="noopener">Web 2.0</a>，指以最终用户为目标，强调用户生成内容、易用性、参与文化和互操作性（如：与其它产品、系统和设备兼容）的网站。</p>
+</blockquote>
+<p>在那样的时代，我们几乎使用 JQuery 就可以完成大部分的情况了，但是我们迎来了移动互联网时代，大部分的用户都在手机上进行操作，我们并没有像是BS架构这样的技术直接在手机端使用（当然后面也有一些 HTML View的技术），手机端的数据需要进行和服务器端进行交互，并且此时的Web页面也正在变的复杂，那随之而生的也就是现在大家所能见的 <code>前后端分离</code> 的兴起。</p>
+<h2 id="前后端分离是银弹吗？"><a class="header-anchor" href="#前后端分离是银弹吗？">¶</a>前后端分离是银弹吗？</h2>
+<p>软件工程没有银弹，前后端分离带来的优点包含</p>
+<ul>
+<li>专人专岗：提高了单位输出效率</li>
+<li>降低门槛：以前要学的现在只要学一半</li>
+<li>接口复用：现在提供的接口可以进行复用<br>
+能够显而易见的好处大致上有这些，那它的缺点呢，我们显然也不能避而不谈。</li>
+</ul>
+<h3 id="沟通成本"><a class="header-anchor" href="#沟通成本">¶</a>沟通成本</h3>
+<p>对于绝大多数的公司来说，沟通成本本身就足够大，而现在通过刚性的手段将前后端分离，前后端之间通过<strong>脆弱的</strong>API文档进行沟通本身就是不可靠的，对接过支付宝接口之类的同学也都明白，往往仅有一个API文档依然不足够，还需要有足够多的说明的与Demo，如果寄希望后端补齐这些东西，那增加的时间成本又甚至于高于分离的之后减少时间成本，因为对于大部分的公司来说，前后端分离意味着需要花更多的时间进行API层面上的沟通，如果是相互熟悉的团队可能经历了数个周期的磨合之后会有好转，标准化是一个办法，但标准化往往本身就足够困难。</p>
+<h3 id="信息隔离"><a class="header-anchor" href="#信息隔离">¶</a>信息隔离</h3>
+<p>对于后端来说如果仅仅做后端不考虑前端的实现，往往会写出一些看上去完美的接口，但是实际上在最终和前端对接的过程中，前端同学会心态爆炸，比如对于某些计算值是否都需要前端计算，为什么这个值还要再请求一次，而前端在倒逼后端的时候，后悔的同学也往往会困扰，为何要做这么冗余的设计，而这一切本身都无错，前端是<strong>视觉驱动</strong>：从展示的元素中提炼对象，而后端是<strong>数据驱动</strong>：从业务逻辑中提炼对象，这两份对象常常不同意，前后端分离的解决之道是增加一个中间层，无形之中又增加了复杂度。</p>
+<h2 id="真实之道"><a class="header-anchor" href="#真实之道">¶</a>真实之道</h2>
+<p>摒弃狭义的前后端分离(仅仅将前后端开发者分离,恰当的说法可能是分家)，而是按照 <code>产品线</code> 与 <code>基础设施</code> 分离，对于<code>产品线</code>来说，绝大多数不应该分离前后端职能，从应用的架构上，可以将前后端分离，但是对于某一产品功能应该采用 <code>E-E</code> 端到端的模式，无论是页面展示还是后台数据的存储调用，都应该由单一责任人进行开发。而对于<code>基础设施</code>处，几乎都是数据驱动的技术性产品，这段可以采用完全的前后端分离，为专业人士排除其他的压力，除此之外，也就是极其复杂的UI页面应该由专业的<code>前端</code>进行开发。</p>
+<p>最终构成一个形如网吧的办公场所，人人的技能都可以在相互交流中增长。<br>
+<img src="https://s2.ax1x.com/2020/02/18/3AK5nO.png" alt="3AK5nO.png"></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>rethink</category>
+      </categories>
+      <tags>
+        <tag>反思</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>为什么我厌倦了产品研发(2B)</title>
     <url>/2020/07/06/rethink/stop-create-a-product/</url>
     <content><![CDATA[<p>这不是什么丧气的话，只是这条路暂时不太走得通罢了。从这有限的产品经历看起来，构建一个产品并不容易。</p>
@@ -1942,87 +1977,6 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </tags>
   </entry>
   <entry>
-    <title>前后端分离的罪与罚</title>
-    <url>/2020/02/18/rethink/separate-front-end/</url>
-    <content><![CDATA[<p>什么时候开始吹起了前后端分离的风，在我的回忆里是应该随着 <code>One Page Application</code> 的风来的，突然有那么一段时间 <code>Vue</code>,<code>Angular</code>,<code>React</code>就像雨后春笋长出来一样，前端离开了后端也可以玩转整个处理的流程了，工种的区分的也慢慢的变成前后端两只岗位了，甚至于过了一段时间出现了 <code>Fullstack</code> 的开发者。</p>
-<a id="more"></a>
-<h2 id="为什么会需要前后端分离"><a class="header-anchor" href="#为什么会需要前后端分离">¶</a>为什么会需要前后端分离</h2>
-<p>原因也很简单，现代的IT技术已经非常的复杂，需要专人专岗了,年轻的朋友们可能已经没听过 <code>Web2.0</code> 了，让我们温顾一下：</p>
-<blockquote>
-<p><a href="https://zh.wikipedia.org/wiki/Web_2.0" target="_blank" rel="noopener">Web 2.0</a>，指以最终用户为目标，强调用户生成内容、易用性、参与文化和互操作性（如：与其它产品、系统和设备兼容）的网站。</p>
-</blockquote>
-<p>在那样的时代，我们几乎使用 JQuery 就可以完成大部分的情况了，但是我们迎来了移动互联网时代，大部分的用户都在手机上进行操作，我们并没有像是BS架构这样的技术直接在手机端使用（当然后面也有一些 HTML View的技术），手机端的数据需要进行和服务器端进行交互，并且此时的Web页面也正在变的复杂，那随之而生的也就是现在大家所能见的 <code>前后端分离</code> 的兴起。</p>
-<h2 id="前后端分离是银弹吗？"><a class="header-anchor" href="#前后端分离是银弹吗？">¶</a>前后端分离是银弹吗？</h2>
-<p>软件工程没有银弹，前后端分离带来的优点包含</p>
-<ul>
-<li>专人专岗：提高了单位输出效率</li>
-<li>降低门槛：以前要学的现在只要学一半</li>
-<li>接口复用：现在提供的接口可以进行复用<br>
-能够显而易见的好处大致上有这些，那它的缺点呢，我们显然也不能避而不谈。</li>
-</ul>
-<h3 id="沟通成本"><a class="header-anchor" href="#沟通成本">¶</a>沟通成本</h3>
-<p>对于绝大多数的公司来说，沟通成本本身就足够大，而现在通过刚性的手段将前后端分离，前后端之间通过<strong>脆弱的</strong>API文档进行沟通本身就是不可靠的，对接过支付宝接口之类的同学也都明白，往往仅有一个API文档依然不足够，还需要有足够多的说明的与Demo，如果寄希望后端补齐这些东西，那增加的时间成本又甚至于高于分离的之后减少时间成本，因为对于大部分的公司来说，前后端分离意味着需要花更多的时间进行API层面上的沟通，如果是相互熟悉的团队可能经历了数个周期的磨合之后会有好转，标准化是一个办法，但标准化往往本身就足够困难。</p>
-<h3 id="信息隔离"><a class="header-anchor" href="#信息隔离">¶</a>信息隔离</h3>
-<p>对于后端来说如果仅仅做后端不考虑前端的实现，往往会写出一些看上去完美的接口，但是实际上在最终和前端对接的过程中，前端同学会心态爆炸，比如对于某些计算值是否都需要前端计算，为什么这个值还要再请求一次，而前端在倒逼后端的时候，后悔的同学也往往会困扰，为何要做这么冗余的设计，而这一切本身都无错，前端是<strong>视觉驱动</strong>：从展示的元素中提炼对象，而后端是<strong>数据驱动</strong>：从业务逻辑中提炼对象，这两份对象常常不同意，前后端分离的解决之道是增加一个中间层，无形之中又增加了复杂度。</p>
-<h2 id="真实之道"><a class="header-anchor" href="#真实之道">¶</a>真实之道</h2>
-<p>摒弃狭义的前后端分离(仅仅将前后端开发者分离,恰当的说法可能是分家)，而是按照 <code>产品线</code> 与 <code>基础设施</code> 分离，对于<code>产品线</code>来说，绝大多数不应该分离前后端职能，从应用的架构上，可以将前后端分离，但是对于某一产品功能应该采用 <code>E-E</code> 端到端的模式，无论是页面展示还是后台数据的存储调用，都应该由单一责任人进行开发。而对于<code>基础设施</code>处，几乎都是数据驱动的技术性产品，这段可以采用完全的前后端分离，为专业人士排除其他的压力，除此之外，也就是极其复杂的UI页面应该由专业的<code>前端</code>进行开发。</p>
-<p>最终构成一个形如网吧的办公场所，人人的技能都可以在相互交流中增长。<br>
-<img src="https://s2.ax1x.com/2020/02/18/3AK5nO.png" alt="3AK5nO.png"></p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rethink</category>
-      </categories>
-      <tags>
-        <tag>反思</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go 擅长什么</title>
-    <url>/2020/05/26/rethink/what-is-go-good-at/</url>
-    <content><![CDATA[<p>Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。</p>
-<a id="more"></a>
-<blockquote>
-<p>Go was designed atGooglein 2007 to improveprogramming productivityin an era of multicore, networked machines and large codebases.The designers wanted to address criticism of other languages in use atGoogle, but keep their useful characteristics:</p>
-<ul>
-<li>static typing and run-time efficiency (likeC++),</li>
-<li>readability and usability (likePythonorJavaScript),</li>
-<li>high-performance networking and multiprocessing.<br>
-The designers were primarily motivated by their shareddislike of C++.</li>
-</ul>
-</blockquote>
-<p>Go 在编程语言届里面也是一个新生儿了，从维基百科的短短几行里面我们可以发现，Go在诞生之初就是为了提高编程效率，但是侧重的点是 多核，网络，大型的源码管理。因此我们发现 Go 在实际的体验中，我们也常常用于构建高性能的分布式系统。在 Google 内部，Go 的诞生也是为了填平 C 与 Python 之间的鸿沟，正如定位所言，恰恰属于两者之间。</p>
-<h1>良好的并发</h1>
-<p>Go 是一个拥有良好并发资质的语言，我们可以轻易的通过 goroutine 写出简单可靠且高性能的应用，但是值得注意的是，Go并不是拥有极致并发能力的语言，因为对于他来说，始终有着两座大山：GC 与 goroutine，goroutine是一个简单的编程模型，但是并不是一个高性能的编程模式，callback &gt;= reactive &gt;= goroutine &gt; blocking，可以参考下 <a href="https://www.techempower.com/benchmarks/" target="_blank" rel="noopener">techempower</a> 与 <a href="https://timyang.net/programming/c-erlang-java-performance/" target="_blank" rel="noopener">c-erlang-java-performance</a> 实际上能够做到性能机制的依然需要2个致命的要素 <code>无GC</code> 与 <code>低线程切换</code></p>
-<h1>泛型缺失</h1>
-<p>这个问题已经不用再提及了，对于Google的工程师因为可能长时间的和 Bytes 打交道，对于OOP那套是无感的（实际上是类型系统的延展），因此反而带来了更多的负面性质，因为我们缺少了大量在 FP 中可以执行的操作符，比如 Map，Reduce，Filter。</p>
-<h1>关于易读性</h1>
-<p>我认为 Go 的可读写方向其实指 好读 而非 易读，举个例子</p>
-<div class="tabs" id="快速排序"><ul class="nav-tabs"><li class="tab active"><a href="#快速排序-1">Haskell</a></li><li class="tab"><a href="#快速排序-2">Go</a></li></ul><div class="tab-content"><div class="tab-pane active" id="快速排序-1"><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">quicksort</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; [a]  </span><br><span class="line"><span class="title">quicksort</span> [] = []  </span><br><span class="line"><span class="title">quicksort</span> (x:xs) =   </span><br><span class="line">    <span class="keyword">let</span> smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]  </span><br><span class="line">        biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]  </span><br><span class="line">    <span class="keyword">in</span>  smallerSorted ++ [x] ++ biggerSorted</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="快速排序-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Generates a slice of size, size filled with random numbers</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateSlice</span><span class="params">(size <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, size, size)</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">		slice[i] = rand.Intn(<span class="number">999</span>) - rand.Intn(<span class="number">999</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> slice</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quicksort</span><span class="params">(a []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    left, right := <span class="number">0</span>, <span class="built_in">len</span>(a)<span class="number">-1</span></span><br><span class="line">     </span><br><span class="line">    pivot := rand.Int() % <span class="built_in">len</span>(a)</span><br><span class="line">     </span><br><span class="line">    a[pivot], a[right] = a[right], a[pivot]</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> i, _ := <span class="keyword">range</span> a &#123;</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[right] &#123;</span><br><span class="line">            a[left], a[i] = a[i], a[left]</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    a[left], a[right] = a[right], a[left]</span><br><span class="line">     </span><br><span class="line">    quicksort(a[:left])</span><br><span class="line">    quicksort(a[left+<span class="number">1</span>:])</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
-<p>从上文我们可以发现 Go 的易读其实相较于 C 进步一大步，而对于真正易读的语言又差了一大步。</p>
-<h1>Go 擅长的地方</h1>
-<h2 id="网络和Web服务器"><a class="header-anchor" href="#网络和Web服务器">¶</a>网络和Web服务器</h2>
-<p>对于大部分人来说，Go能够编译出二进制运行文件 + 良好的并发控制，这简直是为了网络服务器和Web服务器的最佳选择，大家也是这么做的，我们使用Go作为Web服务器。</p>
-<h2 id="自动化与命令行工作"><a class="header-anchor" href="#自动化与命令行工作">¶</a>自动化与命令行工作</h2>
-<p>Go 是非常适合的自动化工具，对于Python，Java等需要依赖很重的运行时，因此Go既轻量级又快速，并且处理的相对简单的技术逻辑，在社区中已经有人尝试使用 Go 来取缔 Bash Script 对于大部分来说，想要抹平 Bash 在不同系统上的差异可能还真不如直接使用 Go，也替换了那一步 Python 用户。</p>
-<h2 id="生产机代码的维护"><a class="header-anchor" href="#生产机代码的维护">¶</a>生产机代码的维护</h2>
-<p>比如有 gofmt ，lint ，各种检查机制，这些和上面一种情况类型。</p>
-<h1>Go 不擅长的地方</h1>
-<h2 id="业务属性较多的地方"><a class="header-anchor" href="#业务属性较多的地方">¶</a>业务属性较多的地方</h2>
-<p>无论是 ORM 框架，还是Web框架，Go社区相较于已经成熟的 Java 社区，都是造了一堆玩具状态，并不是不能很高效的进行业务开发。</p>
-<h2 id="极限性能要求"><a class="header-anchor" href="#极限性能要求">¶</a>极限性能要求</h2>
-<p>OS Kenerl，Banking，Game 这些领域依然不是带有GC的语言可以打入的领域。</p>
-<h1>参考</h1>
-<ul>
-<li><a href="https://www.reddit.com/r/golang/comments/8bdewx/is_golang_a_good_choice_for_a_crud_based_rest_api/" target="_blank" rel="noopener">Is Golang a good choice for a CRUD based ReST API?</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <tags>
-        <tag>思考</tag>
-        <tag>Go</tag>
-        <tag>语言</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>我准备在2018学什么</title>
     <url>/2018/04/20/rethink/what-is-learn-in-2018/</url>
     <content><![CDATA[<h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
@@ -2069,6 +2023,52 @@ The designers were primarily motivated by their shareddislike of C++.</li>
       <categories>
         <category>闲聊</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Go 擅长什么</title>
+    <url>/2020/05/26/rethink/what-is-go-good-at/</url>
+    <content><![CDATA[<p>Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。</p>
+<a id="more"></a>
+<blockquote>
+<p>Go was designed atGooglein 2007 to improveprogramming productivityin an era of multicore, networked machines and large codebases.The designers wanted to address criticism of other languages in use atGoogle, but keep their useful characteristics:</p>
+<ul>
+<li>static typing and run-time efficiency (likeC++),</li>
+<li>readability and usability (likePythonorJavaScript),</li>
+<li>high-performance networking and multiprocessing.<br>
+The designers were primarily motivated by their shareddislike of C++.</li>
+</ul>
+</blockquote>
+<p>Go 在编程语言届里面也是一个新生儿了，从维基百科的短短几行里面我们可以发现，Go在诞生之初就是为了提高编程效率，但是侧重的点是 多核，网络，大型的源码管理。因此我们发现 Go 在实际的体验中，我们也常常用于构建高性能的分布式系统。在 Google 内部，Go 的诞生也是为了填平 C 与 Python 之间的鸿沟，正如定位所言，恰恰属于两者之间。</p>
+<h1>良好的并发</h1>
+<p>Go 是一个拥有良好并发资质的语言，我们可以轻易的通过 goroutine 写出简单可靠且高性能的应用，但是值得注意的是，Go并不是拥有极致并发能力的语言，因为对于他来说，始终有着两座大山：GC 与 goroutine，goroutine是一个简单的编程模型，但是并不是一个高性能的编程模式，callback &gt;= reactive &gt;= goroutine &gt; blocking，可以参考下 <a href="https://www.techempower.com/benchmarks/" target="_blank" rel="noopener">techempower</a> 与 <a href="https://timyang.net/programming/c-erlang-java-performance/" target="_blank" rel="noopener">c-erlang-java-performance</a> 实际上能够做到性能机制的依然需要2个致命的要素 <code>无GC</code> 与 <code>低线程切换</code></p>
+<h1>泛型缺失</h1>
+<p>这个问题已经不用再提及了，对于Google的工程师因为可能长时间的和 Bytes 打交道，对于OOP那套是无感的（实际上是类型系统的延展），因此反而带来了更多的负面性质，因为我们缺少了大量在 FP 中可以执行的操作符，比如 Map，Reduce，Filter。</p>
+<h1>关于易读性</h1>
+<p>我认为 Go 的可读写方向其实指 好读 而非 易读，举个例子</p>
+<div class="tabs" id="快速排序"><ul class="nav-tabs"><li class="tab active"><a href="#快速排序-1">Haskell</a></li><li class="tab"><a href="#快速排序-2">Go</a></li></ul><div class="tab-content"><div class="tab-pane active" id="快速排序-1"><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">quicksort</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; [a]  </span><br><span class="line"><span class="title">quicksort</span> [] = []  </span><br><span class="line"><span class="title">quicksort</span> (x:xs) =   </span><br><span class="line">    <span class="keyword">let</span> smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]  </span><br><span class="line">        biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]  </span><br><span class="line">    <span class="keyword">in</span>  smallerSorted ++ [x] ++ biggerSorted</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="快速排序-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Generates a slice of size, size filled with random numbers</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateSlice</span><span class="params">(size <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, size, size)</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">		slice[i] = rand.Intn(<span class="number">999</span>) - rand.Intn(<span class="number">999</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> slice</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quicksort</span><span class="params">(a []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    left, right := <span class="number">0</span>, <span class="built_in">len</span>(a)<span class="number">-1</span></span><br><span class="line">     </span><br><span class="line">    pivot := rand.Int() % <span class="built_in">len</span>(a)</span><br><span class="line">     </span><br><span class="line">    a[pivot], a[right] = a[right], a[pivot]</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> i, _ := <span class="keyword">range</span> a &#123;</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[right] &#123;</span><br><span class="line">            a[left], a[i] = a[i], a[left]</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    a[left], a[right] = a[right], a[left]</span><br><span class="line">     </span><br><span class="line">    quicksort(a[:left])</span><br><span class="line">    quicksort(a[left+<span class="number">1</span>:])</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+<p>从上文我们可以发现 Go 的易读其实相较于 C 进步一大步，而对于真正易读的语言又差了一大步。</p>
+<h1>Go 擅长的地方</h1>
+<h2 id="网络和Web服务器"><a class="header-anchor" href="#网络和Web服务器">¶</a>网络和Web服务器</h2>
+<p>对于大部分人来说，Go能够编译出二进制运行文件 + 良好的并发控制，这简直是为了网络服务器和Web服务器的最佳选择，大家也是这么做的，我们使用Go作为Web服务器。</p>
+<h2 id="自动化与命令行工作"><a class="header-anchor" href="#自动化与命令行工作">¶</a>自动化与命令行工作</h2>
+<p>Go 是非常适合的自动化工具，对于Python，Java等需要依赖很重的运行时，因此Go既轻量级又快速，并且处理的相对简单的技术逻辑，在社区中已经有人尝试使用 Go 来取缔 Bash Script 对于大部分来说，想要抹平 Bash 在不同系统上的差异可能还真不如直接使用 Go，也替换了那一步 Python 用户。</p>
+<h2 id="生产机代码的维护"><a class="header-anchor" href="#生产机代码的维护">¶</a>生产机代码的维护</h2>
+<p>比如有 gofmt ，lint ，各种检查机制，这些和上面一种情况类型。</p>
+<h1>Go 不擅长的地方</h1>
+<h2 id="业务属性较多的地方"><a class="header-anchor" href="#业务属性较多的地方">¶</a>业务属性较多的地方</h2>
+<p>无论是 ORM 框架，还是Web框架，Go社区相较于已经成熟的 Java 社区，都是造了一堆玩具状态，并不是不能很高效的进行业务开发。</p>
+<h2 id="极限性能要求"><a class="header-anchor" href="#极限性能要求">¶</a>极限性能要求</h2>
+<p>OS Kenerl，Banking，Game 这些领域依然不是带有GC的语言可以打入的领域。</p>
+<h1>参考</h1>
+<ul>
+<li><a href="https://www.reddit.com/r/golang/comments/8bdewx/is_golang_a_good_choice_for_a_crud_based_rest_api/" target="_blank" rel="noopener">Is Golang a good choice for a CRUD based ReST API?</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <tags>
+        <tag>思考</tag>
+        <tag>Go</tag>
+        <tag>语言</tag>
+      </tags>
   </entry>
   <entry>
     <title>为何有些软件知识自学如此的困难</title>
@@ -3027,67 +3027,6 @@ System.out.println 的代码是</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
   </entry>
   <entry>
-    <title>Spring-convert-(基本结构)</title>
-    <url>/2016/12/13/java/spring-convert-01/</url>
-    <content><![CDATA[<p>上次自己留的坑，自己填一下吧。</p>
-<a id="more"></a>
-<h2 id="PRE"><a class="header-anchor" href="#PRE">¶</a>PRE</h2>
-<p><strong>S -&gt; Source</strong><br>
-<strong>T -&gt; Target</strong></p>
-<h2 id="KeySPI"><a class="header-anchor" href="#KeySPI">¶</a>KeySPI</h2>
-<h3 id="Converter"><a class="header-anchor" href="#Converter">¶</a>Converter</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Converter</span>&lt;<span class="title">S</span>, <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">T <span class="title">convert</span><span class="params">(S source)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从名称就能很轻易的看出，这是最基础的从 S -&gt; T.  这点应该和Spring学习。对比我喜欢用A -&gt; B<br>
-的确不如Spring的 Soruce 和 Target 专业。细节处应该好好学(doge:)。大家都是写Java的，至于用法，就不用细说。</p>
-<h3 id="ConverterFactory"><a class="header-anchor" href="#ConverterFactory">¶</a>ConverterFactory</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConverterFactory</span>&lt;<span class="title">S</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    &lt;T extends R&gt; <span class="function">Converter&lt;S, T&gt; <span class="title">getConverter</span><span class="params">(Class&lt;T&gt; targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个从ConverterFactory貌似看不出来啥，核心是 &lt;T extends R&gt; 这个返回值，说明最终得到的是 R的SubClass。用法可以参考 <a href="https://github.com/spring-projects/spring-framework/blob/bc14c5ba83e1f211628456bbccce7b2531aac58c/spring-core/src/main/java/org/springframework/core/convert/support/StringToEnumConverterFactory.java" target="_blank" rel="noopener">StringToEnumConverterFactory</a> 这个类.核心是因为传入T的实际类型，可以通过反射做些什么，大部分都用在枚举中，其他场景使用很少。</p>
-<h3 id="GenericConverter"><a class="header-anchor" href="#GenericConverter">¶</a>GenericConverter</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GenericConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;ConvertiblePair&gt; <span class="title">getConvertibleTypes</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Object <span class="title">convert</span><span class="params">(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>GenericConverter如官网所言 <em>When you require a</em> <strong>sophisticated</strong>  <em>Converter implementation, consider the GenericConverter interface.</em><br>
-当我们需要复杂些的实现的时候可以考虑，这个实现是多种转换的聚合。</p>
-<h3 id="ConditionalGenericConverter"><a class="header-anchor" href="#ConditionalGenericConverter">¶</a>ConditionalGenericConverter</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConditionalGenericConverter</span></span></span><br><span class="line"><span class="class">        <span class="keyword">extends</span> <span class="title">GenericConverter</span>, <span class="title">ConditionalConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如名所见，满足Source 和 TargetType 的条件。至于 <a href="https://github.com/spring-projects/spring-framework/blob/e49813f2c4c6bb645c0990b3bd0fc290fc7c9f8e/spring-core/src/main/java/org/springframework/core/convert/TypeDescriptor.java" target="_blank" rel="noopener">TypeDescriptor</a>可以看作成S和T的包装类。</p>
-<h3 id="ConversionService"><a class="header-anchor" href="#ConversionService">¶</a>ConversionService</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConversionService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">canConvert</span><span class="params">(Class&lt;?&gt; sourceType, Class&lt;?&gt; targetType)</span></span>;</span><br><span class="line">    &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Object source, Class&lt;T&gt; targetType)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">canConvert</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">    <span class="function">Object <span class="title">convert</span><span class="params">(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>终于我们得到了最终的SPI，从SPI中我们就看出来，前两个接口是普通的 S -&gt; T，下面两个增加了ConditionalGenericConverter中的条件转换。</p>
-<p>到这里Spring的核心SPI就结束了，官方文档也就说了这么多，那下面进行我们自己的探秘，文档不写的东西，让我们都去代码里面找答案。</p>
-<h2 id="SPI-实现"><a class="header-anchor" href="#SPI-实现">¶</a>SPI 实现</h2>
-<p><a href="https://github.com/spring-projects/spring-framework/blob/b22a59a0c4ea118147dc45c563d68234b8692d97/spring-core/src/main/java/org/springframework/core/convert/support/DefaultConversionService.java" target="_blank" rel="noopener">DefaultConversionService.java</a>是Spring的默认标准实现，我们从这个类开始看起。</p>
-<p>先立FLAG，根据我对源码的了解，肯定有一个类似于<a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/AbstractConvertFactory.java" target="_blank" rel="noopener">keyCovertInstantConcurrentHashMap</a> 的东西作为一个核心容器。</p>
-<p><img src="http://ww2.sinaimg.cn/large/759074fcjw1f0d87evnxdj21bc0qo0ws.jpg" alt="Flag"></p>
-<p>看代码，老司机告诉你们一个真理，从第一行往下看是不明智的，从调用端入口看，那才是明智之选。<br>
-所以我们先从convert这个最核心的方法看起来。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericConversionService</span> <span class="keyword">implements</span> <span class="title">ConfigurableConversionService</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Object source, Class&lt;T&gt; targetType)</span> </span>&#123;</span><br><span class="line">			Assert.notNull(targetType, <span class="string">"targetType to convert to cannot be null"</span>);</span><br><span class="line">			<span class="keyword">return</span> (T) convert(source, TypeDescriptor.forObject(source), TypeDescriptor.valueOf(targetType));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这就是DefaultConversionService的Convert的入口，从这里，我们一步一步的深入核心，然后我们可以发现，代码的流向是<br>
-convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType)</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> GenericConverter <span class="title">find</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span> </span>&#123;</span><br><span class="line">			<span class="comment">// Search the full type hierarchy</span></span><br><span class="line">			List&lt;Class&lt;?&gt;&gt; sourceCandidates = getClassHierarchy(sourceType.getType());</span><br><span class="line">			List&lt;Class&lt;?&gt;&gt; targetCandidates = getClassHierarchy(targetType.getType());</span><br><span class="line">			<span class="keyword">for</span> (Class&lt;?&gt; sourceCandidate : sourceCandidates) &#123;</span><br><span class="line">				<span class="keyword">for</span> (Class&lt;?&gt; targetCandidate : targetCandidates) &#123;</span><br><span class="line">					ConvertiblePair convertiblePair = <span class="keyword">new</span> ConvertiblePair(sourceCandidate, targetCandidate);</span><br><span class="line">					GenericConverter converter = getRegisteredConverter(sourceType, targetType, convertiblePair);</span><br><span class="line">					<span class="keyword">if</span> (converter != <span class="keyword">null</span>) &#123;</span><br><span class="line">						<span class="keyword">return</span> converter;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Bingo,我们最终发现一个非常重要的东西getRegisteredConverter()方法。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> GenericConverter <span class="title">getRegisteredConverter</span><span class="params">(TypeDescriptor sourceType,</span></span></span><br><span class="line"><span class="function"><span class="params">				TypeDescriptor targetType, ConvertiblePair convertiblePair)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Check specifically registered converters</span></span><br><span class="line">			ConvertersForPair convertersForPair = <span class="keyword">this</span>.converters.get(convertiblePair);</span><br><span class="line">			<span class="keyword">if</span> (convertersForPair != <span class="keyword">null</span>) &#123;</span><br><span class="line">				GenericConverter converter = convertersForPair.getConverter(sourceType, targetType);</span><br><span class="line">				<span class="keyword">if</span> (converter != <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">return</span> converter;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// Check ConditionalConverters for a dynamic match</span></span><br><span class="line">			<span class="keyword">for</span> (GenericConverter globalConverter : <span class="keyword">this</span>.globalConverters) &#123;</span><br><span class="line">				<span class="keyword">if</span> (((ConditionalConverter) globalConverter).matches(sourceType, targetType)) &#123;</span><br><span class="line">					<span class="keyword">return</span> globalConverter;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
-<p>从代码上，我们就发现了，this.converters 和 this.globalConverters 这两个就是整个转换的核心所在。<br>
-看下比较核心的converters的声明</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Set&lt;GenericConverter&gt; globalConverters = <span class="keyword">new</span> LinkedHashSet&lt;GenericConverter&gt;();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;ConvertiblePair, ConvertersForPair&gt; converters =</span><br><span class="line">				<span class="keyword">new</span> LinkedHashMap&lt;ConvertiblePair, ConvertersForPair&gt;(<span class="number">36</span>);</span><br></pre></td></tr></table></figure>
-<p>上面立的那个Flag算是成功了解围了，的确是一个HashMap，不过实际是一个LinkedHashMap。<br>
-那我继续看啊···ConvertiblePair是个什么鬼东西</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ConvertiblePair</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">final</span> Class&lt;?&gt; sourceType;</span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">final</span> Class&lt;?&gt; targetType;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ConvertiblePair</span><span class="params">(Class&lt;?&gt; sourceType, Class&lt;?&gt; targetType)</span> </span>&#123;</span><br><span class="line">			Assert.notNull(sourceType, <span class="string">"Source type must not be null"</span>);</span><br><span class="line">			Assert.notNull(targetType, <span class="string">"Target type must not be null"</span>);</span><br><span class="line">			<span class="keyword">this</span>.sourceType = sourceType;</span><br><span class="line">			<span class="keyword">this</span>.targetType = targetType;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> (<span class="keyword">this</span>.sourceType.hashCode() * <span class="number">31</span> + <span class="keyword">this</span>.targetType.hashCode());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<p>那我们找到了这个Key，这个设计，正如我之前变色龙中所声明 <a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/ConvertKey.java" target="_blank" rel="noopener">ConvertKey</a>极为的类似。</p>
-<p>不过Spring的Value就是复杂了些，</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ConvertersForPair</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> LinkedList&lt;GenericConverter&gt; converters = <span class="keyword">new</span> LinkedList&lt;GenericConverter&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(GenericConverter converter)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.converters.addFirst(converter);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> GenericConverter <span class="title">getConverter</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (GenericConverter converter : <span class="keyword">this</span>.converters) &#123;</span><br><span class="line">			<span class="keyword">if</span> (!(converter <span class="keyword">instanceof</span> ConditionalGenericConverter) ||</span><br><span class="line">					((ConditionalGenericConverter) converter).matches(sourceType, targetType)) &#123;</span><br><span class="line">				<span class="keyword">return</span> converter;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们从这里getConverter方法，可以看出，通过S和T的类型描述去获得真正的转换器。举个例子</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DefaultConversionService defaultConversionService = <span class="keyword">new</span> DefaultConversionService();</span><br><span class="line">defaultConversionService.convert(<span class="string">"1"</span>, Integer<span class="class">.<span class="keyword">class</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p>这里最后会调用的是 StringToNumber 这个 Converter。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>Spring</category>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring cloud 配置中心服务</title>
     <url>/2017/03/01/java/spring-cloud-01-config/</url>
     <content><![CDATA[<p>为什么要写这一个系列的博客，主要是记录在自己学习Spring cloud中思考，倘若能够给大家一点点帮助，就更好了，写这个系列的话，抱着少即是多的心态，我们每一章讲的不会特别多，尽可能的每一章都比知识萃取的深一点。</p>
@@ -3163,6 +3102,67 @@ org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#loa
       <tags>
         <tag>Java</tag>
         <tag>Spring Cloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring-convert-(基本结构)</title>
+    <url>/2016/12/13/java/spring-convert-01/</url>
+    <content><![CDATA[<p>上次自己留的坑，自己填一下吧。</p>
+<a id="more"></a>
+<h2 id="PRE"><a class="header-anchor" href="#PRE">¶</a>PRE</h2>
+<p><strong>S -&gt; Source</strong><br>
+<strong>T -&gt; Target</strong></p>
+<h2 id="KeySPI"><a class="header-anchor" href="#KeySPI">¶</a>KeySPI</h2>
+<h3 id="Converter"><a class="header-anchor" href="#Converter">¶</a>Converter</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Converter</span>&lt;<span class="title">S</span>, <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">T <span class="title">convert</span><span class="params">(S source)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从名称就能很轻易的看出，这是最基础的从 S -&gt; T.  这点应该和Spring学习。对比我喜欢用A -&gt; B<br>
+的确不如Spring的 Soruce 和 Target 专业。细节处应该好好学(doge:)。大家都是写Java的，至于用法，就不用细说。</p>
+<h3 id="ConverterFactory"><a class="header-anchor" href="#ConverterFactory">¶</a>ConverterFactory</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConverterFactory</span>&lt;<span class="title">S</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    &lt;T extends R&gt; <span class="function">Converter&lt;S, T&gt; <span class="title">getConverter</span><span class="params">(Class&lt;T&gt; targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个从ConverterFactory貌似看不出来啥，核心是 &lt;T extends R&gt; 这个返回值，说明最终得到的是 R的SubClass。用法可以参考 <a href="https://github.com/spring-projects/spring-framework/blob/bc14c5ba83e1f211628456bbccce7b2531aac58c/spring-core/src/main/java/org/springframework/core/convert/support/StringToEnumConverterFactory.java" target="_blank" rel="noopener">StringToEnumConverterFactory</a> 这个类.核心是因为传入T的实际类型，可以通过反射做些什么，大部分都用在枚举中，其他场景使用很少。</p>
+<h3 id="GenericConverter"><a class="header-anchor" href="#GenericConverter">¶</a>GenericConverter</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GenericConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;ConvertiblePair&gt; <span class="title">getConvertibleTypes</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Object <span class="title">convert</span><span class="params">(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>GenericConverter如官网所言 <em>When you require a</em> <strong>sophisticated</strong>  <em>Converter implementation, consider the GenericConverter interface.</em><br>
+当我们需要复杂些的实现的时候可以考虑，这个实现是多种转换的聚合。</p>
+<h3 id="ConditionalGenericConverter"><a class="header-anchor" href="#ConditionalGenericConverter">¶</a>ConditionalGenericConverter</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConditionalGenericConverter</span></span></span><br><span class="line"><span class="class">        <span class="keyword">extends</span> <span class="title">GenericConverter</span>, <span class="title">ConditionalConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如名所见，满足Source 和 TargetType 的条件。至于 <a href="https://github.com/spring-projects/spring-framework/blob/e49813f2c4c6bb645c0990b3bd0fc290fc7c9f8e/spring-core/src/main/java/org/springframework/core/convert/TypeDescriptor.java" target="_blank" rel="noopener">TypeDescriptor</a>可以看作成S和T的包装类。</p>
+<h3 id="ConversionService"><a class="header-anchor" href="#ConversionService">¶</a>ConversionService</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.core.convert;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConversionService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">canConvert</span><span class="params">(Class&lt;?&gt; sourceType, Class&lt;?&gt; targetType)</span></span>;</span><br><span class="line">    &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Object source, Class&lt;T&gt; targetType)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">canConvert</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">    <span class="function">Object <span class="title">convert</span><span class="params">(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>终于我们得到了最终的SPI，从SPI中我们就看出来，前两个接口是普通的 S -&gt; T，下面两个增加了ConditionalGenericConverter中的条件转换。</p>
+<p>到这里Spring的核心SPI就结束了，官方文档也就说了这么多，那下面进行我们自己的探秘，文档不写的东西，让我们都去代码里面找答案。</p>
+<h2 id="SPI-实现"><a class="header-anchor" href="#SPI-实现">¶</a>SPI 实现</h2>
+<p><a href="https://github.com/spring-projects/spring-framework/blob/b22a59a0c4ea118147dc45c563d68234b8692d97/spring-core/src/main/java/org/springframework/core/convert/support/DefaultConversionService.java" target="_blank" rel="noopener">DefaultConversionService.java</a>是Spring的默认标准实现，我们从这个类开始看起。</p>
+<p>先立FLAG，根据我对源码的了解，肯定有一个类似于<a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/AbstractConvertFactory.java" target="_blank" rel="noopener">keyCovertInstantConcurrentHashMap</a> 的东西作为一个核心容器。</p>
+<p><img src="http://ww2.sinaimg.cn/large/759074fcjw1f0d87evnxdj21bc0qo0ws.jpg" alt="Flag"></p>
+<p>看代码，老司机告诉你们一个真理，从第一行往下看是不明智的，从调用端入口看，那才是明智之选。<br>
+所以我们先从convert这个最核心的方法看起来。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericConversionService</span> <span class="keyword">implements</span> <span class="title">ConfigurableConversionService</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Object source, Class&lt;T&gt; targetType)</span> </span>&#123;</span><br><span class="line">			Assert.notNull(targetType, <span class="string">"targetType to convert to cannot be null"</span>);</span><br><span class="line">			<span class="keyword">return</span> (T) convert(source, TypeDescriptor.forObject(source), TypeDescriptor.valueOf(targetType));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是DefaultConversionService的Convert的入口，从这里，我们一步一步的深入核心，然后我们可以发现，代码的流向是<br>
+convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> GenericConverter <span class="title">find</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span> </span>&#123;</span><br><span class="line">			<span class="comment">// Search the full type hierarchy</span></span><br><span class="line">			List&lt;Class&lt;?&gt;&gt; sourceCandidates = getClassHierarchy(sourceType.getType());</span><br><span class="line">			List&lt;Class&lt;?&gt;&gt; targetCandidates = getClassHierarchy(targetType.getType());</span><br><span class="line">			<span class="keyword">for</span> (Class&lt;?&gt; sourceCandidate : sourceCandidates) &#123;</span><br><span class="line">				<span class="keyword">for</span> (Class&lt;?&gt; targetCandidate : targetCandidates) &#123;</span><br><span class="line">					ConvertiblePair convertiblePair = <span class="keyword">new</span> ConvertiblePair(sourceCandidate, targetCandidate);</span><br><span class="line">					GenericConverter converter = getRegisteredConverter(sourceType, targetType, convertiblePair);</span><br><span class="line">					<span class="keyword">if</span> (converter != <span class="keyword">null</span>) &#123;</span><br><span class="line">						<span class="keyword">return</span> converter;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Bingo,我们最终发现一个非常重要的东西getRegisteredConverter()方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> GenericConverter <span class="title">getRegisteredConverter</span><span class="params">(TypeDescriptor sourceType,</span></span></span><br><span class="line"><span class="function"><span class="params">				TypeDescriptor targetType, ConvertiblePair convertiblePair)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Check specifically registered converters</span></span><br><span class="line">			ConvertersForPair convertersForPair = <span class="keyword">this</span>.converters.get(convertiblePair);</span><br><span class="line">			<span class="keyword">if</span> (convertersForPair != <span class="keyword">null</span>) &#123;</span><br><span class="line">				GenericConverter converter = convertersForPair.getConverter(sourceType, targetType);</span><br><span class="line">				<span class="keyword">if</span> (converter != <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">return</span> converter;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// Check ConditionalConverters for a dynamic match</span></span><br><span class="line">			<span class="keyword">for</span> (GenericConverter globalConverter : <span class="keyword">this</span>.globalConverters) &#123;</span><br><span class="line">				<span class="keyword">if</span> (((ConditionalConverter) globalConverter).matches(sourceType, targetType)) &#123;</span><br><span class="line">					<span class="keyword">return</span> globalConverter;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>从代码上，我们就发现了，this.converters 和 this.globalConverters 这两个就是整个转换的核心所在。<br>
+看下比较核心的converters的声明</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Set&lt;GenericConverter&gt; globalConverters = <span class="keyword">new</span> LinkedHashSet&lt;GenericConverter&gt;();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;ConvertiblePair, ConvertersForPair&gt; converters =</span><br><span class="line">				<span class="keyword">new</span> LinkedHashMap&lt;ConvertiblePair, ConvertersForPair&gt;(<span class="number">36</span>);</span><br></pre></td></tr></table></figure>
+<p>上面立的那个Flag算是成功了解围了，的确是一个HashMap，不过实际是一个LinkedHashMap。<br>
+那我继续看啊···ConvertiblePair是个什么鬼东西</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ConvertiblePair</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">final</span> Class&lt;?&gt; sourceType;</span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">final</span> Class&lt;?&gt; targetType;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ConvertiblePair</span><span class="params">(Class&lt;?&gt; sourceType, Class&lt;?&gt; targetType)</span> </span>&#123;</span><br><span class="line">			Assert.notNull(sourceType, <span class="string">"Source type must not be null"</span>);</span><br><span class="line">			Assert.notNull(targetType, <span class="string">"Target type must not be null"</span>);</span><br><span class="line">			<span class="keyword">this</span>.sourceType = sourceType;</span><br><span class="line">			<span class="keyword">this</span>.targetType = targetType;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> (<span class="keyword">this</span>.sourceType.hashCode() * <span class="number">31</span> + <span class="keyword">this</span>.targetType.hashCode());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们找到了这个Key，这个设计，正如我之前变色龙中所声明 <a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/ConvertKey.java" target="_blank" rel="noopener">ConvertKey</a>极为的类似。</p>
+<p>不过Spring的Value就是复杂了些，</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ConvertersForPair</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> LinkedList&lt;GenericConverter&gt; converters = <span class="keyword">new</span> LinkedList&lt;GenericConverter&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(GenericConverter converter)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.converters.addFirst(converter);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> GenericConverter <span class="title">getConverter</span><span class="params">(TypeDescriptor sourceType, TypeDescriptor targetType)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (GenericConverter converter : <span class="keyword">this</span>.converters) &#123;</span><br><span class="line">			<span class="keyword">if</span> (!(converter <span class="keyword">instanceof</span> ConditionalGenericConverter) ||</span><br><span class="line">					((ConditionalGenericConverter) converter).matches(sourceType, targetType)) &#123;</span><br><span class="line">				<span class="keyword">return</span> converter;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们从这里getConverter方法，可以看出，通过S和T的类型描述去获得真正的转换器。举个例子</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DefaultConversionService defaultConversionService = <span class="keyword">new</span> DefaultConversionService();</span><br><span class="line">defaultConversionService.convert(<span class="string">"1"</span>, Integer<span class="class">.<span class="keyword">class</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p>这里最后会调用的是 StringToNumber 这个 Converter。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>Spring</category>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -4170,74 +4170,6 @@ Swagger = 实现规范的组件</p>
       </categories>
   </entry>
   <entry>
-    <title>Rust Dynamic Dispatching</title>
-    <url>/2020/10/13/rust/dynamic-dispatch/</url>
-    <content><![CDATA[<p><img src="https://n1.i5h5.com/2020/10/14/torLS.png" alt="torLS.png"></p>
-<a id="more"></a>
-<h2 id="举个例子"><a class="header-anchor" href="#举个例子">¶</a>举个例子</h2>
-<p>假设我们有如下定义的一组对象。</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Backend</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TypeA</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TypeB</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> TypeA &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> TypeB &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>我们需要构建一个 <code>Services</code> 列表，现在是很常规的操作。</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Service</span></span> &lt;T: Backend&gt; &#123;</span><br><span class="line">    backend: T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们具型化的时候会发现一个问题</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut</span> backends = <span class="built_in">Vec</span>::new();</span><br><span class="line">backends.push(TypeA);</span><br><span class="line">backends.push(TypeB);  <span class="comment">// &lt;---- 类型错误</span></span><br></pre></td></tr></table></figure>
-<p>我们如果想要实现这样的机制需要这样操作</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Service</span></span>&#123;</span><br><span class="line">    backends: <span class="built_in">Vec</span>&lt;<span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;&gt;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut</span> backends = <span class="built_in">Vec</span>::new();</span><br><span class="line">backends.push( <span class="built_in">Box</span>::new(PositiveBackend&#123;&#125;) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br><span class="line">backends.push( <span class="built_in">Box</span>::new(NegativeBackend&#123;&#125;) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br></pre></td></tr></table></figure>
-<p>上诉的操作就称之为 “Dynamic Dispatching” 动态分发，我们在调用 Backend 之前并不知道他的类型。这也是实现多态的必要条件，不过这样的操作在运行时会有性能损失，为什么会有性能损耗，我们还是来探索一下。</p>
-<h2 id="基线测试"><a class="header-anchor" href="#基线测试">¶</a>基线测试</h2>
-<p>我们先看看静态分发的性能损耗。</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PositiveBackend</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> PositiveBackend &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>, number: <span class="built_in">u64</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        number + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> backend = <span class="built_in">Box</span>::new(PositiveBackend);</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> res = <span class="number">0</span> <span class="keyword">as</span> <span class="built_in">u64</span>;</span><br><span class="line">    <span class="keyword">let</span> start_time = SystemTime::now();</span><br><span class="line">    <span class="keyword">let</span> total = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="built_in">u64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// our main loop</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..total &#123;</span><br><span class="line">        res += backend.compute(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Result: &#123;&#125;"</span>, res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Elapsed_ms: &#123;&#125;"</span>, start_time.elapsed().unwrap().as_millis());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在笔者的机器上的执行结果几乎不耗时（记得打开release）</p>
-<figure class="highlight bash"><figcaption><span>debug</span></figcaption><table><tr><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run --release</span><br><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.02s</span><br><span class="line">     Running `target/release/learning`</span><br><span class="line"></span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 0</span><br></pre></td></tr></table></figure>
-<h2 id="静态分发"><a class="header-anchor" href="#静态分发">¶</a>静态分发</h2>
-<h3 id="为什么静态分发这么快"><a class="header-anchor" href="#为什么静态分发这么快">¶</a>为什么静态分发这么快</h3>
-<p>我们打开 <code>Hopper Disassembler</code> 对二进制文件进行分析。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">call       __ZN3std4time10SystemTime3now17h76cefb4014446fb3E ; System.now() 获得当前时间</span><br><span class="line">mov        qword [rbp+var_60], rax</span><br><span class="line">mov        qword [rbp+var_58], rdx</span><br><span class="line">movabs     rax, 0xb5e6218d1680  ; 0xb5e6218d1680 -&gt; 200000010000000 直接是计算好的结果</span><br><span class="line">mov        qword [rbp+var_50], rax</span><br><span class="line">lea        rax, qword [rbp+var_50]</span><br><span class="line">mov        qword [rbp+var_18], rax</span><br><span class="line">lea        rax, qword [__ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u64$GT$3fmt17hb00db9d5e1e54df6E]</span><br><span class="line">mov        qword [rbp+var_10], rax</span><br><span class="line">lea        rax, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br></pre></td></tr></table></figure>
-<p>对于编译器来说，在静态器已经知道的数据类型，和计算都可直接通过静态分析得到结果，而不用在运行时真正的再算一遍。</p>
-<h3 id="Debug-为什么又这么慢"><a class="header-anchor" href="#Debug-为什么又这么慢">¶</a>Debug 为什么又这么慢</h3>
-<p>我们如果运行在 <code>Debug</code> 模式下，结果又是另外一番。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run               </span><br><span class="line">   Compiling learning v0.1.0 (/Users/yann/Codes/rust/learning)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.57s</span><br><span class="line">     Running `target/debug/learning`</span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 741</span><br></pre></td></tr></table></figure>
-<p>还是打开我们的反编译器看看</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loc_100003f2c: ; PositiveBackend:Compute 子函数</span><br><span class="line">0000000100003f49         call       __ZN8learning15PositiveBackend7compute17hbdcd6a613a6654c0E ; PositiveBackend  计算函数的调用</span><br><span class="line">0000000100003f4e         mov        qword [rbp+var_1A8], rax</span><br><span class="line">0000000100003f55         jmp        loc_100003f57</span><br><span class="line"></span><br><span class="line">loc_100003e20: ; For 循环子函数</span><br><span class="line">0000000100003e68         call       __ZN63_$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$9into_iter17h5ff7777380a60e23E ; _$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$::into_iter::h5ff7777380a60e23</span><br><span class="line">0000000100003e6d         mov        qword [rbp+var_170], rdx</span><br><span class="line">0000000100003e74         mov        qword [rbp+var_178], rax</span><br><span class="line">0000000100003e7b         jmp        loc_100003e7d</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loc_100003eb5: 比较 total 是否满足</span><br><span class="line">0000000100003eb5         mov        rax, qword [rbp+var_188]                    ; CODE XREF&#x3D;__ZN8learning4main17h9a9a004d32cb7481E+211</span><br><span class="line">0000000100003ebc         mov        qword [rbp+var_118], rax</span><br><span class="line">0000000100003ec3         mov        rcx, qword [rbp+var_180]</span><br><span class="line">0000000100003eca         mov        qword [rbp+var_110], rcx</span><br><span class="line">0000000100003ed1         mov        rdx, qword [rbp+var_118]</span><br><span class="line">0000000100003ed8         test       rdx, rdx</span><br><span class="line">0000000100003edb         je         loc_100003ee1</span><br></pre></td></tr></table></figure>
-<p>对于 <code>Debug</code> 模式下，我们需要进循环体，因此我们将函数拆分了多段，并且通过 call/je 将程序组装起来，显然就是比直接结果 mov 进来要来的慢的多。</p>
-<h2 id="动态分发"><a class="header-anchor" href="#动态分发">¶</a>动态分发</h2>
-<p>我们将代码修改为如下</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> std::env;</span><br><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Backend</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>,number: <span class="built_in">i64</span>) -&gt; <span class="built_in">i64</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PositiveBackend</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">NegativeBackend</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> PositiveBackend&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>,number: <span class="built_in">i64</span>) -&gt; <span class="built_in">i64</span>&#123;</span><br><span class="line">        number+<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> NegativeBackend&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>,number: <span class="built_in">i64</span>) -&gt; <span class="built_in">i64</span>&#123;</span><br><span class="line">        number-<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> backend = <span class="keyword">match</span> env::args().skip(<span class="number">1</span>).next() &#123;</span><br><span class="line">        <span class="literal">Some</span>(x) =&gt; <span class="built_in">Box</span>::new(PositiveBackend ) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;,</span><br><span class="line">        _ =&gt; <span class="built_in">Box</span>::new(NegativeBackend) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> res= <span class="number">0</span> <span class="keyword">as</span> <span class="built_in">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> start_time = SystemTime::now();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> total = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="built_in">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> .. total &#123;</span><br><span class="line">        res += backend.compute(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Result: &#123;&#125;"</span>,res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Elapsed_ms: &#123;&#125;"</span>, start_time.elapsed().unwrap().as_millis());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行结果如下</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.03s</span><br><span class="line">     Running `target/release/learning 1`</span><br><span class="line">Result: -20000002</span><br><span class="line">Elapsed_ms: 46</span><br></pre></td></tr></table></figure>
-<p>这个时间和我们的 <code>Debug</code> 模式都差不多了。</p>
-<h3 id="动态分发的实现"><a class="header-anchor" href="#动态分发的实现">¶</a>动态分发的实现</h3>
-<p>对于大多数的编程语言 <code>Rust</code> <code>C++</code> 为了实现动态分发(多态的需求)，都采用了一种叫 <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank" rel="noopener"><code>vtable</code></a> 的技术。</p>
-<p><img src="https://n1.i5h5.com/2020/10/14/toD44.png" alt="toD44.png"></p>
-<p>对于 <code>Box&lt;dyn Trait&gt;</code> 我们至少需要 <code>2</code> 个 <code>Vtable</code> 这里我们就不看汇编了，我们看看 <code>汇编</code> 生成的伪代码</p>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">loc_100004aab:</span><br><span class="line">    r12 = *(r15 + <span class="number">0x18</span>);</span><br><span class="line">    r13 = <span class="number">0x0</span>;</span><br><span class="line">    rbx = <span class="number">0x0</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">            rax = (r12)(<span class="number">0x1</span>, rbx);</span><br><span class="line">            rbx = rbx + <span class="number">0x1</span>;</span><br><span class="line">            r13 = rax + r13 * <span class="number">0x2</span>;</span><br><span class="line">            var_78 = r13;</span><br><span class="line">    &#125; <span class="keyword">while</span> (rbx != <span class="number">0x1312d00</span>);</span><br><span class="line">    std::io::stdio::_print::hdea2154009b9e479(<span class="number">0x1000300b0</span>);</span><br><span class="line">    std::time::SystemTime::elapsed::hd316930bad90c880(<span class="number">0x1000300b0</span>, var_98);</span><br><span class="line">    <span class="keyword">return</span> rax;</span><br></pre></td></tr></table></figure>
-<p>现在这次编译出来的结果并没有直接优化成一个值，而是真的去 <code>loop</code> 了 <code>0x1312d00</code> 去计算，那是为什么呢？</p>
-<p>答案和代码一体两证的可以发现。 <code>(r12)(0x1, rbx)</code> 是一个函数，而这 <code>r12</code> 就是我们动态代理的核心。</p>
-<p>打开反汇编，很容易找到如下代码。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0000000100004adc         mov        qword [rbp+var_98], rax</span><br><span class="line">0000000100004ae3         mov        qword [rbp+var_90], rdx</span><br><span class="line">0000000100004aea         mov        r12, qword [r15+0x18]</span><br><span class="line">0000000100004aee         xor        r13d, r13d</span><br><span class="line">0000000100004af1         xor        ebx, ebx</span><br><span class="line">0000000100004af3         nop        word [cs:rax+rax]</span><br><span class="line">0000000100004afd         nop        dword [rax]</span><br><span class="line"></span><br><span class="line">loc_100004b00: 循环计算子函数</span><br><span class="line">0000000100004b00         mov        edi, 0x1 ;  立即数 1</span><br><span class="line">0000000100004b05         mov        rsi, rbx</span><br><span class="line">0000000100004b08         call       r12  ; Backend:Compute 函数</span><br><span class="line">0000000100004b0b         inc        rbx</span><br><span class="line">0000000100004b0e         add        r13, rax</span><br><span class="line">0000000100004b11         mov        qword [rbp+var_78], r13</span><br><span class="line">0000000100004b15         cmp        rbx, 0x1312d00 ; 20000000 次循环</span><br><span class="line">0000000100004b1c         jne        loc_100004b00</span><br></pre></td></tr></table></figure>
-<p>我们可以发现的核心的恰好就是 <code>r12</code> 这个寄存器中的地址，而如何判断具体应该调用哪一个呢？<code>r12</code> 是 <code>r15</code> + <code>0x18</code> 的固定片偏移而来。</p>
-<p>为什么是 <code>0x18</code>？因为 <code>Vtable</code> 的第一部分是一个指向析构函数的 <code>Pointer</code>：<code>8bytes</code>，然后是两个 <code>64bit</code> 的数字是 <code>vtable</code> 的大小和对齐。然后才是我们的函数指向，因为我们只有一个函数，也就是 <code>index:0</code>，那刚好就是 <code>8 + 8 * 2 = 24 = 0x18</code>。</p>
-<p>那 <code>r15</code> 是什么？我们从上面可以得知。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loc_1000049ec:</span><br><span class="line">00000001000049f7         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br><span class="line"></span><br><span class="line">loc_100004a14:</span><br><span class="line">0000000100004a1f         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+112]</span><br></pre></td></tr></table></figure>
-<p>我们有2个子函数进行处理，究竟是 <code>80</code> 的偏移量还是 <code>112</code> 呢？</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">00000001000049a2         call       __ZN73_$LT$std..env..Args$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h92f309c39800957bE ; 获得参数</span><br><span class="line">00000001000049a7         mov        rdi, qword [rbp+var_70]</span><br><span class="line">00000001000049ab         test       rdi, rdi ; 比较，也就是 match env::args().skip(1).next()</span><br><span class="line">00000001000049ae         je         loc_1000049ec ; goto +80 偏移量</span><br><span class="line"></span><br><span class="line">loc_1000049c0:</span><br><span class="line">00000001000049c0         mov        rsi, qword [rbp+var_68]</span><br><span class="line">00000001000049c4         inc        rbx</span><br><span class="line">00000001000049c7         je         loc_100004a14 ; goto +112 偏移量</span><br></pre></td></tr></table></figure>
-<p><img src="https://s3.jpg.cm/2020/10/14/t49aL.png" alt="t49aL.png"><br>
-从调用流程上也很容易分析出来。</p>
-<h3 id="动态分发的消耗"><a class="header-anchor" href="#动态分发的消耗">¶</a>动态分发的消耗</h3>
-<p>根据 <a href="https://medium.com/digitalfrontiers/rust-dynamic-dispatching-deep-dive-236a5896e49b" target="_blank" rel="noopener"></a> 测试的看来</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Iterating over 20M elements:</span><br><span class="line">----------------------------</span><br><span class="line">static dispatch:      64 ms</span><br><span class="line">dynamic dispatch:    216 ms</span><br></pre></td></tr></table></figure>
-<p>动态分发还是会有不小的衰耗。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rust</category>
-        <category>deep-dive</category>
-      </categories>
-      <tags>
-        <tag>rust</tag>
-        <tag>deep-dive</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Actix &amp;#58 Rust 中 Actor 模型的实现</title>
     <url>/2020/09/12/rust/actix/</url>
     <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/09/12/1ZxkC.png" alt="1ZxkC.png"></p>
@@ -4314,6 +4246,74 @@ Swagger = 实现规范的组件</p>
         <tag>async</tag>
         <tag>actor</tag>
         <tag>actix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Rust Dynamic Dispatching</title>
+    <url>/2020/10/13/rust/dynamic-dispatch/</url>
+    <content><![CDATA[<p><img src="https://n1.i5h5.com/2020/10/14/torLS.png" alt="torLS.png"></p>
+<a id="more"></a>
+<h2 id="举个例子"><a class="header-anchor" href="#举个例子">¶</a>举个例子</h2>
+<p>假设我们有如下定义的一组对象。</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Backend</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TypeA</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TypeB</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> TypeA &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> TypeB &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要构建一个 <code>Services</code> 列表，现在是很常规的操作。</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Service</span></span> &lt;T: Backend&gt; &#123;</span><br><span class="line">    backend: T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们具型化的时候会发现一个问题</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut</span> backends = <span class="built_in">Vec</span>::new();</span><br><span class="line">backends.push(TypeA);</span><br><span class="line">backends.push(TypeB);  <span class="comment">// &lt;---- 类型错误</span></span><br></pre></td></tr></table></figure>
+<p>我们如果想要实现这样的机制需要这样操作</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Service</span></span>&#123;</span><br><span class="line">    backends: <span class="built_in">Vec</span>&lt;<span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;&gt;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut</span> backends = <span class="built_in">Vec</span>::new();</span><br><span class="line">backends.push( <span class="built_in">Box</span>::new(PositiveBackend&#123;&#125;) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br><span class="line">backends.push( <span class="built_in">Box</span>::new(NegativeBackend&#123;&#125;) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br></pre></td></tr></table></figure>
+<p>上诉的操作就称之为 “Dynamic Dispatching” 动态分发，我们在调用 Backend 之前并不知道他的类型。这也是实现多态的必要条件，不过这样的操作在运行时会有性能损失，为什么会有性能损耗，我们还是来探索一下。</p>
+<h2 id="基线测试"><a class="header-anchor" href="#基线测试">¶</a>基线测试</h2>
+<p>我们先看看静态分发的性能损耗。</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PositiveBackend</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> PositiveBackend &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>, number: <span class="built_in">u64</span>) -&gt; <span class="built_in">u64</span> &#123;</span><br><span class="line">        number + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> backend = <span class="built_in">Box</span>::new(PositiveBackend);</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> res = <span class="number">0</span> <span class="keyword">as</span> <span class="built_in">u64</span>;</span><br><span class="line">    <span class="keyword">let</span> start_time = SystemTime::now();</span><br><span class="line">    <span class="keyword">let</span> total = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="built_in">u64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// our main loop</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..total &#123;</span><br><span class="line">        res += backend.compute(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Result: &#123;&#125;"</span>, res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Elapsed_ms: &#123;&#125;"</span>, start_time.elapsed().unwrap().as_millis());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在笔者的机器上的执行结果几乎不耗时（记得打开release）</p>
+<figure class="highlight bash"><figcaption><span>debug</span></figcaption><table><tr><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run --release</span><br><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.02s</span><br><span class="line">     Running `target/release/learning`</span><br><span class="line"></span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 0</span><br></pre></td></tr></table></figure>
+<h2 id="静态分发"><a class="header-anchor" href="#静态分发">¶</a>静态分发</h2>
+<h3 id="为什么静态分发这么快"><a class="header-anchor" href="#为什么静态分发这么快">¶</a>为什么静态分发这么快</h3>
+<p>我们打开 <code>Hopper Disassembler</code> 对二进制文件进行分析。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">call       __ZN3std4time10SystemTime3now17h76cefb4014446fb3E ; System.now() 获得当前时间</span><br><span class="line">mov        qword [rbp+var_60], rax</span><br><span class="line">mov        qword [rbp+var_58], rdx</span><br><span class="line">movabs     rax, 0xb5e6218d1680  ; 0xb5e6218d1680 -&gt; 200000010000000 直接是计算好的结果</span><br><span class="line">mov        qword [rbp+var_50], rax</span><br><span class="line">lea        rax, qword [rbp+var_50]</span><br><span class="line">mov        qword [rbp+var_18], rax</span><br><span class="line">lea        rax, qword [__ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u64$GT$3fmt17hb00db9d5e1e54df6E]</span><br><span class="line">mov        qword [rbp+var_10], rax</span><br><span class="line">lea        rax, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br></pre></td></tr></table></figure>
+<p>对于编译器来说，在静态器已经知道的数据类型，和计算都可直接通过静态分析得到结果，而不用在运行时真正的再算一遍。</p>
+<h3 id="Debug-为什么又这么慢"><a class="header-anchor" href="#Debug-为什么又这么慢">¶</a>Debug 为什么又这么慢</h3>
+<p>我们如果运行在 <code>Debug</code> 模式下，结果又是另外一番。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run               </span><br><span class="line">   Compiling learning v0.1.0 (/Users/yann/Codes/rust/learning)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.57s</span><br><span class="line">     Running `target/debug/learning`</span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 741</span><br></pre></td></tr></table></figure>
+<p>还是打开我们的反编译器看看</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loc_100003f2c: ; PositiveBackend:Compute 子函数</span><br><span class="line">0000000100003f49         call       __ZN8learning15PositiveBackend7compute17hbdcd6a613a6654c0E ; PositiveBackend  计算函数的调用</span><br><span class="line">0000000100003f4e         mov        qword [rbp+var_1A8], rax</span><br><span class="line">0000000100003f55         jmp        loc_100003f57</span><br><span class="line"></span><br><span class="line">loc_100003e20: ; For 循环子函数</span><br><span class="line">0000000100003e68         call       __ZN63_$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$9into_iter17h5ff7777380a60e23E ; _$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$::into_iter::h5ff7777380a60e23</span><br><span class="line">0000000100003e6d         mov        qword [rbp+var_170], rdx</span><br><span class="line">0000000100003e74         mov        qword [rbp+var_178], rax</span><br><span class="line">0000000100003e7b         jmp        loc_100003e7d</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loc_100003eb5: 比较 total 是否满足</span><br><span class="line">0000000100003eb5         mov        rax, qword [rbp+var_188]                    ; CODE XREF&#x3D;__ZN8learning4main17h9a9a004d32cb7481E+211</span><br><span class="line">0000000100003ebc         mov        qword [rbp+var_118], rax</span><br><span class="line">0000000100003ec3         mov        rcx, qword [rbp+var_180]</span><br><span class="line">0000000100003eca         mov        qword [rbp+var_110], rcx</span><br><span class="line">0000000100003ed1         mov        rdx, qword [rbp+var_118]</span><br><span class="line">0000000100003ed8         test       rdx, rdx</span><br><span class="line">0000000100003edb         je         loc_100003ee1</span><br></pre></td></tr></table></figure>
+<p>对于 <code>Debug</code> 模式下，我们需要进循环体，因此我们将函数拆分了多段，并且通过 call/je 将程序组装起来，显然就是比直接结果 mov 进来要来的慢的多。</p>
+<h2 id="动态分发"><a class="header-anchor" href="#动态分发">¶</a>动态分发</h2>
+<p>我们将代码修改为如下</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> std::env;</span><br><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Backend</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>,number: <span class="built_in">i64</span>) -&gt; <span class="built_in">i64</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PositiveBackend</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">NegativeBackend</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> PositiveBackend&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>,number: <span class="built_in">i64</span>) -&gt; <span class="built_in">i64</span>&#123;</span><br><span class="line">        number+<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Backend <span class="keyword">for</span> NegativeBackend&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">compute</span></span>(&amp;<span class="keyword">self</span>,number: <span class="built_in">i64</span>) -&gt; <span class="built_in">i64</span>&#123;</span><br><span class="line">        number-<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> backend = <span class="keyword">match</span> env::args().skip(<span class="number">1</span>).next() &#123;</span><br><span class="line">        <span class="literal">Some</span>(x) =&gt; <span class="built_in">Box</span>::new(PositiveBackend ) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;,</span><br><span class="line">        _ =&gt; <span class="built_in">Box</span>::new(NegativeBackend) <span class="keyword">as</span> <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> res= <span class="number">0</span> <span class="keyword">as</span> <span class="built_in">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> start_time = SystemTime::now();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> total = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="built_in">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> .. total &#123;</span><br><span class="line">        res += backend.compute(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Result: &#123;&#125;"</span>,res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Elapsed_ms: &#123;&#125;"</span>, start_time.elapsed().unwrap().as_millis());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果如下</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.03s</span><br><span class="line">     Running `target/release/learning 1`</span><br><span class="line">Result: -20000002</span><br><span class="line">Elapsed_ms: 46</span><br></pre></td></tr></table></figure>
+<p>这个时间和我们的 <code>Debug</code> 模式都差不多了。</p>
+<h3 id="动态分发的实现"><a class="header-anchor" href="#动态分发的实现">¶</a>动态分发的实现</h3>
+<p>对于大多数的编程语言 <code>Rust</code> <code>C++</code> 为了实现动态分发(多态的需求)，都采用了一种叫 <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank" rel="noopener"><code>vtable</code></a> 的技术。</p>
+<p><img src="https://n1.i5h5.com/2020/10/14/toD44.png" alt="toD44.png"></p>
+<p>对于 <code>Box&lt;dyn Trait&gt;</code> 我们至少需要 <code>2</code> 个 <code>Vtable</code> 这里我们就不看汇编了，我们看看 <code>汇编</code> 生成的伪代码</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">loc_100004aab:</span><br><span class="line">    r12 = *(r15 + <span class="number">0x18</span>);</span><br><span class="line">    r13 = <span class="number">0x0</span>;</span><br><span class="line">    rbx = <span class="number">0x0</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">            rax = (r12)(<span class="number">0x1</span>, rbx);</span><br><span class="line">            rbx = rbx + <span class="number">0x1</span>;</span><br><span class="line">            r13 = rax + r13 * <span class="number">0x2</span>;</span><br><span class="line">            var_78 = r13;</span><br><span class="line">    &#125; <span class="keyword">while</span> (rbx != <span class="number">0x1312d00</span>);</span><br><span class="line">    std::io::stdio::_print::hdea2154009b9e479(<span class="number">0x1000300b0</span>);</span><br><span class="line">    std::time::SystemTime::elapsed::hd316930bad90c880(<span class="number">0x1000300b0</span>, var_98);</span><br><span class="line">    <span class="keyword">return</span> rax;</span><br></pre></td></tr></table></figure>
+<p>现在这次编译出来的结果并没有直接优化成一个值，而是真的去 <code>loop</code> 了 <code>0x1312d00</code> 去计算，那是为什么呢？</p>
+<p>答案和代码一体两证的可以发现。 <code>(r12)(0x1, rbx)</code> 是一个函数，而这 <code>r12</code> 就是我们动态代理的核心。</p>
+<p>打开反汇编，很容易找到如下代码。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0000000100004adc         mov        qword [rbp+var_98], rax</span><br><span class="line">0000000100004ae3         mov        qword [rbp+var_90], rdx</span><br><span class="line">0000000100004aea         mov        r12, qword [r15+0x18]</span><br><span class="line">0000000100004aee         xor        r13d, r13d</span><br><span class="line">0000000100004af1         xor        ebx, ebx</span><br><span class="line">0000000100004af3         nop        word [cs:rax+rax]</span><br><span class="line">0000000100004afd         nop        dword [rax]</span><br><span class="line"></span><br><span class="line">loc_100004b00: 循环计算子函数</span><br><span class="line">0000000100004b00         mov        edi, 0x1 ;  立即数 1</span><br><span class="line">0000000100004b05         mov        rsi, rbx</span><br><span class="line">0000000100004b08         call       r12  ; Backend:Compute 函数</span><br><span class="line">0000000100004b0b         inc        rbx</span><br><span class="line">0000000100004b0e         add        r13, rax</span><br><span class="line">0000000100004b11         mov        qword [rbp+var_78], r13</span><br><span class="line">0000000100004b15         cmp        rbx, 0x1312d00 ; 20000000 次循环</span><br><span class="line">0000000100004b1c         jne        loc_100004b00</span><br></pre></td></tr></table></figure>
+<p>我们可以发现的核心的恰好就是 <code>r12</code> 这个寄存器中的地址，而如何判断具体应该调用哪一个呢？<code>r12</code> 是 <code>r15</code> + <code>0x18</code> 的固定片偏移而来。</p>
+<p>为什么是 <code>0x18</code>？因为 <code>Vtable</code> 的第一部分是一个指向析构函数的 <code>Pointer</code>：<code>8bytes</code>，然后是两个 <code>64bit</code> 的数字是 <code>vtable</code> 的大小和对齐。然后才是我们的函数指向，因为我们只有一个函数，也就是 <code>index:0</code>，那刚好就是 <code>8 + 8 * 2 = 24 = 0x18</code>。</p>
+<p>那 <code>r15</code> 是什么？我们从上面可以得知。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loc_1000049ec:</span><br><span class="line">00000001000049f7         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br><span class="line"></span><br><span class="line">loc_100004a14:</span><br><span class="line">0000000100004a1f         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+112]</span><br></pre></td></tr></table></figure>
+<p>我们有2个子函数进行处理，究竟是 <code>80</code> 的偏移量还是 <code>112</code> 呢？</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">00000001000049a2         call       __ZN73_$LT$std..env..Args$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h92f309c39800957bE ; 获得参数</span><br><span class="line">00000001000049a7         mov        rdi, qword [rbp+var_70]</span><br><span class="line">00000001000049ab         test       rdi, rdi ; 比较，也就是 match env::args().skip(1).next()</span><br><span class="line">00000001000049ae         je         loc_1000049ec ; goto +80 偏移量</span><br><span class="line"></span><br><span class="line">loc_1000049c0:</span><br><span class="line">00000001000049c0         mov        rsi, qword [rbp+var_68]</span><br><span class="line">00000001000049c4         inc        rbx</span><br><span class="line">00000001000049c7         je         loc_100004a14 ; goto +112 偏移量</span><br></pre></td></tr></table></figure>
+<p><img src="https://s3.jpg.cm/2020/10/14/t49aL.png" alt="t49aL.png"><br>
+从调用流程上也很容易分析出来。</p>
+<h3 id="动态分发的消耗"><a class="header-anchor" href="#动态分发的消耗">¶</a>动态分发的消耗</h3>
+<p>根据 <a href="https://medium.com/digitalfrontiers/rust-dynamic-dispatching-deep-dive-236a5896e49b" target="_blank" rel="noopener"></a> 测试的看来</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Iterating over 20M elements:</span><br><span class="line">----------------------------</span><br><span class="line">static dispatch:      64 ms</span><br><span class="line">dynamic dispatch:    216 ms</span><br></pre></td></tr></table></figure>
+<p>动态分发还是会有不小的衰耗。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>rust</category>
+        <category>deep-dive</category>
+      </categories>
+      <tags>
+        <tag>rust</tag>
+        <tag>deep-dive</tag>
       </tags>
   </entry>
   <entry>
