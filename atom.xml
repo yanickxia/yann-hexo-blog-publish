@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-03-27T02:49:14.925Z</updated>
+  <updated>2021-04-24T11:29:14.890Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>New Features in Java 9,10,11</title>
+    <link href="http://blog.yanick.site/2021/04/24/java/other/java11/"/>
+    <id>http://blog.yanick.site/2021/04/24/java/other/java11/</id>
+    <published>2021-04-24T02:29:48.000Z</published>
+    <updated>2021-04-24T11:29:14.890Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2021/04/24/aSn1L.png&quot; alt=&quot;aSn1L.png&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Java 11 is the first long-term support (LTS) release after Java 8. Oracle also stopped supporting Java 8 in January 2019. As a consequence, a lot of us will upgrade to Java 11.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;作为 &lt;code&gt;8&lt;/code&gt; 之后的 &lt;code&gt;LTS&lt;/code&gt; 版本，让我们来快速学习一下吧&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>Opentelemetry Collector 源码解读</title>
@@ -480,31 +504,6 @@
       <category term="networking" scheme="http://blog.yanick.site/tags/networking/"/>
     
       <category term="http" scheme="http://blog.yanick.site/tags/http/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>自己动手实现 TCP 协议 [WIP]</title>
-    <link href="http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/"/>
-    <id>http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/</id>
-    <published>2020-09-30T07:35:17.000Z</published>
-    <updated>2021-03-22T05:25:36.513Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/01/J4UJh.png&quot; alt=&quot;J4UJh.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;学不会 &lt;code&gt;TCP&lt;/code&gt; ? 没关系，让我们就自己造一个。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="network" scheme="http://blog.yanick.site/categories/network/"/>
-    
-      <category term="tcp" scheme="http://blog.yanick.site/categories/network/tcp/"/>
-    
-    
-      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
-    
-      <category term="tcp" scheme="http://blog.yanick.site/tags/tcp/"/>
     
   </entry>
   

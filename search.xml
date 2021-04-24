@@ -95,6 +95,75 @@
       </tags>
   </entry>
   <entry>
+    <title>记一次奇怪的Apollo配置中心错误</title>
+    <url>/2018/05/20/bugs/a-strange-apollo-config-error/</url>
+    <content><![CDATA[
+
+<script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
+<script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script src="https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js"></script>
+<script src="https://lib.baomitu.com/raphael/2.2.7/raphael.min.js"></script>
+<script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+
+
+<a id="more"></a>
+<h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:apollo</span>=<span class="string">"http://www.ctrip.com/schema/apollo"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/mvc</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/mvc/spring-mvc.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.ctrip.com/schema/apollo</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.ctrip.com/schema/apollo.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">apollo:config</span> <span class="attr">namespaces</span>=<span class="string">"mallcenter"</span> <span class="attr">order</span>=<span class="string">"-99999"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/sqlMapConfig.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span> <span class="attr">value</span>=<span class="string">"classpath*:mybatis/*mapper.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"typeAliasesPackage"</span> <span class="attr">value</span>=<span class="string">"cn.htd.zeus.mall.biz.dmo"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"cn.daocloud.**.dao"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSession"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionTemplate"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"cn.htd.zeus.mall.common.util.XBasicDataSource"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.driverClassName&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.password&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.initialSize&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>启动 项目的时候会报错  <code>${dataSource.initialSize}</code> 不能转为 <code>int</code>，这个很容易知道是因为我们没有获取到配置 <code>dataSource.initialSize</code> 下面就漫长的分析之路。</p>
+<h2 id="第一回合：怀疑-apollo-没有成功注册PostProcessBeanFactory"><a class="header-anchor" href="#第一回合：怀疑-apollo-没有成功注册PostProcessBeanFactory">¶</a>第一回合：怀疑 apollo 没有成功注册PostProcessBeanFactory</h2>
+<p>因为这个项目是War项目，找个Tomcat镜像，war放进去RemoteDebug一下，我们知道 Apollo 是<br>
+<code>com.ctrip.framework.apollo.spring.config.ConfigPropertySourcesProcessor</code> 在这个类装载的时候会注册</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postProcessBeanDefinitionRegistry</span><span class="params">(BeanDefinitionRegistry registry)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, PropertySourcesPlaceholderConfigurer<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">PropertySourcesPlaceholderConfigurer</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, ApolloAnnotationProcessor<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">ApolloAnnotationProcessor</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, SpringValueProcessor<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">SpringValueProcessor</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, ApolloJsonValueProcessor<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">ApolloJsonValueProcessor</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        <span class="keyword">this</span>.processSpringValueDefinition(registry);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>果不其然，还没有运行到这里的时候系统已经挂掉了，那问题可以大概确认，apollo 并没有起作用。</p>
+<h2 id="第二回合：确认Spring在哪个阶段挂掉了"><a class="header-anchor" href="#第二回合：确认Spring在哪个阶段挂掉了">¶</a>第二回合：确认Spring在哪个阶段挂掉了</h2>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></span><br><span class="line">  postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Invoke factory processors registered as beans in the context.</span></span><br><span class="line">  invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Register bean processors that intercept bean creation.</span></span><br><span class="line">  registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Initialize message source for this context.</span></span><br><span class="line">  initMessageSource();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Initialize event multicaster for this context.</span></span><br><span class="line">  initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Initialize other special beans in specific context subclasses.</span></span><br><span class="line">  onRefresh();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Check for listener beans and register them.</span></span><br><span class="line">  registerListeners();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></span><br><span class="line">  finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Last step: publish corresponding event.</span></span><br><span class="line">  finishRefresh();</span><br></pre></td></tr></table></figure>
+<p>上面的代码大家应该很熟悉，我们都知道Spring的顺序，通过Debug，我们发现Apollo在 <code>invokeBeanFactoryPostProcessors(beanFactory)</code> 阶段已经挂掉了，那问题到这里就有点清晰了，我们的Apollo作用的范围在 <code>invokeBeanFactoryPostProcessors</code>之后，那问题就来了，为什么我们的 <code>datasource</code> 对象在 <code>invokeBeanFactoryPostProcessors </code>阶段初始化？</p>
+<h2 id="第三回合：抓住凶手"><a class="header-anchor" href="#第三回合：抓住凶手">¶</a>第三回合：抓住凶手</h2>
+<p>上个Section我们知道，<code>invokeBeanFactoryPostProcessors</code> 系统挂掉，那为什么我们的 <code>datasource</code> 会在 <code>invokeBeanFactoryPostProcessors</code> 运行，从注释中，我们可以看出来这个阶段其实在注册 <code>factory processors</code>,通过Debug，我们发现了在注册完 Apollo之后，又注册了 <code>MapperScannerConfigurer</code>，<code>SqlSessionFactoryBean</code>, <code>XBasicDataSource</code>, DataSource 和 SqlSessionFactoryBean的关系很容易发现，写着呢，那 MapperScannerConfigurer 查看Google</p>
+<blockquote>
+<p>注 意 , 没 有 必 要 去 指 定 SqlSessionFactory 或 SqlSessionTemplate , 因 为 MapperScannerConfigurer 将会创建 MapperFactoryBean,之后自动装配。 ------&lt;第六章 注入映射器&gt;</p>
+</blockquote>
+<p>那我们明白，因为我们的注入了一个非必要的Bean在注册PostBeanFactory导致的失败。</p>
+
+
+<div id="diagram"></div>
+<script>
+	var data =
+	['Title: 此次错误启动时序图',
+	 'Refresh()->invokeBeanFactoryPostProcessors(): 1.注册factory processors',
+	 'invokeBeanFactoryPostProcessors()->MapperScannerConfigurer(): 2.构建MapperScannerConfigurer',
+	 'MapperScannerConfigurer()->SqlSessionFactoryBean(): 3.构建SqlSessionFactoryBean',
+	 'SqlSessionFactoryBean()->XBasicDataSource(): 4.构建XBasicDataSource',
+	 'Note left of XBasicDataSource(): 此阶段的ApolloConfig没有成功注入',
+	 ].join('\n');
+  	var diagram = Diagram.parse(data);
+  	diagram.drawSVG("diagram", {theme: 'simple'});
+</script>
+
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+        <category>apollo</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>兵法与项目管理</title>
+    <url>/2019/04/13/cs/art-of-software/</url>
+    <content><![CDATA[<p>孙子兵法有云：“凡战者，以正合，以奇胜。” 讲的是从战略是正面要刚得住，而依靠一支尖刀部队打开战场的僵局，而获得战场的胜利。项目管理也应担如此，然而往往大部分的项目截取了后半段而忽略了前半段，呜呼哀哉。</p>
+<p>现代软件工程也存在着形如蒙代尔三角，质量，成本，风险。当控制得了风险和成本，那就不能要求太高的质量。</p>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2019/04/13/5cb1fbec0c3c9.png" alt=""></p>
+<p>当要求质量和成本，那就得面临巨大的项目风险（System/360 Operating System），而这一切就取决于你如何选择，对于传统的ToB项目来说，成本相对固定（固定的工期和固定的人员投入），而此时我们为了追求可以结项拿钱，我们不得不降低软件的成本，而低质量的交付软件意味着没有二期项目，而二期又是大部分的ToB赚钱的核心。那对于企业来说，这样难道是无解之道？那当然不对，对于企业来说，聪明的你一定会想到，为什么我们不从源头解决这个问题，卖的贵一点不就好了，但是很抱歉，当你的价格上升的时候，就意味着你的竞争力下降，那你又如何获得这笔订单呢，对于一个充分成熟的市场，寄希望于单方面的提高价格是困难的，那还有什么办法，既然涨不了价格，那我可以降低人员成本，这也是大部分企业的选择，如何降低员工成本，又分为降低员工的工资，和提高员工的效率。聪明的企业往往选择后面一种，企业培训，采购更好的协作平台，使用更好的合作模式，都是在提高员工的效率。但显然这个路也是有尽头的，而且异常的难做。有没有什么轻松的办法呢？降低工资这个太影响士气，往往不到生死存亡的时候并不会选择这样的方式，啪，灵光乍现，我可以让员工承担更多的职能，这样的话，不就可以了？原本的开发可以兼职售前，售后，交付。这样我们可以成本上直接降低，我们就可以大幅度的提高软件质量，降低成本。但是这条路和上面的路类似，有一个不得不去面对的问题，让员工变成一条龙开发工程师，就真的会让企业的成本降低吗？我的答案是否定的，我们可以把身兼数职的人比喻成特种兵，自古以来有依靠特种兵完成全面战场胜利的案例吗？显然是没有的，中国的先人早就知道，好钢用在刀刃上。因为这样的复合型人才是极为的稀缺的，正如以奇胜的那个单独的军事单位，而在漫长的软件开发过程中，我们是正面战场需要的是精密合作的怀揣不同技能的人才，无论多么富有才能的人，最终也得面临精力的衰退。</p>
+<p>再说说，全栈工程师，有人对全站工程的误会很深，觉得是全栈即是全都做，非也非也，在经济学的奠基之作《国富论》中早已提出，分工是提高社会效率的有效方式，而且全都做和这个相悖的，显然是错误的，而真正的全栈的含义是，如何有效的进行分工，之前的分工模式以简单粗暴的前端，后台，项目经理等等角色为分工，这样的分类是低效的，而且全栈的存在正是对这个分工的反思，我们为什么要用固定的角色分类来进行分工，技能的熟练程度，对业务的理解，这些都分工值得参考的依据。</p>
+<p>John.Boddie在1987年出版的《Crunch Mode》一书提出了“两难境地”，处于“两难境地” 的项目面临着无法达到最初目标的威胁，而项目团队在努力想要跨越该困境。软件工程本身就会面临这样的两难境地，或长或短，短期的两难境地是常见，也是无法避免的，而长期的两难境地会变成“死亡行军”，Ed.Yourdon在1997年出版的《Death March》一书提出，而这个词也同样是由那些被迫在“死亡行军”项目中行走的人们发明的，通常用来描述进度表几乎不可能完成的项目，说明项目参与者的周围弥漫着的是难以忍受的潜在的失败气味。在漫长的死亡行军中，就很难保证项目的质量，团队的士气，而终点也不再具有真实的意义，人们纷纷在中路就死亡了，一个无法抵达的终点和没有终点又有什么区别呢。</p>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
+<ul>
+<li><a href="https://github.com/lifesinger/blog/issues/185" target="_blank" rel="noopener">说说全栈工程师</a></li>
+<li><a href="https://book.douban.com/subject/1073041/" target="_blank" rel="noopener">软件开发的滑铁卢</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+  </entry>
+  <entry>
     <title>使用Daocloud持续部署Hexo</title>
     <url>/2016/05/26/docker/use-daocloud-hexo/</url>
     <content><![CDATA[<p>开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo <a href="https://www.zhihu.com/question/21981094" target="_blank" rel="noopener">优缺点对比</a>. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。</p>
@@ -147,75 +216,6 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
         <tag>Ci</tag>
         <tag>Lighttpd</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>兵法与项目管理</title>
-    <url>/2019/04/13/cs/art-of-software/</url>
-    <content><![CDATA[<p>孙子兵法有云：“凡战者，以正合，以奇胜。” 讲的是从战略是正面要刚得住，而依靠一支尖刀部队打开战场的僵局，而获得战场的胜利。项目管理也应担如此，然而往往大部分的项目截取了后半段而忽略了前半段，呜呼哀哉。</p>
-<p>现代软件工程也存在着形如蒙代尔三角，质量，成本，风险。当控制得了风险和成本，那就不能要求太高的质量。</p>
-<a id="more"></a>
-<p><img src="https://i.loli.net/2019/04/13/5cb1fbec0c3c9.png" alt=""></p>
-<p>当要求质量和成本，那就得面临巨大的项目风险（System/360 Operating System），而这一切就取决于你如何选择，对于传统的ToB项目来说，成本相对固定（固定的工期和固定的人员投入），而此时我们为了追求可以结项拿钱，我们不得不降低软件的成本，而低质量的交付软件意味着没有二期项目，而二期又是大部分的ToB赚钱的核心。那对于企业来说，这样难道是无解之道？那当然不对，对于企业来说，聪明的你一定会想到，为什么我们不从源头解决这个问题，卖的贵一点不就好了，但是很抱歉，当你的价格上升的时候，就意味着你的竞争力下降，那你又如何获得这笔订单呢，对于一个充分成熟的市场，寄希望于单方面的提高价格是困难的，那还有什么办法，既然涨不了价格，那我可以降低人员成本，这也是大部分企业的选择，如何降低员工成本，又分为降低员工的工资，和提高员工的效率。聪明的企业往往选择后面一种，企业培训，采购更好的协作平台，使用更好的合作模式，都是在提高员工的效率。但显然这个路也是有尽头的，而且异常的难做。有没有什么轻松的办法呢？降低工资这个太影响士气，往往不到生死存亡的时候并不会选择这样的方式，啪，灵光乍现，我可以让员工承担更多的职能，这样的话，不就可以了？原本的开发可以兼职售前，售后，交付。这样我们可以成本上直接降低，我们就可以大幅度的提高软件质量，降低成本。但是这条路和上面的路类似，有一个不得不去面对的问题，让员工变成一条龙开发工程师，就真的会让企业的成本降低吗？我的答案是否定的，我们可以把身兼数职的人比喻成特种兵，自古以来有依靠特种兵完成全面战场胜利的案例吗？显然是没有的，中国的先人早就知道，好钢用在刀刃上。因为这样的复合型人才是极为的稀缺的，正如以奇胜的那个单独的军事单位，而在漫长的软件开发过程中，我们是正面战场需要的是精密合作的怀揣不同技能的人才，无论多么富有才能的人，最终也得面临精力的衰退。</p>
-<p>再说说，全栈工程师，有人对全站工程的误会很深，觉得是全栈即是全都做，非也非也，在经济学的奠基之作《国富论》中早已提出，分工是提高社会效率的有效方式，而且全都做和这个相悖的，显然是错误的，而真正的全栈的含义是，如何有效的进行分工，之前的分工模式以简单粗暴的前端，后台，项目经理等等角色为分工，这样的分类是低效的，而且全栈的存在正是对这个分工的反思，我们为什么要用固定的角色分类来进行分工，技能的熟练程度，对业务的理解，这些都分工值得参考的依据。</p>
-<p>John.Boddie在1987年出版的《Crunch Mode》一书提出了“两难境地”，处于“两难境地” 的项目面临着无法达到最初目标的威胁，而项目团队在努力想要跨越该困境。软件工程本身就会面临这样的两难境地，或长或短，短期的两难境地是常见，也是无法避免的，而长期的两难境地会变成“死亡行军”，Ed.Yourdon在1997年出版的《Death March》一书提出，而这个词也同样是由那些被迫在“死亡行军”项目中行走的人们发明的，通常用来描述进度表几乎不可能完成的项目，说明项目参与者的周围弥漫着的是难以忍受的潜在的失败气味。在漫长的死亡行军中，就很难保证项目的质量，团队的士气，而终点也不再具有真实的意义，人们纷纷在中路就死亡了，一个无法抵达的终点和没有终点又有什么区别呢。</p>
-<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
-<ul>
-<li><a href="https://github.com/lifesinger/blog/issues/185" target="_blank" rel="noopener">说说全栈工程师</a></li>
-<li><a href="https://book.douban.com/subject/1073041/" target="_blank" rel="noopener">软件开发的滑铁卢</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-  </entry>
-  <entry>
-    <title>记一次奇怪的Apollo配置中心错误</title>
-    <url>/2018/05/20/bugs/a-strange-apollo-config-error/</url>
-    <content><![CDATA[
-
-<script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
-<script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
-<script src="https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js"></script>
-<script src="https://lib.baomitu.com/raphael/2.2.7/raphael.min.js"></script>
-<script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
-
-
-<a id="more"></a>
-<h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:apollo</span>=<span class="string">"http://www.ctrip.com/schema/apollo"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/mvc</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/mvc/spring-mvc.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.ctrip.com/schema/apollo</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.ctrip.com/schema/apollo.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">apollo:config</span> <span class="attr">namespaces</span>=<span class="string">"mallcenter"</span> <span class="attr">order</span>=<span class="string">"-99999"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/sqlMapConfig.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span> <span class="attr">value</span>=<span class="string">"classpath*:mybatis/*mapper.xml"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"typeAliasesPackage"</span> <span class="attr">value</span>=<span class="string">"cn.htd.zeus.mall.biz.dmo"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"cn.daocloud.**.dao"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSession"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionTemplate"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"cn.htd.zeus.mall.common.util.XBasicDataSource"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.driverClassName&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.url&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.username&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.password&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"$&#123;dataSource.initialSize&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>启动 项目的时候会报错  <code>${dataSource.initialSize}</code> 不能转为 <code>int</code>，这个很容易知道是因为我们没有获取到配置 <code>dataSource.initialSize</code> 下面就漫长的分析之路。</p>
-<h2 id="第一回合：怀疑-apollo-没有成功注册PostProcessBeanFactory"><a class="header-anchor" href="#第一回合：怀疑-apollo-没有成功注册PostProcessBeanFactory">¶</a>第一回合：怀疑 apollo 没有成功注册PostProcessBeanFactory</h2>
-<p>因为这个项目是War项目，找个Tomcat镜像，war放进去RemoteDebug一下，我们知道 Apollo 是<br>
-<code>com.ctrip.framework.apollo.spring.config.ConfigPropertySourcesProcessor</code> 在这个类装载的时候会注册</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postProcessBeanDefinitionRegistry</span><span class="params">(BeanDefinitionRegistry registry)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, PropertySourcesPlaceholderConfigurer<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">PropertySourcesPlaceholderConfigurer</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, ApolloAnnotationProcessor<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">ApolloAnnotationProcessor</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, SpringValueProcessor<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">SpringValueProcessor</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        BeanRegistrationUtil.registerBeanDefinitionIfNotExists(registry, ApolloJsonValueProcessor<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>(), <span class="title">ApolloJsonValueProcessor</span>.<span class="title">class</span>)</span>;</span><br><span class="line">        <span class="keyword">this</span>.processSpringValueDefinition(registry);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>果不其然，还没有运行到这里的时候系统已经挂掉了，那问题可以大概确认，apollo 并没有起作用。</p>
-<h2 id="第二回合：确认Spring在哪个阶段挂掉了"><a class="header-anchor" href="#第二回合：确认Spring在哪个阶段挂掉了">¶</a>第二回合：确认Spring在哪个阶段挂掉了</h2>
- <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></span><br><span class="line">  postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Invoke factory processors registered as beans in the context.</span></span><br><span class="line">  invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Register bean processors that intercept bean creation.</span></span><br><span class="line">  registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Initialize message source for this context.</span></span><br><span class="line">  initMessageSource();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Initialize event multicaster for this context.</span></span><br><span class="line">  initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Initialize other special beans in specific context subclasses.</span></span><br><span class="line">  onRefresh();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Check for listener beans and register them.</span></span><br><span class="line">  registerListeners();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></span><br><span class="line">  finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Last step: publish corresponding event.</span></span><br><span class="line">  finishRefresh();</span><br></pre></td></tr></table></figure>
-<p>上面的代码大家应该很熟悉，我们都知道Spring的顺序，通过Debug，我们发现Apollo在 <code>invokeBeanFactoryPostProcessors(beanFactory)</code> 阶段已经挂掉了，那问题到这里就有点清晰了，我们的Apollo作用的范围在 <code>invokeBeanFactoryPostProcessors</code>之后，那问题就来了，为什么我们的 <code>datasource</code> 对象在 <code>invokeBeanFactoryPostProcessors </code>阶段初始化？</p>
-<h2 id="第三回合：抓住凶手"><a class="header-anchor" href="#第三回合：抓住凶手">¶</a>第三回合：抓住凶手</h2>
-<p>上个Section我们知道，<code>invokeBeanFactoryPostProcessors</code> 系统挂掉，那为什么我们的 <code>datasource</code> 会在 <code>invokeBeanFactoryPostProcessors</code> 运行，从注释中，我们可以看出来这个阶段其实在注册 <code>factory processors</code>,通过Debug，我们发现了在注册完 Apollo之后，又注册了 <code>MapperScannerConfigurer</code>，<code>SqlSessionFactoryBean</code>, <code>XBasicDataSource</code>, DataSource 和 SqlSessionFactoryBean的关系很容易发现，写着呢，那 MapperScannerConfigurer 查看Google</p>
-<blockquote>
-<p>注 意 , 没 有 必 要 去 指 定 SqlSessionFactory 或 SqlSessionTemplate , 因 为 MapperScannerConfigurer 将会创建 MapperFactoryBean,之后自动装配。 ------&lt;第六章 注入映射器&gt;</p>
-</blockquote>
-<p>那我们明白，因为我们的注入了一个非必要的Bean在注册PostBeanFactory导致的失败。</p>
-
-
-<div id="diagram"></div>
-<script>
-	var data =
-	['Title: 此次错误启动时序图',
-	 'Refresh()->invokeBeanFactoryPostProcessors(): 1.注册factory processors',
-	 'invokeBeanFactoryPostProcessors()->MapperScannerConfigurer(): 2.构建MapperScannerConfigurer',
-	 'MapperScannerConfigurer()->SqlSessionFactoryBean(): 3.构建SqlSessionFactoryBean',
-	 'SqlSessionFactoryBean()->XBasicDataSource(): 4.构建XBasicDataSource',
-	 'Note left of XBasicDataSource(): 此阶段的ApolloConfig没有成功注入',
-	 ].join('\n');
-  	var diagram = Diagram.parse(data);
-  	diagram.drawSVG("diagram", {theme: 'simple'});
-</script>
-
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>java</category>
-        <category>apollo</category>
-      </categories>
   </entry>
   <entry>
     <title>如何用C语言写一个五子棋</title>
@@ -778,74 +778,6 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </tags>
   </entry>
   <entry>
-    <title>我的2018关键字</title>
-    <url>/2018/09/16/life/keywords-2018/</url>
-    <content><![CDATA[<p>刚好有一个朋友，如果用十个词形容自己的现状，我想了想还是写下来，也算是水一篇博客。</p>
-<h2 id="1-碌碌无为-遥遥无期"><a class="header-anchor" href="#1-碌碌无为-遥遥无期">¶</a>1. 碌碌无为/遥遥无期</h2>
-<p>对于我来说，这一年大概是我觉得最为碌碌无为的一年了，回想起来，不仅仅什么事情都没有做，还搞砸了一堆事情，计划的<code>马拉松</code>,<code>读书计划</code>,<code>减肥计划</code>大概这个计划可以再陪伴一年了，老朋友明年见。</p>
-<a id="more"></a>
-<h2 id="2-居无定所"><a class="header-anchor" href="#2-居无定所">¶</a>2. 居无定所</h2>
-<p>我大概成了一个假的程序员，从去年入职开始，好像我已经踏上了一个售前工程师的职能，我不是在出差地或者就是在出差中，虽然有些夸张，出差倒也没有让我觉得有多痛苦，只是让我越发明白，安定的意义，也可能因为自己也算是奔三的人，也不享受这个免费的旅行了。</p>
-<h2 id="3-持鳌下酒"><a class="header-anchor" href="#3-持鳌下酒">¶</a>3. 持鳌下酒</h2>
-<p>发现有些事情没啥办法改变就开始逃避了，拖延症也越来越严重了。</p>
-<h2 id="4-无的放矢-漫无目的"><a class="header-anchor" href="#4-无的放矢-漫无目的">¶</a>4. 无的放矢/漫无目的</h2>
-<p>一方面不心安于这样的状态，但是一方面又没有什么远大的理想，亦可以从身边的朋友那得到的反馈也是，颇有小聪明却无志向，以后也怕是难有什么大成就。只怕又是心比天高而名比纸薄。</p>
-<h2 id="5-利己主义"><a class="header-anchor" href="#5-利己主义">¶</a>5. 利己主义</h2>
-<p>和大学期间的我完全一样了，并不在这个国家的政治会如何，亦或者 <code>滴滴女乘客死亡</code> 这样的问题，这样的问题即便是发生的举例我这样的近，我却再也关心不起来，本质的原因我觉得是因为自己的生活尚且得过且过，富裕的善良都不足够</p>
-<h2 id="6-存在主义"><a class="header-anchor" href="#6-存在主义">¶</a>6. 存在主义</h2>
-<p>发现只有 <code>存在先于本质</code> 的哲学思想最为能接受了，现在已经不去想 <code>我是谁，我又在这里的</code> 这样的本质性问题了，还是想想当下的 <code>存在</code> 而我们也亦拥有的选择的自由。</p>
-<blockquote>
-<p>人没有义务遵守某个道德标准或宗教信仰，却有选择的自由。要评价一个人，要评价他的所作所为，而不是评价他是个什么人物，因为一个人是由他的行动来定义的。 — Jean-Paul Sartre</p>
-</blockquote>
-<h2 id="7-爵士乐"><a class="header-anchor" href="#7-爵士乐">¶</a>7. 爵士乐</h2>
-<p>这个可能算不上 2018 的年度关键字，不过也算是持续到现在了，大致上有 16 年开始我的最爱的音乐类型里面就不存在什么诸如民谣之类的音乐，我所爱的是 <code>爵士乐</code> ，在我看来 <code>爵士乐</code> 是一种既变化又不变的一种音乐，虽然爵士乐的第三秒就知道它的音律，可是每一首都给你不一样自由的感觉，这如同在这城市，我们虽然知道我们每天都会在这两点一线的上班中度过，可是我们也可以为了身边的小花驻留多一分钟，那就是生活的自由。</p>
-<h2 id="8-焦虑"><a class="header-anchor" href="#8-焦虑">¶</a>8. 焦虑</h2>
-<p>与<code>碌碌无为</code>有且与之相对应的<code>焦虑</code>，焦虑于工作，生活，简直没有什么事情不焦虑，不过焦虑往往随着一杯肥宅快乐水就烟消云散了。大致上我还算是一个天生的乐观者，毕竟焦虑只有在交房贷的那一刻强烈的无比自已。</p>
-<h2 id="9-继续"><a class="header-anchor" href="#9-继续">¶</a>9. 继续</h2>
-<p>最为困难的是开始，比开始更困难的是坚持，而继续的力量给上帝公平的将时间分配于你，无论生活多么惨淡，我们只得收拾好行李继续上路，长夜漫漫路遥遥。</p>
-<h2 id="10-继续等待"><a class="header-anchor" href="#10-继续等待">¶</a>10. 继续等待</h2>
-<p>有些事情，只能继续等待。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>life</category>
-      </categories>
-      <tags>
-        <tag>生活</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在家的一个月我得到了什么</title>
-    <url>/2020/03/09/life/rethink-in-spring-festival/</url>
-    <content><![CDATA[<p>因为<a href="https://zh.wikipedia.org/zh-hans/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85" target="_blank" rel="noopener">新冠肺炎</a>，在家度过了自从大学生涯结束之后就不曾再有的超长假期，前前后后含上WFH的时间足足有40余天。大部分的时间也因为在家自我隔离，有了充足的时间进行思考，聊聊这个不一样的假期我在家学到了什么。</p>
-<a id="more"></a>
-<h1>极简的确是可以的</h1>
-<p>因为没有出门的机会，已经前期大部分地区的快递足够漫长，甚至有些货物我收到货的时候已经不觉得有用，与大部分人一样，一整个春节几乎穿着一套睡衣度过了，另外一套户外冬装也仅仅在出门散步时穿，因为是异地工作，仅仅按照一周假期的准备，殊不知在家呆了40天，但是这些日子并没有觉得自己的衣服不足够，当人减少社交属性的时候，仿佛也带来了很低的物质需求。记得以前有一篇新闻 <a href="http://news.sohu.com/20150326/n410357717.shtml" target="_blank" rel="noopener">上海夫妻不工作没孩子不交际 全年只花2万元</a> 原来我是不信的，现在无比信服。如果算起来，我们投入在社交上的隐性支出要比宴请这样的显性支出更加的多。</p>
-<p>最终发现<strong>健康的身体和充沛的精力是最重要的。</strong></p>
-<h1>管理自己的精力，比管理自己的时间更重要</h1>
-<p><img src="https://s2.ax1x.com/2020/03/09/8pZqrF.png" alt="8pZqrF.png"></p>
-<p>在家期间有了大量的时间，无论是睡觉还是学习，都有自己充足的时间，而这些时间并没有严格的按照自己的期望进行运转，包括了晚睡这些习惯，而我发现如果时间表这样的方式进行生活，最大的问题依然是没有办法完全控制自己的时间，甚至于一个快递电话都会将自己的时间线打乱。而我觉得更好的方式是【精力管理】，不要求在具体的时间线上做出什么妥协，你需要的是将自己的精力有效的利用起来，我也倾向于认为人的精力是有限的，我们应该做的是锻炼自己的精力，并且将自己有限的精力放在重要的事情上。</p>
-<h2 id="精力之外的题外话"><a class="header-anchor" href="#精力之外的题外话">¶</a>精力之外的题外话</h2>
-<ul>
-<li>无论是重脑力的上班还是在办公室闲待一天，都是一种消耗性的工作，倒是我们晚上几乎无法把自己的精力再次汇聚起来</li>
-<li>因为精力被耗尽之后，我们更容易被网络吸引，包括无聊的刷抖音，购物等</li>
-</ul>
-<h1>未雨绸缪</h1>
-<p>新冠疫情来的突然，对于房租，房贷等刚性支出都是一笔不小的数量，如果是服务员之类的工作，在未开工期间，我们就不得不去动用存款，因此对于大部分的人来说，我们都应该准备半年左右的备用金，半年之内都无好转的话可能就是一个系统性的风险了，就听天由命吧。</p>
-<h1>学习不止</h1>
-<p><img src="https://s2.ax1x.com/2020/03/09/8pm60g.png" alt="8pm60g.png"><br>
-在家的时候我常常帮助我们调电视，自从搬进了新房子，切断了以前的有线电视，使用了互联网电视，无论是极为简单的小米电视还是康佳电视，我发现对于我妈来说都是非常困难的，对于我爸来说也是在有限的范围内可学的，而至于给电视安装软件都是超过他们的能力范围的，为什么会导致这样的？我认为是思维的固化已经对新事物的排次，在<br>
-<a href="https://www.bilibili.com/video/av33979970/" target="_blank" rel="noopener">学习观</a> 中，我们也可以理解，我们对于已有知识和未有知识有冲突的时候，是优先会站在已有知识这边的，那些被验证的知识是无比珍贵的，因此我们也会变的顽固，对于互联网电视这种以搜索和推送的为方式的新视频方式是不怎么接受的，而如何面对层出不穷的新事物，只有保持好学的姿势，可能还不会被这个时代给冲击灭迹。</p>
-<h1>身体力行</h1>
-<p>在家看了一个还蛮治愈的日剧《日日是好日》，剧中的茶艺导师让其使用身体记住茶道而不是脑子，这也是现代人常常犯的错，我们总是以为用思考就可以取缔一切，而早在1937年<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">论认识和实践的关系——知和行的关系</a>，毛主席也说明这一观点，我们总是需要在真实的世界进行实践动作，而仅仅留在脑子中的想法那些都是流于表面的，也就是为什么现在的键盘侠甚多的原因。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>life</category>
-      </categories>
-      <tags>
-        <tag>生活</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2018年初面试回顾</title>
     <url>/2018/04/11/life/interview-review/</url>
     <content><![CDATA[<p>抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击<br>
@@ -989,6 +921,74 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <tags>
         <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的2018关键字</title>
+    <url>/2018/09/16/life/keywords-2018/</url>
+    <content><![CDATA[<p>刚好有一个朋友，如果用十个词形容自己的现状，我想了想还是写下来，也算是水一篇博客。</p>
+<h2 id="1-碌碌无为-遥遥无期"><a class="header-anchor" href="#1-碌碌无为-遥遥无期">¶</a>1. 碌碌无为/遥遥无期</h2>
+<p>对于我来说，这一年大概是我觉得最为碌碌无为的一年了，回想起来，不仅仅什么事情都没有做，还搞砸了一堆事情，计划的<code>马拉松</code>,<code>读书计划</code>,<code>减肥计划</code>大概这个计划可以再陪伴一年了，老朋友明年见。</p>
+<a id="more"></a>
+<h2 id="2-居无定所"><a class="header-anchor" href="#2-居无定所">¶</a>2. 居无定所</h2>
+<p>我大概成了一个假的程序员，从去年入职开始，好像我已经踏上了一个售前工程师的职能，我不是在出差地或者就是在出差中，虽然有些夸张，出差倒也没有让我觉得有多痛苦，只是让我越发明白，安定的意义，也可能因为自己也算是奔三的人，也不享受这个免费的旅行了。</p>
+<h2 id="3-持鳌下酒"><a class="header-anchor" href="#3-持鳌下酒">¶</a>3. 持鳌下酒</h2>
+<p>发现有些事情没啥办法改变就开始逃避了，拖延症也越来越严重了。</p>
+<h2 id="4-无的放矢-漫无目的"><a class="header-anchor" href="#4-无的放矢-漫无目的">¶</a>4. 无的放矢/漫无目的</h2>
+<p>一方面不心安于这样的状态，但是一方面又没有什么远大的理想，亦可以从身边的朋友那得到的反馈也是，颇有小聪明却无志向，以后也怕是难有什么大成就。只怕又是心比天高而名比纸薄。</p>
+<h2 id="5-利己主义"><a class="header-anchor" href="#5-利己主义">¶</a>5. 利己主义</h2>
+<p>和大学期间的我完全一样了，并不在这个国家的政治会如何，亦或者 <code>滴滴女乘客死亡</code> 这样的问题，这样的问题即便是发生的举例我这样的近，我却再也关心不起来，本质的原因我觉得是因为自己的生活尚且得过且过，富裕的善良都不足够</p>
+<h2 id="6-存在主义"><a class="header-anchor" href="#6-存在主义">¶</a>6. 存在主义</h2>
+<p>发现只有 <code>存在先于本质</code> 的哲学思想最为能接受了，现在已经不去想 <code>我是谁，我又在这里的</code> 这样的本质性问题了，还是想想当下的 <code>存在</code> 而我们也亦拥有的选择的自由。</p>
+<blockquote>
+<p>人没有义务遵守某个道德标准或宗教信仰，却有选择的自由。要评价一个人，要评价他的所作所为，而不是评价他是个什么人物，因为一个人是由他的行动来定义的。 — Jean-Paul Sartre</p>
+</blockquote>
+<h2 id="7-爵士乐"><a class="header-anchor" href="#7-爵士乐">¶</a>7. 爵士乐</h2>
+<p>这个可能算不上 2018 的年度关键字，不过也算是持续到现在了，大致上有 16 年开始我的最爱的音乐类型里面就不存在什么诸如民谣之类的音乐，我所爱的是 <code>爵士乐</code> ，在我看来 <code>爵士乐</code> 是一种既变化又不变的一种音乐，虽然爵士乐的第三秒就知道它的音律，可是每一首都给你不一样自由的感觉，这如同在这城市，我们虽然知道我们每天都会在这两点一线的上班中度过，可是我们也可以为了身边的小花驻留多一分钟，那就是生活的自由。</p>
+<h2 id="8-焦虑"><a class="header-anchor" href="#8-焦虑">¶</a>8. 焦虑</h2>
+<p>与<code>碌碌无为</code>有且与之相对应的<code>焦虑</code>，焦虑于工作，生活，简直没有什么事情不焦虑，不过焦虑往往随着一杯肥宅快乐水就烟消云散了。大致上我还算是一个天生的乐观者，毕竟焦虑只有在交房贷的那一刻强烈的无比自已。</p>
+<h2 id="9-继续"><a class="header-anchor" href="#9-继续">¶</a>9. 继续</h2>
+<p>最为困难的是开始，比开始更困难的是坚持，而继续的力量给上帝公平的将时间分配于你，无论生活多么惨淡，我们只得收拾好行李继续上路，长夜漫漫路遥遥。</p>
+<h2 id="10-继续等待"><a class="header-anchor" href="#10-继续等待">¶</a>10. 继续等待</h2>
+<p>有些事情，只能继续等待。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>life</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在家的一个月我得到了什么</title>
+    <url>/2020/03/09/life/rethink-in-spring-festival/</url>
+    <content><![CDATA[<p>因为<a href="https://zh.wikipedia.org/zh-hans/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85" target="_blank" rel="noopener">新冠肺炎</a>，在家度过了自从大学生涯结束之后就不曾再有的超长假期，前前后后含上WFH的时间足足有40余天。大部分的时间也因为在家自我隔离，有了充足的时间进行思考，聊聊这个不一样的假期我在家学到了什么。</p>
+<a id="more"></a>
+<h1>极简的确是可以的</h1>
+<p>因为没有出门的机会，已经前期大部分地区的快递足够漫长，甚至有些货物我收到货的时候已经不觉得有用，与大部分人一样，一整个春节几乎穿着一套睡衣度过了，另外一套户外冬装也仅仅在出门散步时穿，因为是异地工作，仅仅按照一周假期的准备，殊不知在家呆了40天，但是这些日子并没有觉得自己的衣服不足够，当人减少社交属性的时候，仿佛也带来了很低的物质需求。记得以前有一篇新闻 <a href="http://news.sohu.com/20150326/n410357717.shtml" target="_blank" rel="noopener">上海夫妻不工作没孩子不交际 全年只花2万元</a> 原来我是不信的，现在无比信服。如果算起来，我们投入在社交上的隐性支出要比宴请这样的显性支出更加的多。</p>
+<p>最终发现<strong>健康的身体和充沛的精力是最重要的。</strong></p>
+<h1>管理自己的精力，比管理自己的时间更重要</h1>
+<p><img src="https://s2.ax1x.com/2020/03/09/8pZqrF.png" alt="8pZqrF.png"></p>
+<p>在家期间有了大量的时间，无论是睡觉还是学习，都有自己充足的时间，而这些时间并没有严格的按照自己的期望进行运转，包括了晚睡这些习惯，而我发现如果时间表这样的方式进行生活，最大的问题依然是没有办法完全控制自己的时间，甚至于一个快递电话都会将自己的时间线打乱。而我觉得更好的方式是【精力管理】，不要求在具体的时间线上做出什么妥协，你需要的是将自己的精力有效的利用起来，我也倾向于认为人的精力是有限的，我们应该做的是锻炼自己的精力，并且将自己有限的精力放在重要的事情上。</p>
+<h2 id="精力之外的题外话"><a class="header-anchor" href="#精力之外的题外话">¶</a>精力之外的题外话</h2>
+<ul>
+<li>无论是重脑力的上班还是在办公室闲待一天，都是一种消耗性的工作，倒是我们晚上几乎无法把自己的精力再次汇聚起来</li>
+<li>因为精力被耗尽之后，我们更容易被网络吸引，包括无聊的刷抖音，购物等</li>
+</ul>
+<h1>未雨绸缪</h1>
+<p>新冠疫情来的突然，对于房租，房贷等刚性支出都是一笔不小的数量，如果是服务员之类的工作，在未开工期间，我们就不得不去动用存款，因此对于大部分的人来说，我们都应该准备半年左右的备用金，半年之内都无好转的话可能就是一个系统性的风险了，就听天由命吧。</p>
+<h1>学习不止</h1>
+<p><img src="https://s2.ax1x.com/2020/03/09/8pm60g.png" alt="8pm60g.png"><br>
+在家的时候我常常帮助我们调电视，自从搬进了新房子，切断了以前的有线电视，使用了互联网电视，无论是极为简单的小米电视还是康佳电视，我发现对于我妈来说都是非常困难的，对于我爸来说也是在有限的范围内可学的，而至于给电视安装软件都是超过他们的能力范围的，为什么会导致这样的？我认为是思维的固化已经对新事物的排次，在<br>
+<a href="https://www.bilibili.com/video/av33979970/" target="_blank" rel="noopener">学习观</a> 中，我们也可以理解，我们对于已有知识和未有知识有冲突的时候，是优先会站在已有知识这边的，那些被验证的知识是无比珍贵的，因此我们也会变的顽固，对于互联网电视这种以搜索和推送的为方式的新视频方式是不怎么接受的，而如何面对层出不穷的新事物，只有保持好学的姿势，可能还不会被这个时代给冲击灭迹。</p>
+<h1>身体力行</h1>
+<p>在家看了一个还蛮治愈的日剧《日日是好日》，剧中的茶艺导师让其使用身体记住茶道而不是脑子，这也是现代人常常犯的错，我们总是以为用思考就可以取缔一切，而早在1937年<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">论认识和实践的关系——知和行的关系</a>，毛主席也说明这一观点，我们总是需要在真实的世界进行实践动作，而仅仅留在脑子中的想法那些都是流于表面的，也就是为什么现在的键盘侠甚多的原因。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>life</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
       </tags>
   </entry>
   <entry>
@@ -1571,55 +1571,6 @@ HTTP 当然懂一点总是有用的，毕竟是网络的时代了，配了很多
       </categories>
   </entry>
   <entry>
-    <title>警惕从开发转变为运维</title>
-    <url>/2020/07/03/rethink/do-be-a-ops-from-a-developer/</url>
-    <content><![CDATA[<p>在这有限的三年工作中，我们尝试着从传统的开发|运维分离的体系转换为 <code>Devops</code> 的体系，收益很多：有且不限于</p>
-<ul>
-<li>如何编写更易于部署的代码</li>
-<li>了解K8S这样的运行支撑层的工作原理</li>
-<li>促进团队的产能</li>
-</ul>
-<p>但是在这过程之中我们也发现了很糟糕之处，今天就这些糟糕的情况讲一讲。</p>
-<a id="more"></a>
-<h1>作为 Ops 的 Dev</h1>
-<p>大概没有比现在做开发更糟糕的事情了，开发者的心情大致上是这么波动的</p>
-<p><code>好爽，这么可以玩的</code> -&gt; <code>好烦，为什么做这么多</code> -&gt; <code>老子再也不碰了</code></p>
-<h2 id="阶段1：-看上去美好的初次接触"><a class="header-anchor" href="#阶段1：-看上去美好的初次接触">¶</a>阶段1： 看上去美好的初次接触</h2>
-<p>糟糕的交付速度，老旧的运维技术，大概就是开发者对于运维的刻板印象，因此在 <code>Devops</code> 的初期阶段，开发者托管了这一切时候，世界真是美好，我们上了最新的 <code>CICD</code> 工具，我们用上了最酷炫的 <code>Dashboard</code>，我们还有最潮的在线 <code>Profiler</code>，新世界正在冉冉升起。</p>
-<p><a href="https://imgchr.com/i/NXyj1O" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/03/NXyj1O.md.png" alt="NXyj1O.md.png"></a></p>
-<h2 id="阶段2：-糟心的运维阶段"><a class="header-anchor" href="#阶段2：-糟心的运维阶段">¶</a>阶段2： 糟心的运维阶段</h2>
-<p>当迈过了内部的测试阶段，开始了正式的运维阶段，Dev 开始明白起来所谓的 <code>自愈平台</code> <code>HA</code> 都不是完全的自动化，经常需要人员的介入，也就是传统运维经常做的事情，一般这个时候我们不得不一边进行运维，一边进行新业务的开发，如果拖着重重的行李。</p>
-<p>正如在 <a href="https://www.reddit.com/r/devops/comments/5z93al/what_is_shitty_about_devops/" target="_blank" rel="noopener">What is shitty about DevOps?</a> 中吐槽的一样</p>
-<blockquote>
-<p>What I don’t love:<br>
-I’m on a dev team as the only ops guy: 我变成开发团队内的唯一的运维BOY<br>
-Management layout is so awkward. I report to a dev guy, take orders from an infrastructure guy： 管理模式如此的糟糕，我向一个开发主管索取运维资源<br>
-lots of hours： 失去了大量的时间<br>
-Some days I just want to drink： 有些日子我只想灌醉自己</p>
-</blockquote>
-<p>更多的例子可以阅读 (参考2: #What is shitty about DevOps?)</p>
-<p><a href="https://imgchr.com/i/NXIYJH" target="_blank" rel="noopener"><img src="https://shop.io.mi-img.com/app/shop/img?id=shop_a8176e393e45b0325ddbeae737066a43.png" alt="NXIYJH.md.png"></a></p>
-<h2 id="阶段3：-痛苦的挣扎"><a class="header-anchor" href="#阶段3：-痛苦的挣扎">¶</a>阶段3： 痛苦的挣扎</h2>
-<p>此时的研发新的任务已经下放，在一边开发新功能，一边对已有功能进行维护，研发任务变成了运维的消遣。</p>
-<h1>作为 Dev 的 Ops</h1>
-<p>这倒是一个蛮不错的趋势，对于一些比较新潮的运维工程师来说，<code>Shell</code> 早就不能满足他们对于运维工具/语言的需求了，在早期已经使用 <code>Python</code> 来替代 <code>Bash</code> 来进行运维脚本的开发。直到 <code>Cloud Native</code> 时期，出现的 <code>Go</code> 就比Python更适合作为运维的工具，因此在此时期，我们也诞生了比如 <code>Google SRE</code> 这样的新型职位。</p>
-<h1>国内的 Devops 现状</h1>
-<p>不可置否的说，国内的 <code>DevOps</code> 现状和 <code>DevOps</code> 初衷是相悖的。<code>DevOps</code>的初衷是打破团队的隔阂，提高流程速度，而在国内这一切都被减本增效所掩盖，<code>DevOps</code>只是一个披着技术实则是管理手段。<code>DevOps</code> 工程师是一个人打两份工而拿1.5份工资的可怜角色。</p>
-<p>在百度中搜索 <a href="https://www.baidu.com/s?wd=devops&amp;rsv_spt=1&amp;rsv_iqid=0xd71be3e800153838&amp;issp=1&amp;f=8&amp;rsv_bp=1&amp;rsv_idx=2&amp;ie=utf-8&amp;tn=baiduhome_pg&amp;rsv_enter=1&amp;rsv_dl=tb&amp;rsv_sug3=1&amp;rsv_sug2=0&amp;rsv_btype=i&amp;inputT=239&amp;rsv_sug4=239" target="_blank" rel="noopener">devops</a> 在可怜的前几页都发现不了任何关于 <code>DevOps</code> 的缺点，世间难道会有如此优秀的理论吗？真是值得怀疑。</p>
-<p>总而言之，我也更赞成 <code>Devops</code> 是一种文化而绝非是工作的定义，<code>Devops</code> 的目标是将原本的 <code>研发/运维/运营</code> 体系打通换成一个环路，而这中并非只有一种角色，我们更应该让团队进行良好的融合，而绝非让某一类角色替代某一类。</p>
-<h1>参考</h1>
-<ul>
-<li><a href="https://www.infoq.cn/article/6*BhOVwJrL1utl1wX90i" target="_blank" rel="noopener">DevOps 日常：别人家的运维这样过</a></li>
-<li><a href="https://www.reddit.com/r/devops/comments/5z93al/what_is_shitty_about_devops/" target="_blank" rel="noopener">What is shitty about DevOps?</a></li>
-<li><a href="https://lionfacelemonface.wordpress.com/2015/03/08/devops-is-bullshit-why-one-programmer-doesnt-do-it-anymore/" target="_blank" rel="noopener">DevOps Is Bullshit: Why One Programmer Doesn’t Do It</a></li>
-<li><a href="http://devana.rs/blog/devops-is-a-culture-not-a-job-description/" target="_blank" rel="noopener">DevOps is a culture, not a job description</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rethink</category>
-      </categories>
-  </entry>
-  <entry>
     <title>死亡行军与自我革命</title>
     <url>/2020/03/31/rethink/another-hard-way-to-die/</url>
     <content><![CDATA[<p>在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是<strong>死亡行军</strong>。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。</p>
@@ -1671,6 +1622,55 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
 <p>但是对于降低成本更重要的是市场的规模化，因此在这个产品开始孵化之前就需要做一次<code>项目尸检</code>，这个项目真的可以规模化吗？</p>
 <h1>依赖性质</h1>
 <p>还有一种就是，客户因为研发力量薄弱，对于乙方特别看中的类型，甚至于把乙方当做一个亲儿子看待，这种客户可遇而不可求。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>rethink</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>警惕从开发转变为运维</title>
+    <url>/2020/07/03/rethink/do-be-a-ops-from-a-developer/</url>
+    <content><![CDATA[<p>在这有限的三年工作中，我们尝试着从传统的开发|运维分离的体系转换为 <code>Devops</code> 的体系，收益很多：有且不限于</p>
+<ul>
+<li>如何编写更易于部署的代码</li>
+<li>了解K8S这样的运行支撑层的工作原理</li>
+<li>促进团队的产能</li>
+</ul>
+<p>但是在这过程之中我们也发现了很糟糕之处，今天就这些糟糕的情况讲一讲。</p>
+<a id="more"></a>
+<h1>作为 Ops 的 Dev</h1>
+<p>大概没有比现在做开发更糟糕的事情了，开发者的心情大致上是这么波动的</p>
+<p><code>好爽，这么可以玩的</code> -&gt; <code>好烦，为什么做这么多</code> -&gt; <code>老子再也不碰了</code></p>
+<h2 id="阶段1：-看上去美好的初次接触"><a class="header-anchor" href="#阶段1：-看上去美好的初次接触">¶</a>阶段1： 看上去美好的初次接触</h2>
+<p>糟糕的交付速度，老旧的运维技术，大概就是开发者对于运维的刻板印象，因此在 <code>Devops</code> 的初期阶段，开发者托管了这一切时候，世界真是美好，我们上了最新的 <code>CICD</code> 工具，我们用上了最酷炫的 <code>Dashboard</code>，我们还有最潮的在线 <code>Profiler</code>，新世界正在冉冉升起。</p>
+<p><a href="https://imgchr.com/i/NXyj1O" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/03/NXyj1O.md.png" alt="NXyj1O.md.png"></a></p>
+<h2 id="阶段2：-糟心的运维阶段"><a class="header-anchor" href="#阶段2：-糟心的运维阶段">¶</a>阶段2： 糟心的运维阶段</h2>
+<p>当迈过了内部的测试阶段，开始了正式的运维阶段，Dev 开始明白起来所谓的 <code>自愈平台</code> <code>HA</code> 都不是完全的自动化，经常需要人员的介入，也就是传统运维经常做的事情，一般这个时候我们不得不一边进行运维，一边进行新业务的开发，如果拖着重重的行李。</p>
+<p>正如在 <a href="https://www.reddit.com/r/devops/comments/5z93al/what_is_shitty_about_devops/" target="_blank" rel="noopener">What is shitty about DevOps?</a> 中吐槽的一样</p>
+<blockquote>
+<p>What I don’t love:<br>
+I’m on a dev team as the only ops guy: 我变成开发团队内的唯一的运维BOY<br>
+Management layout is so awkward. I report to a dev guy, take orders from an infrastructure guy： 管理模式如此的糟糕，我向一个开发主管索取运维资源<br>
+lots of hours： 失去了大量的时间<br>
+Some days I just want to drink： 有些日子我只想灌醉自己</p>
+</blockquote>
+<p>更多的例子可以阅读 (参考2: #What is shitty about DevOps?)</p>
+<p><a href="https://imgchr.com/i/NXIYJH" target="_blank" rel="noopener"><img src="https://shop.io.mi-img.com/app/shop/img?id=shop_a8176e393e45b0325ddbeae737066a43.png" alt="NXIYJH.md.png"></a></p>
+<h2 id="阶段3：-痛苦的挣扎"><a class="header-anchor" href="#阶段3：-痛苦的挣扎">¶</a>阶段3： 痛苦的挣扎</h2>
+<p>此时的研发新的任务已经下放，在一边开发新功能，一边对已有功能进行维护，研发任务变成了运维的消遣。</p>
+<h1>作为 Dev 的 Ops</h1>
+<p>这倒是一个蛮不错的趋势，对于一些比较新潮的运维工程师来说，<code>Shell</code> 早就不能满足他们对于运维工具/语言的需求了，在早期已经使用 <code>Python</code> 来替代 <code>Bash</code> 来进行运维脚本的开发。直到 <code>Cloud Native</code> 时期，出现的 <code>Go</code> 就比Python更适合作为运维的工具，因此在此时期，我们也诞生了比如 <code>Google SRE</code> 这样的新型职位。</p>
+<h1>国内的 Devops 现状</h1>
+<p>不可置否的说，国内的 <code>DevOps</code> 现状和 <code>DevOps</code> 初衷是相悖的。<code>DevOps</code>的初衷是打破团队的隔阂，提高流程速度，而在国内这一切都被减本增效所掩盖，<code>DevOps</code>只是一个披着技术实则是管理手段。<code>DevOps</code> 工程师是一个人打两份工而拿1.5份工资的可怜角色。</p>
+<p>在百度中搜索 <a href="https://www.baidu.com/s?wd=devops&amp;rsv_spt=1&amp;rsv_iqid=0xd71be3e800153838&amp;issp=1&amp;f=8&amp;rsv_bp=1&amp;rsv_idx=2&amp;ie=utf-8&amp;tn=baiduhome_pg&amp;rsv_enter=1&amp;rsv_dl=tb&amp;rsv_sug3=1&amp;rsv_sug2=0&amp;rsv_btype=i&amp;inputT=239&amp;rsv_sug4=239" target="_blank" rel="noopener">devops</a> 在可怜的前几页都发现不了任何关于 <code>DevOps</code> 的缺点，世间难道会有如此优秀的理论吗？真是值得怀疑。</p>
+<p>总而言之，我也更赞成 <code>Devops</code> 是一种文化而绝非是工作的定义，<code>Devops</code> 的目标是将原本的 <code>研发/运维/运营</code> 体系打通换成一个环路，而这中并非只有一种角色，我们更应该让团队进行良好的融合，而绝非让某一类角色替代某一类。</p>
+<h1>参考</h1>
+<ul>
+<li><a href="https://www.infoq.cn/article/6*BhOVwJrL1utl1wX90i" target="_blank" rel="noopener">DevOps 日常：别人家的运维这样过</a></li>
+<li><a href="https://www.reddit.com/r/devops/comments/5z93al/what_is_shitty_about_devops/" target="_blank" rel="noopener">What is shitty about DevOps?</a></li>
+<li><a href="https://lionfacelemonface.wordpress.com/2015/03/08/devops-is-bullshit-why-one-programmer-doesnt-do-it-anymore/" target="_blank" rel="noopener">DevOps Is Bullshit: Why One Programmer Doesn’t Do It</a></li>
+<li><a href="http://devana.rs/blog/devops-is-a-culture-not-a-job-description/" target="_blank" rel="noopener">DevOps is a culture, not a job description</a></li>
+</ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
         <category>rethink</category>
@@ -1977,6 +1977,52 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </tags>
   </entry>
   <entry>
+    <title>Go 擅长什么</title>
+    <url>/2020/05/26/rethink/what-is-go-good-at/</url>
+    <content><![CDATA[<p>Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。</p>
+<a id="more"></a>
+<blockquote>
+<p>Go was designed atGooglein 2007 to improveprogramming productivityin an era of multicore, networked machines and large codebases.The designers wanted to address criticism of other languages in use atGoogle, but keep their useful characteristics:</p>
+<ul>
+<li>static typing and run-time efficiency (likeC++),</li>
+<li>readability and usability (likePythonorJavaScript),</li>
+<li>high-performance networking and multiprocessing.<br>
+The designers were primarily motivated by their shareddislike of C++.</li>
+</ul>
+</blockquote>
+<p>Go 在编程语言届里面也是一个新生儿了，从维基百科的短短几行里面我们可以发现，Go在诞生之初就是为了提高编程效率，但是侧重的点是 多核，网络，大型的源码管理。因此我们发现 Go 在实际的体验中，我们也常常用于构建高性能的分布式系统。在 Google 内部，Go 的诞生也是为了填平 C 与 Python 之间的鸿沟，正如定位所言，恰恰属于两者之间。</p>
+<h1>良好的并发</h1>
+<p>Go 是一个拥有良好并发资质的语言，我们可以轻易的通过 goroutine 写出简单可靠且高性能的应用，但是值得注意的是，Go并不是拥有极致并发能力的语言，因为对于他来说，始终有着两座大山：GC 与 goroutine，goroutine是一个简单的编程模型，但是并不是一个高性能的编程模式，callback &gt;= reactive &gt;= goroutine &gt; blocking，可以参考下 <a href="https://www.techempower.com/benchmarks/" target="_blank" rel="noopener">techempower</a> 与 <a href="https://timyang.net/programming/c-erlang-java-performance/" target="_blank" rel="noopener">c-erlang-java-performance</a> 实际上能够做到性能机制的依然需要2个致命的要素 <code>无GC</code> 与 <code>低线程切换</code></p>
+<h1>泛型缺失</h1>
+<p>这个问题已经不用再提及了，对于Google的工程师因为可能长时间的和 Bytes 打交道，对于OOP那套是无感的（实际上是类型系统的延展），因此反而带来了更多的负面性质，因为我们缺少了大量在 FP 中可以执行的操作符，比如 Map，Reduce，Filter。</p>
+<h1>关于易读性</h1>
+<p>我认为 Go 的可读写方向其实指 好读 而非 易读，举个例子</p>
+<div class="tabs" id="快速排序"><ul class="nav-tabs"><li class="tab active"><a href="#快速排序-1">Haskell</a></li><li class="tab"><a href="#快速排序-2">Go</a></li></ul><div class="tab-content"><div class="tab-pane active" id="快速排序-1"><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">quicksort</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; [a]  </span><br><span class="line"><span class="title">quicksort</span> [] = []  </span><br><span class="line"><span class="title">quicksort</span> (x:xs) =   </span><br><span class="line">    <span class="keyword">let</span> smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]  </span><br><span class="line">        biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]  </span><br><span class="line">    <span class="keyword">in</span>  smallerSorted ++ [x] ++ biggerSorted</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="快速排序-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Generates a slice of size, size filled with random numbers</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateSlice</span><span class="params">(size <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, size, size)</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">		slice[i] = rand.Intn(<span class="number">999</span>) - rand.Intn(<span class="number">999</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> slice</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quicksort</span><span class="params">(a []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    left, right := <span class="number">0</span>, <span class="built_in">len</span>(a)<span class="number">-1</span></span><br><span class="line">     </span><br><span class="line">    pivot := rand.Int() % <span class="built_in">len</span>(a)</span><br><span class="line">     </span><br><span class="line">    a[pivot], a[right] = a[right], a[pivot]</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> i, _ := <span class="keyword">range</span> a &#123;</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[right] &#123;</span><br><span class="line">            a[left], a[i] = a[i], a[left]</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    a[left], a[right] = a[right], a[left]</span><br><span class="line">     </span><br><span class="line">    quicksort(a[:left])</span><br><span class="line">    quicksort(a[left+<span class="number">1</span>:])</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+<p>从上文我们可以发现 Go 的易读其实相较于 C 进步一大步，而对于真正易读的语言又差了一大步。</p>
+<h1>Go 擅长的地方</h1>
+<h2 id="网络和Web服务器"><a class="header-anchor" href="#网络和Web服务器">¶</a>网络和Web服务器</h2>
+<p>对于大部分人来说，Go能够编译出二进制运行文件 + 良好的并发控制，这简直是为了网络服务器和Web服务器的最佳选择，大家也是这么做的，我们使用Go作为Web服务器。</p>
+<h2 id="自动化与命令行工作"><a class="header-anchor" href="#自动化与命令行工作">¶</a>自动化与命令行工作</h2>
+<p>Go 是非常适合的自动化工具，对于Python，Java等需要依赖很重的运行时，因此Go既轻量级又快速，并且处理的相对简单的技术逻辑，在社区中已经有人尝试使用 Go 来取缔 Bash Script 对于大部分来说，想要抹平 Bash 在不同系统上的差异可能还真不如直接使用 Go，也替换了那一步 Python 用户。</p>
+<h2 id="生产机代码的维护"><a class="header-anchor" href="#生产机代码的维护">¶</a>生产机代码的维护</h2>
+<p>比如有 gofmt ，lint ，各种检查机制，这些和上面一种情况类型。</p>
+<h1>Go 不擅长的地方</h1>
+<h2 id="业务属性较多的地方"><a class="header-anchor" href="#业务属性较多的地方">¶</a>业务属性较多的地方</h2>
+<p>无论是 ORM 框架，还是Web框架，Go社区相较于已经成熟的 Java 社区，都是造了一堆玩具状态，并不是不能很高效的进行业务开发。</p>
+<h2 id="极限性能要求"><a class="header-anchor" href="#极限性能要求">¶</a>极限性能要求</h2>
+<p>OS Kenerl，Banking，Game 这些领域依然不是带有GC的语言可以打入的领域。</p>
+<h1>参考</h1>
+<ul>
+<li><a href="https://www.reddit.com/r/golang/comments/8bdewx/is_golang_a_good_choice_for_a_crud_based_rest_api/" target="_blank" rel="noopener">Is Golang a good choice for a CRUD based ReST API?</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <tags>
+        <tag>思考</tag>
+        <tag>Go</tag>
+        <tag>语言</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我准备在2018学什么</title>
     <url>/2018/04/20/rethink/what-is-learn-in-2018/</url>
     <content><![CDATA[<h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
@@ -2023,52 +2069,6 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       <categories>
         <category>闲聊</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Go 擅长什么</title>
-    <url>/2020/05/26/rethink/what-is-go-good-at/</url>
-    <content><![CDATA[<p>Go 显然不是银弹，软件工程也没有银弹。为了搞清楚 Go 适合做什么，我们先看看Go的诞生。</p>
-<a id="more"></a>
-<blockquote>
-<p>Go was designed atGooglein 2007 to improveprogramming productivityin an era of multicore, networked machines and large codebases.The designers wanted to address criticism of other languages in use atGoogle, but keep their useful characteristics:</p>
-<ul>
-<li>static typing and run-time efficiency (likeC++),</li>
-<li>readability and usability (likePythonorJavaScript),</li>
-<li>high-performance networking and multiprocessing.<br>
-The designers were primarily motivated by their shareddislike of C++.</li>
-</ul>
-</blockquote>
-<p>Go 在编程语言届里面也是一个新生儿了，从维基百科的短短几行里面我们可以发现，Go在诞生之初就是为了提高编程效率，但是侧重的点是 多核，网络，大型的源码管理。因此我们发现 Go 在实际的体验中，我们也常常用于构建高性能的分布式系统。在 Google 内部，Go 的诞生也是为了填平 C 与 Python 之间的鸿沟，正如定位所言，恰恰属于两者之间。</p>
-<h1>良好的并发</h1>
-<p>Go 是一个拥有良好并发资质的语言，我们可以轻易的通过 goroutine 写出简单可靠且高性能的应用，但是值得注意的是，Go并不是拥有极致并发能力的语言，因为对于他来说，始终有着两座大山：GC 与 goroutine，goroutine是一个简单的编程模型，但是并不是一个高性能的编程模式，callback &gt;= reactive &gt;= goroutine &gt; blocking，可以参考下 <a href="https://www.techempower.com/benchmarks/" target="_blank" rel="noopener">techempower</a> 与 <a href="https://timyang.net/programming/c-erlang-java-performance/" target="_blank" rel="noopener">c-erlang-java-performance</a> 实际上能够做到性能机制的依然需要2个致命的要素 <code>无GC</code> 与 <code>低线程切换</code></p>
-<h1>泛型缺失</h1>
-<p>这个问题已经不用再提及了，对于Google的工程师因为可能长时间的和 Bytes 打交道，对于OOP那套是无感的（实际上是类型系统的延展），因此反而带来了更多的负面性质，因为我们缺少了大量在 FP 中可以执行的操作符，比如 Map，Reduce，Filter。</p>
-<h1>关于易读性</h1>
-<p>我认为 Go 的可读写方向其实指 好读 而非 易读，举个例子</p>
-<div class="tabs" id="快速排序"><ul class="nav-tabs"><li class="tab active"><a href="#快速排序-1">Haskell</a></li><li class="tab"><a href="#快速排序-2">Go</a></li></ul><div class="tab-content"><div class="tab-pane active" id="快速排序-1"><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">quicksort</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; [a]  </span><br><span class="line"><span class="title">quicksort</span> [] = []  </span><br><span class="line"><span class="title">quicksort</span> (x:xs) =   </span><br><span class="line">    <span class="keyword">let</span> smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]  </span><br><span class="line">        biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]  </span><br><span class="line">    <span class="keyword">in</span>  smallerSorted ++ [x] ++ biggerSorted</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="快速排序-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Generates a slice of size, size filled with random numbers</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generateSlice</span><span class="params">(size <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, size, size)</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; size; i++ &#123;</span><br><span class="line">		slice[i] = rand.Intn(<span class="number">999</span>) - rand.Intn(<span class="number">999</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> slice</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quicksort</span><span class="params">(a []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    left, right := <span class="number">0</span>, <span class="built_in">len</span>(a)<span class="number">-1</span></span><br><span class="line">     </span><br><span class="line">    pivot := rand.Int() % <span class="built_in">len</span>(a)</span><br><span class="line">     </span><br><span class="line">    a[pivot], a[right] = a[right], a[pivot]</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span> i, _ := <span class="keyword">range</span> a &#123;</span><br><span class="line">        <span class="keyword">if</span> a[i] &lt; a[right] &#123;</span><br><span class="line">            a[left], a[i] = a[i], a[left]</span><br><span class="line">            left++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    a[left], a[right] = a[right], a[left]</span><br><span class="line">     </span><br><span class="line">    quicksort(a[:left])</span><br><span class="line">    quicksort(a[left+<span class="number">1</span>:])</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
-<p>从上文我们可以发现 Go 的易读其实相较于 C 进步一大步，而对于真正易读的语言又差了一大步。</p>
-<h1>Go 擅长的地方</h1>
-<h2 id="网络和Web服务器"><a class="header-anchor" href="#网络和Web服务器">¶</a>网络和Web服务器</h2>
-<p>对于大部分人来说，Go能够编译出二进制运行文件 + 良好的并发控制，这简直是为了网络服务器和Web服务器的最佳选择，大家也是这么做的，我们使用Go作为Web服务器。</p>
-<h2 id="自动化与命令行工作"><a class="header-anchor" href="#自动化与命令行工作">¶</a>自动化与命令行工作</h2>
-<p>Go 是非常适合的自动化工具，对于Python，Java等需要依赖很重的运行时，因此Go既轻量级又快速，并且处理的相对简单的技术逻辑，在社区中已经有人尝试使用 Go 来取缔 Bash Script 对于大部分来说，想要抹平 Bash 在不同系统上的差异可能还真不如直接使用 Go，也替换了那一步 Python 用户。</p>
-<h2 id="生产机代码的维护"><a class="header-anchor" href="#生产机代码的维护">¶</a>生产机代码的维护</h2>
-<p>比如有 gofmt ，lint ，各种检查机制，这些和上面一种情况类型。</p>
-<h1>Go 不擅长的地方</h1>
-<h2 id="业务属性较多的地方"><a class="header-anchor" href="#业务属性较多的地方">¶</a>业务属性较多的地方</h2>
-<p>无论是 ORM 框架，还是Web框架，Go社区相较于已经成熟的 Java 社区，都是造了一堆玩具状态，并不是不能很高效的进行业务开发。</p>
-<h2 id="极限性能要求"><a class="header-anchor" href="#极限性能要求">¶</a>极限性能要求</h2>
-<p>OS Kenerl，Banking，Game 这些领域依然不是带有GC的语言可以打入的领域。</p>
-<h1>参考</h1>
-<ul>
-<li><a href="https://www.reddit.com/r/golang/comments/8bdewx/is_golang_a_good_choice_for_a_crud_based_rest_api/" target="_blank" rel="noopener">Is Golang a good choice for a CRUD based ReST API?</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <tags>
-        <tag>思考</tag>
-        <tag>Go</tag>
-        <tag>语言</tag>
-      </tags>
   </entry>
   <entry>
     <title>为何有些软件知识自学如此的困难</title>
@@ -6046,6 +6046,97 @@ for rapid development of maintainable high performance protocol servers &amp; cl
 <li><a href="https://www.zhihu.com/question/274042223" target="_blank" rel="noopener">如何评价 GraalVM 这个项目</a></li>
 <li><a href="https://developer.aliyun.com/article/761321" target="_blank" rel="noopener">Mecha：将 Mesh 进行到底</a></li>
 <li><a href="https://www.redhat.com/en/topics/microservices/what-is-a-service-mesh" target="_blank" rel="noopener">What is service mesh</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>New Features in Java 9,10,11</title>
+    <url>/2021/04/24/java/other/java11/</url>
+    <content><![CDATA[<p><img src="https://s3.jpg.cm/2021/04/24/aSn1L.png" alt="aSn1L.png"></p>
+<blockquote>
+<p>Java 11 is the first long-term support (LTS) release after Java 8. Oracle also stopped supporting Java 8 in January 2019. As a consequence, a lot of us will upgrade to Java 11.</p>
+</blockquote>
+<p>作为 <code>8</code> 之后的 <code>LTS</code> 版本，让我们来快速学习一下吧</p>
+<a id="more"></a>
+<h2 id="模块化"><a class="header-anchor" href="#模块化">¶</a>模块化</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> com.baeldung.java9.modules.car &#123;</span><br><span class="line">    <span class="keyword">requires</span> com.baeldung.java9.modules.engines;</span><br><span class="line">    <span class="keyword">exports</span> com.baeldung.java9.modules.car.handling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模块化并不算服务端很刚需的需求，更多的可以查阅 <a href="https://openjdk.java.net/projects/jigsaw/quick-start" target="_blank" rel="noopener"><code>Project Jigsaw: Module System Quick-Start Guide</code></a></p>
+<h2 id="全新的-HTTPClient"><a class="header-anchor" href="#全新的-HTTPClient">¶</a>全新的 HTTPClient</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpClient httpClient = HttpClient.newBuilder()</span><br><span class="line">  .version(HttpClient.Version.HTTP_2)</span><br><span class="line">  .connectTimeout(Duration.ofSeconds(<span class="number">20</span>))</span><br><span class="line">  .build();</span><br><span class="line">HttpRequest httpRequest = HttpRequest.newBuilder()</span><br><span class="line">  .GET()</span><br><span class="line">  .uri(URI.create(<span class="string">"http://localhost:"</span> + port))</span><br><span class="line">  .build();</span><br><span class="line">HttpResponse httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());</span><br><span class="line">assertThat(httpResponse.body()).isEqualTo(<span class="string">"Hello from the server!"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Interface-私有方法"><a class="header-anchor" href="#Interface-私有方法">¶</a>Interface 私有方法</h2>
+<p>interface 越来越像一个普通 <code>class</code> 了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">InterfaceWithPrivateMethods</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">staticPrivate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"static private"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">instancePrivate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"instance private"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">check</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String result = staticPrivate();</span><br><span class="line">        InterfaceWithPrivateMethods pvt = <span class="keyword">new</span> InterfaceWithPrivateMethods() &#123;</span><br><span class="line">            <span class="comment">// anonymous class</span></span><br><span class="line">        &#125;;</span><br><span class="line">        result = pvt.instancePrivate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="local-变量"><a class="header-anchor" href="#local-变量">¶</a>local 变量</h2>
+<p>在 <code>jdk10</code> 中增加了一个新的关键字，减少啰嗦的类型定义。</p>
+<table>
+<tr><td> Java 8 </td></tr>
+<tr><td> 
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Integer, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br></pre></td></tr></table></figure>
+</td></tr>
+<tr><td> Java 11</td></tr>
+<tr><td>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> idToNameMap = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</span><br></pre></td></tr></table></figure>
+</td></tr>
+</table>
+<p>不过限制还是很多的，只能在局部变量使用。</p>
+<h2 id="更多-String-操作函数"><a class="header-anchor" href="#更多-String-操作函数">¶</a>更多 String 操作函数</h2>
+<p>增加了 <code>isBlank</code>, <code>lines</code>, <code>strip</code>, <code>stripLeading</code>, <code>stripTrailing</code>, and <code>repeat</code> 这些函数。</p>
+<table>
+<tr><td> Java 8 </td></tr>
+<tr><td> 
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String multilineString </span><br><span class="line">      = <span class="string">"Baeldung helps \n developers \n explore Java."</span>;</span><br><span class="line">List&lt;String&gt; lines =  Arrays.stream(multilineString.split(<span class="string">"\n"</span>))</span><br><span class="line">        .filter(StringUtils::isBlank)</span><br><span class="line">        .map(String::strip)</span><br><span class="line">        .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</td></tr>
+<tr><td> Java 11</td></tr>
+<tr><td>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String multilineString </span><br><span class="line">      = <span class="string">"Baeldung helps \n developers \n explore Java."</span>;</span><br><span class="line">List&lt;String&gt; lines = multilineString.lines()</span><br><span class="line">        .filter(line -&gt; !line.isBlank())</span><br><span class="line">        .map(String::strip)</span><br><span class="line">        .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+</td></tr>
+</table>
+<h2 id="文件读操作"><a class="header-anchor" href="#文件读操作">¶</a>文件读操作</h2>
+<p>增加了 <code>readString</code> 和 ``writeString` 两种操作</p>
+<table>
+<tr><td> Java 8 </td></tr>
+<tr><td> 
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">OutputStreamWriter outputStreamWriter = <span class="keyword">new</span> OutputStreamWriter(</span><br><span class="line">    <span class="keyword">new</span> FileOutputStream(Files.createTempFile(tempDir, <span class="string">"demo"</span>, <span class="string">".txt"</span>).toFile()));</span><br><span class="line">outputStreamWriter.write(<span class="string">"Sample text"</span>);</span><br></pre></td></tr></table></figure>
+</td></tr>
+<tr><td> Java 11</td></tr>
+<tr><td>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Path filePath = Files.writeString(Files.createTempFile(tempDir, <span class="string">"demo"</span>, <span class="string">".txt"</span>), <span class="string">"Sample text"</span>);</span><br><span class="line">String fileContent = Files.readString(filePath);</span><br><span class="line">assertThat(fileContent).isEqualTo(<span class="string">"Sample text"</span>);</span><br></pre></td></tr></table></figure>
+</td></tr>
+</table>
+<h2 id="Collection-2-Array"><a class="header-anchor" href="#Collection-2-Array">¶</a>Collection 2 Array</h2>
+<p>包含一个比较 <code>符合直觉</code> 的方式将 Collection 转化为 Array</p>
+<table>
+<tr><td> Java 8 </td></tr>
+<tr><td> 
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List sampleList = Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Kotlin"</span>);</span><br><span class="line">String[] sampleArray =sampleList.toArray(<span class="keyword">new</span> String[<span class="number">0</span>])</span><br><span class="line">assertThat(sampleArray).containsExactly(<span class="string">"Java"</span>, <span class="string">"Kotlin"</span>);</span><br></pre></td></tr></table></figure>
+</td></tr>
+<tr><td> Java 11</td></tr>
+<tr><td>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List sampleList = Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Kotlin"</span>);</span><br><span class="line">String[] sampleArray = sampleList.toArray(String[]::<span class="keyword">new</span>);</span><br><span class="line">assertThat(sampleArray).containsExactly(<span class="string">"Java"</span>, <span class="string">"Kotlin"</span>);</span><br></pre></td></tr></table></figure>
+</td></tr>
+</table>
+<h2 id="Lambda-的-局部变量-语法"><a class="header-anchor" href="#Lambda-的-局部变量-语法">¶</a>Lambda 的 局部变量 语法</h2>
+<table>
+<tr><td> Java 8 </td></tr>
+<tr><td> 
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; sampleList = Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Kotlin"</span>);</span><br><span class="line">String resultString = sampleList.stream()</span><br><span class="line">  .map((<span class="meta">@Nonnull</span> String x) -&gt; x.toUpperCase())</span><br><span class="line">  .collect(Collectors.joining(<span class="string">", "</span>));</span><br><span class="line">assertThat(resultString).isEqualTo(<span class="string">"JAVA, KOTLIN"</span>);</span><br></pre></td></tr></table></figure>
+</td></tr>
+<tr><td> Java 11</td></tr>
+<tr><td>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; sampleList = Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Kotlin"</span>);</span><br><span class="line">String resultString = sampleList.stream()</span><br><span class="line">  .map((<span class="meta">@Nonnull</span> <span class="keyword">var</span> x) -&gt; x.toUpperCase())</span><br><span class="line">  .collect(Collectors.joining(<span class="string">", "</span>));</span><br><span class="line">assertThat(resultString).isEqualTo(<span class="string">"JAVA, KOTLIN"</span>);</span><br></pre></td></tr></table></figure>
+</td></tr>
+</table>
+<h2 id="全量更新列表"><a class="header-anchor" href="#全量更新列表">¶</a>全量更新列表</h2>
+<ul>
+<li><a href="http://openjdk.java.net/projects/jdk9/" target="_blank" rel="noopener">jdk9 更新</a></li>
+<li><a href="http://openjdk.java.net/projects/jdk10/" target="_blank" rel="noopener">jdk10 更新</a></li>
+<li><a href="http://openjdk.java.net/projects/jdk11/" target="_blank" rel="noopener">jdk11 更新</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
