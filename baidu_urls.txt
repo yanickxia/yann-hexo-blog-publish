@@ -1,5 +1,5 @@
+http://blog.yanick.site/2021/04/30/go/go-impossible-missions/
 http://blog.yanick.site/2021/04/24/java/other/java11/
 http://blog.yanick.site/2021/03/26/go/ot/
 http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/
 http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/
-http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/

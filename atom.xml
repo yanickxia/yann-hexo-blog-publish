@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-04-24T11:29:14.890Z</updated>
+  <updated>2021-05-01T01:39:18.174Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Go Impossible Missions</title>
+    <link href="http://blog.yanick.site/2021/04/30/go/go-impossible-missions/"/>
+    <id>http://blog.yanick.site/2021/04/30/go/go-impossible-missions/</id>
+    <published>2021-04-30T02:31:37.000Z</published>
+    <updated>2021-05-01T01:39:18.174Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210430161943.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;主要就是为了吐槽 &lt;code&gt;GO&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/go/rust/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>New Features in Java 9,10,11</title>
@@ -479,31 +500,6 @@
       <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
     
       <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTTP 1 &amp; 2</title>
-    <link href="http://blog.yanick.site/2020/10/08/networking/http/http/"/>
-    <id>http://blog.yanick.site/2020/10/08/networking/http/http/</id>
-    <published>2020-10-08T08:04:12.000Z</published>
-    <updated>2021-03-22T05:25:36.513Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/08/t8J6C.png&quot; alt=&quot;t8J6C.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;HTTP协议（HyperText Transfer Protocol，超文本传输协议）是因特网上应用最为广泛的一种网络传输协议，我们今天就来深度剖析这个古老的协议。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="networking" scheme="http://blog.yanick.site/categories/networking/"/>
-    
-      <category term="http" scheme="http://blog.yanick.site/categories/networking/http/"/>
-    
-    
-      <category term="networking" scheme="http://blog.yanick.site/tags/networking/"/>
-    
-      <category term="http" scheme="http://blog.yanick.site/tags/http/"/>
     
   </entry>
   
