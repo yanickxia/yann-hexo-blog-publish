@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-05-01T01:39:18.174Z</updated>
+  <updated>2021-05-19T05:59:17.283Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Isito 1.10.x 更新解读</title>
+    <link href="http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/"/>
+    <id>http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/</id>
+    <published>2021-05-19T04:28:41.000Z</published>
+    <updated>2021-05-19T05:59:17.283Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210519134744.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;原文: &lt;a href=&quot;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+  </entry>
   
   <entry>
     <title>Go Impossible Missions</title>
@@ -476,30 +497,6 @@
       <category term="lsf" scheme="http://blog.yanick.site/tags/lsf/"/>
     
       <category term="file-system" scheme="http://blog.yanick.site/tags/file-system/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rust Dynamic Dispatching</title>
-    <link href="http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/"/>
-    <id>http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/</id>
-    <published>2020-10-13T09:38:10.000Z</published>
-    <updated>2021-03-22T05:25:36.517Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://n1.i5h5.com/2020/10/14/torLS.png&quot; alt=&quot;torLS.png&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="deep-dive" scheme="http://blog.yanick.site/categories/rust/deep-dive/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
     
   </entry>
   

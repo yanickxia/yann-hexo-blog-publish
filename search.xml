@@ -1482,23 +1482,6 @@ IntelliJ的构建系统基于Groovy 和 Gant，Groovy适用于一些测试代码
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
   </entry>
   <entry>
-    <title>2019年第5周推荐阅读</title>
-    <url>/2019/01/28/recommend/2019-week-5-recommend/</url>
-    <content><![CDATA[<h2 id="好文共享"><a class="header-anchor" href="#好文共享">¶</a>好文共享</h2>
-<ol>
-<li><a href="https://linux.cn/article-10469-1.html?utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener">你（多半）不需要 Kubernetes</a><br>
-Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
-<li><a href="https://bh.sb/post/41949/" target="_blank" rel="noopener">德国工人为什么愿意干到退休？因为他们站着把钱挣了</a><br>
-今年我对Team的目标也是能够站在把钱给赚了，这个才是让员工觉得舒服的方式</li>
-</ol>
-<h2 id="好书推荐"><a class="header-anchor" href="#好书推荐">¶</a>好书推荐</h2>
-<ol>
-<li><a href="https://book.douban.com/subject/30128204/" target="_blank" rel="noopener">莫斯科绅士</a><br>
-往往最不自由的人却拥有最为自由的灵魂。</li>
-</ol>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-  </entry>
-  <entry>
     <title>我的推荐书单 [草稿]</title>
     <url>/2018/04/21/recommend/what-is-my-recommend-books/</url>
     <content><![CDATA[<p>每次公司有新同事，总是会问应该学点什么，每次都回答一遍才挺费力的，索性找个时间把之前看过的东西都好好的整理一下，也权当是回归。</p>
@@ -1594,6 +1577,23 @@ HTTP 当然懂一点总是有用的，毕竟是网络的时代了，配了很多
         <category>书单</category>
         <category>草稿</category>
       </categories>
+  </entry>
+  <entry>
+    <title>2019年第5周推荐阅读</title>
+    <url>/2019/01/28/recommend/2019-week-5-recommend/</url>
+    <content><![CDATA[<h2 id="好文共享"><a class="header-anchor" href="#好文共享">¶</a>好文共享</h2>
+<ol>
+<li><a href="https://linux.cn/article-10469-1.html?utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener">你（多半）不需要 Kubernetes</a><br>
+Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
+<li><a href="https://bh.sb/post/41949/" target="_blank" rel="noopener">德国工人为什么愿意干到退休？因为他们站着把钱挣了</a><br>
+今年我对Team的目标也是能够站在把钱给赚了，这个才是让员工觉得舒服的方式</li>
+</ol>
+<h2 id="好书推荐"><a class="header-anchor" href="#好书推荐">¶</a>好书推荐</h2>
+<ol>
+<li><a href="https://book.douban.com/subject/30128204/" target="_blank" rel="noopener">莫斯科绅士</a><br>
+往往最不自由的人却拥有最为自由的灵魂。</li>
+</ol>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
   </entry>
   <entry>
     <title>死亡行军与自我革命</title>
@@ -6574,77 +6574,6 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
       </categories>
   </entry>
   <entry>
-    <title>写给 Java 开发者的 Kotlin 教程 (5) - Null对象与类型安全</title>
-    <url>/2018/07/17/kotlin/easy-way-to-kotlin-for-java-proggamer/null-type/</url>
-    <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/17/PlWoad.png" alt="banner"></p>
-<p>Kotlin 的类型系统旨在消除来自代码空引用的危险,许多编程语言（包括 <code>Java</code>）中最常见的陷阱之一，就是访问空引用的成员会导致空引用异常。在 <code>Java</code> 中，这等同于 <code>NullPointerException</code> 或简称 <code>NPE</code> 。</p>
-<a id="more"></a>
-<h2 id="一件趣事"><a class="header-anchor" href="#一件趣事">¶</a>一件趣事</h2>
-<blockquote>
-<p>“我把 Null 引用称为自己的十亿美元错误。它的发明是在1965 年，那时我用一个面向对象语言( ALGOL W )设计了第一个全面的引用类型系统。我的目的是确保所有引用的使用都是绝对安全的，编译器会自动进行检查。但是我未能抵御住诱惑，加入了Null引用，仅仅是因为实现起来非常容易。它导致了数不清的错误、漏洞和系统崩溃，可能在之后 40 年中造成了十亿美元的损失。近年来，大家开始使用各种程序分析程序，比如微软的 PREfix 和 PREfast 来检查引用，如果存在为非 Null 的风险时就提出警告。更新的程序设计语言比如 Spec# 已经引入了非 Null 引用的声明。这正是我在1965年拒绝的解决方案。”<br>
-—— 《Null References: The Billion Dollar Mistake》托尼·霍尔（Tony Hoare），图灵奖得主</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2018/07/17/PlWqRP.md.png" alt=""></p>
-<h2 id="Null的错误"><a class="header-anchor" href="#Null的错误">¶</a>Null的错误</h2>
-<p>简单来说：NULL 是一个不是值的值，而它现在有很多名字：NULL、nil、null、None、Nothing、Nil 和 nullptr。每种语言都有自己的细微差别。<code>Null</code> 有很多缺点，我们细数下罪状。</p>
-<h3 id="类型检测失败"><a class="header-anchor" href="#类型检测失败">¶</a>类型检测失败</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 Java 中，如果我编写 x.Length()，编译器会检查 x 的类型。如果 x 是一个 String，那么类型检查成功；</p>
-<p>如果 x 是一个 Socket，那么类型检查失败，编译时检查存在一个致命缺陷：任何引用都可以是 null，而调用一个 null 对象的方法会产生一个 NullPointerException。</p>
-<p>所以 <code>null.Length()</code> 会抛出一个 <code>NullPointerException</code> 而和原本的类型系统冲突，因为 <code>NULL</code> 超出了类型检查的范围。越过类型检查，运行时会给你一个巨大的惊喜。解决这种问题我们一般会选择 <code>入参检测</code> 来让错误尽早的暴露出来。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    Validate.nonNull(input, <span class="string">"input must be not null"</span>);</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="NULL-是一个特例"><a class="header-anchor" href="#NULL-是一个特例">¶</a>NULL 是一个特例</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">UserVo <span class="title">getUser</span><span class="params">(Long id)</span></span>&#123;</span><br><span class="line">    <span class="comment">//略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个函数定义中，返回值会有三种可能 <code>UserVo</code> <code>null</code> <code>Expection</code>， 而我们在 获取 <code>null</code> 值的时候，我们不知道是因为 <code>ID</code> 不对，还是其他其他问题，甚至于在实践阶段，我们可能赋予 <code>null</code>返回是一个特殊的情况，在外部应该给予处理。</p>
-<p>除此之外 <code>Null</code>还有</p>
-<ul>
-<li><code>NULL</code> 难以调试</li>
-<li><code>NULL</code> 使我们需要进行大量的 <code>IF</code> 判断</li>
-<li><code>NULL</code> 存储在数据结构中，导致数据意义失效</li>
-</ul>
-<h2 id="Kotlin-解决之道"><a class="header-anchor" href="#Kotlin-解决之道">¶</a>Kotlin 解决之道</h2>
-<p>在 <code>Java 1.8</code> 之前我们使用使用 <code>Guava</code> 的 <code>Optional</code> 对，<code>1.8</code> 之后我们使用内置数据结构。<br>
-在 <code>Kotlin</code> 中，我们使用 <code>类型系统</code> 来帮助我们。</p>
-<div class="tabs" id="null"><ul class="nav-tabs"><li class="tab active"><a href="#null-1">nonNull</a></li><li class="tab"><a href="#null-2">nullable</a></li></ul><div class="tab-content"><div class="tab-pane active" id="null-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a: String = <span class="string">"abc"</span></span><br><span class="line">a = <span class="literal">null</span> <span class="comment">// 编译错误</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="null-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b = <span class="literal">null</span> <span class="comment">// ok</span></span><br></pre></td></tr></table></figure></div></div></div>
-<p>看出来了吗？我们使用 <code>类型系统</code> 区分一个引用可以为 null 还是不能容纳。这个时候我们如果访问其中的函数或变量</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = b.length <span class="comment">// 错误：变量“b”可能为空</span></span><br></pre></td></tr></table></figure>
-<p>那我们如何去访问这个对象的函数呢？有以下几种方式</p>
-<h3 id="在条件中检查-null"><a class="header-anchor" href="#在条件中检查-null">¶</a>在条件中检查 null</h3>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = <span class="keyword">if</span> (b != <span class="literal">null</span>) b.length <span class="keyword">else</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h3 id="安全调用"><a class="header-anchor" href="#安全调用">¶</a>安全调用</h3>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b?.length</span><br></pre></td></tr></table></figure>
-<p>这里需要注意 如果 <code>b</code> 非空，就返回 <code>b.length</code>，否则返回 <code>null</code>，这个表达式的返回值是 <code>Int?</code> 类型。<br>
-而且我们可以采用 <code>链式调用</code></p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">bob?.department?.head?.name</span><br></pre></td></tr></table></figure>
-<h3 id="Elvis-操作符"><a class="header-anchor" href="#Elvis-操作符">¶</a>Elvis 操作符</h3>
-<p>我们都在 <code>Optional</code> 对象往往有这种的操作</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;String&gt; someOpt;</span><br><span class="line">String unwrap = someOpt.orElse(<span class="string">"Default"</span>);</span><br></pre></td></tr></table></figure>
-<p>而在 <code>Kotlin</code> 我们可以如下操作</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b?.length ?: -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h2 id="操作符"><a class="header-anchor" href="#操作符">¶</a>!! 操作符</h2>
-<p>非空断言运算符（!!）将任何值转换为非空类型</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b!!.length  <span class="comment">//如果 b 为空，就会抛出一个 NPE 异常</span></span><br></pre></td></tr></table></figure>
-<h3 id="题外话"><a class="header-anchor" href="#题外话">¶</a>题外话</h3>
-<p>在大量的第三类库中</p>
-<ul>
-<li><code>Guava</code> 宣称在 <code>95%</code> 的代码处没有 <code>null</code></li>
-<li><code>Lombok</code> 有一个注解 <code>@Nonull</code> 可以在生成代码中检测是否为空</li>
-<li><code>Spring JPA</code> 在 <code>Reposity</code> 定义中全面支持 <code>Optional</code></li>
-</ul>
-<p><code>Nonull</code> 设计已经算是在 <code>Java</code> 领域非常成功的设计了，希望大家早日上船。</p>
-<h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
-<ul>
-<li><a href="http://blog.jobbole.com/93667/" target="_blank" rel="noopener">计算机科学中的最严重错误，造成十亿美元损失</a></li>
-<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/null-safety.html" target="_blank" rel="noopener">null-safety</a></li>
-<li><a href="http://www.baeldung.com/java-optional" target="_blank" rel="noopener">java-optional</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>kotlin</category>
-        <category>easy-way-to-kotlin-for-java-programer</category>
-      </categories>
-  </entry>
-  <entry>
     <title>写给 Java 开发者的 Kotlin 教程 (8) -  面向对象 - 基础</title>
     <url>/2018/08/03/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-basic/</url>
     <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/08/03/PBGkQK.jpg" alt="banner"></p>
@@ -6758,6 +6687,77 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <ul>
 <li><a href="https://www.callicoder.com/kotlin-type-checks-smart-casts/" target="_blank" rel="noopener">smart casts</a></li>
 <li><a href="https://www.callicoder.com/kotlin-abstract-classes/" target="_blank" rel="noopener">abstract class</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>kotlin</category>
+        <category>easy-way-to-kotlin-for-java-programer</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>写给 Java 开发者的 Kotlin 教程 (5) - Null对象与类型安全</title>
+    <url>/2018/07/17/kotlin/easy-way-to-kotlin-for-java-proggamer/null-type/</url>
+    <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/17/PlWoad.png" alt="banner"></p>
+<p>Kotlin 的类型系统旨在消除来自代码空引用的危险,许多编程语言（包括 <code>Java</code>）中最常见的陷阱之一，就是访问空引用的成员会导致空引用异常。在 <code>Java</code> 中，这等同于 <code>NullPointerException</code> 或简称 <code>NPE</code> 。</p>
+<a id="more"></a>
+<h2 id="一件趣事"><a class="header-anchor" href="#一件趣事">¶</a>一件趣事</h2>
+<blockquote>
+<p>“我把 Null 引用称为自己的十亿美元错误。它的发明是在1965 年，那时我用一个面向对象语言( ALGOL W )设计了第一个全面的引用类型系统。我的目的是确保所有引用的使用都是绝对安全的，编译器会自动进行检查。但是我未能抵御住诱惑，加入了Null引用，仅仅是因为实现起来非常容易。它导致了数不清的错误、漏洞和系统崩溃，可能在之后 40 年中造成了十亿美元的损失。近年来，大家开始使用各种程序分析程序，比如微软的 PREfix 和 PREfast 来检查引用，如果存在为非 Null 的风险时就提出警告。更新的程序设计语言比如 Spec# 已经引入了非 Null 引用的声明。这正是我在1965年拒绝的解决方案。”<br>
+—— 《Null References: The Billion Dollar Mistake》托尼·霍尔（Tony Hoare），图灵奖得主</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2018/07/17/PlWqRP.md.png" alt=""></p>
+<h2 id="Null的错误"><a class="header-anchor" href="#Null的错误">¶</a>Null的错误</h2>
+<p>简单来说：NULL 是一个不是值的值，而它现在有很多名字：NULL、nil、null、None、Nothing、Nil 和 nullptr。每种语言都有自己的细微差别。<code>Null</code> 有很多缺点，我们细数下罪状。</p>
+<h3 id="类型检测失败"><a class="header-anchor" href="#类型检测失败">¶</a>类型检测失败</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Java 中，如果我编写 x.Length()，编译器会检查 x 的类型。如果 x 是一个 String，那么类型检查成功；</p>
+<p>如果 x 是一个 Socket，那么类型检查失败，编译时检查存在一个致命缺陷：任何引用都可以是 null，而调用一个 null 对象的方法会产生一个 NullPointerException。</p>
+<p>所以 <code>null.Length()</code> 会抛出一个 <code>NullPointerException</code> 而和原本的类型系统冲突，因为 <code>NULL</code> 超出了类型检查的范围。越过类型检查，运行时会给你一个巨大的惊喜。解决这种问题我们一般会选择 <code>入参检测</code> 来让错误尽早的暴露出来。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    Validate.nonNull(input, <span class="string">"input must be not null"</span>);</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NULL-是一个特例"><a class="header-anchor" href="#NULL-是一个特例">¶</a>NULL 是一个特例</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">UserVo <span class="title">getUser</span><span class="params">(Long id)</span></span>&#123;</span><br><span class="line">    <span class="comment">//略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个函数定义中，返回值会有三种可能 <code>UserVo</code> <code>null</code> <code>Expection</code>， 而我们在 获取 <code>null</code> 值的时候，我们不知道是因为 <code>ID</code> 不对，还是其他其他问题，甚至于在实践阶段，我们可能赋予 <code>null</code>返回是一个特殊的情况，在外部应该给予处理。</p>
+<p>除此之外 <code>Null</code>还有</p>
+<ul>
+<li><code>NULL</code> 难以调试</li>
+<li><code>NULL</code> 使我们需要进行大量的 <code>IF</code> 判断</li>
+<li><code>NULL</code> 存储在数据结构中，导致数据意义失效</li>
+</ul>
+<h2 id="Kotlin-解决之道"><a class="header-anchor" href="#Kotlin-解决之道">¶</a>Kotlin 解决之道</h2>
+<p>在 <code>Java 1.8</code> 之前我们使用使用 <code>Guava</code> 的 <code>Optional</code> 对，<code>1.8</code> 之后我们使用内置数据结构。<br>
+在 <code>Kotlin</code> 中，我们使用 <code>类型系统</code> 来帮助我们。</p>
+<div class="tabs" id="null"><ul class="nav-tabs"><li class="tab active"><a href="#null-1">nonNull</a></li><li class="tab"><a href="#null-2">nullable</a></li></ul><div class="tab-content"><div class="tab-pane active" id="null-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a: String = <span class="string">"abc"</span></span><br><span class="line">a = <span class="literal">null</span> <span class="comment">// 编译错误</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="null-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b = <span class="literal">null</span> <span class="comment">// ok</span></span><br></pre></td></tr></table></figure></div></div></div>
+<p>看出来了吗？我们使用 <code>类型系统</code> 区分一个引用可以为 null 还是不能容纳。这个时候我们如果访问其中的函数或变量</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = b.length <span class="comment">// 错误：变量“b”可能为空</span></span><br></pre></td></tr></table></figure>
+<p>那我们如何去访问这个对象的函数呢？有以下几种方式</p>
+<h3 id="在条件中检查-null"><a class="header-anchor" href="#在条件中检查-null">¶</a>在条件中检查 null</h3>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = <span class="keyword">if</span> (b != <span class="literal">null</span>) b.length <span class="keyword">else</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="安全调用"><a class="header-anchor" href="#安全调用">¶</a>安全调用</h3>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b?.length</span><br></pre></td></tr></table></figure>
+<p>这里需要注意 如果 <code>b</code> 非空，就返回 <code>b.length</code>，否则返回 <code>null</code>，这个表达式的返回值是 <code>Int?</code> 类型。<br>
+而且我们可以采用 <code>链式调用</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">bob?.department?.head?.name</span><br></pre></td></tr></table></figure>
+<h3 id="Elvis-操作符"><a class="header-anchor" href="#Elvis-操作符">¶</a>Elvis 操作符</h3>
+<p>我们都在 <code>Optional</code> 对象往往有这种的操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;String&gt; someOpt;</span><br><span class="line">String unwrap = someOpt.orElse(<span class="string">"Default"</span>);</span><br></pre></td></tr></table></figure>
+<p>而在 <code>Kotlin</code> 我们可以如下操作</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b?.length ?: -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="操作符"><a class="header-anchor" href="#操作符">¶</a>!! 操作符</h2>
+<p>非空断言运算符（!!）将任何值转换为非空类型</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b!!.length  <span class="comment">//如果 b 为空，就会抛出一个 NPE 异常</span></span><br></pre></td></tr></table></figure>
+<h3 id="题外话"><a class="header-anchor" href="#题外话">¶</a>题外话</h3>
+<p>在大量的第三类库中</p>
+<ul>
+<li><code>Guava</code> 宣称在 <code>95%</code> 的代码处没有 <code>null</code></li>
+<li><code>Lombok</code> 有一个注解 <code>@Nonull</code> 可以在生成代码中检测是否为空</li>
+<li><code>Spring JPA</code> 在 <code>Reposity</code> 定义中全面支持 <code>Optional</code></li>
+</ul>
+<p><code>Nonull</code> 设计已经算是在 <code>Java</code> 领域非常成功的设计了，希望大家早日上船。</p>
+<h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
+<ul>
+<li><a href="http://blog.jobbole.com/93667/" target="_blank" rel="noopener">计算机科学中的最严重错误，造成十亿美元损失</a></li>
+<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/null-safety.html" target="_blank" rel="noopener">null-safety</a></li>
+<li><a href="http://www.baeldung.com/java-optional" target="_blank" rel="noopener">java-optional</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
@@ -9318,6 +9318,63 @@ myChart.setOption(option, true);
       <tags>
         <tag>network</tag>
         <tag>tcp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Isito 1.10.x 更新解读</title>
+    <url>/2021/05/19/networking/istio/upgrade/1.10.x/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210519134744.png" alt=""></p>
+<p>原文: <a href="https://istio.io/latest/news/releases/1.10.x/announcing-1.10/" target="_blank" rel="noopener">https://istio.io/latest/news/releases/1.10.x/announcing-1.10/</a></p>
+<a id="more"></a>
+<h2 id="新功能"><a class="header-anchor" href="#新功能">¶</a>新功能</h2>
+<h3 id="Discovery-Selectors"><a class="header-anchor" href="#Discovery-Selectors">¶</a>Discovery Selectors</h3>
+<p>针对大规模的集群下，有部分的 Namespace 会经常的进行快速变动，创建很多临时的 Pod/Service，会带来 Istiod 监听之后Push xDS 的压力变大。因此增加了一个新特性，来忽略部分 namespace</p>
+<ol>
+<li>我们首先对 Ns 标记上特定标签</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl label namespace default istio-discovery=enabled</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改 Istio 的全局配置</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">meshConfig:</span></span><br><span class="line">  <span class="attr">discoverySelectors:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">matchLabels:</span></span><br><span class="line">        <span class="attr">istio-discovery:</span> <span class="string">enabled</span></span><br></pre></td></tr></table></figure>
+<p>这样 istiod 仅仅会监听 default 这个 namespace</p>
+<h4 id="Discovery-Selectors-vs-Sidecar-Resource"><a class="header-anchor" href="#Discovery-Selectors-vs-Sidecar-Resource">¶</a>Discovery Selectors vs Sidecar Resource</h4>
+<p><code>discoverySelectors</code> 是全局性配置并且仅仅针对 <code>istiod</code> 生效，和 <code>sidecarResource</code> 功能有重叠，<br>
+<code>Discovery Selectors</code> 相较于 <code>Sidecar</code> 的使用难度，低了很多，对于大部分的场景下，我们仅仅希望忽略一些 <code>namespace</code>，会比 <code>sidecar</code> 要好用些。</p>
+<h3 id="Stable-revision-labels-experimental"><a class="header-anchor" href="#Stable-revision-labels-experimental">¶</a>Stable revision labels (experimental)</h3>
+<p>在以前的版本中，我们也讨论过灰度升级的方案，<a href="https://istio.io/v1.9/docs/setup/upgrade/canary/" target="_blank" rel="noopener">Istioldie 1.9 / Canary Upgrades</a></p>
+<p>我们部署多个版本，通过 <code>revision</code> 进行区分。</p>
+<figure class="highlight bash"><figcaption><span>istio-1.9.x</span></figcaption><table><tr><td class="code"><pre><span class="line">kubectl get pods -n istio-system -l app=istiod</span><br><span class="line"></span><br><span class="line">NAME                                    READY   STATUS    RESTARTS   AGE</span><br><span class="line">istiod-786779888b-p9s5n                 1/1     Running   0          114m</span><br><span class="line">istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m</span><br></pre></td></tr></table></figure>
+<p>而在这个版本中，我们增加一个新的映射 (by Label)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">istioctl x revision tag <span class="built_in">set</span> prod --revision 1-7-6</span><br><span class="line">istioctl x revision tag <span class="built_in">set</span> canary --revision 1-8-0</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210519135037.png" alt=""></p>
+<p>Namespaces A and B -&gt; 1-7-6,<br>
+Namespace C -&gt; 1-8-0</p>
+<p>我们现在仅仅需要修改 <code>tag</code> 即可</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">istioctl x revision tag <span class="built_in">set</span> prod --revision 1-8-0</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210519135117.png" alt=""></p>
+<p>相较于之前的版本，我们多一层抽象，这样可以保持 <code>Namespace</code> <code>Label</code> 的稳定，对于升级的行为就完全控制在 istio 的 scope 内。</p>
+<h3 id="Sidecar-Networking-Changes"><a class="header-anchor" href="#Sidecar-Networking-Changes">¶</a>Sidecar Networking Changes</h3>
+<p>在 istio 1.10 之前，所有的外部流量都会被重定向到 lo</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210519135150.png" alt=""></p>
+<p>这样有个问题，就是导致了如果应用仅仅 listen on eth0 就会导致无法处理，从 1.10 之后</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210519135216.png" alt=""></p>
+<p>所有的流量都从 eth0 进出，这样要注意，如果在 localhost 进行模拟测试会导致未经过 istio sidecar 的处理。</p>
+<h2 id="废弃项"><a class="header-anchor" href="#废弃项">¶</a>废弃项</h2>
+<ul>
+<li>Kubernetes 第一方 JWT 支持（values.global.jwtPolicy=first-party-jwt）将被删除；它的安全性较低，仅用于向后兼容旧版 Kubernetes。</li>
+<li>values.global.arch 选项已经被 Kubernetes 配置中的 Affinity 设置所取代。</li>
+</ul>
+<h2 id="其他"><a class="header-anchor" href="#其他">¶</a>其他</h2>
+<ul>
+<li>更新了网站的UI，变的更好看些</li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>isito</category>
+      </categories>
+      <tags>
+        <tag>isito</tag>
       </tags>
   </entry>
   <entry>
