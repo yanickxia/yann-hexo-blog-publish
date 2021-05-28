@@ -388,9 +388,9 @@
       <category term="envoy" scheme="http://blog.yanick.site/categories/rust/envoy/"/>
     
     
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
       <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
     
   </entry>
   
