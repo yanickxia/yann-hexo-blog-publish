@@ -450,10 +450,10 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
       <div class="popular-posts-title"><a href="/2016/12/07/other/about-chameleon/" rel="bookmark">chameleon项目安利</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2017/03/01/java/spring-cloud-01-config/" rel="bookmark">Spring cloud 配置中心服务</a></div>
+      <div class="popular-posts-title"><a href="/2016/12/13/java/spring-convert-01/" rel="bookmark">Spring-convert-(基本结构)</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2016/12/13/java/spring-convert-01/" rel="bookmark">Spring-convert-(基本结构)</a></div>
+      <div class="popular-posts-title"><a href="/2017/03/01/java/spring-cloud-01-config/" rel="bookmark">Spring cloud 配置中心服务</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2016/12/27/java/spring-convert-02/" rel="bookmark">Spring-convert-(具体调用)</a></div>
@@ -944,6 +944,22 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
 
   
 
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
   <script>
   NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
     var appid = 'cysL8VSAs';
@@ -977,22 +993,6 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
       (d.head || d.body).appendChild(s);
     }
   });
-</script>
-
-<script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
-  window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-});
 </script>
 
 </body>

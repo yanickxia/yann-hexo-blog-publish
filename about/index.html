@@ -28,8 +28,8 @@
 <meta property="og:description" content="#content {         width: 100%;         height: 700px;     }          new TypeIt(&#39;#element&#39;, {         speed: 45     })         .type(&#39;欢迎光临寒舍&#39;)         .pause(500)         .options({ spe">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://blog.yanick.site/uploads/qrcode.jpg">
-<meta property="article:published_time" content="2021-05-23T06:04:18.698Z">
-<meta property="article:modified_time" content="2021-05-23T06:04:18.698Z">
+<meta property="article:published_time" content="2021-06-01T14:29:14.518Z">
+<meta property="article:modified_time" content="2021-06-01T14:29:14.518Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.yanick.site/uploads/qrcode.jpg">
@@ -284,7 +284,7 @@
         .break()
         .type('搞基请加微信 <a href="../uploads/qrcode.jpg" target="_blank">二维码</a>')
         .break()
-        .type('搞基请发邮件 <a href="mailto:me@yanick.site">Yanick\'s Mail</a>')
+        .type('搞基请发邮件 <a href="mailto:yanick.xia@qq.com">Yanick\'s Mail</a>')
         .break()
         .type('除此之外请 ALT + ← / Command + W')
         .break()
@@ -765,6 +765,22 @@
 
   
 
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
   <script>
   NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
     var appid = 'cysL8VSAs';
@@ -798,22 +814,6 @@
       (d.head || d.body).appendChild(s);
     }
   });
-</script>
-
-<script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
-  window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-});
 </script>
 
 </body>
