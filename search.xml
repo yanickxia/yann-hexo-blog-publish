@@ -277,73 +277,6 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
       </tags>
   </entry>
   <entry>
-    <title>Go 面试汇总</title>
-    <url>/2020/07/29/go/interview/</url>
-    <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/29/bnUSE.png" alt="bnUSE.png"></p>
-<p>作为一个跨界的 <code>Java Boy</code> 面对 <code>Go</code> 的岗位还是先整理一波。</p>
-<a id="more"></a>
-<h1>Go 的 Goroutine</h1>
-<p>CSP，全称Communicating Sequential Processes，意为通讯顺序进程，它是七大并发模型中的一种，它的核心观念是将两个并发执行的实体通过通道channel连接起来，所有的消息都通过channel传输，Go语言对CSP并发模型的实现——GPM调度模型。</p>
-<p>GPM代表了三个角色，分别是<code>Goroutine</code>、<code>Processor</code>、<code>Machine</code>。</p>
-<p><img src="https://s3.jpg.cm/2020/07/29/bnRyC.png" alt="bnRyC.png"></p>
-<ul>
-<li><code>Goroutine</code>：承担运行的实体</li>
-<li><code>Processor</code>： 联通 G 和 M 的处理器</li>
-<li><code>Machine</code>： 操作系统的调度单位：线程</li>
-</ul>
-<p><img src="https://s3.jpg.cm/2020/07/29/bnW7t.png" alt="bnW7t.png"></p>
-<p><code>Machine</code> 和 <code>Processor</code> 是 <code>1:1</code>，我们创建的 <code>Goroutine</code> 会通过放入 <code>Queue</code> 让 <code>Processor</code> 在 <code>Machine</code> 执行。<br>
-不过值得注意，在实现的过程中，有一种名为  <code>work-stealing</code> 的算法，如果某个 <code>Machine</code> 的 <code>Queue</code> 为空的时候会尝试从其他地方偷点回来。</p>
-<div>
-    <label class="author-mark-label">题外话</label>
-    <p class="author-mark">Java体系中： JDK1.7引入的Fork/Join框架就是基于工作窃取算法。</p>
-</div>
-<p>单纯的从图上看，我们至少提出几个问题</p>
-<ul>
-<li><code>Goroutine</code> 如何调用了 <code>Systemcall</code> 在阻塞状态会怎么样</li>
-<li><code>Goroutine</code> 如何保证时间公平</li>
-</ul>
-<h2 id="Go的调度"><a class="header-anchor" href="#Go的调度">¶</a>Go的调度</h2>
-<p>OS 调度器是一个<code>抢占式</code>调度器。Go 调度器在内核之上的用户空间中运行。Go 调度器的当前实现不是抢占式调度器，而是协作式调度器。</p>
-<p>Go 的状态也有三种状态：</p>
-<ul>
-<li><code>Waiting：这意味着</code> Goroutine 已停止并等待一些事情以继续。这可能是因为等待操作系统（系统调用）或同步调用（原子和互斥操作）等原因。这些类型的延迟是性能下降的根本原因。</li>
-<li><code>Runnable</code> ：这意味着 Goroutine 需要M上的时间片，来执行它的指令。如果同一时间有很多 Goroutines 在竞争时间片，它们都必须等待更长时间才能得到时间片，而且每个 Goroutine 获得的时间片都缩短了。这种类型的调度延迟也可能导致性能下降。</li>
-<li><code>Executing</code> ：这意味着 Goroutine 已经被放置在M上并且正在执行它的指令。</li>
-</ul>
-<h3 id="系统调用"><a class="header-anchor" href="#系统调用">¶</a>系统调用</h3>
-<p>对于大部分的 <code>Blocking</code> 系统调用，都是直接将这个阻塞的 <code>G</code> 从 <code>M</code> 卸载下来，换上其他的 <code>G</code> 进行运行。略有不同的，对于异步的系统调用 <code>GO</code> 实现一种 <code>NetPoller</code> 机制，这些操作并不在 <code>M</code> 进行操作，会将这个 <code>Go</code> 移动到 <code>Netpoller</code> 进行操作。这里其实也就是高性能 <code>Web</code> 的核心，不要在 <code>Blocking</code> 进行阻塞。</p>
-<p><img src="https://s3.jpg.cm/2020/07/29/bnVVD.png" alt="bnVVD.png"></p>
-<h1>CGo 的低效问题</h1>
-<p>在 <code>dave</code> 的 <a href="https://dave.cheney.net/2016/01/18/cgo-is-not-go" target="_blank" rel="noopener"><code>cgo is not go</code></a> 中写到了</p>
-<blockquote>
-<p>C doesn’t know anything about Go’s calling convention or growable stacks, so a call down to C code must record all the details of the goroutine stack, switch to the C stack, and run C code which has no knowledge of how it was invoked, or the larger Go runtime in charge of the program.</p>
-</blockquote>
-<p>Cgo在编译的时候会为代码生成大量的中间文件。 在一个Go源文件中，如果出现了import &quot;C&quot;指令则表示将调用cgo命令生成对应的中间文件。整个过程会涉及到大量的 <code>堆栈</code>切换</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Go --&gt; runtime.cgocall --&gt; runtime.entersyscall --&gt; runtime.asmcgocall --&gt; _cgo_Cfunc_f</span><br><span class="line">                                                                                 |</span><br><span class="line">                                                                                 |</span><br><span class="line">Go &lt;-- runtime.exitsyscall &lt;-- runtime.cgocall &lt;-- runtime.asmcgocall &lt;----------+</span><br></pre></td></tr></table></figure>
-<h1>Go 的常见姿势</h1>
-<h2 id="Channel-关闭"><a class="header-anchor" href="#Channel-关闭">¶</a>Channel 关闭</h2>
-<p>因为关闭一个 <code>Channel</code> 之后，依然可以从中获得数据，因此一个适用的原则是不要从接收端关闭channel，也不要关闭有多个并发发送者的channel。</p>
-<ul>
-<li>channel 只有一个发送方的情况：直接等到发送完毕关不即可</li>
-<li>channel 有多个发送方一个接收方： 额外增加一个 channel ，让接收方通知发送方关闭，因为消息只有一次，因此只有一个人可以关闭</li>
-<li>channel 有多个发送方以及多个接收方: 增加一个调停者，等条件满足的时候通知发送方关闭即可。</li>
-</ul>
-<h1>其他</h1>
-<ul>
-<li>go defer: FILO 特性，不过值得注意的是在 <code>Return</code> 之前，<code>PAIN</code> 可以看做一种 <code>Retrun</code></li>
-<li>chan 缓冲/无缓冲：channel<code>无缓冲</code>时，发送阻塞直到数据被接收，接收阻塞直到读到数据。channel<code>有缓冲</code>时，当缓冲满时发送阻塞，当缓冲空时接收阻塞。</li>
-</ul>
-<h1>参考</h1>
-<ul>
-<li><a href="https://github.com/lifei6671/interview-go/blob/master/base/go-scheduler-base.md" target="_blank" rel="noopener">goroutine调度器概述</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>go</category>
-      </categories>
-  </entry>
-  <entry>
     <title>The Hard Way Learn Computer Science [实践班]</title>
     <url>/2021/01/13/hard-way/learn-by-self-hard-way-practices/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210113101402.png" alt=""></p>
@@ -960,6 +893,33 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </tags>
   </entry>
   <entry>
+    <title>克市与乌市随记</title>
+    <url>/2019/02/27/life/something-about-it-in-karamay/</url>
+    <content><![CDATA[<p>机缘巧合之下，能够到<a href="https://baike.baidu.com/item/%E5%85%8B%E6%8B%89%E7%8E%9B%E4%BE%9D/36972" target="_blank" rel="noopener"><code>克拉玛依</code></a>这里和 <a href="http://www.hongyousoft.com.cn/" target="_blank" rel="noopener"><code>红有软件</code></a>的前后进行过为了 3 周的<code>IT咨询</code>功能在，从一个<code>IT</code>从业者的眼中看<code>克拉玛依</code>这个依靠油田拔地而起的城市，按照当地人的说法，这个城市几乎都围绕着<code>石油</code>，<code>IT</code>也不例外，<code>数字油田建设</code>是<code>IT</code>发展的核心。</p>
+<a id="more"></a>
+<p>以实施咨询的<code>红有软件</code>公司为例，前身是石油勘探院下属的一个研究性科室，在改革的浪潮下，<code>1996</code>年的时候从石油勘探院的剥离成立一个独立公司<code>红有软件</code>，凭借着多年在石油系统的专研，为石油系统提供了一系列优秀的程序，在多年的实践过程中，在大力出奇迹的情况下，搞了一个平台系统，用户只需要在页面点点，配合一点数据源之类的就可以生成报表等，对这玩意就是一个简单的<code>ERP</code>系统。这个平台在 <code>2017</code> 的时候准备过渡到<code>第三代</code>基于微服务重构。虽然至今(<code>2019</code>)也是只是完成了一点点，实际上这个进度和大部分的国企单位的进度是类似的。</p>
+<p>当然克市也面临着一系列的问题，整个城市地处边陲，<code>IT</code>虽然理论上是不以地理为核心，然后过于遥远的地理位置，导致这里的<code>IT</code>人才往往留不住，年轻人还行向往去<code>北京</code>这样的一线城市，哪怕是因为<code>北京</code>的高房价，也会选择去<code>西安</code>这样的中部城市，这和国内大部分的城市一样，产业往往过于单一，年轻人并没有什么建设家乡的机会，公务员/事业单位是城市主任，产业往往也以支撑的工业和农业为主，并且因为克市作为一个资源城市，整体的收入也不算低，所以克市很多富裕的家庭也希望自己的孩子下一代不在这个城市，而<code>克市</code>的软件从业者多以<code>35+</code>的中年人为主，在这里可能就没有中年危机了，软件公司依附于国企，工作风格也与国企类似。</p>
+<p>当地的<code>IT</code>多半依靠的强大的商务关系，相对于<code>克拉玛依</code>这个政企不分的城市（17 年开始分市长和石油公司总经理，原来是不做区分的），大部分的系统算是一个定制化开发点单页应用的，关于核心的生产系统，也是当地的 IT 企业所接触不到的，这些系统大部分和硬件绑定的极为紧密。</p>
+<p>当地的网络环境也是影响程序员一个重要的因素，毕竟一个不能够访问<code>Github</code>的地方，会让你无限的头疼。</p>
+<p>最后附上边陲小镇程序员的合影：</p>
+<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q04qnk3pj21400u0wgy.jpg" alt=""></p>
+<hr>
+<p>除了<code>IT</code>之外，这里的物价真是不便宜，餐饮成本与上海持平，就谈不上和北京做些比较了。不过倒是本地的晚上正式的饭局价格尚且可以，人均<code>100</code>出口已经可以算的上是大鱼大肉了，无理由的猜猜应该是因为<code>红肉的成本略低</code>。</p>
+<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q03eanzwj21400u0dk9.jpg" alt=""></p>
+<p>的确是因为靠山吃山靠水吃水，当地的饮食以<code>牛羊肉</code>为主，蔬菜并不多样，常见的是<code>胡萝卜</code>，<code>洋葱（皮牙子）</code>，当地如果吃上几天吃腻了，还是得吃点<code>皮辣红</code>解解腻，不过当地的羊肉的确是一句，味道极为美味。</p>
+<p>乌鲁木齐相较于克拉玛依更像一个沿海的城市，除了低气温和一些民族饭馆，和大部分的城市一样，高架桥，硕大的高铁站，有个 3 个航站楼的机场，友谊商城开着各种熟悉名字的饭馆和品牌店，路上的也以汉人为主，城市中的外来务工者，<code>四川</code>，<code>山东</code>的也不少和其他如出一辙。</p>
+<hr>
+<p>PS：国企同学们依然保留着打乒乓球的优良传统，上一次看到乒乓球桌是在<code>南方电网</code>。</p>
+<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0pzz1cxhpj20sm0mqwxm.jpg" alt=""></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>游记</category>
+      </categories>
+      <tags>
+        <tag>游记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在家的一个月我得到了什么</title>
     <url>/2020/03/09/life/rethink-in-spring-festival/</url>
     <content><![CDATA[<p>因为<a href="https://zh.wikipedia.org/zh-hans/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85" target="_blank" rel="noopener">新冠肺炎</a>，在家度过了自从大学生涯结束之后就不曾再有的超长假期，前前后后含上WFH的时间足足有40余天。大部分的时间也因为在家自我隔离，有了充足的时间进行思考，聊聊这个不一样的假期我在家学到了什么。</p>
@@ -989,33 +949,6 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </categories>
       <tags>
         <tag>生活</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>克市与乌市随记</title>
-    <url>/2019/02/27/life/something-about-it-in-karamay/</url>
-    <content><![CDATA[<p>机缘巧合之下，能够到<a href="https://baike.baidu.com/item/%E5%85%8B%E6%8B%89%E7%8E%9B%E4%BE%9D/36972" target="_blank" rel="noopener"><code>克拉玛依</code></a>这里和 <a href="http://www.hongyousoft.com.cn/" target="_blank" rel="noopener"><code>红有软件</code></a>的前后进行过为了 3 周的<code>IT咨询</code>功能在，从一个<code>IT</code>从业者的眼中看<code>克拉玛依</code>这个依靠油田拔地而起的城市，按照当地人的说法，这个城市几乎都围绕着<code>石油</code>，<code>IT</code>也不例外，<code>数字油田建设</code>是<code>IT</code>发展的核心。</p>
-<a id="more"></a>
-<p>以实施咨询的<code>红有软件</code>公司为例，前身是石油勘探院下属的一个研究性科室，在改革的浪潮下，<code>1996</code>年的时候从石油勘探院的剥离成立一个独立公司<code>红有软件</code>，凭借着多年在石油系统的专研，为石油系统提供了一系列优秀的程序，在多年的实践过程中，在大力出奇迹的情况下，搞了一个平台系统，用户只需要在页面点点，配合一点数据源之类的就可以生成报表等，对这玩意就是一个简单的<code>ERP</code>系统。这个平台在 <code>2017</code> 的时候准备过渡到<code>第三代</code>基于微服务重构。虽然至今(<code>2019</code>)也是只是完成了一点点，实际上这个进度和大部分的国企单位的进度是类似的。</p>
-<p>当然克市也面临着一系列的问题，整个城市地处边陲，<code>IT</code>虽然理论上是不以地理为核心，然后过于遥远的地理位置，导致这里的<code>IT</code>人才往往留不住，年轻人还行向往去<code>北京</code>这样的一线城市，哪怕是因为<code>北京</code>的高房价，也会选择去<code>西安</code>这样的中部城市，这和国内大部分的城市一样，产业往往过于单一，年轻人并没有什么建设家乡的机会，公务员/事业单位是城市主任，产业往往也以支撑的工业和农业为主，并且因为克市作为一个资源城市，整体的收入也不算低，所以克市很多富裕的家庭也希望自己的孩子下一代不在这个城市，而<code>克市</code>的软件从业者多以<code>35+</code>的中年人为主，在这里可能就没有中年危机了，软件公司依附于国企，工作风格也与国企类似。</p>
-<p>当地的<code>IT</code>多半依靠的强大的商务关系，相对于<code>克拉玛依</code>这个政企不分的城市（17 年开始分市长和石油公司总经理，原来是不做区分的），大部分的系统算是一个定制化开发点单页应用的，关于核心的生产系统，也是当地的 IT 企业所接触不到的，这些系统大部分和硬件绑定的极为紧密。</p>
-<p>当地的网络环境也是影响程序员一个重要的因素，毕竟一个不能够访问<code>Github</code>的地方，会让你无限的头疼。</p>
-<p>最后附上边陲小镇程序员的合影：</p>
-<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q04qnk3pj21400u0wgy.jpg" alt=""></p>
-<hr>
-<p>除了<code>IT</code>之外，这里的物价真是不便宜，餐饮成本与上海持平，就谈不上和北京做些比较了。不过倒是本地的晚上正式的饭局价格尚且可以，人均<code>100</code>出口已经可以算的上是大鱼大肉了，无理由的猜猜应该是因为<code>红肉的成本略低</code>。</p>
-<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0q03eanzwj21400u0dk9.jpg" alt=""></p>
-<p>的确是因为靠山吃山靠水吃水，当地的饮食以<code>牛羊肉</code>为主，蔬菜并不多样，常见的是<code>胡萝卜</code>，<code>洋葱（皮牙子）</code>，当地如果吃上几天吃腻了，还是得吃点<code>皮辣红</code>解解腻，不过当地的羊肉的确是一句，味道极为美味。</p>
-<p>乌鲁木齐相较于克拉玛依更像一个沿海的城市，除了低气温和一些民族饭馆，和大部分的城市一样，高架桥，硕大的高铁站，有个 3 个航站楼的机场，友谊商城开着各种熟悉名字的饭馆和品牌店，路上的也以汉人为主，城市中的外来务工者，<code>四川</code>，<code>山东</code>的也不少和其他如出一辙。</p>
-<hr>
-<p>PS：国企同学们依然保留着打乒乓球的优良传统，上一次看到乒乓球桌是在<code>南方电网</code>。</p>
-<p><img src="https://ws1.sinaimg.cn/large/eddc95fcgy1g0pzz1cxhpj20sm0mqwxm.jpg" alt=""></p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>游记</category>
-      </categories>
-      <tags>
-        <tag>游记</tag>
       </tags>
   </entry>
   <entry>
@@ -1122,6 +1055,49 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </tags>
   </entry>
   <entry>
+    <title>chameleon项目安利</title>
+    <url>/2016/12/07/other/about-chameleon/</url>
+    <content><![CDATA[<p>chameleon(变色龙) 是一个Java的Bean Converter轮子，实现注解化类型转换。</p>
+<p><a href="https://github.com/yannxia/chameleon" target="_blank" rel="noopener">Github地址</a></p>
+<a id="more"></a>
+<h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
+<p>经常在业务里写 A -&gt; B 这样的转换方法，每次都需要手动调用极其的麻烦，而且每次这种代码复用起来又是比较麻烦的，最初尝试过使用 com.google.common.base.Converter的这个转换接口，<br>
+包括 Spring的org.springframework.core.convert.converter.Converter，虽然从接口层面定义了 A -&gt; B 问题，但是没有发现ConverterFacotory这样可用的轮子，只能自己尝试制造一个。</p>
+<h2 id="分析"><a class="header-anchor" href="#分析">¶</a>分析</h2>
+<p>需要解决的是 A -&gt; B 的问题。我们也有 Converter Interface， 那我们只缺少一个 ConverterFacotory。那问题的解决方案就也有啦，我们就是要去写一个ConverterFacotory。<br>
+现在的Java注解使用的更多些，尤其在SpringBoot中，那Converter Interface其实也不是必须的，使用Annonation也可以，最终还是选择使用注解。</p>
+<h2 id="编码分析"><a class="header-anchor" href="#编码分析">¶</a>编码分析</h2>
+<p>从SpringCotext从得到的思路，那核心应该是一个HashMap. Key应该是 From（转换方法入参数）+To（转换方法的出参）， Value是Method（具体的转换方法） 和 Object（具体的类）。<br>
+那我们可以大致上确定数据结构。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//核心容器的Key</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConvertKey</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Class&gt; froms;</span><br><span class="line">    <span class="keyword">private</span> Class to;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConvertKey</span><span class="params">(Class to, Class... froms)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.froms = Arrays.asList(froms);</span><br><span class="line">        <span class="keyword">this</span>.to = to;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> hashCode = to.getName().hashCode();</span><br><span class="line">        <span class="keyword">for</span> (Class from : froms) &#123;</span><br><span class="line">            hashCode &amp;= from.getName().hashCode();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> hashCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> ConvertKey) &#123;</span><br><span class="line">            ConvertKey other = (ConvertKey) obj;</span><br><span class="line">            <span class="keyword">return</span> other.froms.equals(<span class="keyword">this</span>.froms) &amp;&amp; other.to.equals(<span class="keyword">this</span>.to);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//核心容器的Value</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CovertInstant</span> </span>&#123;</span><br><span class="line">    Object convertObj;</span><br><span class="line">    Method covertMethod;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CovertInstant</span><span class="params">(Object convertObj, Method covertMethod)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.convertObj = convertObj;</span><br><span class="line">        <span class="keyword">this</span>.covertMethod = covertMethod;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//核心容器</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractConvertFactory</span> <span class="keyword">implements</span> <span class="title">ConvertFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> ConcurrentHashMap&lt;ConvertKey, CovertInstant&gt; keyCovertInstantConcurrentHashMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(); <span class="comment">//存储核心</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Class&lt;T&gt; expect, Object... params)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从三个实体定义差不多就可以确定出，我们的代码了，整体设计就是把可以转换的方法放入这个核心容器内。</p>
+<h2 id="编码"><a class="header-anchor" href="#编码">¶</a>编码</h2>
+<p>我们额外定义一个注解，用来标记是否为一个转换方法 <a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/annonation/Convertor.java" target="_blank" rel="noopener">Convertor注解</a></p>
+<p>我们需要实现一个具体的ConvertFactory。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConvertFactoryImpl</span> <span class="keyword">extends</span> <span class="title">AbstractConvertFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ConvertFactoryImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConvertFactoryImpl <span class="title">build</span><span class="params">(Object... objects)</span> </span>&#123;</span><br><span class="line">        ConvertFactoryImpl convertFactory = <span class="keyword">new</span> ConvertFactoryImpl();</span><br><span class="line">        Arrays.stream(objects)</span><br><span class="line">                .forEach(convertFactory::setupObject); <span class="comment">//JDK8 就是好，安利</span></span><br><span class="line">        <span class="keyword">return</span> convertFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setupObject</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        Method[] methods = object.getClass().getMethods(); <span class="comment">//遍历每一个方法，这里仅仅支持Public方法，防止Private的滥用。</span></span><br><span class="line">        Arrays.stream(methods)</span><br><span class="line">                .filter(AbstractConvertFactory::isConvertorMethod)</span><br><span class="line">                .forEach(method -&gt; &#123;</span><br><span class="line">                    Class[] froms = method.getParameterTypes();</span><br><span class="line">                    Class to = method.getReturnType();</span><br><span class="line">                    ConvertKey convertKey = <span class="keyword">new</span> ConvertKey(to, froms);</span><br><span class="line">                    CovertInstant covertInstant = <span class="keyword">new</span> CovertInstant(object, method);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">this</span>.keyCovertInstantConcurrentHashMap.containsKey(convertKey)) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"already has [%s] -&gt; [%s] method"</span>, froms, to));</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">this</span>.keyCovertInstantConcurrentHashMap.put(convertKey, covertInstant);</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isConvertorMethod</span><span class="params">(Method method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> method.getAnnotation(Convertor<span class="class">.<span class="keyword">class</span>) !</span>= <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="补充"><a class="header-anchor" href="#补充">¶</a>补充</h2>
+<p>关于Spring的集成见 <a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/SpringConvertFactoryImplLoader.java" target="_blank" rel="noopener">SpringConvertFactoryImplLoader.java</a></p>
+<p>Spring集成的核心在于，如何从构造好的ApplicationContext中取出那些注册好的Bean，然后构建我们自己的ConvertFactory，不过整体实现难度很低就不去贴代码了。</p>
+<h2 id="测试"><a class="header-anchor" href="#测试">¶</a>测试</h2>
+<p><a href="https://github.com/yannxia/chameleon/blob/master/src/test/java/info/yannxia/java/chameleon/ConvertFactoryTest.java" target="_blank" rel="noopener">CovertFacotry测试</a><br>
+<a href="https://github.com/yannxia/chameleon/blob/master/src/test/java/info/yannxia/java/chameleon/SpringConvertFactoryTest.java" target="_blank" rel="noopener">SpringConvertFactoryTest测试</a></p>
+<h2 id="PS"><a class="header-anchor" href="#PS">¶</a>PS</h2>
+<p>写博客的时候搜索了下，发现了Spring有个这么个玩意 <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/validation.html#core-convert" target="_blank" rel="noopener">Spring</a><br>
+那就算是自己造了一个轮子吧。</p>
+<p><strong>预定下一篇博客去研究下Spring的convert机制。</strong></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Convert</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SSL CA HTTPS</title>
     <url>/2020/11/28/other/ca/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png" alt=""></p>
@@ -1171,49 +1147,6 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </categories>
       <tags>
         <tag>ca</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>chameleon项目安利</title>
-    <url>/2016/12/07/other/about-chameleon/</url>
-    <content><![CDATA[<p>chameleon(变色龙) 是一个Java的Bean Converter轮子，实现注解化类型转换。</p>
-<p><a href="https://github.com/yannxia/chameleon" target="_blank" rel="noopener">Github地址</a></p>
-<a id="more"></a>
-<h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
-<p>经常在业务里写 A -&gt; B 这样的转换方法，每次都需要手动调用极其的麻烦，而且每次这种代码复用起来又是比较麻烦的，最初尝试过使用 com.google.common.base.Converter的这个转换接口，<br>
-包括 Spring的org.springframework.core.convert.converter.Converter，虽然从接口层面定义了 A -&gt; B 问题，但是没有发现ConverterFacotory这样可用的轮子，只能自己尝试制造一个。</p>
-<h2 id="分析"><a class="header-anchor" href="#分析">¶</a>分析</h2>
-<p>需要解决的是 A -&gt; B 的问题。我们也有 Converter Interface， 那我们只缺少一个 ConverterFacotory。那问题的解决方案就也有啦，我们就是要去写一个ConverterFacotory。<br>
-现在的Java注解使用的更多些，尤其在SpringBoot中，那Converter Interface其实也不是必须的，使用Annonation也可以，最终还是选择使用注解。</p>
-<h2 id="编码分析"><a class="header-anchor" href="#编码分析">¶</a>编码分析</h2>
-<p>从SpringCotext从得到的思路，那核心应该是一个HashMap. Key应该是 From（转换方法入参数）+To（转换方法的出参）， Value是Method（具体的转换方法） 和 Object（具体的类）。<br>
-那我们可以大致上确定数据结构。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//核心容器的Key</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConvertKey</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Class&gt; froms;</span><br><span class="line">    <span class="keyword">private</span> Class to;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConvertKey</span><span class="params">(Class to, Class... froms)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.froms = Arrays.asList(froms);</span><br><span class="line">        <span class="keyword">this</span>.to = to;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> hashCode = to.getName().hashCode();</span><br><span class="line">        <span class="keyword">for</span> (Class from : froms) &#123;</span><br><span class="line">            hashCode &amp;= from.getName().hashCode();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> hashCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> ConvertKey) &#123;</span><br><span class="line">            ConvertKey other = (ConvertKey) obj;</span><br><span class="line">            <span class="keyword">return</span> other.froms.equals(<span class="keyword">this</span>.froms) &amp;&amp; other.to.equals(<span class="keyword">this</span>.to);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.equals(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//核心容器的Value</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CovertInstant</span> </span>&#123;</span><br><span class="line">    Object convertObj;</span><br><span class="line">    Method covertMethod;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CovertInstant</span><span class="params">(Object convertObj, Method covertMethod)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.convertObj = convertObj;</span><br><span class="line">        <span class="keyword">this</span>.covertMethod = covertMethod;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//核心容器</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractConvertFactory</span> <span class="keyword">implements</span> <span class="title">ConvertFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> ConcurrentHashMap&lt;ConvertKey, CovertInstant&gt; keyCovertInstantConcurrentHashMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(); <span class="comment">//存储核心</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Class&lt;T&gt; expect, Object... params)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从三个实体定义差不多就可以确定出，我们的代码了，整体设计就是把可以转换的方法放入这个核心容器内。</p>
-<h2 id="编码"><a class="header-anchor" href="#编码">¶</a>编码</h2>
-<p>我们额外定义一个注解，用来标记是否为一个转换方法 <a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/annonation/Convertor.java" target="_blank" rel="noopener">Convertor注解</a></p>
-<p>我们需要实现一个具体的ConvertFactory。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConvertFactoryImpl</span> <span class="keyword">extends</span> <span class="title">AbstractConvertFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ConvertFactoryImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConvertFactoryImpl <span class="title">build</span><span class="params">(Object... objects)</span> </span>&#123;</span><br><span class="line">        ConvertFactoryImpl convertFactory = <span class="keyword">new</span> ConvertFactoryImpl();</span><br><span class="line">        Arrays.stream(objects)</span><br><span class="line">                .forEach(convertFactory::setupObject); <span class="comment">//JDK8 就是好，安利</span></span><br><span class="line">        <span class="keyword">return</span> convertFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setupObject</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        Method[] methods = object.getClass().getMethods(); <span class="comment">//遍历每一个方法，这里仅仅支持Public方法，防止Private的滥用。</span></span><br><span class="line">        Arrays.stream(methods)</span><br><span class="line">                .filter(AbstractConvertFactory::isConvertorMethod)</span><br><span class="line">                .forEach(method -&gt; &#123;</span><br><span class="line">                    Class[] froms = method.getParameterTypes();</span><br><span class="line">                    Class to = method.getReturnType();</span><br><span class="line">                    ConvertKey convertKey = <span class="keyword">new</span> ConvertKey(to, froms);</span><br><span class="line">                    CovertInstant covertInstant = <span class="keyword">new</span> CovertInstant(object, method);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">this</span>.keyCovertInstantConcurrentHashMap.containsKey(convertKey)) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"already has [%s] -&gt; [%s] method"</span>, froms, to));</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">this</span>.keyCovertInstantConcurrentHashMap.put(convertKey, covertInstant);</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isConvertorMethod</span><span class="params">(Method method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> method.getAnnotation(Convertor<span class="class">.<span class="keyword">class</span>) !</span>= <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="补充"><a class="header-anchor" href="#补充">¶</a>补充</h2>
-<p>关于Spring的集成见 <a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/SpringConvertFactoryImplLoader.java" target="_blank" rel="noopener">SpringConvertFactoryImplLoader.java</a></p>
-<p>Spring集成的核心在于，如何从构造好的ApplicationContext中取出那些注册好的Bean，然后构建我们自己的ConvertFactory，不过整体实现难度很低就不去贴代码了。</p>
-<h2 id="测试"><a class="header-anchor" href="#测试">¶</a>测试</h2>
-<p><a href="https://github.com/yannxia/chameleon/blob/master/src/test/java/info/yannxia/java/chameleon/ConvertFactoryTest.java" target="_blank" rel="noopener">CovertFacotry测试</a><br>
-<a href="https://github.com/yannxia/chameleon/blob/master/src/test/java/info/yannxia/java/chameleon/SpringConvertFactoryTest.java" target="_blank" rel="noopener">SpringConvertFactoryTest测试</a></p>
-<h2 id="PS"><a class="header-anchor" href="#PS">¶</a>PS</h2>
-<p>写博客的时候搜索了下，发现了Spring有个这么个玩意 <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/validation.html#core-convert" target="_blank" rel="noopener">Spring</a><br>
-那就算是自己造了一个轮子吧。</p>
-<p><strong>预定下一篇博客去研究下Spring的convert机制。</strong></p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Convert</tag>
       </tags>
   </entry>
   <entry>
@@ -1386,23 +1319,6 @@ IntelliJ的构建系统基于Groovy 和 Gant，Groovy适用于一些测试代码
       </tags>
   </entry>
   <entry>
-    <title>2019年第5周推荐阅读</title>
-    <url>/2019/01/28/recommend/2019-week-5-recommend/</url>
-    <content><![CDATA[<h2 id="好文共享"><a class="header-anchor" href="#好文共享">¶</a>好文共享</h2>
-<ol>
-<li><a href="https://linux.cn/article-10469-1.html?utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener">你（多半）不需要 Kubernetes</a><br>
-Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
-<li><a href="https://bh.sb/post/41949/" target="_blank" rel="noopener">德国工人为什么愿意干到退休？因为他们站着把钱挣了</a><br>
-今年我对Team的目标也是能够站在把钱给赚了，这个才是让员工觉得舒服的方式</li>
-</ol>
-<h2 id="好书推荐"><a class="header-anchor" href="#好书推荐">¶</a>好书推荐</h2>
-<ol>
-<li><a href="https://book.douban.com/subject/30128204/" target="_blank" rel="noopener">莫斯科绅士</a><br>
-往往最不自由的人却拥有最为自由的灵魂。</li>
-</ol>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-  </entry>
-  <entry>
     <title>Rank N Types</title>
     <url>/2021/02/09/proggramming/Rank-N-Types/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210209163003.png" alt=""></p>
@@ -1451,6 +1367,23 @@ Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
       <tags>
         <tag>proggramming</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>2019年第5周推荐阅读</title>
+    <url>/2019/01/28/recommend/2019-week-5-recommend/</url>
+    <content><![CDATA[<h2 id="好文共享"><a class="header-anchor" href="#好文共享">¶</a>好文共享</h2>
+<ol>
+<li><a href="https://linux.cn/article-10469-1.html?utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener">你（多半）不需要 Kubernetes</a><br>
+Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
+<li><a href="https://bh.sb/post/41949/" target="_blank" rel="noopener">德国工人为什么愿意干到退休？因为他们站着把钱挣了</a><br>
+今年我对Team的目标也是能够站在把钱给赚了，这个才是让员工觉得舒服的方式</li>
+</ol>
+<h2 id="好书推荐"><a class="header-anchor" href="#好书推荐">¶</a>好书推荐</h2>
+<ol>
+<li><a href="https://book.douban.com/subject/30128204/" target="_blank" rel="noopener">莫斯科绅士</a><br>
+往往最不自由的人却拥有最为自由的灵魂。</li>
+</ol>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
   </entry>
   <entry>
     <title>2019年第4周推荐阅读</title>
@@ -1571,30 +1504,6 @@ HTTP 当然懂一点总是有用的，毕竟是网络的时代了，配了很多
       </categories>
   </entry>
   <entry>
-    <title>给客户提供的服务</title>
-    <url>/2020/05/08/rethink/different-way-for-cosumer/</url>
-    <content><![CDATA[<p>自古甲方是大爷，甲方选乙方如同青楼点小姐，甲方亦然自己的口味也要看小姐能提供什么类型，好御姐这口就不能找一个萝莉妹子陪。那就聊聊这几年看过的客户所需要的服务：</p>
-<a id="more"></a>
-<h1>万事俱备就差程序员系列</h1>
-<p>一般这么说的客户，可能就是差点干活的，也就是当个乙方人力外包的命，这种服务最累又赚不到什么钱，流水的程序员铁打的甲方，固定的预算，一般也就是干着最脏最累的活。</p>
-<h1>我有一个想做的东西</h1>
-<p>这种客户是最多的，甲方内部立项某一个前沿性的项目【ServiceMesh】之类的，客户大概知道这玩意能做啥，但是并没有想好项目的形态，此类项目普遍存在着一种状况 <strong>期望过大，而预算过低</strong>，因为这些年的程序员的人力成本增长，一个前沿性的项目可能投入100W并不能得到什么回报，因此对于这样的项目，控制住客户的期望，和降低自己的成本是项目的重中之重。</p>
-<h2 id="降低期望"><a class="header-anchor" href="#降低期望">¶</a>降低期望</h2>
-<p>如果此类项目/产品 在市面上未有什么开源产品或者是商业产品，此时还是比较好控制用户的欲望的，然而如果市场上已经有同类产品，那就很容易变成如下情况 <code>100W的预算帮我做一个[网易轻舟](https://www.163yun.com/product-nsf)</code>，客户常常觉得吧，不就是把开源的产品这样再这样，然后这样揉在一起就可以了？</p>
-<h2 id="降低成本"><a class="header-anchor" href="#降低成本">¶</a>降低成本</h2>
-<p>在施工的时候，传统的构建方式是在现场构建，但是有一种比较降低成本的方式：<a href="https://zhuanlan.zhihu.com/p/64324537" target="_blank" rel="noopener">装配式建筑PC构件</a> 对于软件实施的过程中我们也可以参考这样的模式，将大部分的重叠功能作为预制件交付出去。在这种的情况下，我们可以在内部培养较为高级且专精的研发团队，可以攻坚复杂的部分。</p>
-<blockquote>
-<p>其实和传统的企业，需要中间件部门一样，对于大部分业务研发部门不可能做到对于中间件熟悉，因此需要独立的团队进行研发与维护。</p>
-</blockquote>
-<p>但是对于降低成本更重要的是市场的规模化，因此在这个产品开始孵化之前就需要做一次<code>项目尸检</code>，这个项目真的可以规模化吗？</p>
-<h1>依赖性质</h1>
-<p>还有一种就是，客户因为研发力量薄弱，对于乙方特别看中的类型，甚至于把乙方当做一个亲儿子看待，这种客户可遇而不可求。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rethink</category>
-      </categories>
-  </entry>
-  <entry>
     <title>死亡行军与自我革命</title>
     <url>/2020/03/31/rethink/another-hard-way-to-die/</url>
     <content><![CDATA[<p>在二战时期，除了直接杀死的方式之外还要一个处理战俘的办法，强迫行军，旨在令他们死在途中，这种方式就是<strong>死亡行军</strong>。在软件工程领域可能不是因为主观上希望整个团队崩溃，但是却在一个又一个的失败之中导致研发团队死亡也被称作为一种死亡行军。而笔者恰好在 2017年底开始经历过这样完整的一个项目，刚好可以聊一聊。</p>
@@ -1698,6 +1607,30 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
       </categories>
   </entry>
   <entry>
+    <title>给客户提供的服务</title>
+    <url>/2020/05/08/rethink/different-way-for-cosumer/</url>
+    <content><![CDATA[<p>自古甲方是大爷，甲方选乙方如同青楼点小姐，甲方亦然自己的口味也要看小姐能提供什么类型，好御姐这口就不能找一个萝莉妹子陪。那就聊聊这几年看过的客户所需要的服务：</p>
+<a id="more"></a>
+<h1>万事俱备就差程序员系列</h1>
+<p>一般这么说的客户，可能就是差点干活的，也就是当个乙方人力外包的命，这种服务最累又赚不到什么钱，流水的程序员铁打的甲方，固定的预算，一般也就是干着最脏最累的活。</p>
+<h1>我有一个想做的东西</h1>
+<p>这种客户是最多的，甲方内部立项某一个前沿性的项目【ServiceMesh】之类的，客户大概知道这玩意能做啥，但是并没有想好项目的形态，此类项目普遍存在着一种状况 <strong>期望过大，而预算过低</strong>，因为这些年的程序员的人力成本增长，一个前沿性的项目可能投入100W并不能得到什么回报，因此对于这样的项目，控制住客户的期望，和降低自己的成本是项目的重中之重。</p>
+<h2 id="降低期望"><a class="header-anchor" href="#降低期望">¶</a>降低期望</h2>
+<p>如果此类项目/产品 在市面上未有什么开源产品或者是商业产品，此时还是比较好控制用户的欲望的，然而如果市场上已经有同类产品，那就很容易变成如下情况 <code>100W的预算帮我做一个[网易轻舟](https://www.163yun.com/product-nsf)</code>，客户常常觉得吧，不就是把开源的产品这样再这样，然后这样揉在一起就可以了？</p>
+<h2 id="降低成本"><a class="header-anchor" href="#降低成本">¶</a>降低成本</h2>
+<p>在施工的时候，传统的构建方式是在现场构建，但是有一种比较降低成本的方式：<a href="https://zhuanlan.zhihu.com/p/64324537" target="_blank" rel="noopener">装配式建筑PC构件</a> 对于软件实施的过程中我们也可以参考这样的模式，将大部分的重叠功能作为预制件交付出去。在这种的情况下，我们可以在内部培养较为高级且专精的研发团队，可以攻坚复杂的部分。</p>
+<blockquote>
+<p>其实和传统的企业，需要中间件部门一样，对于大部分业务研发部门不可能做到对于中间件熟悉，因此需要独立的团队进行研发与维护。</p>
+</blockquote>
+<p>但是对于降低成本更重要的是市场的规模化，因此在这个产品开始孵化之前就需要做一次<code>项目尸检</code>，这个项目真的可以规模化吗？</p>
+<h1>依赖性质</h1>
+<p>还有一种就是，客户因为研发力量薄弱，对于乙方特别看中的类型，甚至于把乙方当做一个亲儿子看待，这种客户可遇而不可求。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>rethink</category>
+      </categories>
+  </entry>
+  <entry>
     <title>微服务2019的新趋势</title>
     <url>/2019/03/06/rethink/microservice-trend-in-2019/</url>
     <content><![CDATA[<p>微服务在<code>2019</code>的新趋势，势必是基础设施下行，应用支撑上行。下文展开了说。<br>
@@ -1710,48 +1643,6 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
 <ul>
 <li>APM：传统基于虚拟机的监控已经不满足现在的微服务的监控需求，需要改造，这个 APM 又如何和微服务系统深入集成又是需要注意的</li>
 <li>分布式事务：分布式事务总是需要的，避免不开的选择。</li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>rethink</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>微服务之痛</title>
-    <url>/2018/09/01/rethink/pain-of-microservice/</url>
-    <content><![CDATA[<p>笔者在最近的2年内，一直从事微服务咨询工作，帮助两位数的企业改造项目至微服务架构，然而这一切并非如想象中的一帆风顺，写下此篇也意在反思微服务的一些伤痛。</p>
-<a id="more"></a>
-<h2 id="系统结构之痛"><a class="header-anchor" href="#系统结构之痛">¶</a>系统结构之痛</h2>
-<p>微服务并非是<code>银弹</code>，在咨询的过程中，很多公司的代码就像是<code>意大利面</code>一样的缠绕在一起，而这些代码之罪源于 <code>过度压缩研发周期</code> <code>缺失代码评审</code> <code>缺少顶层设计</code> 而非是一门技术所能够解决之事。</p>
-<p>其中最为令人窒息的是 <code>代码间调用混乱</code> 与 <code>数据库使用混乱</code>，动则就数表联查，哪怕是采用 <a href="https://microservices.io/patterns/cn/data/database-per-service.html" target="_blank" rel="noopener"><code>database-per-service</code></a> 设计模式，在物理上将数据库切分开，也会导致大量的服务间的请求出现，而因为服务库的拆分，更会暴露出系统模块划分的不合理，有点像是打地鼠一样，按住一头又冒出了另外三只。</p>
-<p><img src="https://s1.ax1x.com/2018/09/01/PxVEVK.jpg" alt=""></p>
-<p>在原本的单体系统中，不合理的函数点调用最多浪费些调用栈，至多多一些数据库的操作，而将这个问题拓展至 <code>微服务</code> 中，缺点暴露的更多，有且不限于 <code>调用过于频繁</code> <code>请求体和响应体过大</code> <code>无良好异常设计</code> 甚至于将一些内部应用的接口暴露给用户。</p>
-<h2 id="运维成本之痛"><a class="header-anchor" href="#运维成本之痛">¶</a>运维成本之痛</h2>
-<p>一个微服务的系统，少说得有 <code>业务应用 x3</code> <code>服务网关</code> <code>配置中心</code> 构成，应用数量的变多，使得运维变的困难起来，微服务在资源利用上的确有其独到的地方，但带来的问题是在于运维成本急速上升，所以我们看到 <code>CNCF</code> 最近又再疯狂的重新造轮子，试图使用自动化运维手段将这部分的成本降下来，但是问题不仅仅在于工具的选择，我们依然不得不去面对日益增长的应用数，不同的应用甚至于对于运维的技能都有着不一样的需求。</p>
-<h2 id="开发成本之痛"><a class="header-anchor" href="#开发成本之痛">¶</a>开发成本之痛</h2>
-<p>原本专注于业务开发，不得不去关注于 <a href="https://cloud.tencent.com/developer/article/1080207" target="_blank" rel="noopener"><code>服务编排</code></a>，原本的系统开发在 <code>SOA</code> 时代我们需要关注的对方的 <code>IP</code> 地址，在数十年的业界的大势之下，大部分人都已经掌握了基础的网络知识，而现在开发者不得不去面对 <code>服务编排</code> 这个概念，下面有一个例子：</p>
-<div class='spoiler collapsed'>
-    <div class='spoiler-title'>
-        太长了，不得不隐藏的编排
-    </div>
-    <div class='spoiler-content'>
-        <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">wordpress-mysql</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">3306</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="string">None</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolumeClaim</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">mysql-pv-claim</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteOnce</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">    <span class="attr">requests:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">20Gi</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span> <span class="comment"># for versions before 1.9.0 use apps/v1beta2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">wordpress-mysql</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line">      <span class="attr">tier:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">strategy:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">Recreate</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line">        <span class="attr">tier:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">mysql:5.6</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">mysql</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">MYSQL_ROOT_PASSWORD</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">secretKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">mysql-pass</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">password</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">3306</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">mysql</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">mysql-persistent-storage</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/var/lib/mysql</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">mysql-persistent-storage</span></span><br><span class="line">        <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">          <span class="attr">claimName:</span> <span class="string">mysql-pv-claim</span></span><br></pre></td></tr></table></figure>
-    </div>
-</div>
-<p>这也就是我非常的痛恨 <code>kubernetes</code> 的原因，在现在的 <code>DevOps</code> 的飓风之下，似乎开发都得懂点运维的知识，这个不排斥，但是 <code>kubernetes</code> 又太过于难搞了一些，完全不如 <code>docker-compose</code> 来的简单快乐，当然你引入 <code>Docker</code> 的时候，你就不得不去面对那充满新特性的 <code>Overlay</code> 网络(:doge 祝你玩的开心)。</p>
-<p>除此之外，微服务对系统的健壮性的要求是上了100层楼那个高，传统的 <code>中间件</code> 都是相对的稳定，我们在开发的过程中可以省略性的考虑比如 <code>Mysql</code> 不稳定这类的问题，而在微服务中，我们的上游或者下游都是独立的应用，而这些应用并非是经过长期的验证的，我不得不针对这些不稳定的应用进行大量的保护性代码，比如服务熔断，服务重试等等，这些成本是远超原本的单体应用的。</p>
-<p>笔者在一些公司，一个大业务部，拆分了数十个微服务，而这些的微服务的开发者往往是一个人，这时候，一个开发者需要维护物理上切分开的软件，而在开发的过程中，对每个服务都了如指掌的时候。自然会产生一些排斥，比如为什么这个工具类我用的地方很多，我是不是可以抽到一个公共的Jar中，而抽取之后又发现每个人都需要进行一些自己的变动，最终会变成各个项目都有一些类似又不一样的代码，对于程序员来说可能是一份冗余，这也是微服务所必须付出的成本。</p>
-<h2 id="不得不去面对的新挑战"><a class="header-anchor" href="#不得不去面对的新挑战">¶</a>不得不去面对的新挑战</h2>
-<p>除了一些固定的开发成本以外，我们不得不去面对分布式系统中的一些常见又规避不了的问题。</p>
-<p><strong>分布式事务：</strong> 我们不得不去面对以前我们通过单体应用规避的分布式事务的问题，中间件方面我们可以假装完全的信任类如<code>Tidb</code> 这样的新时代的分布式数据库，而我们依然需要去面对业务系统的事务问题，基于<code>强一致性</code>或者<code>最终一致性</code> 的方案，我们选择 <code>MQ</code> 或者一些 <code>3PC</code> 的框架来解决这些问题，分布式事务框架本身又可能成为系统的一个单点，那<code>MQ</code>又会造成改造时候，我们不得不去改造业务的流程，又是一例技术逼迫业务改造的是惨痛案例。</p>
-<p><strong>链路跟踪：</strong> 众多的应用</p>
-<p>可喜的是我们有一些探索者提供了一些工具，我们拿来即可满足大部分的需求，可怕的是我们需要投入更多的人力在系统之中，所以在现阶段<code>微服务</code>还是一些金主手中的玩物。</p>
-<h2 id="何时使用微服务"><a class="header-anchor" href="#何时使用微服务">¶</a>何时使用微服务</h2>
-<ul>
-<li>系统已经具备很大的规模，哪怕是一个单体系统，企业也为其投入了大量的支撑服务，可以考虑使用微服务改造一些高速变更的业务。</li>
-<li>企业的组织架构是 <code>INVEST原则</code></li>
-<li>业务的 <code>投产时间</code> 已经跟不上业务的发展，业务驱动之下的微服务不得不用。</li>
-<li>最后，清晰的明白微服务能够给你带来什么，又会让你付出什么，做好选择，切莫半路而废。</li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
@@ -1797,6 +1688,48 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
 <hr>
 <p>最终最为重要的事情是保护好自己的身体，编程技能会过时，唯一不变的，你需要的是依靠的是自己强健的体魄和坚忍的毅力去完成你所想的一切，多锻炼，健康饮食，毕竟能够笑到最后的才是赢家。</p>
 <p align="right">于 厦门 ● 观音山</p><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>rethink</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>微服务之痛</title>
+    <url>/2018/09/01/rethink/pain-of-microservice/</url>
+    <content><![CDATA[<p>笔者在最近的2年内，一直从事微服务咨询工作，帮助两位数的企业改造项目至微服务架构，然而这一切并非如想象中的一帆风顺，写下此篇也意在反思微服务的一些伤痛。</p>
+<a id="more"></a>
+<h2 id="系统结构之痛"><a class="header-anchor" href="#系统结构之痛">¶</a>系统结构之痛</h2>
+<p>微服务并非是<code>银弹</code>，在咨询的过程中，很多公司的代码就像是<code>意大利面</code>一样的缠绕在一起，而这些代码之罪源于 <code>过度压缩研发周期</code> <code>缺失代码评审</code> <code>缺少顶层设计</code> 而非是一门技术所能够解决之事。</p>
+<p>其中最为令人窒息的是 <code>代码间调用混乱</code> 与 <code>数据库使用混乱</code>，动则就数表联查，哪怕是采用 <a href="https://microservices.io/patterns/cn/data/database-per-service.html" target="_blank" rel="noopener"><code>database-per-service</code></a> 设计模式，在物理上将数据库切分开，也会导致大量的服务间的请求出现，而因为服务库的拆分，更会暴露出系统模块划分的不合理，有点像是打地鼠一样，按住一头又冒出了另外三只。</p>
+<p><img src="https://s1.ax1x.com/2018/09/01/PxVEVK.jpg" alt=""></p>
+<p>在原本的单体系统中，不合理的函数点调用最多浪费些调用栈，至多多一些数据库的操作，而将这个问题拓展至 <code>微服务</code> 中，缺点暴露的更多，有且不限于 <code>调用过于频繁</code> <code>请求体和响应体过大</code> <code>无良好异常设计</code> 甚至于将一些内部应用的接口暴露给用户。</p>
+<h2 id="运维成本之痛"><a class="header-anchor" href="#运维成本之痛">¶</a>运维成本之痛</h2>
+<p>一个微服务的系统，少说得有 <code>业务应用 x3</code> <code>服务网关</code> <code>配置中心</code> 构成，应用数量的变多，使得运维变的困难起来，微服务在资源利用上的确有其独到的地方，但带来的问题是在于运维成本急速上升，所以我们看到 <code>CNCF</code> 最近又再疯狂的重新造轮子，试图使用自动化运维手段将这部分的成本降下来，但是问题不仅仅在于工具的选择，我们依然不得不去面对日益增长的应用数，不同的应用甚至于对于运维的技能都有着不一样的需求。</p>
+<h2 id="开发成本之痛"><a class="header-anchor" href="#开发成本之痛">¶</a>开发成本之痛</h2>
+<p>原本专注于业务开发，不得不去关注于 <a href="https://cloud.tencent.com/developer/article/1080207" target="_blank" rel="noopener"><code>服务编排</code></a>，原本的系统开发在 <code>SOA</code> 时代我们需要关注的对方的 <code>IP</code> 地址，在数十年的业界的大势之下，大部分人都已经掌握了基础的网络知识，而现在开发者不得不去面对 <code>服务编排</code> 这个概念，下面有一个例子：</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        太长了，不得不隐藏的编排
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">wordpress-mysql</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">3306</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="string">None</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolumeClaim</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">mysql-pv-claim</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteOnce</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">    <span class="attr">requests:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">20Gi</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span> <span class="comment"># for versions before 1.9.0 use apps/v1beta2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">wordpress-mysql</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line">      <span class="attr">tier:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">strategy:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">Recreate</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">wordpress</span></span><br><span class="line">        <span class="attr">tier:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">mysql:5.6</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">mysql</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">MYSQL_ROOT_PASSWORD</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">secretKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">mysql-pass</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">password</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">3306</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">mysql</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">mysql-persistent-storage</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/var/lib/mysql</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">mysql-persistent-storage</span></span><br><span class="line">        <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">          <span class="attr">claimName:</span> <span class="string">mysql-pv-claim</span></span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+<p>这也就是我非常的痛恨 <code>kubernetes</code> 的原因，在现在的 <code>DevOps</code> 的飓风之下，似乎开发都得懂点运维的知识，这个不排斥，但是 <code>kubernetes</code> 又太过于难搞了一些，完全不如 <code>docker-compose</code> 来的简单快乐，当然你引入 <code>Docker</code> 的时候，你就不得不去面对那充满新特性的 <code>Overlay</code> 网络(:doge 祝你玩的开心)。</p>
+<p>除此之外，微服务对系统的健壮性的要求是上了100层楼那个高，传统的 <code>中间件</code> 都是相对的稳定，我们在开发的过程中可以省略性的考虑比如 <code>Mysql</code> 不稳定这类的问题，而在微服务中，我们的上游或者下游都是独立的应用，而这些应用并非是经过长期的验证的，我不得不针对这些不稳定的应用进行大量的保护性代码，比如服务熔断，服务重试等等，这些成本是远超原本的单体应用的。</p>
+<p>笔者在一些公司，一个大业务部，拆分了数十个微服务，而这些的微服务的开发者往往是一个人，这时候，一个开发者需要维护物理上切分开的软件，而在开发的过程中，对每个服务都了如指掌的时候。自然会产生一些排斥，比如为什么这个工具类我用的地方很多，我是不是可以抽到一个公共的Jar中，而抽取之后又发现每个人都需要进行一些自己的变动，最终会变成各个项目都有一些类似又不一样的代码，对于程序员来说可能是一份冗余，这也是微服务所必须付出的成本。</p>
+<h2 id="不得不去面对的新挑战"><a class="header-anchor" href="#不得不去面对的新挑战">¶</a>不得不去面对的新挑战</h2>
+<p>除了一些固定的开发成本以外，我们不得不去面对分布式系统中的一些常见又规避不了的问题。</p>
+<p><strong>分布式事务：</strong> 我们不得不去面对以前我们通过单体应用规避的分布式事务的问题，中间件方面我们可以假装完全的信任类如<code>Tidb</code> 这样的新时代的分布式数据库，而我们依然需要去面对业务系统的事务问题，基于<code>强一致性</code>或者<code>最终一致性</code> 的方案，我们选择 <code>MQ</code> 或者一些 <code>3PC</code> 的框架来解决这些问题，分布式事务框架本身又可能成为系统的一个单点，那<code>MQ</code>又会造成改造时候，我们不得不去改造业务的流程，又是一例技术逼迫业务改造的是惨痛案例。</p>
+<p><strong>链路跟踪：</strong> 众多的应用</p>
+<p>可喜的是我们有一些探索者提供了一些工具，我们拿来即可满足大部分的需求，可怕的是我们需要投入更多的人力在系统之中，所以在现阶段<code>微服务</code>还是一些金主手中的玩物。</p>
+<h2 id="何时使用微服务"><a class="header-anchor" href="#何时使用微服务">¶</a>何时使用微服务</h2>
+<ul>
+<li>系统已经具备很大的规模，哪怕是一个单体系统，企业也为其投入了大量的支撑服务，可以考虑使用微服务改造一些高速变更的业务。</li>
+<li>企业的组织架构是 <code>INVEST原则</code></li>
+<li>业务的 <code>投产时间</code> 已经跟不上业务的发展，业务驱动之下的微服务不得不用。</li>
+<li>最后，清晰的明白微服务能够给你带来什么，又会让你付出什么，做好选择，切莫半路而废。</li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
         <category>rethink</category>
       </categories>
@@ -2211,6 +2144,73 @@ The designers were primarily motivated by their shareddislike of C++.</li>
       <categories>
         <category>go</category>
         <category>rust</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Go 面试汇总</title>
+    <url>/2020/07/29/go/interview/</url>
+    <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/29/bnUSE.png" alt="bnUSE.png"></p>
+<p>作为一个跨界的 <code>Java Boy</code> 面对 <code>Go</code> 的岗位还是先整理一波。</p>
+<a id="more"></a>
+<h1>Go 的 Goroutine</h1>
+<p>CSP，全称Communicating Sequential Processes，意为通讯顺序进程，它是七大并发模型中的一种，它的核心观念是将两个并发执行的实体通过通道channel连接起来，所有的消息都通过channel传输，Go语言对CSP并发模型的实现——GPM调度模型。</p>
+<p>GPM代表了三个角色，分别是<code>Goroutine</code>、<code>Processor</code>、<code>Machine</code>。</p>
+<p><img src="https://s3.jpg.cm/2020/07/29/bnRyC.png" alt="bnRyC.png"></p>
+<ul>
+<li><code>Goroutine</code>：承担运行的实体</li>
+<li><code>Processor</code>： 联通 G 和 M 的处理器</li>
+<li><code>Machine</code>： 操作系统的调度单位：线程</li>
+</ul>
+<p><img src="https://s3.jpg.cm/2020/07/29/bnW7t.png" alt="bnW7t.png"></p>
+<p><code>Machine</code> 和 <code>Processor</code> 是 <code>1:1</code>，我们创建的 <code>Goroutine</code> 会通过放入 <code>Queue</code> 让 <code>Processor</code> 在 <code>Machine</code> 执行。<br>
+不过值得注意，在实现的过程中，有一种名为  <code>work-stealing</code> 的算法，如果某个 <code>Machine</code> 的 <code>Queue</code> 为空的时候会尝试从其他地方偷点回来。</p>
+<div>
+    <label class="author-mark-label">题外话</label>
+    <p class="author-mark">Java体系中： JDK1.7引入的Fork/Join框架就是基于工作窃取算法。</p>
+</div>
+<p>单纯的从图上看，我们至少提出几个问题</p>
+<ul>
+<li><code>Goroutine</code> 如何调用了 <code>Systemcall</code> 在阻塞状态会怎么样</li>
+<li><code>Goroutine</code> 如何保证时间公平</li>
+</ul>
+<h2 id="Go的调度"><a class="header-anchor" href="#Go的调度">¶</a>Go的调度</h2>
+<p>OS 调度器是一个<code>抢占式</code>调度器。Go 调度器在内核之上的用户空间中运行。Go 调度器的当前实现不是抢占式调度器，而是协作式调度器。</p>
+<p>Go 的状态也有三种状态：</p>
+<ul>
+<li><code>Waiting：这意味着</code> Goroutine 已停止并等待一些事情以继续。这可能是因为等待操作系统（系统调用）或同步调用（原子和互斥操作）等原因。这些类型的延迟是性能下降的根本原因。</li>
+<li><code>Runnable</code> ：这意味着 Goroutine 需要M上的时间片，来执行它的指令。如果同一时间有很多 Goroutines 在竞争时间片，它们都必须等待更长时间才能得到时间片，而且每个 Goroutine 获得的时间片都缩短了。这种类型的调度延迟也可能导致性能下降。</li>
+<li><code>Executing</code> ：这意味着 Goroutine 已经被放置在M上并且正在执行它的指令。</li>
+</ul>
+<h3 id="系统调用"><a class="header-anchor" href="#系统调用">¶</a>系统调用</h3>
+<p>对于大部分的 <code>Blocking</code> 系统调用，都是直接将这个阻塞的 <code>G</code> 从 <code>M</code> 卸载下来，换上其他的 <code>G</code> 进行运行。略有不同的，对于异步的系统调用 <code>GO</code> 实现一种 <code>NetPoller</code> 机制，这些操作并不在 <code>M</code> 进行操作，会将这个 <code>Go</code> 移动到 <code>Netpoller</code> 进行操作。这里其实也就是高性能 <code>Web</code> 的核心，不要在 <code>Blocking</code> 进行阻塞。</p>
+<p><img src="https://s3.jpg.cm/2020/07/29/bnVVD.png" alt="bnVVD.png"></p>
+<h1>CGo 的低效问题</h1>
+<p>在 <code>dave</code> 的 <a href="https://dave.cheney.net/2016/01/18/cgo-is-not-go" target="_blank" rel="noopener"><code>cgo is not go</code></a> 中写到了</p>
+<blockquote>
+<p>C doesn’t know anything about Go’s calling convention or growable stacks, so a call down to C code must record all the details of the goroutine stack, switch to the C stack, and run C code which has no knowledge of how it was invoked, or the larger Go runtime in charge of the program.</p>
+</blockquote>
+<p>Cgo在编译的时候会为代码生成大量的中间文件。 在一个Go源文件中，如果出现了import &quot;C&quot;指令则表示将调用cgo命令生成对应的中间文件。整个过程会涉及到大量的 <code>堆栈</code>切换</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Go --&gt; runtime.cgocall --&gt; runtime.entersyscall --&gt; runtime.asmcgocall --&gt; _cgo_Cfunc_f</span><br><span class="line">                                                                                 |</span><br><span class="line">                                                                                 |</span><br><span class="line">Go &lt;-- runtime.exitsyscall &lt;-- runtime.cgocall &lt;-- runtime.asmcgocall &lt;----------+</span><br></pre></td></tr></table></figure>
+<h1>Go 的常见姿势</h1>
+<h2 id="Channel-关闭"><a class="header-anchor" href="#Channel-关闭">¶</a>Channel 关闭</h2>
+<p>因为关闭一个 <code>Channel</code> 之后，依然可以从中获得数据，因此一个适用的原则是不要从接收端关闭channel，也不要关闭有多个并发发送者的channel。</p>
+<ul>
+<li>channel 只有一个发送方的情况：直接等到发送完毕关不即可</li>
+<li>channel 有多个发送方一个接收方： 额外增加一个 channel ，让接收方通知发送方关闭，因为消息只有一次，因此只有一个人可以关闭</li>
+<li>channel 有多个发送方以及多个接收方: 增加一个调停者，等条件满足的时候通知发送方关闭即可。</li>
+</ul>
+<h1>其他</h1>
+<ul>
+<li>go defer: FILO 特性，不过值得注意的是在 <code>Return</code> 之前，<code>PAIN</code> 可以看做一种 <code>Retrun</code></li>
+<li>chan 缓冲/无缓冲：channel<code>无缓冲</code>时，发送阻塞直到数据被接收，接收阻塞直到读到数据。channel<code>有缓冲</code>时，当缓冲满时发送阻塞，当缓冲空时接收阻塞。</li>
+</ul>
+<h1>参考</h1>
+<ul>
+<li><a href="https://github.com/lifei6671/interview-go/blob/master/base/go-scheduler-base.md" target="_blank" rel="noopener">goroutine调度器概述</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>go</category>
       </categories>
   </entry>
   <entry>
@@ -5811,41 +5811,34 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
       </categories>
   </entry>
   <entry>
-    <title>Java网络编程-(1)-NIO基础</title>
-    <url>/2018/05/07/java/nio/java-nio-1-basic/</url>
-    <content><![CDATA[<h2 id="Java-BIO"><a class="header-anchor" href="#Java-BIO">¶</a>Java BIO</h2>
-<p>传统的网络模式是BIO的模式<br>
-<img src="http://tutorials.jenkov.com/images/java-nio/nio-vs-io-1.png" alt="BIO"></p>
-<p>我们发现BIO编程模型中最为致命的部分就是 我们需要为 <strong>Stream</strong> 使用一个 <strong>Thread</strong>。<br>
-所以在JDK1.6中引入了NIO，优化这一部分。</p>
+    <title>Learn By Game&amp;#58 01 环境准备</title>
+    <url>/2021/01/24/game/learn-by-game/learn-by-game-01/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124180700.png" alt=""></p>
+<p>因为女票只想使用 <code>Java</code> 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。</p>
 <a id="more"></a>
-<h2 id="Java-NIO"><a class="header-anchor" href="#Java-NIO">¶</a>Java NIO</h2>
-<p>NIO 的网络模型对比BIO模式，主要采用 <strong>面向缓存</strong> 的方式。<br>
-<img src="https://image.slidesharecdn.com/javanio2final1-160607115222/95/java-nio2-7-638.jpg?cb=1465300539" alt="NIO"></p>
-<h2 id="Java-NIO-编程抽象"><a class="header-anchor" href="#Java-NIO-编程抽象">¶</a>Java NIO 编程抽象</h2>
-<p>Java将NIO抽象为三个模型 <code>Channels</code> <code>Buffers</code> <code>Selectors</code></p>
-<ul>
-<li>Channels: 提供Buffers的读写能力</li>
-<li>Buffers: 面向缓存的数据</li>
-<li>Selectors: 选择器</li>
-</ul>
-<p>Selector 可以让一个线程处理多个 Channels<br>
-<img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="overview-selectors"></p>
-<p>关于Channels，如果我一点Linux编程的经验，我们应该也会猜测出Channel中是储存具体的FD（文件句柄）。<br>
-<img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="overview-channels-buffers"></p>
-<h2 id="Java-NIO-的编程模版"><a class="header-anchor" href="#Java-NIO-的编程模版">¶</a>Java NIO 的编程模版</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SelectableChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SelectionKey;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.Selector;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.ServerSocketChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SocketChannel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.swing.text.html.HTMLDocument.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Simple echo-back server which listens for incoming stream connections and</span></span><br><span class="line"><span class="comment">* echoes back whatever it reads. A single Selector object is used to listen to</span></span><br><span class="line"><span class="comment">* the server socket (to accept new connections) and all the active socket</span></span><br><span class="line"><span class="comment">* channels.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> zale (zalezone.cn)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectSockets</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> PORT_NUMBER = <span class="number">1234</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] argv)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> SelectSockets().go(argv);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">go</span><span class="params">(String[] argv)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> port = PORT_NUMBER;</span><br><span class="line">        <span class="keyword">if</span> (argv.length &gt; <span class="number">0</span>)</span><br><span class="line">        &#123; <span class="comment">// 覆盖默认的监听端口</span></span><br><span class="line">            port = Integer.parseInt(argv[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"Listening on port "</span> + port);</span><br><span class="line">        ServerSocketChannel serverChannel = ServerSocketChannel.open();<span class="comment">// 打开一个未绑定的serversocketchannel</span></span><br><span class="line">        ServerSocket serverSocket = serverChannel.socket();<span class="comment">// 得到一个ServerSocket去和它绑定</span></span><br><span class="line">        Selector selector = Selector.open();<span class="comment">// 创建一个Selector供下面使用</span></span><br><span class="line">        serverSocket.bind(<span class="keyword">new</span> InetSocketAddress(port));<span class="comment">//设置server channel将会监听的端口</span></span><br><span class="line">        serverChannel.configureBlocking(<span class="keyword">false</span>);<span class="comment">//设置非阻塞模式</span></span><br><span class="line">        serverChannel.register(selector, SelectionKey.OP_ACCEPT);<span class="comment">//将ServerSocketChannel注册到Selector</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// This may block for a long time. Upon returning, the</span></span><br><span class="line">            <span class="comment">// selected set contains keys of the ready channels.</span></span><br><span class="line">            <span class="keyword">int</span> n = selector.select();</span><br><span class="line">            <span class="keyword">if</span> (n == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>; <span class="comment">// nothing to do</span></span><br><span class="line">            &#125;           </span><br><span class="line">            java.util.Iterator&lt;SelectionKey&gt; it = selector.selectedKeys().iterator();<span class="comment">// Get an iterator over the set of selected keys</span></span><br><span class="line">            <span class="comment">//在被选择的set中遍历全部的key</span></span><br><span class="line">            <span class="keyword">while</span> (it.hasNext())</span><br><span class="line">            &#123;</span><br><span class="line">                SelectionKey key = (SelectionKey) it.next();</span><br><span class="line">                <span class="comment">// 判断是否是一个连接到来</span></span><br><span class="line">                <span class="keyword">if</span> (key.isAcceptable())</span><br><span class="line">                &#123;</span><br><span class="line">                    ServerSocketChannel server =(ServerSocketChannel) key.channel();</span><br><span class="line">                    SocketChannel channel = server.accept();</span><br><span class="line">                    registerChannel(selector, channel,SelectionKey.OP_READ);<span class="comment">//注册读事件</span></span><br><span class="line">                    sayHello(channel);<span class="comment">//对连接进行处理</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//判断这个channel上是否有数据要读</span></span><br><span class="line">                <span class="keyword">if</span> (key.isReadable())</span><br><span class="line">                &#123;</span><br><span class="line">                    readDataFromSocket(key);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//从selected set中移除这个key，因为它已经被处理过了</span></span><br><span class="line">                it.remove();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ----------------------------------------------------------</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Register the given channel with the given selector for the given</span></span><br><span class="line"><span class="comment">    * operations of interest</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">registerChannel</span><span class="params">(Selector selector,SelectableChannel channel, <span class="keyword">int</span> ops)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (channel == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>; <span class="comment">// 可能会发生</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 设置通道为非阻塞</span></span><br><span class="line">        channel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// 将通道注册到选择器上</span></span><br><span class="line">        channel.register(selector, ops);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ----------------------------------------------------------</span></span><br><span class="line">    <span class="comment">// Use the same byte buffer for all channels. A single thread is</span></span><br><span class="line">    <span class="comment">// servicing all the channels, so no danger of concurrent acccess.</span></span><br><span class="line">    <span class="comment">//对所有的通道使用相同的缓冲区。单线程为所有的通道进行服务，所以并发访问没有风险</span></span><br><span class="line">    <span class="keyword">private</span> ByteBuffer buffer = ByteBuffer.allocateDirect(<span class="number">1024</span>);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Sample data handler method for a channel with data ready to read.</span></span><br><span class="line"><span class="comment">    * 对于一个准备读入数据的通道的简单的数据处理方法</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    A SelectionKey object associated with a channel determined by</span></span><br><span class="line"><span class="comment">    the selector to be ready for reading. If the channel returns</span></span><br><span class="line"><span class="comment">    an EOF condition, it is closed here, which automatically</span></span><br><span class="line"><span class="comment">    invalidates the associated key. The selector will then</span></span><br><span class="line"><span class="comment">    de-register the channel on the next select call.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    一个选择器决定了和通道关联的SelectionKey object是准备读状态。如果通道返回EOF，通道将被关闭。</span></span><br><span class="line"><span class="comment">    并且会自动使相关的key失效，选择器然后会在下一次的select call时取消掉通道的注册</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">readDataFromSocket</span><span class="params">(SelectionKey key)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SocketChannel socketChannel = (SocketChannel) key.channel();</span><br><span class="line">        <span class="keyword">int</span> count;</span><br><span class="line">        buffer.clear(); <span class="comment">// 清空Buffer</span></span><br><span class="line">        <span class="comment">// Loop while data is available; channel is nonblocking</span></span><br><span class="line">        <span class="comment">//当可以读到数据时一直循环，通道为非阻塞</span></span><br><span class="line">        <span class="keyword">while</span> ((count = socketChannel.read(buffer)) &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            buffer.flip(); <span class="comment">// 将缓冲区置为可读</span></span><br><span class="line">            <span class="comment">// Send the data; don't assume it goes all at once</span></span><br><span class="line">            <span class="comment">//发送数据，不要期望能一次将数据发送完</span></span><br><span class="line">            <span class="keyword">while</span> (buffer.hasRemaining())</span><br><span class="line">            &#123;</span><br><span class="line">                socketChannel.write(buffer);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// WARNING: the above loop is evil. Because</span></span><br><span class="line">            <span class="comment">// it's writing back to the same nonblocking</span></span><br><span class="line">            <span class="comment">// channel it read the data from, this code can</span></span><br><span class="line">            <span class="comment">// potentially spin in a busy loop. In real life</span></span><br><span class="line">            <span class="comment">// you'd do something more useful than this.</span></span><br><span class="line">            <span class="comment">//这里的循环是无意义的，具体按实际情况而定</span></span><br><span class="line">            buffer.clear(); <span class="comment">// Empty buffer</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (count &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Close channel on EOF, invalidates the key</span></span><br><span class="line">            <span class="comment">//读取结束后关闭通道，使key失效</span></span><br><span class="line">            socketChannel.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ----------------------------------------------------------</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Spew a greeting to the incoming client connection.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> channel</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    The newly connected SocketChannel to say hello to.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(SocketChannel channel)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        buffer.clear();</span><br><span class="line">        buffer.put(<span class="string">"Hi there!\r\n"</span>.getBytes());</span><br><span class="line">        buffer.flip();</span><br><span class="line">        channel.write(buffer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料"><a class="header-anchor" href="#参考资料">¶</a>参考资料</h2>
-<ol>
-<li><a href="http://tutorials.jenkov.com/java-nio/index.html" target="_blank" rel="noopener">Java NIO Tutorial</a></li>
-<li><a href="http://www.importnew.com/22623.html" target="_blank" rel="noopener">java NIO详解</a></li>
-</ol>
+<h2 id="环境准备"><a class="header-anchor" href="#环境准备">¶</a>环境准备</h2>
+<p><code>Java</code> 届最出名的游戏框架显然是 <a href="https://libgdx.badlogicgames.com/download.html" target="_blank" rel="noopener">libGDX</a>，我们从 <a href="https://libgdx.badlogicgames.com/download.html" target="_blank" rel="noopener">download</a> 下载 <a href="https://libgdx.badlogicgames.com/nightlies/dist/gdx-setup.jar" target="_blank" rel="noopener">Setup App</a></p>
+<p>在下载完成之后</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar gdx-setup.jar</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124181306.png" alt=""></p>
+<h2 id="创建项目模板"><a class="header-anchor" href="#创建项目模板">¶</a>创建项目模板</h2>
+<p>使用如下参数创建</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124181845.png" alt=""></p>
+<h2 id="导入项目-运行"><a class="header-anchor" href="#导入项目-运行">¶</a>导入项目 &amp; 运行</h2>
+<p>我们导入项目，然后使用 <code>Main</code> 执行运行，见到如下图所示，作为我们项目的基础</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124182136.png" alt=""></p>
+<h2 id="目标"><a class="header-anchor" href="#目标">¶</a>目标</h2>
+<p>我们做一个打飞机的小游戏</p>
+<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124182544.png" alt=""></p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
-        <category>java</category>
-        <category>网络编程</category>
-        <category>NIO</category>
+        <category>自学</category>
+        <category>Game</category>
       </categories>
+      <tags>
+        <tag>Game</tag>
+        <tag>自学</tag>
+      </tags>
   </entry>
   <entry>
     <title>Netty源码分析-(0)-预备知识</title>
@@ -5916,30 +5909,6 @@ for rapid development of maintainable high performance protocol servers &amp; cl
       </categories>
   </entry>
   <entry>
-    <title>Netty源码分析-(5)-其他</title>
-    <url>/2018/06/21/java/netty/netty-5-otherwise/</url>
-    <content><![CDATA[<h1>其他部分</h1>
-<p>Netty最为核心部分我们已经大致上了解完了，Netty中还有一些其他可能会问到的知识点，我们在这里一并提一下。</p>
-<a id="more"></a>
-<h2 id="epoll空转bug"><a class="header-anchor" href="#epoll空转bug">¶</a>epoll空转bug</h2>
-<p><a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6670302" target="_blank" rel="noopener">JDK-6670302 : (se) NIO selector wakes up with 0 selected keys infinitely [lnx 2.4]<br>
-</a> 这个Bug就是在Select阶段应该会阻塞的，但是JDK在实现调用系统底层函数，由于Epoll会获取不到任何时间，而Select又不断的在唤醒，最终导致CPU 100%</p>
-<blockquote>
-<p>在部分Linux的2.6的kernel中，poll和epoll对于突然中断的连接socket会对返回的eventSet事件集合置为POLLHUP，也可能是POLLERR，eventSet事件集合发生了变化，这就可能导致Selector会被唤醒。==》这是与操作系统机制有关系的，JDK虽然仅仅是一个兼容各个操作系统平台的软件，但很遗憾在JDK5和JDK6最初的版本中（严格意义上来将，JDK部分版本都是），这个问题并没有解决，而将这个帽子抛给了操作系统方，这也就是这个bug最终一直到2013年才最终修复的原因，最终影响力太广。</p>
-</blockquote>
-<p>Nett解决思路记录select空转的次数，定义一个阈值，这个阈值默认是512，可以在应用层通过设置系统属性io.netty.selectorAutoRebuldThreshold传入，当空转的次数超过了这个阈值，重新构建新Selector，将老Selector上注册的Channel转移到新建的Selector上，关闭老Selector，用新的Selector代替老Selector。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">select</span><span class="params">(<span class="keyword">boolean</span> oldWakenUp)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Selector selector = <span class="keyword">this</span>.selector;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> selectCnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> currentTimeNanos = System.nanoTime();</span><br><span class="line">        <span class="keyword">long</span> selectDeadLineNanos = currentTimeNanos + delayNanos(currentTimeNanos);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="comment">//略</span></span><br><span class="line">            <span class="keyword">if</span> (time - TimeUnit.MILLISECONDS.toNanos(timeoutMillis) &gt;= currentTimeNanos) &#123;</span><br><span class="line">                <span class="comment">// timeoutMillis elapsed without anything selected.</span></span><br><span class="line">                selectCnt = <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (SELECTOR_AUTO_REBUILD_THRESHOLD &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">                    selectCnt &gt;= SELECTOR_AUTO_REBUILD_THRESHOLD) &#123; ➊</span><br><span class="line">                rebuildSelector(); ➋</span><br><span class="line">                selector = <span class="keyword">this</span>.selector; ➌</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Select again to populate selectedKeys.</span></span><br><span class="line">                selector.selectNow();</span><br><span class="line">                selectCnt = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            currentTimeNanos = time;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CancelledKeyException e) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>➊ 处我们发现 当空转的次数超过 <code>SELECTOR_AUTO_REBUILD_THRESHOLD</code> 就会触发下面这个流程分支<br>
-➋ 在此处重建 Selector 在 <code>io.netty.channel.nio.NioEventLoop#rebuildSelector0</code><br>
-➌ 替换原有的 Selector</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>java</category>
-        <category>网络编程</category>
-        <category>Netty</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Netty源码分析-(伪)-(4)-ByteBuf</title>
     <url>/2018/06/21/java/netty/netty-4-bytebuf/</url>
     <content><![CDATA[
@@ -6000,6 +5969,67 @@ for rapid development of maintainable high performance protocol servers &amp; cl
         <category>java</category>
         <category>网络编程</category>
         <category>Netty</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Netty源码分析-(5)-其他</title>
+    <url>/2018/06/21/java/netty/netty-5-otherwise/</url>
+    <content><![CDATA[<h1>其他部分</h1>
+<p>Netty最为核心部分我们已经大致上了解完了，Netty中还有一些其他可能会问到的知识点，我们在这里一并提一下。</p>
+<a id="more"></a>
+<h2 id="epoll空转bug"><a class="header-anchor" href="#epoll空转bug">¶</a>epoll空转bug</h2>
+<p><a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6670302" target="_blank" rel="noopener">JDK-6670302 : (se) NIO selector wakes up with 0 selected keys infinitely [lnx 2.4]<br>
+</a> 这个Bug就是在Select阶段应该会阻塞的，但是JDK在实现调用系统底层函数，由于Epoll会获取不到任何时间，而Select又不断的在唤醒，最终导致CPU 100%</p>
+<blockquote>
+<p>在部分Linux的2.6的kernel中，poll和epoll对于突然中断的连接socket会对返回的eventSet事件集合置为POLLHUP，也可能是POLLERR，eventSet事件集合发生了变化，这就可能导致Selector会被唤醒。==》这是与操作系统机制有关系的，JDK虽然仅仅是一个兼容各个操作系统平台的软件，但很遗憾在JDK5和JDK6最初的版本中（严格意义上来将，JDK部分版本都是），这个问题并没有解决，而将这个帽子抛给了操作系统方，这也就是这个bug最终一直到2013年才最终修复的原因，最终影响力太广。</p>
+</blockquote>
+<p>Nett解决思路记录select空转的次数，定义一个阈值，这个阈值默认是512，可以在应用层通过设置系统属性io.netty.selectorAutoRebuldThreshold传入，当空转的次数超过了这个阈值，重新构建新Selector，将老Selector上注册的Channel转移到新建的Selector上，关闭老Selector，用新的Selector代替老Selector。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">select</span><span class="params">(<span class="keyword">boolean</span> oldWakenUp)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Selector selector = <span class="keyword">this</span>.selector;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> selectCnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> currentTimeNanos = System.nanoTime();</span><br><span class="line">        <span class="keyword">long</span> selectDeadLineNanos = currentTimeNanos + delayNanos(currentTimeNanos);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="comment">//略</span></span><br><span class="line">            <span class="keyword">if</span> (time - TimeUnit.MILLISECONDS.toNanos(timeoutMillis) &gt;= currentTimeNanos) &#123;</span><br><span class="line">                <span class="comment">// timeoutMillis elapsed without anything selected.</span></span><br><span class="line">                selectCnt = <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (SELECTOR_AUTO_REBUILD_THRESHOLD &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">                    selectCnt &gt;= SELECTOR_AUTO_REBUILD_THRESHOLD) &#123; ➊</span><br><span class="line">                rebuildSelector(); ➋</span><br><span class="line">                selector = <span class="keyword">this</span>.selector; ➌</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Select again to populate selectedKeys.</span></span><br><span class="line">                selector.selectNow();</span><br><span class="line">                selectCnt = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            currentTimeNanos = time;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CancelledKeyException e) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>➊ 处我们发现 当空转的次数超过 <code>SELECTOR_AUTO_REBUILD_THRESHOLD</code> 就会触发下面这个流程分支<br>
+➋ 在此处重建 Selector 在 <code>io.netty.channel.nio.NioEventLoop#rebuildSelector0</code><br>
+➌ 替换原有的 Selector</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+        <category>网络编程</category>
+        <category>Netty</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Java网络编程-(1)-NIO基础</title>
+    <url>/2018/05/07/java/nio/java-nio-1-basic/</url>
+    <content><![CDATA[<h2 id="Java-BIO"><a class="header-anchor" href="#Java-BIO">¶</a>Java BIO</h2>
+<p>传统的网络模式是BIO的模式<br>
+<img src="http://tutorials.jenkov.com/images/java-nio/nio-vs-io-1.png" alt="BIO"></p>
+<p>我们发现BIO编程模型中最为致命的部分就是 我们需要为 <strong>Stream</strong> 使用一个 <strong>Thread</strong>。<br>
+所以在JDK1.6中引入了NIO，优化这一部分。</p>
+<a id="more"></a>
+<h2 id="Java-NIO"><a class="header-anchor" href="#Java-NIO">¶</a>Java NIO</h2>
+<p>NIO 的网络模型对比BIO模式，主要采用 <strong>面向缓存</strong> 的方式。<br>
+<img src="https://image.slidesharecdn.com/javanio2final1-160607115222/95/java-nio2-7-638.jpg?cb=1465300539" alt="NIO"></p>
+<h2 id="Java-NIO-编程抽象"><a class="header-anchor" href="#Java-NIO-编程抽象">¶</a>Java NIO 编程抽象</h2>
+<p>Java将NIO抽象为三个模型 <code>Channels</code> <code>Buffers</code> <code>Selectors</code></p>
+<ul>
+<li>Channels: 提供Buffers的读写能力</li>
+<li>Buffers: 面向缓存的数据</li>
+<li>Selectors: 选择器</li>
+</ul>
+<p>Selector 可以让一个线程处理多个 Channels<br>
+<img src="http://tutorials.jenkov.com/images/java-nio/overview-selectors.png" alt="overview-selectors"></p>
+<p>关于Channels，如果我一点Linux编程的经验，我们应该也会猜测出Channel中是储存具体的FD（文件句柄）。<br>
+<img src="http://tutorials.jenkov.com/images/java-nio/overview-channels-buffers.png" alt="overview-channels-buffers"></p>
+<h2 id="Java-NIO-的编程模版"><a class="header-anchor" href="#Java-NIO-的编程模版">¶</a>Java NIO 的编程模版</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SelectableChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SelectionKey;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.Selector;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.ServerSocketChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SocketChannel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.swing.text.html.HTMLDocument.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Simple echo-back server which listens for incoming stream connections and</span></span><br><span class="line"><span class="comment">* echoes back whatever it reads. A single Selector object is used to listen to</span></span><br><span class="line"><span class="comment">* the server socket (to accept new connections) and all the active socket</span></span><br><span class="line"><span class="comment">* channels.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> zale (zalezone.cn)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectSockets</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> PORT_NUMBER = <span class="number">1234</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] argv)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> SelectSockets().go(argv);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">go</span><span class="params">(String[] argv)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> port = PORT_NUMBER;</span><br><span class="line">        <span class="keyword">if</span> (argv.length &gt; <span class="number">0</span>)</span><br><span class="line">        &#123; <span class="comment">// 覆盖默认的监听端口</span></span><br><span class="line">            port = Integer.parseInt(argv[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"Listening on port "</span> + port);</span><br><span class="line">        ServerSocketChannel serverChannel = ServerSocketChannel.open();<span class="comment">// 打开一个未绑定的serversocketchannel</span></span><br><span class="line">        ServerSocket serverSocket = serverChannel.socket();<span class="comment">// 得到一个ServerSocket去和它绑定</span></span><br><span class="line">        Selector selector = Selector.open();<span class="comment">// 创建一个Selector供下面使用</span></span><br><span class="line">        serverSocket.bind(<span class="keyword">new</span> InetSocketAddress(port));<span class="comment">//设置server channel将会监听的端口</span></span><br><span class="line">        serverChannel.configureBlocking(<span class="keyword">false</span>);<span class="comment">//设置非阻塞模式</span></span><br><span class="line">        serverChannel.register(selector, SelectionKey.OP_ACCEPT);<span class="comment">//将ServerSocketChannel注册到Selector</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// This may block for a long time. Upon returning, the</span></span><br><span class="line">            <span class="comment">// selected set contains keys of the ready channels.</span></span><br><span class="line">            <span class="keyword">int</span> n = selector.select();</span><br><span class="line">            <span class="keyword">if</span> (n == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>; <span class="comment">// nothing to do</span></span><br><span class="line">            &#125;           </span><br><span class="line">            java.util.Iterator&lt;SelectionKey&gt; it = selector.selectedKeys().iterator();<span class="comment">// Get an iterator over the set of selected keys</span></span><br><span class="line">            <span class="comment">//在被选择的set中遍历全部的key</span></span><br><span class="line">            <span class="keyword">while</span> (it.hasNext())</span><br><span class="line">            &#123;</span><br><span class="line">                SelectionKey key = (SelectionKey) it.next();</span><br><span class="line">                <span class="comment">// 判断是否是一个连接到来</span></span><br><span class="line">                <span class="keyword">if</span> (key.isAcceptable())</span><br><span class="line">                &#123;</span><br><span class="line">                    ServerSocketChannel server =(ServerSocketChannel) key.channel();</span><br><span class="line">                    SocketChannel channel = server.accept();</span><br><span class="line">                    registerChannel(selector, channel,SelectionKey.OP_READ);<span class="comment">//注册读事件</span></span><br><span class="line">                    sayHello(channel);<span class="comment">//对连接进行处理</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//判断这个channel上是否有数据要读</span></span><br><span class="line">                <span class="keyword">if</span> (key.isReadable())</span><br><span class="line">                &#123;</span><br><span class="line">                    readDataFromSocket(key);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//从selected set中移除这个key，因为它已经被处理过了</span></span><br><span class="line">                it.remove();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ----------------------------------------------------------</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Register the given channel with the given selector for the given</span></span><br><span class="line"><span class="comment">    * operations of interest</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">registerChannel</span><span class="params">(Selector selector,SelectableChannel channel, <span class="keyword">int</span> ops)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (channel == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>; <span class="comment">// 可能会发生</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 设置通道为非阻塞</span></span><br><span class="line">        channel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// 将通道注册到选择器上</span></span><br><span class="line">        channel.register(selector, ops);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ----------------------------------------------------------</span></span><br><span class="line">    <span class="comment">// Use the same byte buffer for all channels. A single thread is</span></span><br><span class="line">    <span class="comment">// servicing all the channels, so no danger of concurrent acccess.</span></span><br><span class="line">    <span class="comment">//对所有的通道使用相同的缓冲区。单线程为所有的通道进行服务，所以并发访问没有风险</span></span><br><span class="line">    <span class="keyword">private</span> ByteBuffer buffer = ByteBuffer.allocateDirect(<span class="number">1024</span>);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Sample data handler method for a channel with data ready to read.</span></span><br><span class="line"><span class="comment">    * 对于一个准备读入数据的通道的简单的数据处理方法</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    A SelectionKey object associated with a channel determined by</span></span><br><span class="line"><span class="comment">    the selector to be ready for reading. If the channel returns</span></span><br><span class="line"><span class="comment">    an EOF condition, it is closed here, which automatically</span></span><br><span class="line"><span class="comment">    invalidates the associated key. The selector will then</span></span><br><span class="line"><span class="comment">    de-register the channel on the next select call.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    一个选择器决定了和通道关联的SelectionKey object是准备读状态。如果通道返回EOF，通道将被关闭。</span></span><br><span class="line"><span class="comment">    并且会自动使相关的key失效，选择器然后会在下一次的select call时取消掉通道的注册</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">readDataFromSocket</span><span class="params">(SelectionKey key)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        SocketChannel socketChannel = (SocketChannel) key.channel();</span><br><span class="line">        <span class="keyword">int</span> count;</span><br><span class="line">        buffer.clear(); <span class="comment">// 清空Buffer</span></span><br><span class="line">        <span class="comment">// Loop while data is available; channel is nonblocking</span></span><br><span class="line">        <span class="comment">//当可以读到数据时一直循环，通道为非阻塞</span></span><br><span class="line">        <span class="keyword">while</span> ((count = socketChannel.read(buffer)) &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            buffer.flip(); <span class="comment">// 将缓冲区置为可读</span></span><br><span class="line">            <span class="comment">// Send the data; don't assume it goes all at once</span></span><br><span class="line">            <span class="comment">//发送数据，不要期望能一次将数据发送完</span></span><br><span class="line">            <span class="keyword">while</span> (buffer.hasRemaining())</span><br><span class="line">            &#123;</span><br><span class="line">                socketChannel.write(buffer);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// WARNING: the above loop is evil. Because</span></span><br><span class="line">            <span class="comment">// it's writing back to the same nonblocking</span></span><br><span class="line">            <span class="comment">// channel it read the data from, this code can</span></span><br><span class="line">            <span class="comment">// potentially spin in a busy loop. In real life</span></span><br><span class="line">            <span class="comment">// you'd do something more useful than this.</span></span><br><span class="line">            <span class="comment">//这里的循环是无意义的，具体按实际情况而定</span></span><br><span class="line">            buffer.clear(); <span class="comment">// Empty buffer</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (count &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Close channel on EOF, invalidates the key</span></span><br><span class="line">            <span class="comment">//读取结束后关闭通道，使key失效</span></span><br><span class="line">            socketChannel.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ----------------------------------------------------------</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Spew a greeting to the incoming client connection.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> channel</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    The newly connected SocketChannel to say hello to.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(SocketChannel channel)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        buffer.clear();</span><br><span class="line">        buffer.put(<span class="string">"Hi there!\r\n"</span>.getBytes());</span><br><span class="line">        buffer.flip();</span><br><span class="line">        channel.write(buffer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a class="header-anchor" href="#参考资料">¶</a>参考资料</h2>
+<ol>
+<li><a href="http://tutorials.jenkov.com/java-nio/index.html" target="_blank" rel="noopener">Java NIO Tutorial</a></li>
+<li><a href="http://www.importnew.com/22623.html" target="_blank" rel="noopener">java NIO详解</a></li>
+</ol>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+        <category>网络编程</category>
+        <category>NIO</category>
       </categories>
   </entry>
   <entry>
@@ -6467,77 +6497,6 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
       </categories>
   </entry>
   <entry>
-    <title>写给 Java 开发者的 Kotlin 教程 (5) - Null对象与类型安全</title>
-    <url>/2018/07/17/kotlin/easy-way-to-kotlin-for-java-proggamer/null-type/</url>
-    <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/17/PlWoad.png" alt="banner"></p>
-<p>Kotlin 的类型系统旨在消除来自代码空引用的危险,许多编程语言（包括 <code>Java</code>）中最常见的陷阱之一，就是访问空引用的成员会导致空引用异常。在 <code>Java</code> 中，这等同于 <code>NullPointerException</code> 或简称 <code>NPE</code> 。</p>
-<a id="more"></a>
-<h2 id="一件趣事"><a class="header-anchor" href="#一件趣事">¶</a>一件趣事</h2>
-<blockquote>
-<p>“我把 Null 引用称为自己的十亿美元错误。它的发明是在1965 年，那时我用一个面向对象语言( ALGOL W )设计了第一个全面的引用类型系统。我的目的是确保所有引用的使用都是绝对安全的，编译器会自动进行检查。但是我未能抵御住诱惑，加入了Null引用，仅仅是因为实现起来非常容易。它导致了数不清的错误、漏洞和系统崩溃，可能在之后 40 年中造成了十亿美元的损失。近年来，大家开始使用各种程序分析程序，比如微软的 PREfix 和 PREfast 来检查引用，如果存在为非 Null 的风险时就提出警告。更新的程序设计语言比如 Spec# 已经引入了非 Null 引用的声明。这正是我在1965年拒绝的解决方案。”<br>
-—— 《Null References: The Billion Dollar Mistake》托尼·霍尔（Tony Hoare），图灵奖得主</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2018/07/17/PlWqRP.md.png" alt=""></p>
-<h2 id="Null的错误"><a class="header-anchor" href="#Null的错误">¶</a>Null的错误</h2>
-<p>简单来说：NULL 是一个不是值的值，而它现在有很多名字：NULL、nil、null、None、Nothing、Nil 和 nullptr。每种语言都有自己的细微差别。<code>Null</code> 有很多缺点，我们细数下罪状。</p>
-<h3 id="类型检测失败"><a class="header-anchor" href="#类型检测失败">¶</a>类型检测失败</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 Java 中，如果我编写 x.Length()，编译器会检查 x 的类型。如果 x 是一个 String，那么类型检查成功；</p>
-<p>如果 x 是一个 Socket，那么类型检查失败，编译时检查存在一个致命缺陷：任何引用都可以是 null，而调用一个 null 对象的方法会产生一个 NullPointerException。</p>
-<p>所以 <code>null.Length()</code> 会抛出一个 <code>NullPointerException</code> 而和原本的类型系统冲突，因为 <code>NULL</code> 超出了类型检查的范围。越过类型检查，运行时会给你一个巨大的惊喜。解决这种问题我们一般会选择 <code>入参检测</code> 来让错误尽早的暴露出来。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    Validate.nonNull(input, <span class="string">"input must be not null"</span>);</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="NULL-是一个特例"><a class="header-anchor" href="#NULL-是一个特例">¶</a>NULL 是一个特例</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">UserVo <span class="title">getUser</span><span class="params">(Long id)</span></span>&#123;</span><br><span class="line">    <span class="comment">//略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个函数定义中，返回值会有三种可能 <code>UserVo</code> <code>null</code> <code>Expection</code>， 而我们在 获取 <code>null</code> 值的时候，我们不知道是因为 <code>ID</code> 不对，还是其他其他问题，甚至于在实践阶段，我们可能赋予 <code>null</code>返回是一个特殊的情况，在外部应该给予处理。</p>
-<p>除此之外 <code>Null</code>还有</p>
-<ul>
-<li><code>NULL</code> 难以调试</li>
-<li><code>NULL</code> 使我们需要进行大量的 <code>IF</code> 判断</li>
-<li><code>NULL</code> 存储在数据结构中，导致数据意义失效</li>
-</ul>
-<h2 id="Kotlin-解决之道"><a class="header-anchor" href="#Kotlin-解决之道">¶</a>Kotlin 解决之道</h2>
-<p>在 <code>Java 1.8</code> 之前我们使用使用 <code>Guava</code> 的 <code>Optional</code> 对，<code>1.8</code> 之后我们使用内置数据结构。<br>
-在 <code>Kotlin</code> 中，我们使用 <code>类型系统</code> 来帮助我们。</p>
-<div class="tabs" id="null"><ul class="nav-tabs"><li class="tab active"><a href="#null-1">nonNull</a></li><li class="tab"><a href="#null-2">nullable</a></li></ul><div class="tab-content"><div class="tab-pane active" id="null-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a: String = <span class="string">"abc"</span></span><br><span class="line">a = <span class="literal">null</span> <span class="comment">// 编译错误</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="null-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b = <span class="literal">null</span> <span class="comment">// ok</span></span><br></pre></td></tr></table></figure></div></div></div>
-<p>看出来了吗？我们使用 <code>类型系统</code> 区分一个引用可以为 null 还是不能容纳。这个时候我们如果访问其中的函数或变量</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = b.length <span class="comment">// 错误：变量“b”可能为空</span></span><br></pre></td></tr></table></figure>
-<p>那我们如何去访问这个对象的函数呢？有以下几种方式</p>
-<h3 id="在条件中检查-null"><a class="header-anchor" href="#在条件中检查-null">¶</a>在条件中检查 null</h3>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = <span class="keyword">if</span> (b != <span class="literal">null</span>) b.length <span class="keyword">else</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h3 id="安全调用"><a class="header-anchor" href="#安全调用">¶</a>安全调用</h3>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b?.length</span><br></pre></td></tr></table></figure>
-<p>这里需要注意 如果 <code>b</code> 非空，就返回 <code>b.length</code>，否则返回 <code>null</code>，这个表达式的返回值是 <code>Int?</code> 类型。<br>
-而且我们可以采用 <code>链式调用</code></p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">bob?.department?.head?.name</span><br></pre></td></tr></table></figure>
-<h3 id="Elvis-操作符"><a class="header-anchor" href="#Elvis-操作符">¶</a>Elvis 操作符</h3>
-<p>我们都在 <code>Optional</code> 对象往往有这种的操作</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;String&gt; someOpt;</span><br><span class="line">String unwrap = someOpt.orElse(<span class="string">"Default"</span>);</span><br></pre></td></tr></table></figure>
-<p>而在 <code>Kotlin</code> 我们可以如下操作</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b?.length ?: -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h2 id="操作符"><a class="header-anchor" href="#操作符">¶</a>!! 操作符</h2>
-<p>非空断言运算符（!!）将任何值转换为非空类型</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b!!.length  <span class="comment">//如果 b 为空，就会抛出一个 NPE 异常</span></span><br></pre></td></tr></table></figure>
-<h3 id="题外话"><a class="header-anchor" href="#题外话">¶</a>题外话</h3>
-<p>在大量的第三类库中</p>
-<ul>
-<li><code>Guava</code> 宣称在 <code>95%</code> 的代码处没有 <code>null</code></li>
-<li><code>Lombok</code> 有一个注解 <code>@Nonull</code> 可以在生成代码中检测是否为空</li>
-<li><code>Spring JPA</code> 在 <code>Reposity</code> 定义中全面支持 <code>Optional</code></li>
-</ul>
-<p><code>Nonull</code> 设计已经算是在 <code>Java</code> 领域非常成功的设计了，希望大家早日上船。</p>
-<h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
-<ul>
-<li><a href="http://blog.jobbole.com/93667/" target="_blank" rel="noopener">计算机科学中的最严重错误，造成十亿美元损失</a></li>
-<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/null-safety.html" target="_blank" rel="noopener">null-safety</a></li>
-<li><a href="http://www.baeldung.com/java-optional" target="_blank" rel="noopener">java-optional</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>kotlin</category>
-        <category>easy-way-to-kotlin-for-java-programer</category>
-      </categories>
-  </entry>
-  <entry>
     <title>写给 Java 开发者的 Kotlin 教程 (1) - 概述</title>
     <url>/2018/07/09/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-overview-installation-setup/</url>
     <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/10/PnH1S0.png" alt="start"></p>
@@ -6607,6 +6566,77 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <li><a href="https://www.callicoder.com/kotlin-overview-installation-setup/" target="_blank" rel="noopener">kotlin-overview-installation-setup</a></li>
 <li><a href="http://blog.teamtreehouse.com/absolute-beginners-guide-kotlin" target="_blank" rel="noopener">absolute-beginners-guide-kotlin</a></li>
 <li><a href="https://www.tutorialkart.com/kotlin-tutorial/" target="_blank" rel="noopener">Kotlin Tutorial</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>kotlin</category>
+        <category>easy-way-to-kotlin-for-java-programer</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>写给 Java 开发者的 Kotlin 教程 (5) - Null对象与类型安全</title>
+    <url>/2018/07/17/kotlin/easy-way-to-kotlin-for-java-proggamer/null-type/</url>
+    <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/17/PlWoad.png" alt="banner"></p>
+<p>Kotlin 的类型系统旨在消除来自代码空引用的危险,许多编程语言（包括 <code>Java</code>）中最常见的陷阱之一，就是访问空引用的成员会导致空引用异常。在 <code>Java</code> 中，这等同于 <code>NullPointerException</code> 或简称 <code>NPE</code> 。</p>
+<a id="more"></a>
+<h2 id="一件趣事"><a class="header-anchor" href="#一件趣事">¶</a>一件趣事</h2>
+<blockquote>
+<p>“我把 Null 引用称为自己的十亿美元错误。它的发明是在1965 年，那时我用一个面向对象语言( ALGOL W )设计了第一个全面的引用类型系统。我的目的是确保所有引用的使用都是绝对安全的，编译器会自动进行检查。但是我未能抵御住诱惑，加入了Null引用，仅仅是因为实现起来非常容易。它导致了数不清的错误、漏洞和系统崩溃，可能在之后 40 年中造成了十亿美元的损失。近年来，大家开始使用各种程序分析程序，比如微软的 PREfix 和 PREfast 来检查引用，如果存在为非 Null 的风险时就提出警告。更新的程序设计语言比如 Spec# 已经引入了非 Null 引用的声明。这正是我在1965年拒绝的解决方案。”<br>
+—— 《Null References: The Billion Dollar Mistake》托尼·霍尔（Tony Hoare），图灵奖得主</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2018/07/17/PlWqRP.md.png" alt=""></p>
+<h2 id="Null的错误"><a class="header-anchor" href="#Null的错误">¶</a>Null的错误</h2>
+<p>简单来说：NULL 是一个不是值的值，而它现在有很多名字：NULL、nil、null、None、Nothing、Nil 和 nullptr。每种语言都有自己的细微差别。<code>Null</code> 有很多缺点，我们细数下罪状。</p>
+<h3 id="类型检测失败"><a class="header-anchor" href="#类型检测失败">¶</a>类型检测失败</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Java 中，如果我编写 x.Length()，编译器会检查 x 的类型。如果 x 是一个 String，那么类型检查成功；</p>
+<p>如果 x 是一个 Socket，那么类型检查失败，编译时检查存在一个致命缺陷：任何引用都可以是 null，而调用一个 null 对象的方法会产生一个 NullPointerException。</p>
+<p>所以 <code>null.Length()</code> 会抛出一个 <code>NullPointerException</code> 而和原本的类型系统冲突，因为 <code>NULL</code> 超出了类型检查的范围。越过类型检查，运行时会给你一个巨大的惊喜。解决这种问题我们一般会选择 <code>入参检测</code> 来让错误尽早的暴露出来。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">(String input)</span></span>&#123;</span><br><span class="line">    Validate.nonNull(input, <span class="string">"input must be not null"</span>);</span><br><span class="line">    <span class="keyword">return</span> input.Length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="NULL-是一个特例"><a class="header-anchor" href="#NULL-是一个特例">¶</a>NULL 是一个特例</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">UserVo <span class="title">getUser</span><span class="params">(Long id)</span></span>&#123;</span><br><span class="line">    <span class="comment">//略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个函数定义中，返回值会有三种可能 <code>UserVo</code> <code>null</code> <code>Expection</code>， 而我们在 获取 <code>null</code> 值的时候，我们不知道是因为 <code>ID</code> 不对，还是其他其他问题，甚至于在实践阶段，我们可能赋予 <code>null</code>返回是一个特殊的情况，在外部应该给予处理。</p>
+<p>除此之外 <code>Null</code>还有</p>
+<ul>
+<li><code>NULL</code> 难以调试</li>
+<li><code>NULL</code> 使我们需要进行大量的 <code>IF</code> 判断</li>
+<li><code>NULL</code> 存储在数据结构中，导致数据意义失效</li>
+</ul>
+<h2 id="Kotlin-解决之道"><a class="header-anchor" href="#Kotlin-解决之道">¶</a>Kotlin 解决之道</h2>
+<p>在 <code>Java 1.8</code> 之前我们使用使用 <code>Guava</code> 的 <code>Optional</code> 对，<code>1.8</code> 之后我们使用内置数据结构。<br>
+在 <code>Kotlin</code> 中，我们使用 <code>类型系统</code> 来帮助我们。</p>
+<div class="tabs" id="null"><ul class="nav-tabs"><li class="tab active"><a href="#null-1">nonNull</a></li><li class="tab"><a href="#null-2">nullable</a></li></ul><div class="tab-content"><div class="tab-pane active" id="null-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a: String = <span class="string">"abc"</span></span><br><span class="line">a = <span class="literal">null</span> <span class="comment">// 编译错误</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="null-2"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b = <span class="literal">null</span> <span class="comment">// ok</span></span><br></pre></td></tr></table></figure></div></div></div>
+<p>看出来了吗？我们使用 <code>类型系统</code> 区分一个引用可以为 null 还是不能容纳。这个时候我们如果访问其中的函数或变量</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = b.length <span class="comment">// 错误：变量“b”可能为空</span></span><br></pre></td></tr></table></figure>
+<p>那我们如何去访问这个对象的函数呢？有以下几种方式</p>
+<h3 id="在条件中检查-null"><a class="header-anchor" href="#在条件中检查-null">¶</a>在条件中检查 null</h3>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line"><span class="keyword">val</span> l = <span class="keyword">if</span> (b != <span class="literal">null</span>) b.length <span class="keyword">else</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="安全调用"><a class="header-anchor" href="#安全调用">¶</a>安全调用</h3>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> b: String? = <span class="string">"abc"</span></span><br><span class="line">b?.length</span><br></pre></td></tr></table></figure>
+<p>这里需要注意 如果 <code>b</code> 非空，就返回 <code>b.length</code>，否则返回 <code>null</code>，这个表达式的返回值是 <code>Int?</code> 类型。<br>
+而且我们可以采用 <code>链式调用</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">bob?.department?.head?.name</span><br></pre></td></tr></table></figure>
+<h3 id="Elvis-操作符"><a class="header-anchor" href="#Elvis-操作符">¶</a>Elvis 操作符</h3>
+<p>我们都在 <code>Optional</code> 对象往往有这种的操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Optional&lt;String&gt; someOpt;</span><br><span class="line">String unwrap = someOpt.orElse(<span class="string">"Default"</span>);</span><br></pre></td></tr></table></figure>
+<p>而在 <code>Kotlin</code> 我们可以如下操作</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b?.length ?: -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="操作符"><a class="header-anchor" href="#操作符">¶</a>!! 操作符</h2>
+<p>非空断言运算符（!!）将任何值转换为非空类型</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> l = b!!.length  <span class="comment">//如果 b 为空，就会抛出一个 NPE 异常</span></span><br></pre></td></tr></table></figure>
+<h3 id="题外话"><a class="header-anchor" href="#题外话">¶</a>题外话</h3>
+<p>在大量的第三类库中</p>
+<ul>
+<li><code>Guava</code> 宣称在 <code>95%</code> 的代码处没有 <code>null</code></li>
+<li><code>Lombok</code> 有一个注解 <code>@Nonull</code> 可以在生成代码中检测是否为空</li>
+<li><code>Spring JPA</code> 在 <code>Reposity</code> 定义中全面支持 <code>Optional</code></li>
+</ul>
+<p><code>Nonull</code> 设计已经算是在 <code>Java</code> 领域非常成功的设计了，希望大家早日上船。</p>
+<h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
+<ul>
+<li><a href="http://blog.jobbole.com/93667/" target="_blank" rel="noopener">计算机科学中的最严重错误，造成十亿美元损失</a></li>
+<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/null-safety.html" target="_blank" rel="noopener">null-safety</a></li>
+<li><a href="http://www.baeldung.com/java-optional" target="_blank" rel="noopener">java-optional</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
@@ -7151,36 +7181,6 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
         <tag>rust</tag>
         <tag>pingcap</tag>
         <tag>talent-plan</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Learn By Game&amp;#58 01 环境准备</title>
-    <url>/2021/01/24/game/learn-by-game/learn-by-game-01/</url>
-    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124180700.png" alt=""></p>
-<p>因为女票只想使用 <code>Java</code> 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。</p>
-<a id="more"></a>
-<h2 id="环境准备"><a class="header-anchor" href="#环境准备">¶</a>环境准备</h2>
-<p><code>Java</code> 届最出名的游戏框架显然是 <a href="https://libgdx.badlogicgames.com/download.html" target="_blank" rel="noopener">libGDX</a>，我们从 <a href="https://libgdx.badlogicgames.com/download.html" target="_blank" rel="noopener">download</a> 下载 <a href="https://libgdx.badlogicgames.com/nightlies/dist/gdx-setup.jar" target="_blank" rel="noopener">Setup App</a></p>
-<p>在下载完成之后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar gdx-setup.jar</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124181306.png" alt=""></p>
-<h2 id="创建项目模板"><a class="header-anchor" href="#创建项目模板">¶</a>创建项目模板</h2>
-<p>使用如下参数创建</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124181845.png" alt=""></p>
-<h2 id="导入项目-运行"><a class="header-anchor" href="#导入项目-运行">¶</a>导入项目 &amp; 运行</h2>
-<p>我们导入项目，然后使用 <code>Main</code> 执行运行，见到如下图所示，作为我们项目的基础</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124182136.png" alt=""></p>
-<h2 id="目标"><a class="header-anchor" href="#目标">¶</a>目标</h2>
-<p>我们做一个打飞机的小游戏</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210124182544.png" alt=""></p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>自学</category>
-        <category>Game</category>
-      </categories>
-      <tags>
-        <tag>Game</tag>
-        <tag>自学</tag>
       </tags>
   </entry>
   <entry>
@@ -8086,6 +8086,93 @@ myChart.setOption(option, true);
       </categories>
   </entry>
   <entry>
+    <title>写给 Java 开发者的 Kotlin 教程 (6) - 函数基础</title>
+    <url>/2018/07/22/kotlin/easy-way-to-kotlin-for-java-proggamer/functions/</url>
+    <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/22/PGJYwT.png" alt="kotlin functions"><br>
+函数是构成软件的基础块。我们今天就开始 <code>Kotlin</code> 旅程的第二站 - <code>函数</code></p>
+<a id="more"></a>
+<h2 id="函数定义"><a class="header-anchor" href="#函数定义">¶</a>函数定义</h2>
+<p>我们都知道函数的本质也就是接受一些东西然后吐出一些东西，那最为重要的是 <code>入参</code>，<code>出惨</code>，然后又知道 <code>Kotlin</code> 是一门静态语言，那类型又很重要，那我们来看看 <code>Kotlin</code> 是如何申明函数的。</p>
+<div class="tabs" id="for-function-def"><ul class="nav-tabs"><li class="tab active"><a href="#for-function-def-1">Kotlin 函数定义</a></li><li class="tab"><a href="#for-function-def-2">Java 函数定义</a></li></ul><div class="tab-content"><div class="tab-pane active" id="for-function-def-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">avg</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span>: <span class="built_in">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span>  (a + b)/<span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="for-function-def-2"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Double <span class="title">avg</span><span class="params">(Double a, Double b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (a + b) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+<p>和 <code>Java</code> 略有不同</p>
+<ul>
+<li><code>Kotlin</code> 申明函数使用关键字 <code>fun</code></li>
+<li><code>Kotlin</code> 的<code>入参</code>类型是<code>后置</code>的</li>
+<li><code>Kotlin</code> 的<code>出参</code>类型是<code>后置</code>的</li>
+</ul>
+<p>所以我们通常定义一个函数都会使用以下的格式</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">functionName</span><span class="params">(param1: <span class="type">Type1</span>, param2: <span class="type">Type2</span>,..., paramN: <span class="type">TypeN</span>)</span></span>: Type &#123;</span><br><span class="line">	<span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="单行函数定义"><a class="header-anchor" href="#单行函数定义">¶</a>单行函数定义</h3>
+<p>和 <code>java</code> 略有不同，<code>kotlin</code> 有一些特殊的函数格式比如 <code>单行函数</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">avg</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span> = (a + b)/<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Unit-类型"><a class="header-anchor" href="#Unit-类型">¶</a>Unit 类型</h3>
+<p>如果希望函数无返回值，可以采用 <code>Unit</code> 作为返回类型，这个和 <code>java</code> 的 <code>void</code> 一个含义</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printAverage</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span>: <span class="built_in">Unit</span> &#123;</span><br><span class="line">    println(<span class="string">"Avg of (<span class="variable">$a</span>, <span class="variable">$b</span>) = <span class="subst">$&#123;(a + b)/<span class="number">2</span>&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，默认如果这里不填写任何类型，默认即是 <code>Unit</code>，下面的代码和上面等价</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printAverage</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"Avg of (<span class="variable">$a</span>, <span class="variable">$b</span>) = <span class="subst">$&#123;(a + b)/<span class="number">2</span>&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="函数特性"><a class="header-anchor" href="#函数特性">¶</a>函数特性</h2>
+<h3 id="函数默认参数"><a class="header-anchor" href="#函数默认参数">¶</a>函数默认参数</h3>
+<p><code>Kotlin</code> 借鉴其他语言的实现，也支持函数的默认参数值。如下</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">displayGreeting</span><span class="params">(message: <span class="type">String</span>, name: <span class="type">String</span> = <span class="string">"Guest"</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"Hello <span class="variable">$name</span>, <span class="variable">$message</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以这样调用这个<code>函数</code></p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">displayGreeting(<span class="string">"Welcome to the Yann Blog"</span>, <span class="string">"John"</span>) </span><br><span class="line"><span class="comment">// Hello John, Welcome to the Yann Blog</span></span><br><span class="line">displayGreeting(<span class="string">"Welcome to the Yann Blog"</span>) </span><br><span class="line"><span class="comment">// Hello Guest, Welcome to the Yann Blog</span></span><br></pre></td></tr></table></figure>
+<p>考虑以下的定义</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">arithmeticSeriesSum</span><span class="params">(a: <span class="type">Int</span> = <span class="number">1</span>, n: <span class="type">Int</span>, d: <span class="type">Int</span> = <span class="number">1</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> n/<span class="number">2</span> * (<span class="number">2</span>*a + (n-<span class="number">1</span>)*d)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们尝试用下面的方式调用，我们会发现失败</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">arithmeticSeriesSum(<span class="number">10</span>) <span class="comment">// error: 缺少参数</span></span><br></pre></td></tr></table></figure>
+<p>因为我们的参数只能自左向右的传递入函数，所以我们可以这样调用</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">arithmeticSeriesSum(<span class="number">1</span>, <span class="number">10</span>)  <span class="comment">// 结果 = 55</span></span><br></pre></td></tr></table></figure>
+<p>所以我们在申明函数的时候，尽可能的将带默认值的参数放在函数的右侧。</p>
+<h3 id="命名参数"><a class="header-anchor" href="#命名参数">¶</a>命名参数</h3>
+<p>我们经常在 <code>Python</code> 的代码中看见，如下的定义</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">named_function</span><span class="params">(a, b=<span class="number">20</span>, c=<span class="number">10</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line">named_function(<span class="number">10</span>, c=<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+<p>这种称之为 <code>Named Arguments</code>，<code>Kotlin</code> 也可以做到如何</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">arithmeticSeriesSum</span><span class="params">(a: <span class="type">Int</span> = <span class="number">1</span>, n: <span class="type">Int</span>, d: <span class="type">Int</span> = <span class="number">1</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> n/<span class="number">2</span> * (<span class="number">2</span>*a + (n-<span class="number">1</span>)*d)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">arithmeticSeriesSum(n=<span class="number">10</span>)  <span class="comment">// 结果 = 55</span></span><br><span class="line">arithmeticSeriesSum(n=<span class="number">10</span>, d=<span class="number">2</span>, a=<span class="number">3</span>) <span class="comment">//OK</span></span><br><span class="line">arithmeticSeriesSum(n=<span class="number">10</span>, <span class="number">2</span>) <span class="comment">//EROOR</span></span><br></pre></td></tr></table></figure>
+<p>注意最后一种方式不被允许了，原因也很简单，因为一旦命名了，我们就无法得知后续的参数应该从哪里开始。</p>
+<h3 id="可变参数"><a class="header-anchor" href="#可变参数">¶</a>可变参数</h3>
+<p>和 <code>Java</code> 不同<code>Kotlin</code>采用一种特殊的关键字 <code>vararg</code> 来申明可变参数</p>
+<div class="tabs" id="for-varargs"><ul class="nav-tabs"><li class="tab active"><a href="#for-varargs-1">Kotlin 可变参数</a></li><li class="tab"><a href="#for-varargs-2">Java 可变参数</a></li></ul><div class="tab-content"><div class="tab-pane active" id="for-varargs-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sumOfNumbers</span><span class="params">(<span class="keyword">vararg</span> numbers: <span class="type">Double</span>)</span></span>: <span class="built_in">Double</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sum: <span class="built_in">Double</span> = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span>(number <span class="keyword">in</span> numbers) &#123;</span><br><span class="line">        sum += number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="for-varargs-2"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Double <span class="title">sumOfNumbers</span><span class="params">(Double... numbers)</span> </span>&#123;</span><br><span class="line">    Double rs = <span class="number">0</span>D;</span><br><span class="line">    <span class="keyword">for</span> (Double d : numbers) &#123;</span><br><span class="line">        rs += d;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rs / numbers.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+<p><code>值得注意</code> 在一个函数中只允许出现一个 <code>vararg</code>。</p>
+<h2 id="函数作用域"><a class="header-anchor" href="#函数作用域">¶</a>函数作用域</h2>
+<h3 id="包级别作用域"><a class="header-anchor" href="#包级别作用域">¶</a>包级别作用域</h3>
+<p>比如下面这个函数的作用域就是这个包级别，也就是在同一个<code>包</code>里都可以访问这个函数。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> maths</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">findNthFibonacciNo</span><span class="params">(n: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> c: <span class="built_in">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">2</span>..n) &#123;</span><br><span class="line">        c = a+b</span><br><span class="line">        a = b</span><br><span class="line">        b = c</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比如我们可以这么调用</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> maths</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"10th fibonacci number is - <span class="subst">$&#123;findNthFibonacciNo(<span class="number">10</span>)&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="成员函数"><a class="header-anchor" href="#成员函数">¶</a>成员函数</h3>
+<p>和大部分的 <code>Java</code> 函数相同，我们可以在 <code>类</code> 声明函数</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(<span class="keyword">val</span> firstName: String, <span class="keyword">val</span> lastName: String) &#123;</span><br><span class="line">	<span class="comment">// 成员函数</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getFullName</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> firstName + <span class="string">" "</span> + lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套函数"><a class="header-anchor" href="#嵌套函数">¶</a>嵌套函数</h3>
+<p>在 <code>java</code> 程序中，我们经常需要为了代码的可读性将一些列的行为抽象成一个独特的函数，这些函数往往会被定义为<br>
+<code>private</code> 但是往往被复用一次而已。比如下面这个 <code>calculateBMI</code>，对比之下，我个人更喜欢的是<code>嵌套函数</code></p>
+<div class="tabs" id="nested-functions"><ul class="nav-tabs"><li class="tab active"><a href="#nested-functions-1">Java 嵌套函数</a></li><li class="tab"><a href="#nested-functions-2">Java 嵌套匿名表达式</a></li><li class="tab"><a href="#nested-functions-3">Kotlin 嵌套函数</a></li></ul><div class="tab-content"><div class="tab-pane active" id="nested-functions-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">Double</span> calculateBMI(<span class="built_in">Double</span> weightInKg, <span class="built_in">Double</span> heightInCm) &#123;</span><br><span class="line">    <span class="keyword">return</span> weightInKg / (heightInCm / <span class="number">100</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Double</span> findBodyMassIndex(<span class="built_in">Double</span> weightInKg, <span class="built_in">Double</span> heightInCm) &#123;</span><br><span class="line">    <span class="keyword">if</span> (weightInKg &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> new IllegalArgumentException(<span class="string">"Weight must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (heightInCm &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> new IllegalArgumentException(<span class="string">"Height must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> calculateBMI(weightInKg, heightInCm);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="nested-functions-2"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Double <span class="title">findBodyMassIndex</span><span class="params">(Double weightInKg, Double heightInCm)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (weightInKg &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Weight must be greater than zero"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (heightInCm &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Height must be greater than zero"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    BiFunction&lt;Double, Double, Double&gt; calculateBMI = (w, h) -&gt; w / (h / <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> calculateBMI.apply(weightInKg, heightInCm);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="nested-functions-3"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">findBodyMassIndex</span><span class="params">(weightInKg: Double, heightInCm: Double)</span>: Double </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(weightInKg &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Weight must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(heightInCm &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Height must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">fun <span class="title">calculateBMI</span><span class="params">(weightInKg: Double, heightInCm: Double)</span>: Double </span>&#123;</span><br><span class="line">        val heightInMeter = heightInCm / <span class="number">100</span></span><br><span class="line">        <span class="keyword">return</span> weightInKg / (heightInMeter * heightInMeter)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 BMI</span></span><br><span class="line">    <span class="keyword">return</span> calculateBMI(weightInKg, heightInCm)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></div></div>
+<h2 id="内联函数"><a class="header-anchor" href="#内联函数">¶</a>内联函数</h2>
+<p>内联函数可以在编译器展开，减少 <code>Function Stack</code> 的使用，对于提高性能有 <code>迷之作用</code><br>
+我们想要将一个函数设置为内联函数只需要如下声明即可：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">lock</span><span class="params">(lock: <span class="type">Lock</span>, body: () -&gt; <span class="type">T</span>)</span></span>: T &#123;</span><br><span class="line">    <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需要在函数的前面增加一个 <code>inline</code> 关键字即可。</p>
+<h2 id="扩展函数"><a class="header-anchor" href="#扩展函数">¶</a>扩展函数</h2>
+<p>想想一个场景，我们需要给某个类型的对象增加一个函数，而这个类型的源码可能是在某个第三方的<code>Jar</code>内，我们仅仅能通过继承来实现我们的需求，而现在 <code>kotlin</code> 可以通过拓展函数来实现。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> MutableList<span class="type">&lt;Int&gt;</span>.<span class="title">swap</span><span class="params">(index1: <span class="type">Int</span>, index2: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> tmp = <span class="keyword">this</span>[index1] <span class="comment">// “this”对应该列表</span></span><br><span class="line">    <span class="keyword">this</span>[index1] = <span class="keyword">this</span>[index2]</span><br><span class="line">    <span class="keyword">this</span>[index2] = tmp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就为了 <code>MutableList&lt;Int&gt;</code> 增加一个新的函数 <code>swap(index1: Int, index2: Int)</code></p>
+<p><strong>值得注意：</strong> 扩展是静态解析的，也就是说并不会因为运行时的状态而采用多态的函数进行调用。举个例子</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>: <span class="type">C</span></span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> C.<span class="title">foo</span><span class="params">()</span></span> = <span class="string">"c"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> D.<span class="title">foo</span><span class="params">()</span></span> = <span class="string">"d"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printFoo</span><span class="params">(c: <span class="type">C</span>)</span></span> &#123;</span><br><span class="line">    println(c.foo())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">printFoo(D())</span><br><span class="line"><span class="comment">// "c" not "d"</span></span><br></pre></td></tr></table></figure>
+<h2 id="函数泛型"><a class="header-anchor" href="#函数泛型">¶</a>函数泛型</h2>
+<p>既然有函数，怎么可能没有泛型呢？<code>Kotlin</code> 的泛型系统比 <code>java</code> 更加复杂，关于这块，我们将在一个独立的章节进行讲解。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">singletonList</span><span class="params">(item: <span class="type">T</span>)</span></span>: List&lt;T&gt; &#123;</span><br><span class="line">    <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
+<ul>
+<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/extensions.html" target="_blank" rel="noopener">扩展特性</a></li>
+<li><a href="https://www.callicoder.com/kotlin-functions/" target="_blank" rel="noopener">kotlin-functions</a></li>
+<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/functions.html" target="_blank" rel="noopener">Reference</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>kotlin</category>
+        <category>easy-way-to-kotlin-for-java-programer</category>
+      </categories>
+  </entry>
+  <entry>
     <title>写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶</title>
     <url>/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/</url>
     <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/25/PtmXYn.jpg" alt="banner"></p>
@@ -8252,93 +8339,6 @@ myChart.setOption(option, true);
 <h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
 <ul>
 <li><a href="https://www.callicoder.com/kotlin-infix-notation/" target="_blank" rel="noopener">kotlin-functions</a></li>
-<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/functions.html" target="_blank" rel="noopener">Reference</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>kotlin</category>
-        <category>easy-way-to-kotlin-for-java-programer</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>写给 Java 开发者的 Kotlin 教程 (6) - 函数基础</title>
-    <url>/2018/07/22/kotlin/easy-way-to-kotlin-for-java-proggamer/functions/</url>
-    <content><![CDATA[<p><img src="https://s1.ax1x.com/2018/07/22/PGJYwT.png" alt="kotlin functions"><br>
-函数是构成软件的基础块。我们今天就开始 <code>Kotlin</code> 旅程的第二站 - <code>函数</code></p>
-<a id="more"></a>
-<h2 id="函数定义"><a class="header-anchor" href="#函数定义">¶</a>函数定义</h2>
-<p>我们都知道函数的本质也就是接受一些东西然后吐出一些东西，那最为重要的是 <code>入参</code>，<code>出惨</code>，然后又知道 <code>Kotlin</code> 是一门静态语言，那类型又很重要，那我们来看看 <code>Kotlin</code> 是如何申明函数的。</p>
-<div class="tabs" id="for-function-def"><ul class="nav-tabs"><li class="tab active"><a href="#for-function-def-1">Kotlin 函数定义</a></li><li class="tab"><a href="#for-function-def-2">Java 函数定义</a></li></ul><div class="tab-content"><div class="tab-pane active" id="for-function-def-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">avg</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span>: <span class="built_in">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span>  (a + b)/<span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="for-function-def-2"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Double <span class="title">avg</span><span class="params">(Double a, Double b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (a + b) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
-<p>和 <code>Java</code> 略有不同</p>
-<ul>
-<li><code>Kotlin</code> 申明函数使用关键字 <code>fun</code></li>
-<li><code>Kotlin</code> 的<code>入参</code>类型是<code>后置</code>的</li>
-<li><code>Kotlin</code> 的<code>出参</code>类型是<code>后置</code>的</li>
-</ul>
-<p>所以我们通常定义一个函数都会使用以下的格式</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">functionName</span><span class="params">(param1: <span class="type">Type1</span>, param2: <span class="type">Type2</span>,..., paramN: <span class="type">TypeN</span>)</span></span>: Type &#123;</span><br><span class="line">	<span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="单行函数定义"><a class="header-anchor" href="#单行函数定义">¶</a>单行函数定义</h3>
-<p>和 <code>java</code> 略有不同，<code>kotlin</code> 有一些特殊的函数格式比如 <code>单行函数</code></p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">avg</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span> = (a + b)/<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<h3 id="Unit-类型"><a class="header-anchor" href="#Unit-类型">¶</a>Unit 类型</h3>
-<p>如果希望函数无返回值，可以采用 <code>Unit</code> 作为返回类型，这个和 <code>java</code> 的 <code>void</code> 一个含义</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printAverage</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span>: <span class="built_in">Unit</span> &#123;</span><br><span class="line">    println(<span class="string">"Avg of (<span class="variable">$a</span>, <span class="variable">$b</span>) = <span class="subst">$&#123;(a + b)/<span class="number">2</span>&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然，默认如果这里不填写任何类型，默认即是 <code>Unit</code>，下面的代码和上面等价</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printAverage</span><span class="params">(a: <span class="type">Double</span>, b: <span class="type">Double</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"Avg of (<span class="variable">$a</span>, <span class="variable">$b</span>) = <span class="subst">$&#123;(a + b)/<span class="number">2</span>&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="函数特性"><a class="header-anchor" href="#函数特性">¶</a>函数特性</h2>
-<h3 id="函数默认参数"><a class="header-anchor" href="#函数默认参数">¶</a>函数默认参数</h3>
-<p><code>Kotlin</code> 借鉴其他语言的实现，也支持函数的默认参数值。如下</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">displayGreeting</span><span class="params">(message: <span class="type">String</span>, name: <span class="type">String</span> = <span class="string">"Guest"</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"Hello <span class="variable">$name</span>, <span class="variable">$message</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样我们就可以这样调用这个<code>函数</code></p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">displayGreeting(<span class="string">"Welcome to the Yann Blog"</span>, <span class="string">"John"</span>) </span><br><span class="line"><span class="comment">// Hello John, Welcome to the Yann Blog</span></span><br><span class="line">displayGreeting(<span class="string">"Welcome to the Yann Blog"</span>) </span><br><span class="line"><span class="comment">// Hello Guest, Welcome to the Yann Blog</span></span><br></pre></td></tr></table></figure>
-<p>考虑以下的定义</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">arithmeticSeriesSum</span><span class="params">(a: <span class="type">Int</span> = <span class="number">1</span>, n: <span class="type">Int</span>, d: <span class="type">Int</span> = <span class="number">1</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> n/<span class="number">2</span> * (<span class="number">2</span>*a + (n-<span class="number">1</span>)*d)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那我们尝试用下面的方式调用，我们会发现失败</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">arithmeticSeriesSum(<span class="number">10</span>) <span class="comment">// error: 缺少参数</span></span><br></pre></td></tr></table></figure>
-<p>因为我们的参数只能自左向右的传递入函数，所以我们可以这样调用</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">arithmeticSeriesSum(<span class="number">1</span>, <span class="number">10</span>)  <span class="comment">// 结果 = 55</span></span><br></pre></td></tr></table></figure>
-<p>所以我们在申明函数的时候，尽可能的将带默认值的参数放在函数的右侧。</p>
-<h3 id="命名参数"><a class="header-anchor" href="#命名参数">¶</a>命名参数</h3>
-<p>我们经常在 <code>Python</code> 的代码中看见，如下的定义</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">named_function</span><span class="params">(a, b=<span class="number">20</span>, c=<span class="number">10</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line">named_function(<span class="number">10</span>, c=<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
-<p>这种称之为 <code>Named Arguments</code>，<code>Kotlin</code> 也可以做到如何</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">arithmeticSeriesSum</span><span class="params">(a: <span class="type">Int</span> = <span class="number">1</span>, n: <span class="type">Int</span>, d: <span class="type">Int</span> = <span class="number">1</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> n/<span class="number">2</span> * (<span class="number">2</span>*a + (n-<span class="number">1</span>)*d)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">arithmeticSeriesSum(n=<span class="number">10</span>)  <span class="comment">// 结果 = 55</span></span><br><span class="line">arithmeticSeriesSum(n=<span class="number">10</span>, d=<span class="number">2</span>, a=<span class="number">3</span>) <span class="comment">//OK</span></span><br><span class="line">arithmeticSeriesSum(n=<span class="number">10</span>, <span class="number">2</span>) <span class="comment">//EROOR</span></span><br></pre></td></tr></table></figure>
-<p>注意最后一种方式不被允许了，原因也很简单，因为一旦命名了，我们就无法得知后续的参数应该从哪里开始。</p>
-<h3 id="可变参数"><a class="header-anchor" href="#可变参数">¶</a>可变参数</h3>
-<p>和 <code>Java</code> 不同<code>Kotlin</code>采用一种特殊的关键字 <code>vararg</code> 来申明可变参数</p>
-<div class="tabs" id="for-varargs"><ul class="nav-tabs"><li class="tab active"><a href="#for-varargs-1">Kotlin 可变参数</a></li><li class="tab"><a href="#for-varargs-2">Java 可变参数</a></li></ul><div class="tab-content"><div class="tab-pane active" id="for-varargs-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sumOfNumbers</span><span class="params">(<span class="keyword">vararg</span> numbers: <span class="type">Double</span>)</span></span>: <span class="built_in">Double</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> sum: <span class="built_in">Double</span> = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span>(number <span class="keyword">in</span> numbers) &#123;</span><br><span class="line">        sum += number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="for-varargs-2"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Double <span class="title">sumOfNumbers</span><span class="params">(Double... numbers)</span> </span>&#123;</span><br><span class="line">    Double rs = <span class="number">0</span>D;</span><br><span class="line">    <span class="keyword">for</span> (Double d : numbers) &#123;</span><br><span class="line">        rs += d;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rs / numbers.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
-<p><code>值得注意</code> 在一个函数中只允许出现一个 <code>vararg</code>。</p>
-<h2 id="函数作用域"><a class="header-anchor" href="#函数作用域">¶</a>函数作用域</h2>
-<h3 id="包级别作用域"><a class="header-anchor" href="#包级别作用域">¶</a>包级别作用域</h3>
-<p>比如下面这个函数的作用域就是这个包级别，也就是在同一个<code>包</code>里都可以访问这个函数。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> maths</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">findNthFibonacciNo</span><span class="params">(n: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> c: <span class="built_in">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">2</span>..n) &#123;</span><br><span class="line">        c = a+b</span><br><span class="line">        a = b</span><br><span class="line">        b = c</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>比如我们可以这么调用</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> maths</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"10th fibonacci number is - <span class="subst">$&#123;findNthFibonacciNo(<span class="number">10</span>)&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="成员函数"><a class="header-anchor" href="#成员函数">¶</a>成员函数</h3>
-<p>和大部分的 <code>Java</code> 函数相同，我们可以在 <code>类</code> 声明函数</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(<span class="keyword">val</span> firstName: String, <span class="keyword">val</span> lastName: String) &#123;</span><br><span class="line">	<span class="comment">// 成员函数</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getFullName</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> firstName + <span class="string">" "</span> + lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="嵌套函数"><a class="header-anchor" href="#嵌套函数">¶</a>嵌套函数</h3>
-<p>在 <code>java</code> 程序中，我们经常需要为了代码的可读性将一些列的行为抽象成一个独特的函数，这些函数往往会被定义为<br>
-<code>private</code> 但是往往被复用一次而已。比如下面这个 <code>calculateBMI</code>，对比之下，我个人更喜欢的是<code>嵌套函数</code></p>
-<div class="tabs" id="nested-functions"><ul class="nav-tabs"><li class="tab active"><a href="#nested-functions-1">Java 嵌套函数</a></li><li class="tab"><a href="#nested-functions-2">Java 嵌套匿名表达式</a></li><li class="tab"><a href="#nested-functions-3">Kotlin 嵌套函数</a></li></ul><div class="tab-content"><div class="tab-pane active" id="nested-functions-1"><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">Double</span> calculateBMI(<span class="built_in">Double</span> weightInKg, <span class="built_in">Double</span> heightInCm) &#123;</span><br><span class="line">    <span class="keyword">return</span> weightInKg / (heightInCm / <span class="number">100</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Double</span> findBodyMassIndex(<span class="built_in">Double</span> weightInKg, <span class="built_in">Double</span> heightInCm) &#123;</span><br><span class="line">    <span class="keyword">if</span> (weightInKg &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> new IllegalArgumentException(<span class="string">"Weight must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (heightInCm &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> new IllegalArgumentException(<span class="string">"Height must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> calculateBMI(weightInKg, heightInCm);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="nested-functions-2"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Double <span class="title">findBodyMassIndex</span><span class="params">(Double weightInKg, Double heightInCm)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (weightInKg &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Weight must be greater than zero"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (heightInCm &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Height must be greater than zero"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    BiFunction&lt;Double, Double, Double&gt; calculateBMI = (w, h) -&gt; w / (h / <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> calculateBMI.apply(weightInKg, heightInCm);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="nested-functions-3"><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">findBodyMassIndex</span><span class="params">(weightInKg: Double, heightInCm: Double)</span>: Double </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(weightInKg &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Weight must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(heightInCm &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Height must be greater than zero"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">fun <span class="title">calculateBMI</span><span class="params">(weightInKg: Double, heightInCm: Double)</span>: Double </span>&#123;</span><br><span class="line">        val heightInMeter = heightInCm / <span class="number">100</span></span><br><span class="line">        <span class="keyword">return</span> weightInKg / (heightInMeter * heightInMeter)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 BMI</span></span><br><span class="line">    <span class="keyword">return</span> calculateBMI(weightInKg, heightInCm)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></div></div>
-<h2 id="内联函数"><a class="header-anchor" href="#内联函数">¶</a>内联函数</h2>
-<p>内联函数可以在编译器展开，减少 <code>Function Stack</code> 的使用，对于提高性能有 <code>迷之作用</code><br>
-我们想要将一个函数设置为内联函数只需要如下声明即可：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">lock</span><span class="params">(lock: <span class="type">Lock</span>, body: () -&gt; <span class="type">T</span>)</span></span>: T &#123;</span><br><span class="line">    <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只需要在函数的前面增加一个 <code>inline</code> 关键字即可。</p>
-<h2 id="扩展函数"><a class="header-anchor" href="#扩展函数">¶</a>扩展函数</h2>
-<p>想想一个场景，我们需要给某个类型的对象增加一个函数，而这个类型的源码可能是在某个第三方的<code>Jar</code>内，我们仅仅能通过继承来实现我们的需求，而现在 <code>kotlin</code> 可以通过拓展函数来实现。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> MutableList<span class="type">&lt;Int&gt;</span>.<span class="title">swap</span><span class="params">(index1: <span class="type">Int</span>, index2: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> tmp = <span class="keyword">this</span>[index1] <span class="comment">// “this”对应该列表</span></span><br><span class="line">    <span class="keyword">this</span>[index1] = <span class="keyword">this</span>[index2]</span><br><span class="line">    <span class="keyword">this</span>[index2] = tmp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样我们就为了 <code>MutableList&lt;Int&gt;</code> 增加一个新的函数 <code>swap(index1: Int, index2: Int)</code></p>
-<p><strong>值得注意：</strong> 扩展是静态解析的，也就是说并不会因为运行时的状态而采用多态的函数进行调用。举个例子</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>: <span class="type">C</span></span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> C.<span class="title">foo</span><span class="params">()</span></span> = <span class="string">"c"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> D.<span class="title">foo</span><span class="params">()</span></span> = <span class="string">"d"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printFoo</span><span class="params">(c: <span class="type">C</span>)</span></span> &#123;</span><br><span class="line">    println(c.foo())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">printFoo(D())</span><br><span class="line"><span class="comment">// "c" not "d"</span></span><br></pre></td></tr></table></figure>
-<h2 id="函数泛型"><a class="header-anchor" href="#函数泛型">¶</a>函数泛型</h2>
-<p>既然有函数，怎么可能没有泛型呢？<code>Kotlin</code> 的泛型系统比 <code>java</code> 更加复杂，关于这块，我们将在一个独立的章节进行讲解。</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> <span class="title">singletonList</span><span class="params">(item: <span class="type">T</span>)</span></span>: List&lt;T&gt; &#123;</span><br><span class="line">    <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参考文献"><a class="header-anchor" href="#参考文献">¶</a>参考文献</h2>
-<ul>
-<li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/extensions.html" target="_blank" rel="noopener">扩展特性</a></li>
-<li><a href="https://www.callicoder.com/kotlin-functions/" target="_blank" rel="noopener">kotlin-functions</a></li>
 <li><a href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/functions.html" target="_blank" rel="noopener">Reference</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
