@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-05-19T05:59:17.283Z</updated>
+  <updated>2021-06-07T03:39:15.908Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How Dubbo Envoy Filter Works (For Envoy)</title>
+    <link href="http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/"/>
+    <id>http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/</id>
+    <published>2021-05-26T08:04:12.000Z</published>
+    <updated>2021-06-07T03:39:15.908Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/20210606174353.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天就让我们一起来品一品，&lt;code&gt;Envoy&lt;/code&gt; 中的 &lt;code&gt;Dubbo&lt;/code&gt; 协议是如何实现的，基于 &lt;code&gt;1.18&lt;/code&gt; 分支&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="dubbo" scheme="http://blog.yanick.site/categories/dubbo/"/>
+    
+      <category term="envoy" scheme="http://blog.yanick.site/categories/dubbo/envoy/"/>
+    
+    
+      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
+    
+      <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
+    
+  </entry>
   
   <entry>
     <title>Isito 1.10.x 更新解读</title>
@@ -388,9 +413,9 @@
       <category term="envoy" scheme="http://blog.yanick.site/categories/rust/envoy/"/>
     
     
-      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
-    
       <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
     
   </entry>
   
@@ -472,31 +497,6 @@
       <category term="pingcap" scheme="http://blog.yanick.site/tags/pingcap/"/>
     
       <category term="talent-plan" scheme="http://blog.yanick.site/tags/talent-plan/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Log-structured File System</title>
-    <link href="http://blog.yanick.site/2020/10/15/other/lfs/"/>
-    <id>http://blog.yanick.site/2020/10/15/other/lfs/</id>
-    <published>2020-10-15T11:20:31.000Z</published>
-    <updated>2021-03-22T05:25:36.517Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/15/tTm8U.png&quot; alt=&quot;tTm8U.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://people.eecs.berkeley.edu/~brewer/cs262/LFS.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;The Design and Implementation of a Log-Structured File System&lt;/a&gt; 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="lsf" scheme="http://blog.yanick.site/categories/lsf/"/>
-    
-      <category term="file-system" scheme="http://blog.yanick.site/categories/lsf/file-system/"/>
-    
-    
-      <category term="lsf" scheme="http://blog.yanick.site/tags/lsf/"/>
-    
-      <category term="file-system" scheme="http://blog.yanick.site/tags/file-system/"/>
     
   </entry>
   
