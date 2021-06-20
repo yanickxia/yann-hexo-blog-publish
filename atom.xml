@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-06-07T03:39:15.908Z</updated>
+  <updated>2021-06-20T08:59:16.693Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Rust Pin</title>
+    <link href="http://blog.yanick.site/2021/06/20/rust/rust-pin/"/>
+    <id>http://blog.yanick.site/2021/06/20/rust/rust-pin/</id>
+    <published>2021-06-20T09:38:10.000Z</published>
+    <updated>2021-06-20T08:59:16.693Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;为什么需要-Pin&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#为什么需要-Pin&quot;&gt;¶&lt;/a&gt;为什么需要 Pin&lt;/h2&gt;
+&lt;p&gt;假如我们有一个对象定义如下&lt;/p&gt;
+&lt;figure class=&quot;highlight
+        
+      
+    
+    </summary>
+    
+      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
+    
+      <category term="deep-dive" scheme="http://blog.yanick.site/categories/rust/deep-dive/"/>
+    
+      <category term="pin" scheme="http://blog.yanick.site/categories/rust/deep-dive/pin/"/>
+    
+    
+      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+      <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
+    
+      <category term="pin" scheme="http://blog.yanick.site/tags/pin/"/>
+    
+  </entry>
   
   <entry>
     <title>How Dubbo Envoy Filter Works (For Envoy)</title>
@@ -453,35 +489,6 @@
     
       &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/21/NciWO.png&quot; alt=&quot;NciWO.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;上次讲完了我们单机模式下的 &lt;code&gt;KV Store&lt;/code&gt;，这次接着解读，我们将访问模式从 &lt;code&gt;CMD&lt;/code&gt; 变成 &lt;code&gt;Networking&lt;/code&gt; 的模式。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="pingcap" scheme="http://blog.yanick.site/categories/rust/pingcap/"/>
-    
-      <category term="talent-plan" scheme="http://blog.yanick.site/categories/rust/pingcap/talent-plan/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="pingcap" scheme="http://blog.yanick.site/tags/pingcap/"/>
-    
-      <category term="talent-plan" scheme="http://blog.yanick.site/tags/talent-plan/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rust Project 2&amp;#58 Log-structured file I/O 解读</title>
-    <link href="http://blog.yanick.site/2020/10/16/rust/talent-plan/project-2/"/>
-    <id>http://blog.yanick.site/2020/10/16/rust/talent-plan/project-2/</id>
-    <published>2020-10-16T05:52:41.000Z</published>
-    <updated>2021-03-22T05:25:36.517Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/16/txTC8.png&quot; alt=&quot;txTC8.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PingCAP Talent Plan&lt;/code&gt; 是很不错的入门教程，今天我们来分析下 &lt;code&gt;Project 2&lt;/code&gt; 的项目代码。&lt;/p&gt;
     
     </summary>
     

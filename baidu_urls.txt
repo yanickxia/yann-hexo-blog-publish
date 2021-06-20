@@ -1,5 +1,5 @@
+http://blog.yanick.site/2021/06/20/rust/rust-pin/
 http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/
 http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/
 http://blog.yanick.site/2021/04/30/go/go-impossible-missions/
 http://blog.yanick.site/2021/04/24/java/other/java11/
-http://blog.yanick.site/2021/03/26/go/ot/
