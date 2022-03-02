@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Yanick&#39;s Blog</title>
   
-  
+  <subtitle>Be Better &amp; Have Fun</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
