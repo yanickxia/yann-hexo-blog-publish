@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2021-10-21T03:11:29.432Z</updated>
+  <updated>2022-03-17T12:59:17.803Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Go Generic</title>
+    <link href="http://blog.yanick.site/2022/03/17/go/generic/"/>
+    <id>http://blog.yanick.site/2022/03/17/go/generic/</id>
+    <published>2022-03-17T12:31:37.000Z</published>
+    <updated>2022-03-17T12:59:17.803Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+      <category term="generic" scheme="http://blog.yanick.site/categories/go/generic/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Isito 1.11.x 更新解读</title>
@@ -109,9 +130,9 @@
       <category term="envoy" scheme="http://blog.yanick.site/categories/dubbo/envoy/"/>
     
     
-      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
-    
       <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
+    
+      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
     
   </entry>
   
@@ -133,27 +154,6 @@
     
     
       <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go Generic</title>
-    <link href="http://blog.yanick.site/2021/04/30/go/generic/"/>
-    <id>http://blog.yanick.site/2021/04/30/go/generic/</id>
-    <published>2021-04-30T02:31:37.000Z</published>
-    <updated>2022-03-17T10:14:19.580Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
-    
-      <category term="generic" scheme="http://blog.yanick.site/categories/go/generic/"/>
-    
     
   </entry>
   
