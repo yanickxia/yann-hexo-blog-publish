@@ -137,6 +137,27 @@
   </entry>
   
   <entry>
+    <title>Go Generic</title>
+    <link href="http://blog.yanick.site/2021/04/30/go/generic/"/>
+    <id>http://blog.yanick.site/2021/04/30/go/generic/</id>
+    <published>2021-04-30T02:31:37.000Z</published>
+    <updated>2022-03-17T10:14:19.580Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+      <category term="generic" scheme="http://blog.yanick.site/categories/go/generic/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Go Impossible Missions</title>
     <link href="http://blog.yanick.site/2021/04/30/go/go-impossible-missions/"/>
     <id>http://blog.yanick.site/2021/04/30/go/go-impossible-missions/</id>
@@ -465,31 +486,6 @@
       <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
     
       <category term="CHIP-8" scheme="http://blog.yanick.site/tags/CHIP-8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用 Rust 为 Envoy 构建插件</title>
-    <link href="http://blog.yanick.site/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/"/>
-    <id>http://blog.yanick.site/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/</id>
-    <published>2020-10-30T08:04:12.000Z</published>
-    <updated>2021-10-21T03:11:29.432Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/10/30/NaNFT.png&quot; alt=&quot;NaNFT.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;今天就带大家使用 &lt;code&gt;Rust&lt;/code&gt; 构建 &lt;code&gt;WebAssembly&lt;/code&gt; 作为 &lt;code&gt;Envoy&lt;/code&gt; 的插件。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="envoy" scheme="http://blog.yanick.site/categories/rust/envoy/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
     
   </entry>
   

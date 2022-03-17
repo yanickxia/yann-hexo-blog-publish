@@ -221,6 +221,101 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/" class="post-title-link" itemprop="url">写给 Java 开发者的 Kotlin 教程 (12) - 拾遗</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-15 15:40:48" itemprop="dateCreated datePublished" datetime="2018-08-15T15:40:48+08:00">2018-08-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kotlin/" itemprop="url" rel="index"><span itemprop="name">kotlin</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kotlin/easy-way-to-kotlin-for-java-programer/" itemprop="url" rel="index"><span itemprop="name">easy-way-to-kotlin-for-java-programer</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/" class="post-meta-item leancloud_visitors" data-flag-title="写给 Java 开发者的 Kotlin 教程 (12) - 拾遗" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Kotlin的泛型"><a class="header-anchor" href="#Kotlin的泛型">¶</a>Kotlin的泛型</h2>
+<h2 id="密封类"><a class="header-anchor" href="#密封类">¶</a>密封类</h2>
+<p>密封类用来表示受限的类继承结构：当一个值为有限集中的类型、而不能有任何其他类型时。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sealed</span> <span class="class"><span class="keyword">class</span> <span class="title">Expr</span></span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Const</span></span>(<span class="keyword">val</span> number: <span class="built_in">Double</span>) : Expr()</span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Sum</span></span>(<span class="keyword">val</span> e1: Expr, <span class="keyword">val</span> e2: Expr) : Expr()</span><br><span class="line"><span class="keyword">object</span> NotANumber : Expr()</span><br></pre></td></tr></table></figure>
+<p>密封类的好处在于 <code>when</code> 语句</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">eval</span><span class="params">(expr: <span class="type">Expr</span>)</span></span>: <span class="built_in">Double</span> = <span class="keyword">when</span>(expr) &#123;</span><br><span class="line">    <span class="keyword">is</span> Const -&gt; expr.number</span><br><span class="line">    <span class="keyword">is</span> Sum -&gt; eval(expr.e1) + eval(expr.e2)</span><br><span class="line">    NotANumber -&gt; <span class="built_in">Double</span>.NaN</span><br><span class="line">    <span class="comment">// 不再需要 `else` 子句，因为我们已经覆盖了所有的情况</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="嵌套类和内部类"><a class="header-anchor" href="#嵌套类和内部类">¶</a>嵌套类和内部类</h2>
+<h3 id="嵌套类"><a class="header-anchor" href="#嵌套类">¶</a>嵌套类</h3>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> bar: <span class="built_in">Int</span> = <span class="number">1</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Nested</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">foo</span><span class="params">()</span></span> = <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> demo = Outer.Nested().foo() <span class="comment">// == 2</span></span><br></pre></td></tr></table></figure>
+<h3 id="内部类"><a class="header-anchor" href="#内部类">¶</a>内部类</h3>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lass Outer &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> bar: <span class="built_in">Int</span> = <span class="number">1</span></span><br><span class="line">    <span class="keyword">inner</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">foo</span><span class="params">()</span></span> = bar</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> demo = Outer().Inner().foo() <span class="comment">// == 1</span></span><br></pre></td></tr></table></figure>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-object/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1063,103 +1158,6 @@ Swagger = 实现规范的组件</p>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/" class="post-title-link" itemprop="url">写给 Java 开发者的 Kotlin 教程 (4) - 控制流表达式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-12 08:00:15" itemprop="dateCreated datePublished" datetime="2018-07-12T08:00:15+08:00">2018-07-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kotlin/" itemprop="url" rel="index"><span itemprop="name">kotlin</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kotlin/easy-way-to-kotlin-for-java-programer/" itemprop="url" rel="index"><span itemprop="name">easy-way-to-kotlin-for-java-programer</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/" class="post-meta-item leancloud_visitors" data-flag-title="写给 Java 开发者的 Kotlin 教程 (4) - 控制流表达式" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://s1.ax1x.com/2018/07/12/Pu28Re.png" alt="banner"></p>
-<p>有个先贤说过</p>
-<blockquote>
-<p>掌握了规则就掌握了一切。</p>
-</blockquote>
-<p>我认为在编程语言中掌握了 <code>控制语句</code> 就算是掌握了编程语言（在 <code>FP</code> 中效果打折）。所以我们今天开始要去探索编程语言中至为重要的 <code>Control Flow</code> 部分。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1228,13 +1226,13 @@ Swagger = 实现规范的组件</p>
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">104</span>
+        <span class="site-state-item-count">105</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
