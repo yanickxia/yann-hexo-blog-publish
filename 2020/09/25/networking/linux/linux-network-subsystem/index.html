@@ -716,13 +716,13 @@
       <div class="popular-posts-title"><a href="/2019/03/17/kubernetes/how-kubernetes-network-1/" rel="bookmark">Kubernetes-Calico-网络原理(1) - 环境预备 & 初窥网络</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2019/03/20/kubernetes/how-kubernetes-network-3/" rel="bookmark">Kubernetes-Calico-网络原理(3) - Pod & Node</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2019/03/17/kubernetes/how-kubernetes-network-2/" rel="bookmark">Kubernetes-Calico-网络原理(2) - Container & Pod</a></div>
-    </li>
-    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2019/03/21/kubernetes/how-kubernetes-network-4/" rel="bookmark">Kubernetes-Calico-网络原理(4) - BGP</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/22/kubernetes/how-kubernetes-network-5/" rel="bookmark">Kubernetes-网络原理(5) - ClusterIP</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/03/20/kubernetes/how-kubernetes-network-3/" rel="bookmark">Kubernetes-Calico-网络原理(3) - Pod & Node</a></div>
     </li>
   </ul>
 
@@ -1223,6 +1223,22 @@
   <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 <script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script>
   var disqus_config = function() {
     this.page.url = "http://blog.yanick.site/2020/09/25/networking/linux/linux-network-subsystem/";
     this.page.identifier = "2020/09/25/networking/linux/linux-network-subsystem/";
@@ -1241,22 +1257,6 @@
       (d.head || d.body).appendChild(s);
     }
   });
-</script>
-
-<script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
-  window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-});
 </script>
 
 </body>
