@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-03-17T12:59:17.803Z</updated>
+  <updated>2022-04-16T13:29:18.220Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Isito iptables &amp; CNI</title>
+    <link href="http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/"/>
+    <id>http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/</id>
+    <published>2022-04-16T08:28:41.000Z</published>
+    <updated>2022-04-16T13:29:18.220Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过
+        
+      
+    
+    </summary>
+    
+      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+  </entry>
   
   <entry>
     <title>Go Generic</title>
@@ -130,9 +157,9 @@
       <category term="envoy" scheme="http://blog.yanick.site/categories/dubbo/envoy/"/>
     
     
-      <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
-    
       <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
+    
+      <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
     
   </entry>
   
@@ -458,34 +485,6 @@
       <category term="algorithm" scheme="http://blog.yanick.site/tags/algorithm/"/>
     
       <category term="lsm" scheme="http://blog.yanick.site/tags/lsm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>用 Rust 实现一个 CHIP-8 模拟器</title>
-    <link href="http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/"/>
-    <id>http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/</id>
-    <published>2020-11-05T09:38:10.000Z</published>
-    <updated>2021-10-21T03:11:29.440Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2020/11/05/SUbRO.png&quot; alt=&quot;SUbRO.png&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;CHIP-8是一个解释型语言，由Joseph Weisbecker开发。最初CHIP-8在上个世纪70年代被使用在COSMAC-VIP和Telmac 1800上。许多游戏如Pong，Space Invaders，Tetris都曾使用该语言编写。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我们今天用 &lt;code&gt;Rust&lt;/code&gt; 来模拟实现这个 &lt;code&gt;CHIP-8&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="CHIP-8" scheme="http://blog.yanick.site/categories/rust/CHIP-8/"/>
-    
-    
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-      <category term="CHIP-8" scheme="http://blog.yanick.site/tags/CHIP-8/"/>
     
   </entry>
   
