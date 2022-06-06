@@ -482,10 +482,10 @@ Pauses are the times when an application appears unresponsive because garbage co
   <div class="popular-posts-header">推荐阅读</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/06/20/java/other/2020-new-direction/" rel="bookmark">Java社区的新方向</a></div>
+      <div class="popular-posts-title"><a href="/2021/04/24/java/other/java11/" rel="bookmark">New Features in Java 9,10,11</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2021/04/24/java/other/java11/" rel="bookmark">New Features in Java 9,10,11</a></div>
+      <div class="popular-posts-title"><a href="/2020/06/20/java/other/2020-new-direction/" rel="bookmark">Java社区的新方向</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2020/08/04/kubernetes/kubernetes-interview/" rel="bookmark">Kubernetes 面试散记</a></div>
@@ -993,22 +993,6 @@ Pauses are the times when an application appears unresponsive because garbage co
   <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 <script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
-  window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-});
-</script>
-
-<script>
   var disqus_config = function() {
     this.page.url = "http://blog.yanick.site/2020/07/31/java/java-interview/";
     this.page.identifier = "2020/07/31/java/java-interview/";
@@ -1027,6 +1011,22 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
       (d.head || d.body).appendChild(s);
     }
   });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
 </script>
 
 </body>

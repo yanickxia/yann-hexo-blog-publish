@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-04-16T13:29:18.220Z</updated>
+  <updated>2022-06-06T05:29:20.829Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -21,18 +21,12 @@
     <link href="http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/"/>
     <id>http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/</id>
     <published>2022-04-16T08:28:41.000Z</published>
-    <updated>2022-04-16T13:29:18.220Z</updated>
+    <updated>2022-06-06T05:29:20.829Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过
-        
-      
+      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过 &lt;code&gt;iptables&lt;/code&gt; 拦截流量，对于这个 &lt;code&gt;iptables&lt;/code&gt; 的规则，我们仔细的分析下。&lt;/p&gt;
     
     </summary>
     
