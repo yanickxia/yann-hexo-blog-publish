@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-06-21T13:59:16.975Z</updated>
+  <updated>2022-07-23T15:54:21.498Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Isito 虚拟机健康检查</title>
+    <link href="http://blog.yanick.site/2022/07/23/networking/istio/how-it-works/vm-health-check/"/>
+    <id>http://blog.yanick.site/2022/07/23/networking/istio/how-it-works/vm-health-check/</id>
+    <published>2022-07-23T12:28:41.000Z</published>
+    <updated>2022-07-23T15:54:21.498Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220723234135.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天我们聊聊 《Isito 虚拟机健康检查》&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+      <category term="how-it-work" scheme="http://blog.yanick.site/categories/isito/how-it-work/"/>
+    
+    
+      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+      <category term="how-it-work" scheme="http://blog.yanick.site/tags/how-it-work/"/>
+    
+  </entry>
   
   <entry>
     <title>Envoy Filters</title>
@@ -458,29 +483,6 @@
     
     
       <category term="ca" scheme="http://blog.yanick.site/tags/ca/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>The Hard Way Learn Computer Science</title>
-    <link href="http://blog.yanick.site/2020/11/17/hard-way/learn-by-self-hard-way/"/>
-    <id>http://blog.yanick.site/2020/11/17/hard-way/learn-by-self-hard-way/</id>
-    <published>2020-11-17T12:49:48.000Z</published>
-    <updated>2021-10-21T03:11:29.424Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201117213257.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;写给我的女朋友，一个不愿意减肥的小可爱&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="自学" scheme="http://blog.yanick.site/categories/%E8%87%AA%E5%AD%A6/"/>
-    
-    
-      <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
     
   </entry>
   
