@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-07-23T15:54:21.498Z</updated>
+  <updated>2022-08-06T05:14:18.747Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>程序员的自我修养： 如何写好单元测试</title>
+    <link href="http://blog.yanick.site/2022/08/06/other/unittest/"/>
+    <id>http://blog.yanick.site/2022/08/06/other/unittest/</id>
+    <published>2022-08-06T03:04:12.000Z</published>
+    <updated>2022-08-06T05:14:18.747Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208061311334.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天我们来聊聊程序员中最讨论的一个部分，单元测试&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="unittest" scheme="http://blog.yanick.site/categories/unittest/"/>
+    
+      <category term="self-cultivation" scheme="http://blog.yanick.site/categories/unittest/self-cultivation/"/>
+    
+    
+      <category term="unittest" scheme="http://blog.yanick.site/tags/unittest/"/>
+    
+      <category term="self-cultivation" scheme="http://blog.yanick.site/tags/self-cultivation/"/>
+    
+  </entry>
   
   <entry>
     <title>Isito 虚拟机健康检查</title>
@@ -462,27 +487,6 @@
       <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
     
       <category term="spring" scheme="http://blog.yanick.site/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SSL CA HTTPS</title>
-    <link href="http://blog.yanick.site/2020/11/28/other/ca/"/>
-    <id>http://blog.yanick.site/2020/11/28/other/ca/</id>
-    <published>2020-11-28T14:00:48.000Z</published>
-    <updated>2021-10-21T03:11:29.436Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="ca" scheme="http://blog.yanick.site/categories/ca/"/>
-    
-    
-      <category term="ca" scheme="http://blog.yanick.site/tags/ca/"/>
     
   </entry>
   
