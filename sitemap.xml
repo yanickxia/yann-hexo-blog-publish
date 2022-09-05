@@ -177,14 +177,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
+    <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
+    <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
     
@@ -310,14 +310,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
+    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/04/21/recommend/what-is-my-recommend-books/</loc>
+    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -394,14 +394,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</loc>
+    <loc>http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/</loc>
+    <loc>http://blog.yanick.site/2020/02/18/rethink/separate-front-end/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -744,14 +744,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/11/17/hard-way/learn-by-self-hard-way/</loc>
+    <loc>http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/</loc>
+    <loc>http://blog.yanick.site/2020/11/17/hard-way/learn-by-self-hard-way/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
@@ -898,6 +898,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2018/05/20/bugs/a-strange-apollo-config-error/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2019/04/13/cs/art-of-software/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
@@ -905,7 +912,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/05/20/bugs/a-strange-apollo-config-error/</loc>
+    <loc>http://blog.yanick.site/2017/02/07/docker/getting-started-with-docker/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
@@ -920,13 +927,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2017/01/20/game/how-to-code-gobang-in-c/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2017/02/07/docker/getting-started-with-docker/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
@@ -954,6 +954,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2021/01/24/game/learn-by-game/learn-by-game-01/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2020/01/08/architecture/microservice/discovery/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
@@ -962,13 +969,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/07/07/architecture/microservice/mircoservices/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2021/01/24/game/learn-by-game/learn-by-game-01/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
