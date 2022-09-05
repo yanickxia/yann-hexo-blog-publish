@@ -27,12 +27,12 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="自从公司的运行平台全线迁入了 Kubenetes 之后总是觉得 Devops 变成了一个比以前更困难的事情，反思了一下，这一切的困境居然是从现在所使用的 Java 编程语言而来，那我们先聊聊云原生。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2019-05-29T13:56:52.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/">
 
@@ -292,7 +292,7 @@
 <a id="more"></a>
 <p><code>Cloud Native</code> 在我的理解是，虚拟化之后企业上云，现在的企业几乎底层设施都已经云化之后，对应用的一种倒逼，<code>Cloud Native</code>是一个框，什么都可以往里面扔，但是有些基础是被大家共识的，首先云原生当然和编程语言无关，说的是一个应用如何被创建/部署，后续的就引申出了比如<code>Devops</code>之类的新的理念，但是回到问题的本身，<code>Cloud Native</code>提出的一个很重要的要求，<strong>应用如何部署</strong> 这个问题从以前由应用决定，现在变成了，基础设施 <strong>决定</strong> 应用应该如何部署。</p>
 <p>让我们回到一切的开始，首先<code>云原生</code>亦或者是<code>Devops</code>都有一个基础的要求，当前版本的代码能够在任何一个环境运行，看起来是不是一个很简单的需求，但是这个需求有一个隐喻所有的环境的基础设施是一样的，显然不能你的开发环境是 <code>Windows</code> 测试环境<code>Debian</code>生产环境又是<code>Centos</code>那怎么解决呢，从这一环，我们需要一个<code>工具箱</code>然后往这个工具箱里面扔我们需要的工具了。首先我们需要的就是 <code>Cloud Native</code>工具箱中最为明显的产品 <code>Docker/Continar</code>，经常有 <code>Java </code>开发者问我，<code>Docker</code> 有什么用，我的回答是，<code>Docker</code> 对<code>Java</code> 不是必须的，但是对于其他的语言往往是如果伊甸园中的苹果一样的诱人，打个比方，一个随系统打包的二进制发行版本，可以在任何地方运行，是不是让人很激动，对于大部分的<code>Java</code>开发者可能无感，对于C语言项目的编写者，那些只要不是基于虚拟机的语言，他们都需要系统提供运行环境，而系统千变万化，当然开发者不愿意为了不同的系统进行适配，在以前我们需要交叉编译，现在我们把这个复杂的事情交给了<code>Docker</code>，让<code>Docker</code>如同<code>Java</code>一样，一次编写处处运行，这样的事情简直就像是端了<code>Java</code>的饭碗，以前我们交付一个复杂的系统，往往连着操作系统一起交付，而客户可能买了一些商业系统，为了适配有可能还要改代码，现在你有了<code>Docker</code>，开发者喜大普奔，而这里的代价呢？<code>C&amp;C++&amp;GO</code>他们失去的是枷锁，获得全世界，而Java如同被革命一般，失去了 <code>Once Code，Everywhere Run</code>，获得的是更大的 <code>Docker Image Size</code>，获得被人诟病的 <code>Big Size Runtime</code>。</p>
-<p><img src="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://i.loli.net/2019/05/29/5cee90a3a69d629314.png" alt=""></p>
 <p>当我们从代码构建完成了镜像，<code>Cloud Navtive</code>的故事才刚刚开始，当你的<code>Team Leader</code>要求你的系统架构是<code>MicroServices</code>的，你把原来的项目进行拆分了，或者是开发的就拆分的足够小的时候，你发现因为代码拆分开了，出现了一点点的代码的重复，有适合也避免不了的，你的依赖库也变的 <code>xN</code>，隔壁Go程序员想了想，不行我们就搞个 <code>.so</code> 共享一部分代码吧，然后看了构建出来的二进制文件才 <code>15MB</code>，运维大手一挥，这点大小有啥要共享的，<code>Java</code> 程序员望了望了自己的 <code>Jar</code> 包，<code>60MB</code>还行吧，维护镜像仓库的运维同事这个时候跑出来，你的镜像怎么有 <code>150MB</code> 了， 你看看你们把磁盘都塞满了，只能苦笑，运维小哥坑次坑次的给打包机加了一块硬盘，顺便问你马上部署了，你需要多大的<strong>配额</strong>，你说道 2C4G，运维一脸嫌弃的问你，为什么隔壁GO项目组的同事才需要 <code>0.5C512MB</code>。你当然也不用告诉他，<code>SpringBoot</code> 依赖的了 <code>XXX</code>,<code>YYY</code>,<code>ZZZ</code> 的库，虽然一半的功能你都没用到。</p>
 <p>部署到线上，刚刚准备喘口气，突然发现新的需求又来了，虽然是一个很小的功能，但是和现在的系统内的任何一个服务都没有什么直接关联性，你提出再新写一个服务，运维主管抱怨道，现在的服务器资源还是很紧张，你尝试着用现在最流行的 <code>Vertx</code>开发一个简单的Web服务，你对构建出来的jar 只有 10MB 很满意，可是镜像加起来还是有 60 MB，也算一种进步，你找到QA主管，准备Show一下你用了Java社区最酷的框架，最强的性能，QA主管找了一个台 1C2G 的服务让你压测一下，你发现你怎么也拼不过别人Go系统，你研究之后发现，原来协程模型在这样的少核心的情况下性能要更好，你找运维希望能升级下配置，你走到运维门口的时候，你停了下来，醒醒吧，不是你错了，而是时代变了。</p>
 <hr>
@@ -316,12 +316,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -536,8 +536,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -582,7 +582,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -753,7 +753,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -836,5 +836,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

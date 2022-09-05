@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="上次自己留的坑，自己填一下吧。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://ww2.sinaimg.cn/large/759074fcjw1f0d87evnxdj21bc0qo0ws.jpg">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2016-12-13T08:43:18.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/759074fcjw1f0d87evnxdj21bc0qo0ws.jpg">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2016/12/13/java/spring-convert-01/">
 
@@ -321,7 +321,7 @@
 <h2 id="SPI-实现"><a class="header-anchor" href="#SPI-实现">¶</a>SPI 实现</h2>
 <p><a href="https://github.com/spring-projects/spring-framework/blob/b22a59a0c4ea118147dc45c563d68234b8692d97/spring-core/src/main/java/org/springframework/core/convert/support/DefaultConversionService.java" target="_blank" rel="noopener">DefaultConversionService.java</a>是Spring的默认标准实现，我们从这个类开始看起。</p>
 <p>先立FLAG，根据我对源码的了解，肯定有一个类似于<a href="https://github.com/yannxia/chameleon/blob/master/src/main/java/info/yannxia/java/chameleon/AbstractConvertFactory.java" target="_blank" rel="noopener">keyCovertInstantConcurrentHashMap</a> 的东西作为一个核心容器。</p>
-<p><img src="http://ww2.sinaimg.cn/large/759074fcjw1f0d87evnxdj21bc0qo0ws.jpg" alt="Flag"></p>
+<p><img src="/images/loading.gif" data-original="http://ww2.sinaimg.cn/large/759074fcjw1f0d87evnxdj21bc0qo0ws.jpg" alt="Flag"></p>
 <p>看代码，老司机告诉你们一个真理，从第一行往下看是不明智的，从调用端入口看，那才是明智之选。<br>
 所以我们先从convert这个最核心的方法看起来。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericConversionService</span> <span class="keyword">implements</span> <span class="title">ConfigurableConversionService</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">convert</span><span class="params">(Object source, Class&lt;T&gt; targetType)</span> </span>&#123;</span><br><span class="line">			Assert.notNull(targetType, <span class="string">"targetType to convert to cannot be null"</span>);</span><br><span class="line">			<span class="keyword">return</span> (T) convert(source, TypeDescriptor.forObject(source), TypeDescriptor.valueOf(targetType));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -355,13 +355,13 @@ convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType
       <div class="popular-posts-title"><a href="/2016/12/27/java/spring-convert-02/" rel="bookmark">Spring-convert-(具体调用)</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2018/03/07/java/java-tips/" rel="bookmark">java 小技巧 (1)</a></div>
-    </li>
-    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2017/06/07/java/lombok-project/" rel="bookmark">Project Lombok</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2017/03/01/java/spring-cloud-01-config/" rel="bookmark">Spring cloud 配置中心服务</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/03/07/java/java-tips/" rel="bookmark">java 小技巧 (1)</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2016/12/07/other/about-chameleon/" rel="bookmark">chameleon项目安利</a></div>
@@ -376,12 +376,12 @@ convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -601,8 +601,8 @@ convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -647,7 +647,7 @@ convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -818,7 +818,7 @@ convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -901,5 +901,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

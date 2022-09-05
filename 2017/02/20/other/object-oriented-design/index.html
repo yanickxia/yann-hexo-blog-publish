@@ -27,17 +27,17 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="##学习面向对象的设计原则，并牢牢掌握SOLID和GRASP规则背后的思想 今天开始编程，体验与Qlik合作带来的驱动数据应用开发的强大引擎。 从一些老生常谈的事情开始说起来吧，软件代码应该符合以下特质：  可维护性 可扩展性 模块化">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/PolymorphismDiagram.jpg">
-<meta property="og:image" content="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/InformationExpert.jpg">
-<meta property="og:image" content="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance1.jpg">
-<meta property="og:image" content="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance2.jpg">
-<meta property="og:image" content="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance3.jpg">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2017-02-20T07:27:07.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="OO">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/PolymorphismDiagram.jpg">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2017/02/20/other/object-oriented-design/">
 
@@ -438,13 +438,13 @@ Hollywood原则可以让我们时依赖只向一个方向。
 <p>在java中，RTTI由getClass()或者instanceOf()完成：
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(aDevice.getClass() &#x3D;&#x3D; USBDevice.class)&#123;</span><br><span class="line">    &#x2F;&#x2F; Implement USBDevice</span><br><span class="line">     Byte[] data &#x3D; USBDeviceObj.ReadUART32();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果你曾在你的项目中编写了类似的代码，那么现在是时候重构你的代码以符合多态原则，看如下例图:
-<img src="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/PolymorphismDiagram.jpg"/>
+<img src="/images/loading.gif" data-original="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/PolymorphismDiagram.jpg"/>
 <p>在此我在接口中生成了read方法，然后委托他们的实现类去实现该方法，现在，我只用方法Read:
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;RefactoreCode</span><br><span class="line">IDevice aDevice &#x3D; dm.getDeviceObject();</span><br><span class="line">aDevice.Read();</span><br></pre></td></tr></table></figure>
 <p>getDeviceObject()的实现来自哪里？这是我们即将要讨论的创造者原则和信息专家原则</p>
 <h1>Information Expert（信息专家原则）</h1>
 <p>这是GRASP的一条简易原则，它在如何给予类权限方面给我们提供指导。它表明你应该在一个类有足够的信息去满足某项职能的时候才能赋予它该只能。考虑下面的类：
-<img src="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/InformationExpert.jpg"/>
+<img src="/images/loading.gif" data-original="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/InformationExpert.jpg"/>
 <p>在我们的场景中，一个模式全速启动（每秒600次循环），而用户的显示器以降低的速度更新。那么，我将不得不指定一个职责以决定下一帧需不需要展示。
 <p>哪一个类负责担任这项职责？我有两个选择:Simulation类或者SpeedControl类。
 <p>既然SpeedControl类有关于当前顺序下已经被展示的帧，那么依据信息专家原则，SpeedControl负责该职责。
@@ -482,14 +482,14 @@ PersistenceProvider是符合纯制造原则的。
 <p>在面向对象编程中，基本上有两种扩展已有代码功能的方法，第一个是继承。
 <p>第二个方法是组合，用编程术语来说，你可以通过获取对象的一个引用来扩展这个对象的功能。组合的一个很有用的特征是它的行为可以在运行时才设定。而在继承中，你只有在编译器才能确定它的行为。我们将通过多个例子来说明这一点。
 <p>当我是一个新手，我通过集成来扩展行为，如下：
-<img src="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance1.jpg"/>
+<img src="/images/loading.gif" data-original="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance1.jpg"/>
 <p>最初，我只知道将要处理一段数据输入流，而数据有两种类型。过了几个星期之后，我意识到数据的字节顺序需要被处理。
 因此按照如下图例改变了类设计：
-<img src="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance2.jpg"/>
+<img src="/images/loading.gif" data-original="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance2.jpg"/>
 <p>之后，一个新的变量被增加到需求中。这次我需要处理数据的极性，极性有两种：Stream A, StreamB，流有很多种字节顺序，如此一来，类就爆炸了。我将不得不去维护
 一大批类。
 <p>如果我使用组合来处理相同的问题，类设计如下：
-<img src="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance3.jpg"/>
+<img src="/images/loading.gif" data-original="http://www.objectorienteddesign.org/wp-content/uploads/2016/12/FavorCompositionOverInheritance3.jpg"/>
 <p>我新增了一些类，然后在我的代码中使用它们的引用：
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">clientData.setPolarity(new PolarityOfTypeA); &#x2F;&#x2F; or clientData.setPolarity(new PolarityOfTypeB)</span><br><span class="line">clientData.FormatPolarity;</span><br><span class="line">clientData.setEndianness(new LittleEndiannes());&#x2F;&#x2F; setting the behavior at run-time</span><br><span class="line">clientData.FormatStream();</span><br></pre></td></tr></table></figure>
 <p>如此一来，我就可以根据的想要的行为来提供类的实例，这个特征使得类的总数下降了，最终保证了可维护性。因此组合优于继承将会减少不可维护问题的发生，并且让你能更加灵活的在运行时设定你的行为。
@@ -525,12 +525,12 @@ PersistenceProvider是符合纯制造原则的。
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -749,8 +749,8 @@ PersistenceProvider是符合纯制造原则的。
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -795,7 +795,7 @@ PersistenceProvider是符合纯制造原则的。
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -966,7 +966,7 @@ PersistenceProvider是符合纯制造原则的。
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1049,5 +1049,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

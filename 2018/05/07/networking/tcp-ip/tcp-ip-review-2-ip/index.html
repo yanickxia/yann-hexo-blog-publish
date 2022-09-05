@@ -27,13 +27,13 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="¶IP 协议格式  IP 报文是 无连接 的，IP报文可能出现丢失，重复等等，这个在IP协议中是无任何保证的，IP协议就是能够将数据发送到目标地址即可。 值得注意的点：  IP的头部中有一个总长度字段，这个是以字节为单位的，这个单位只有16位，所以最大为 2^16 &#x3D; 65535 长度，不过依然会被MTU限制切分 标识字段：这个字段为每一个报文生成一个累加的值，对于数据分片的时候，如">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1525701055612&amp;di=0948d9e53d38bcc604965c72842d3074&amp;imgtype=0&amp;src=http%253A%252F%252F7xntdm.com1.z0.glb.clouddn.com%252FIPformat.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-05-07T11:30:07.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="TCP&#x2F;IP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1525701055612&amp;di=0948d9e53d38bcc604965c72842d3074&amp;imgtype=0&amp;src=http%253A%252F%252F7xntdm.com1.z0.glb.clouddn.com%252FIPformat.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/05/07/networking/tcp-ip/tcp-ip-review-2-ip/">
 
@@ -303,7 +303,7 @@
 
 
 <h2 id="IP-协议格式"><a class="header-anchor" href="#IP-协议格式">¶</a>IP 协议格式</h2>
-<p><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1525701055612&amp;di=0948d9e53d38bcc604965c72842d3074&amp;imgtype=0&amp;src=http%3A%2F%2F7xntdm.com1.z0.glb.clouddn.com%2FIPformat.png" alt="ip"></p>
+<p><img src="/images/loading.gif" data-original="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1525701055612&amp;di=0948d9e53d38bcc604965c72842d3074&amp;imgtype=0&amp;src=http%3A%2F%2F7xntdm.com1.z0.glb.clouddn.com%2FIPformat.png" alt="ip"></p>
 <p>IP 报文是 <code>无连接</code> 的，IP报文可能出现丢失，重复等等，这个在IP协议中是无任何保证的，IP协议就是能够将数据发送到目标地址即可。<br>
 值得注意的点：</p>
 <ul>
@@ -372,10 +372,10 @@
       <div class="popular-posts-title"><a href="/2018/05/06/networking/tcp-ip/tcp-ip-review-1-arp/" rel="bookmark">TCP/IP-(1)-ARP</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/" rel="bookmark">TCP/IP-(3)-UDP协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/" rel="bookmark">TCP/IP-(4)-TCP协议</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/" rel="bookmark">TCP/IP-(4)-TCP协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/" rel="bookmark">TCP/IP-(3)-UDP协议</a></div>
     </li>
   </ul>
 
@@ -387,12 +387,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -611,8 +611,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -657,7 +657,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -828,7 +828,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -911,5 +911,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

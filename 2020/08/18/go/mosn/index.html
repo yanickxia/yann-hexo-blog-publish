@@ -27,17 +27,17 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="本文基于 0.15.0 版本，因为 Mosn 代码非常的巨大，对于 * 开头的章节作为补充部分，可以跳过。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/20/uEJCp.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/18/uuloL.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/19/uSvPQ.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/03/1JDhU.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/20/uES1T.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/24/uyuC5.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/02/1HMfG.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/03/1JAdf.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/03/1troW.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/03/1SLTy.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/03/1YSLR.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-08-18T09:51:26.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.420Z">
 <meta property="article:author" content="Yanick.xia">
@@ -45,7 +45,7 @@
 <meta property="article:tag" content="mosn">
 <meta property="article:tag" content="gateway">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/08/20/uEJCp.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/08/18/go/mosn/">
 
@@ -309,7 +309,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/08/20/uEJCp.png" alt="uEJCp.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/20/uEJCp.png" alt="uEJCp.png"></p>
 <p>本文基于 <code>0.15.0</code> 版本，因为 <code>Mosn</code> 代码非常的巨大，对于 <code>*</code> 开头的章节作为补充部分，可以跳过。</p>
 <a id="more"></a>
 
@@ -325,9 +325,9 @@
 <p><code>Mosn</code> 支持两种网络模型 <code>Netpoll</code> / <code>RawEpoll</code></p>
 <h3 id="Netpoll-模式"><a class="header-anchor" href="#Netpoll-模式">¶</a>Netpoll 模式</h3>
 <p>Netpoll 模式是标准的 <code>Go</code> 的网络模型， <code>goroutine-per-connection</code> 相对缺点就是消耗高点，但是编程会简单很多。</p>
-<p><img src="https://s3.jpg.cm/2020/08/18/uuloL.png" alt="uuloL.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/18/uuloL.png" alt="uuloL.png"></p>
 <h3 id="RawEpoll-模式"><a class="header-anchor" href="#RawEpoll-模式">¶</a>RawEpoll 模式</h3>
-<p><img src="https://s3.jpg.cm/2020/08/19/uSvPQ.png" alt="uSvPQ.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/19/uSvPQ.png" alt="uSvPQ.png"></p>
 <ol>
 <li>链接建立后，向 Epoll 注册 <code>oneshot</code> 可读事件监听；并且此时不允许有协程调用 <code>conn.read</code>，避免与 <code>runtime netpoll</code> 冲突。</li>
 <li>可读事件到达，从 <code>goroutine pool</code> 挑选一个协程进行读事件处理；由于使用的是 <code>oneshot</code> 模式，该 fd 后续可读事件不会再触发。</li>
@@ -336,7 +336,7 @@
 </ol>
 <h2 id="How-it-work"><a class="header-anchor" href="#How-it-work">¶</a>How it work</h2>
 <p>大家先瞧一眼模块图，瞧瞧就好了。<br>
-<img src="https://s3.jpg.cm/2020/09/03/1JDhU.png" alt="1JDhU.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/03/1JDhU.png" alt="1JDhU.png"></p>
 <h3 id="Start-Server"><a class="header-anchor" href="#Start-Server">¶</a>Start Server</h3>
 <p>代码的入口在 <code>pkg/mosn/starter.go:300</code>，我们采用文件的方式进行启动。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start -c config.json</span><br></pre></td></tr></table></figure>
@@ -371,7 +371,7 @@
 <figure class="highlight go"><figcaption><span>register</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">el.poller.Start(read, el.readWrapper(read, handler))</span><br><span class="line">el.poller.Start(write, el.writeWrapper(write, handler))</span><br></pre></td></tr></table></figure>
 <p>不过值得注意是，对一个同一个请求的读写事件的 <code>Poller</code> 肯定是在同一个上面。那我们下面需要看我们最重要的部分，我们真实的读取数据从何而来，不过先小结一下：</p>
 <h5 id="小结"><a class="header-anchor" href="#小结">¶</a>小结</h5>
-<p><img src="https://s3.jpg.cm/2020/08/20/uES1T.png" alt="uES1T.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/20/uES1T.png" alt="uES1T.png"></p>
 <p>对于 <code>Mosn</code> 来说，我们对于 <code>Read/Write</code> 可以使用多个 <code>RawPoller</code> 进行操作，这样可以有效的利用多核的性质，不过这里又和我们后面的 <code>GoRoutine</code> 会冲突，这里需要好好设计你的 <code>poolsize</code>，不过从源码看现阶段仅支持 <code>1</code> 个的读写监听器。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line"></span><br><span class="line">	readPool  = mosnsync.NewWorkerPool(runtime.NumCPU())</span><br><span class="line">	writePool = mosnsync.NewWorkerPool(runtime.NumCPU())</span><br><span class="line"></span><br><span class="line">	rrCounter                 <span class="keyword">uint32</span></span><br><span class="line">	poolSize                  <span class="keyword">uint32</span> = <span class="number">1</span> <span class="comment">//uint32(runtime.NumCPU()) ➊</span></span><br><span class="line">	eventLoopPool                    = <span class="built_in">make</span>([]*eventLoop, poolSize)</span><br><span class="line">	errEventAlreadyRegistered        = errors.New(<span class="string">"event already registered"</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>在 ➊ 处已经被标记出来的，暂时还没有查找到修改的地方。</p>
@@ -422,7 +422,7 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(conn *serverStreamConnection)</span> <span class="title">serve</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		ctx := conn.contextManager.Get()</span><br><span class="line">		buffers := httpBuffersByContext(ctx)</span><br><span class="line">		request := &amp;buffers.serverRequest</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2. 这里用了 Fasthttp 来获取请求的数据</span></span><br><span class="line">		err := request.ReadLimitBody(conn.br, maxRequestBodySize)</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3. 生成一个唯一ID</span></span><br><span class="line">		id := protocol.GenerateID()</span><br><span class="line">		s := &amp;buffers.serverStream</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 4. 处理请求</span></span><br><span class="line">		s.stream = stream&#123;</span><br><span class="line">			id:       id,</span><br><span class="line">			ctx:      mosnctx.WithValue(ctx, types.ContextKeyStreamID, id),</span><br><span class="line">			request:  request,</span><br><span class="line">			response: &amp;buffers.serverResponse,</span><br><span class="line">		&#125;</span><br><span class="line">		s.connection = conn</span><br><span class="line">		s.responseDoneChan = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>, <span class="number">1</span>)</span><br><span class="line">		s.header = mosnhttp.RequestHeader&#123;&amp;s.request.Header, <span class="literal">nil</span>&#125;</span><br><span class="line"></span><br><span class="line">		conn.mutex.Lock()</span><br><span class="line">		conn.stream = s</span><br><span class="line">		conn.mutex.Unlock()</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> atomic.LoadInt32(&amp;s.readDisableCount) &lt;= <span class="number">0</span> &#123;</span><br><span class="line">			s.handleRequest() <span class="comment">// IMP! 这里进行请求的处理</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 5. 等待请求处理完成</span></span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-s.responseDoneChan:</span><br><span class="line">		<span class="keyword">case</span> &lt;-conn.connClosed:</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		conn.contextManager.Next()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>看到这里给大家做个小结，我们先理清顺序</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+------------+               +-------------+          +--------------+</span><br><span class="line">|   upsteam  +--------------&gt;+     mosn    +---------&gt;+  downsteam   |</span><br><span class="line">+------------+               +-------------+          +--------------+</span><br></pre></td></tr></table></figure>
-<p><img src="https://s3.jpg.cm/2020/08/24/uyuC5.png" alt="uyuC5.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/24/uyuC5.png" alt="uyuC5.png"></p>
 <p>对于 <code>Upsteam Conn</code> 根据模型的不同，可能是 <code>RawEpoll</code>，而 <code>ServerSteamConn</code> 是一个被 <code>Pool</code> 化的 <code>Conn</code>，但是对于这个 <code>Conn</code> 本身也有自己的 <code>Read</code> 和 <code>Write</code> 处理函数，是在一个 <code>Gorotine</code> 中，启动的代码是在 <code>ssc.serve()</code> 中。</p>
 <h5 id="OnReceive"><a class="header-anchor" href="#OnReceive">¶</a>OnReceive</h5>
 <p>对于常见的 <code>Http proxy filter（pkg/proxy/proxy.go）</code> 来说，我们处理  <code>Http encoder</code> 之后，进入 <code>OnReceive</code> 部分。</p>
@@ -483,16 +483,16 @@
 
 <p>整个流程还是在 <code>Downstream:OnReceive</code> 进行控制，逻辑也就分为 <code>将输入的Header</code>/<code>输入的Body</code> 写入 <code>DownStream</code>，将输出按照同样的方式执行一次。不过值得注意的是，和架构图上一致。在处理单一请求的过程中，写入和回读都是同一个 <code>goroutinue</code>，对于 <code>Downstream</code> 的 <code>io</code> 处理是遵守标准的 <code>NetPoller</code> 的模型的，并没有  <code>RawPoller</code> 机制，<code>RawPoller</code> 机制仅在 <code>接受侧</code> 有单独的定义。</p>
 <h3 id="小结：all-in-one"><a class="header-anchor" href="#小结：all-in-one">¶</a>小结：all in one</h3>
-<p><img src="https://s3.jpg.cm/2020/09/02/1HMfG.png" alt="1HMfG.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/02/1HMfG.png" alt="1HMfG.png"></p>
 <p>对于 <code>Go Lanague</code> 因为 <code>Goroutine</code> 使用起来很方便，分析 <code>Go</code> 项目很难分析 <code>Theadmodel</code> 这块内容，或者也可以认为开 <code>Goroutine</code> 本身的成本很低，大家不用过于担心切换的成本。</p>
 <p>作为对比，下面也放上官方的一张图。<br>
-<img src="https://s3.jpg.cm/2020/09/03/1JAdf.png" alt="1JAdf.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/03/1JAdf.png" alt="1JAdf.png"></p>
 <p>直到这里我们已经将 <code>监听请求</code> <code>接受数据</code> <code>转发请求</code> <code>响应请求</code> 这几个部分都阅读过了，整个流程已经走通了，我们再去看看其他重要的功能。</p>
 <h3 id="多协议机制"><a class="header-anchor" href="#多协议机制">¶</a>多协议机制</h3>
 <p><code>Mosn</code> 支持多协议之间的转换，我们从想问的分析中，我们可以知道所谓的 <code>Proxy</code> 就是我们整个 <code>FilterManager</code> 中的一个 <code>Filter</code>。因此对于配置文件</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"type"</span>: <span class="string">"proxy"</span>,</span><br><span class="line">	<span class="attr">"config"</span>: &#123;</span><br><span class="line">		<span class="attr">"downstream_protocol"</span>: <span class="string">"Http1"</span>,</span><br><span class="line">		<span class="attr">"upstream_protocol"</span>: <span class="string">"Http1"</span>,</span><br><span class="line">		<span class="attr">"router_config_name"</span>: <span class="string">"server_router"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>Mosn</code> 这个功能非常的有趣，因为实际上因为RPC协议非常的多，因此想要支持多种协议的话，都是需要用户自行进行拓展的，不过 <code>Mosn</code> 帮大家做了一部分的工作，流程如下图：</p>
-<p><img src="https://s3.jpg.cm/2020/09/03/1troW.png" alt="1troW.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/03/1troW.png" alt="1troW.png"></p>
 <p>在 <code>pkg/protocol/xprotocol/example/encoder.go</code> 中有一个例子。对于大多数的 <code>RPC</code> 协议我们都是需要获取到 <code>足够</code> 信息之后再处理，那第一步显然是我们需要先获得一些数据也就是 <code>MinimalDecodeLen</code></p>
 <figure class="highlight go"><figcaption><span>Decode</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(proto *proto)</span> <span class="title">Decode</span><span class="params">(ctx context.Context, data types.IoBuffer)</span> <span class="params">(<span class="keyword">interface</span>&#123;&#125;, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> data.Len() &gt;= MinimalDecodeLen &#123; <span class="comment">// 这里我们需要获得至少获得 Header 部分的信息</span></span><br><span class="line">		magic := data.Bytes()[<span class="number">0</span>]</span><br><span class="line">		dir := data.Bytes()[<span class="number">2</span>]</span><br><span class="line">		<span class="keyword">switch</span> dir &#123;</span><br><span class="line">		<span class="keyword">case</span> DirRequest:</span><br><span class="line">			<span class="keyword">return</span> decodeRequest(ctx, data)</span><br><span class="line">		<span class="keyword">case</span> DirResponse:</span><br><span class="line">			<span class="keyword">return</span> decodeResponse(ctx, data)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>之后我们需要获得完整的数据</p>
@@ -510,7 +510,7 @@
 <h3 id="插件机制"><a class="header-anchor" href="#插件机制">¶</a>插件机制</h3>
 <p>对于 <code>Mosn</code> 的插件机制也相对复杂，对于 <code>Envoy</code> 来说我们只有2处可以进行插件埋点，<code>Mosn</code> 也相对一致。</p>
 <h4 id="SteamFilter"><a class="header-anchor" href="#SteamFilter">¶</a>SteamFilter</h4>
-<p><img src="https://s3.jpg.cm/2020/09/03/1SLTy.png" alt="1SLTy.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/03/1SLTy.png" alt="1SLTy.png"></p>
 <p>MOSN 扩展中使用频率最高的扩展点。对于配置项如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">"listeners":[&#123;</span><br><span class="line">	"filter_chains": [&#123;</span><br><span class="line">	&#125;],</span><br><span class="line">	"stream_filters": [</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"type"</span>:<span class="string">"demo"</span>,</span><br><span class="line">			<span class="attr">"config"</span>: &#123;</span><br><span class="line">				<span class="attr">"User"</span>:<span class="string">"admin"</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <p>从配置看，我可以发现 <code>StreamFilter</code> 和 <code>FilterChain</code> 是平级的（不过实际上并不是）。因此 <code>Stream</code> 分了两种类型：</p>
@@ -524,7 +524,7 @@
 <p>官方的Demo可以看一下，使用起来还是很方便的 <a href="https://github.com/mosn/mosn/tree/master/examples/codes/mosn-extensions/simple_streamfilter" target="_blank" rel="noopener">Stream Filter Demo</a></p>
 <h4 id="MOSN-Plugin-机制"><a class="header-anchor" href="#MOSN-Plugin-机制">¶</a>MOSN Plugin 机制</h4>
 <p><code>Mosn</code> 还提供了另外一种基于通讯机制的方式</p>
-<p><img src="https://s3.jpg.cm/2020/09/03/1YSLR.png" alt="1YSLR.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/03/1YSLR.png" alt="1YSLR.png"></p>
 <p>在这里有个例子：<a href="https://github.com/mosn/mosn/tree/master/examples/codes/mosn-extensions/plugin/filter" target="_blank" rel="noopener">Stream Filter Plugin demo</a></p>
 <p>不过这种算是上面一种的变形，实际上我们依然需要将 <code>StreamFilter</code> 注册到系统中，不过这一次所有的逻辑处理不在编译器固定，而是有一个 <code>gRPC</code> 的外部服务可以进行通讯判断。因此其实不再限于单一语言，我们只需要遵守 <code>gRPC</code> 的协议即可。</p>
 <h3 id="平滑升级"><a class="header-anchor" href="#平滑升级">¶</a>平滑升级</h3>
@@ -555,12 +555,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -781,8 +781,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -827,7 +827,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -998,7 +998,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1081,5 +1081,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

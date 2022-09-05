@@ -27,19 +27,19 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="笔者在 2017.12 - 至今（2018.8）都沉浸在 微服务治理平台 的 网关 这个组件的构造之上，恰逢系统更新到 1.2 著此作为反思。  此处的网关指的是七层的 API 网关">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/08/15/PRero4.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/08/15/PReO6P.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/08/15/PRuAdU.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/08/15/PRnWVO.png">
-<meta property="og:image" content="http://i1.bvimg.com/596754/6a0e6f920fa9177b.png">
-<meta property="og:image" content="http://i2.bvimg.com/596754/0a69ee94fd3bc281.png">
-<meta property="og:image" content="http://i2.bvimg.com/596754/df1991fdcf2a17e1.png">
-<meta property="og:image" content="http://i2.bvimg.com/596754/a69f8b261cd3c627.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-08-15T09:00:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/08/15/PRero4.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/">
 
@@ -303,18 +303,18 @@
 <blockquote>
 <p>此处的网关指的是七层的 API 网关</p>
 </blockquote>
-<p><img src="https://s1.ax1x.com/2018/08/15/PRero4.png" alt="banner"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/08/15/PRero4.png" alt="banner"></p>
 <a id="more"></a>
 <h2 id="0-99-时期"><a class="header-anchor" href="#0-99-时期">¶</a>0.99 时期</h2>
 <p>2017年底的时候，随着公司的咨询业务开展以及<code>微服务</code>的流行起来，我们隐约的摸到了大多数的公司仅仅使用<code>SpringCloud</code>的<code>Zuul</code>作为唯一的外置的<code>API网关</code>是不够的，其中又涉及到大量的相同类似的功能，我们因此萌生了开发一个开箱即用的网关的想法，这个项目在12月的时候正式开始启动。</p>
 <p>当时作为流行的是 <code>Spring Cloud Netflix Zuul</code>，直至今日都是作为流行的选择之一。<code>Zuul</code> 的编程模型也足够简单，我们也在之上为不同的企业做了多套的方案，是成熟可靠的选择。<br>
-<img src="https://s1.ax1x.com/2018/08/15/PReO6P.png" alt="Zuul"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/08/15/PReO6P.png" alt="Zuul"></p>
 <p>不过当时，我们已经成功的使用 <code>Netty</code> 给 <code>东风汽车</code> 新能源项目做了一套接入的网关，<code>Netty</code>的稳定性和高性能非常的吸引我们，当时也有基于<code>Netty</code>的高性能的  <code>Web框架</code> <a href="https://vertx.io/" target="_blank" rel="noopener"><code>vertx</code></a> ，这里涉及到最为重要的就是 <code>NIO</code> 与 <code>BIO</code> 之间的比较。如果能够基于 <code>Netty</code> 的 <code>Reactor</code> 的模型，可以提高大量的吞吐量。</p>
-<p><img src="https://s1.ax1x.com/2018/08/15/PRuAdU.png" alt="Netty Reactor"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/08/15/PRuAdU.png" alt="Netty Reactor"></p>
 <p>所以我们决定不基于 <code>Zuul</code>的编程模型，做一套可以同时在 <code>Zuul</code> 与 <code>Vertx</code> 运行的框架。在开发的过程中，我们借鉴了 <code>Netty</code> 的 <code>Pipeline</code> 机制，做了一套流水线。<br>
-<img src="https://s1.ax1x.com/2018/08/15/PRnWVO.png" alt="Pipeline"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/08/15/PRnWVO.png" alt="Pipeline"></p>
 <p>在物理架构上，我们将 <code>管理端</code> 与 <code>运行端</code> 进行了分离。这样的架构可以保证，<code>运行端</code> 的性能足够好，并且不会因为暴露出一些非必要的请求地址给外部用户。<br>
-<img src="http://i1.bvimg.com/596754/6a0e6f920fa9177b.png" alt="架构图"></p>
+<img src="/images/loading.gif" data-original="http://i1.bvimg.com/596754/6a0e6f920fa9177b.png" alt="架构图"></p>
 <p>然后将系统划分为了这么几个模块：</p>
 <ul>
 <li><code>端点</code>：提供对外暴露接口的能力</li>
@@ -326,7 +326,7 @@
 <h3 id="不足之处"><a class="header-anchor" href="#不足之处">¶</a>不足之处</h3>
 <ol>
 <li>因为为了兼容 <code>Zuul</code> 我们整个编程模型，在 <code>Redis</code> 读写 和 <code>Request Body</code> 读写方都是同步阻塞的。所以整体线程模型会是这样的:<br>
-<img src="http://i2.bvimg.com/596754/0a69ee94fd3bc281.png" alt="0.99"><br>
+<img src="/images/loading.gif" data-original="http://i2.bvimg.com/596754/0a69ee94fd3bc281.png" alt="0.99"><br>
 我们不得不在网关处持有大量的线程，这样对于网关的性能来说是一个致命的伤。</li>
 <li>Redis的读取我们的用了 <a href="https://github.com/redisson/redisson/" target="_blank" rel="noopener">Redisson</a>，当时 Redisson 不支持 Reactive的编程模型，所以的行为是阻塞的，除此之外还有一点很可惜，<code>Redisson</code> 存储到Redis的数据往往是非精简的，导致读取数据大小太大这是一个优化点</li>
 </ol>
@@ -341,13 +341,13 @@
 </ul>
 <p><code>webflux</code> 5.0.0 版本，不仅仅在 <code>ServerExchange</code> 中缺少 <code>RemoteIP</code>，而且无法强制的关闭 <code>CORS</code> 的处理，这些细小的问题却要花上不少的时间去做一些<code>魔改</code>。</p>
 <p>最后在 1.1 完成后，整个系统的架构变成了 <code>Input Reactive</code> 和 <code>Output Reactive</code>，但是由于pipeline的处理流程还是阻塞的，导致系统依然存在较大的IO瓶颈。</p>
-<p><img src="http://i2.bvimg.com/596754/df1991fdcf2a17e1.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="http://i2.bvimg.com/596754/df1991fdcf2a17e1.png" alt=""></p>
 <h2 id="1-2-时期"><a class="header-anchor" href="#1-2-时期">¶</a>1.2 时期</h2>
 <p>在 <code>1.2</code> 的重构目标就是去除复杂的 <code>Pipeline</code> 机制，我们可以利用更为完善的 <code>projectreactor</code> 进行流程的控制，这个 <code>Reactive</code> 的编程库足够好也更为的通用。所以在这个阶段，我们将之前的 <code>Pipeline</code> 中的 <code>Stage</code> 概念替换为了 <code>Handler</code> 在系统中保留了之前经过验证的简单又可靠的概念。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReactiveHandler</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">Mono</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nonnull</span></span><br><span class="line">    <span class="function">Mono&lt;T&gt; <span class="title">handle</span><span class="params">(T httpExchange)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Mono&lt;T&gt; <span class="title">apply</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> handle(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们使用单一的处理抽象，结合 <code>Projectreactor</code> 的 <code>Mono</code> 可以达到以前的 <code>Pipeline</code> 的效果。</p>
 <p>在这个阶段，我们完成了项目的全<code>响应式</code>:<br>
-<img src="http://i2.bvimg.com/596754/a69f8b261cd3c627.png" alt="reactive"></p>
+<img src="/images/loading.gif" data-original="http://i2.bvimg.com/596754/a69f8b261cd3c627.png" alt="reactive"></p>
 <h3 id="启迪"><a class="header-anchor" href="#启迪">¶</a>启迪</h3>
 <p>过度设计是万恶之源，一点都不为过，<code>Pipeline</code> 的设计太过于超前也并不实用，导致在 <code>1.1</code> 时期增加一个功能非常的困难，<code>Pipeline</code> 的编程模型并非是<code>响应式</code>的，所以在我们底层的编程模型变化之后，直接就判处了死刑。</p>
 <h3 id="展望"><a class="header-anchor" href="#展望">¶</a>展望</h3>
@@ -368,12 +368,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -589,8 +589,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -635,7 +635,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -806,7 +806,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -889,5 +889,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

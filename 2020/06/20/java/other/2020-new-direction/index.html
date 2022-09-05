@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="Java 作为一个不怎么年轻的语言，从 JDK9 开始加速进化，颇有老树焕新芽的风采。语言上 类型自动推动 No-Op Garbage Collector JEP 321: HTTP Client 也算是非常的务实了。但是除了语言本身更重要的是社区建设，站在 2020 的时间节点上，我们看看未来社区的几个新方向。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NGjejx.png">
-<meta property="og:image" content="https://vjvcpg.dm.files.1drv.com/y4mrL7Bo198vgFvtPcn4P8_fwm7FyFrAsP-4GtXA4_2yUn3KuLfhvf0ED2nBUPt0xR4rXiDq9CwTKgulXtOqEHgqbusyYAZFN3m0gR-Xk4LVoJfRJzR07euG1yRpjbZoepNpMpkfsb8lvIhLFBjdDPFxvDEDjwUPfAwK0KxxcGrrqdnQT6jiJc2bbzaG09zPKhaOErN7MNPKUfw3PAqWQ0uAw?width=661&amp;height=231&amp;cropmode=none">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NGOEa4.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-06-20T13:29:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/22/NGjejx.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/">
 
@@ -305,15 +305,15 @@
 <p>这个其实不能算是社区的变化，不过因为这个特性会导致整个研发体系发生剧变，就单独拿出来说说。</p>
 <p><code>Mesh</code> 也是分时代的，对于 <code>Isito</code> 这样的组件，我认为还是 <code>v1.0</code> 的时代，此时我们注重的是网络流量的走向问题，从而来解决比如灰度发布之类的问题，并且基于这些能力做一些 <code>流控</code> <code>请求安全</code> 的功能。<br>
 但是慢慢的社区迈入 <code>v2.0</code> 时代，因为在之前的模式中，我们没有对应用进行任何修改。但是在 <code>v2.0</code> 时期，我们需要做的是真正的 <code>ServiceMesh</code>。</p>
-<p><img src="https://s1.ax1x.com/2020/06/22/NGjejx.png" alt="NGjejx.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/22/NGjejx.png" alt="NGjejx.png"></p>
 <p>未来我们会在应用之间增加一层 <code>Mesh</code> 层，那好奇的朋友肯定会问，这个和以前的中间件有啥区别？这里的区别可大了，举一个例子：</p>
 <blockquote>
 <p>比如你在企业内部提供的内部接口能力，当你第一次交付出去的时候是 v1 版本，当你需要发新版的时候你发布了 v2 版本。但是你不知道谁用了你的 v1 版本，你只能让其继续维护下去，而在 <code>Mesh</code> 时代，你可以在不修应用的情况下，就直接将所有v1版本请求进行一点点修正，再让其把所有的流量转移到 v2 上，这样你再也不需要维护2个不同的版本了。</p>
 </blockquote>
 <p>伴随着 <code>Mesh</code> 技术的普及，慢慢的我们会发现，我们对中间件和应用都提出了新的理念，规范应用开发体系，桂发中间件提供的API规范，将所有的技术层都放置于 <code>Mesh</code> 中。</p>
-<p><img src="https://vjvcpg.dm.files.1drv.com/y4mrL7Bo198vgFvtPcn4P8_fwm7FyFrAsP-4GtXA4_2yUn3KuLfhvf0ED2nBUPt0xR4rXiDq9CwTKgulXtOqEHgqbusyYAZFN3m0gR-Xk4LVoJfRJzR07euG1yRpjbZoepNpMpkfsb8lvIhLFBjdDPFxvDEDjwUPfAwK0KxxcGrrqdnQT6jiJc2bbzaG09zPKhaOErN7MNPKUfw3PAqWQ0uAw?width=661&amp;height=231&amp;cropmode=none" alt="cool"></p>
+<p><img src="/images/loading.gif" data-original="https://vjvcpg.dm.files.1drv.com/y4mrL7Bo198vgFvtPcn4P8_fwm7FyFrAsP-4GtXA4_2yUn3KuLfhvf0ED2nBUPt0xR4rXiDq9CwTKgulXtOqEHgqbusyYAZFN3m0gR-Xk4LVoJfRJzR07euG1yRpjbZoepNpMpkfsb8lvIhLFBjdDPFxvDEDjwUPfAwK0KxxcGrrqdnQT6jiJc2bbzaG09zPKhaOErN7MNPKUfw3PAqWQ0uAw?width=661&amp;height=231&amp;cropmode=none" alt="cool"></p>
 <p>而这一切社区也在积极的推动，比如 <code>Macha</code> 理论等<br>
-<img src="https://s1.ax1x.com/2020/06/22/NGOEa4.png" alt="NGOEa4.png"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/22/NGOEa4.png" alt="NGOEa4.png"></p>
 <h1>框架轻量级化</h1>
 <p>因为未来的趋势是 <code>Mesh</code> 话，原本 <code>Spring Cloud</code> <code>Spring Sercuirty</code> 的能力都慢慢的沉淀到中间层，因为 <code>Java</code> 现在的臃肿，可能并不适合中间层，未来可能还是会长时间的在 <code>Biz</code> 层，而在 <code>Biz</code> 我们需要的显然是 <code>轻量级</code> <code>业务友好型</code> 的框架，如果能高性能就更好了。</p>
 <p>不过社区在这方面已经有了一些成果：</p>
@@ -353,12 +353,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -577,8 +577,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -623,7 +623,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -794,7 +794,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -877,5 +877,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

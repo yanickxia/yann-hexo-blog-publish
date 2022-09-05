@@ -27,17 +27,17 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="今天就带大家使用 Rust 构建 WebAssembly 作为 Envoy 的插件。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/30/NaNFT.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/30/Nar7Q.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/30/NTJh8.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/30/NaSyE.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-10-30T08:04:12.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.432Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="rust">
 <meta property="article:tag" content="envoy">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/10/30/NaNFT.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/">
 
@@ -297,7 +297,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/10/30/NaNFT.png" alt="NaNFT.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/30/NaNFT.png" alt="NaNFT.png"></p>
 <p>今天就带大家使用 <code>Rust</code> 构建 <code>WebAssembly</code> 作为 <code>Envoy</code> 的插件。</p>
 <a id="more"></a>
 <h2 id="什么是-WebAssembly"><a class="header-anchor" href="#什么是-WebAssembly">¶</a>什么是 WebAssembly</h2>
@@ -323,7 +323,7 @@
 <p>因为我们最终生成的代码给 <code>envoy</code> 使用，因此还需要修改生成的 <code>lib</code> 类型，顺带加上我们的 <code>lib</code> 依赖</p>
 <figure class="highlight toml"><figcaption><span>Cargo.toml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[lib]</span></span><br><span class="line"><span class="attr">crate-type</span> = [<span class="string">"cdylib"</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">proxy-wasm</span> = <span class="string">"0.1.2"</span></span><br></pre></td></tr></table></figure>
 <h3 id="插件运行机制"><a class="header-anchor" href="#插件运行机制">¶</a>插件运行机制</h3>
-<p><img src="https://s3.jpg.cm/2020/10/30/Nar7Q.png" alt="Nar7Q.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/30/Nar7Q.png" alt="Nar7Q.png"></p>
 <p>作为插件十之八九都是被 <code>宿主</code> 回调的，因此查阅 <code>abi</code> 有哪些函数，我们大致上就知道我们能做哪些工作了，<a href="https://github.com/proxy-wasm/spec/tree/master/abi-versions/vNEXT" target="_blank" rel="noopener"><code>文档在此</code></a></p>
 <h4 id="重要的函数"><a class="header-anchor" href="#重要的函数">¶</a>重要的函数</h4>
 <h5 id="回调点"><a class="header-anchor" href="#回调点">¶</a>回调点</h5>
@@ -343,7 +343,7 @@
 <li>proxy_get_shared_data: 获得 context 共享的对象</li>
 </ul>
 <h4 id="对象"><a class="header-anchor" href="#对象">¶</a>对象</h4>
-<p><img src="https://s3.jpg.cm/2020/10/30/NTJh8.png" alt="NTJh8.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/30/NTJh8.png" alt="NTJh8.png"></p>
 <p>整个 <code>WASM</code> 中最重要的就是 <code>Context</code> 对象，这个封装了对于系统的操作，实现 <code>Proxy-Wasm</code> 插件需要进行如下 2 个步骤。</p>
 <ul>
 <li>定义 <code>Context</code></li>
@@ -375,7 +375,7 @@
 <h2 id="周边生态"><a class="header-anchor" href="#周边生态">¶</a>周边生态</h2>
 <h3 id="webassembly-hub"><a class="header-anchor" href="#webassembly-hub">¶</a>webassembly hub</h3>
 <p>(<a href="https://webassemblyhub.io/" target="_blank" rel="noopener">https://webassemblyhub.io/</a>): 因为很多插件可以复用，因此<code>istio</code> 联合 <code>solo.io</code> 社区完成了 <code>webassemblyhub</code> 的建设<br>
-<img src="https://s3.jpg.cm/2020/10/30/NaSyE.png" alt="NaSyE.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/30/NaSyE.png" alt="NaSyE.png"></p>
 <p>除此之外还提供了 <code>wasme</code> 这个 <code>cli</code> 工具可以帮助我们简单的开发系统。</p>
 <h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
 <ul>
@@ -416,12 +416,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -641,8 +641,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -687,7 +687,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -858,7 +858,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -941,5 +941,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

@@ -27,12 +27,12 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="笔者在最近的2年内，一直从事微服务咨询工作，帮助两位数的企业改造项目至微服务架构，然而这一切并非如想象中的一帆风顺，写下此篇也意在反思微服务的一些伤痛。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/09/01/PxVEVK.jpg">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-09-01T10:00:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/09/01/PxVEVK.jpg">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/09/01/rethink/pain-of-microservice/">
 
@@ -293,7 +293,7 @@
 <h2 id="系统结构之痛"><a class="header-anchor" href="#系统结构之痛">¶</a>系统结构之痛</h2>
 <p>微服务并非是<code>银弹</code>，在咨询的过程中，很多公司的代码就像是<code>意大利面</code>一样的缠绕在一起，而这些代码之罪源于 <code>过度压缩研发周期</code> <code>缺失代码评审</code> <code>缺少顶层设计</code> 而非是一门技术所能够解决之事。</p>
 <p>其中最为令人窒息的是 <code>代码间调用混乱</code> 与 <code>数据库使用混乱</code>，动则就数表联查，哪怕是采用 <a href="https://microservices.io/patterns/cn/data/database-per-service.html" target="_blank" rel="noopener"><code>database-per-service</code></a> 设计模式，在物理上将数据库切分开，也会导致大量的服务间的请求出现，而因为服务库的拆分，更会暴露出系统模块划分的不合理，有点像是打地鼠一样，按住一头又冒出了另外三只。</p>
-<p><img src="https://s1.ax1x.com/2018/09/01/PxVEVK.jpg" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/09/01/PxVEVK.jpg" alt=""></p>
 <p>在原本的单体系统中，不合理的函数点调用最多浪费些调用栈，至多多一些数据库的操作，而将这个问题拓展至 <code>微服务</code> 中，缺点暴露的更多，有且不限于 <code>调用过于频繁</code> <code>请求体和响应体过大</code> <code>无良好异常设计</code> 甚至于将一些内部应用的接口暴露给用户。</p>
 <h2 id="运维成本之痛"><a class="header-anchor" href="#运维成本之痛">¶</a>运维成本之痛</h2>
 <p>一个微服务的系统，少说得有 <code>业务应用 x3</code> <code>服务网关</code> <code>配置中心</code> 构成，应用数量的变多，使得运维变的困难起来，微服务在资源利用上的确有其独到的地方，但带来的问题是在于运维成本急速上升，所以我们看到 <code>CNCF</code> 最近又再疯狂的重新造轮子，试图使用自动化运维手段将这部分的成本降下来，但是问题不仅仅在于工具的选择，我们依然不得不去面对日益增长的应用数，不同的应用甚至于对于运维的技能都有着不一样的需求。</p>
@@ -338,12 +338,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -559,8 +559,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -605,7 +605,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -776,7 +776,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -859,5 +859,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

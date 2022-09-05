@@ -376,7 +376,7 @@
       
           <p>随着Devops以及微服务的普及，应用上线周期变短，对于以前那种需要停机升级的忍受度也在不断的降低，话不多说，进入主题。</p>
 <h1>我们需要解决的</h1>
-<p><img src="https://s1.ax1x.com/2020/06/12/tXcilt.png" alt="tXcilt.png"><br>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/12/tXcilt.png" alt="tXcilt.png"><br>
 对于我们来说，我们所需要解决的是：当我们运行着一个服务进程的时候，我们期望这个进程能够突然之间变成新的(新的代码逻辑)，并且外部无感知。至少包含几点：</p>
 <ul>
 <li>服务状态不丢失：比如监控状态，正在处理的数据状态</li>
@@ -737,7 +737,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210312145904.png" alt=""></p>
+          <p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210312145904.png" alt=""></p>
 <h2 id="开发环境搭建"><a class="header-anchor" href="#开发环境搭建">¶</a>开发环境搭建</h2>
 <p>基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1</p>
           <!--noindex-->
@@ -1003,7 +1003,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://s2.ax1x.com/2020/02/29/3ySjTf.png" alt="3ySjTf.png"></p>
+          <p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2020/02/29/3ySjTf.png" alt="3ySjTf.png"></p>
 <p>周末的时候看了一篇好文 <a href="https://coffee.pmcaff.com/article/G2Qd2GR5kZ" target="_blank" rel="noopener">做产品真的难于上天！</a> 从文后的链接听了一遍 Marty Cagan 的演讲，受益良多因此记录一下。</p>
           <!--noindex-->
             <div class="post-button">
@@ -1268,8 +1268,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -1314,7 +1314,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -1485,7 +1485,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1522,5 +1522,18 @@
 
 
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

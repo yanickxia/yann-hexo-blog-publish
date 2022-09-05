@@ -27,21 +27,21 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="在 Java社区的新方向 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBmpO.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBOc6.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBZvT.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBfWe.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfLlQ.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBgHy.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfPsh.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfRhS.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfWnW.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBaW4.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-07-19T12:49:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/07/20/UBmpO.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/">
 
@@ -305,15 +305,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
 <p>在 <a href="2020/06/20/java/other/2020-new-direction/">Java社区的新方向</a> 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。</p>
 <a id="more"></a>
 <h1>Spring Boot/Cloud</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
 <p><code>Spring Boot</code> 和 <code>Spring Cloud</code> 现阶段仍是最大的微服务框架。大多数读者对其都很熟悉，我们就以 <code>Spring Boot</code> 为标杆，来和其他的框架进行对比。</p>
 <p>在最终的 <code>雷达图</code> 中，我们会对比这几种框架的 <code>制品大小</code> <code>启动速度</code> <code>功能性</code> <code>性能</code> 这几个指标。在每个新框架内尽可能举一些比较生动的 DEMO 给大家进行参考。</p>
 <h1>Eclipse Vert.X</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
 <p><a href="https://vertx.io/" target="_blank" rel="noopener"><code>Vert.X</code></a> 如果说起来可能比微服务还略早一些，笔者也曾经为其中文社区翻译过文档，<code>Vert.X</code> 社区因为觉得 <code>Spring</code> 还是太重量级了，对于现在的软件开发来说，我们可能需要的仅仅是一组工具，因此推出了此框架：</p>
 <blockquote>
 <p>Eclipse Vert.x is a <code>tool-kit</code> for building <code>reactive</code> applications on the JVM.</p>
@@ -332,7 +332,7 @@
 <p><code>Vert.X</code> 更喜欢将控制权返给开发者，<code>框架</code>封装使用，<code>工具</code>展示本质。因此对于我们来说，如果需要构建一个 <code>web server</code>，我们应该使用如下方式。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HttpServer server = vertx.createHttpServer();</span><br><span class="line"></span><br><span class="line">Router router = Router.router(vertx);</span><br><span class="line"></span><br><span class="line">router.route().handler(routingContext -&gt; &#123;</span><br><span class="line">  HttpServerResponse response = routingContext.response();</span><br><span class="line">  response.putHeader(<span class="string">"content-type"</span>, <span class="string">"text/plain"</span>);</span><br><span class="line">  response.end(<span class="string">"Hello World from Vert.x-Web!"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.requestHandler(router).listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
 <p>从短短的几行里面，我们可以发现 <code>Vert.x</code> 正如宣传的提供的是一系列的 <code>Tookit</code> 在构建的过程中推荐开发者自己亲手搭建一个系统。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
 <hr>
 <p>不过 <code>Vert.x</code> 这个工具箱很强大，提供了 <code>Web</code> <code>Data Access</code> <code>Reactive</code> <code>IoT</code> <code>Authentication and Authorisation</code> <code>Messaging</code> <code>Integration</code> <code>Event Bus Bridge</code> <code>DevOps</code> <code>Testing</code> <code>Clustering</code> <code>Services</code> <code>Standards</code> 这么多系列的工具，总有一款适合你。</p>
 <div>
@@ -340,9 +340,9 @@
     <p class="author-mark">个人还是比较喜欢 Vert.X， 像 GoLanguage 也证明这种基于小工具的组合其实也是可以满足需求的，并且因为足够简单在使用的过程中也比较好去排查问题。</p>
 </div>
 <h1>Quarkus</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
 <p>说起 <code>quarkus</code> 就有点厉害了， <code>quarkus</code> 主打的是 <code>GraalVM</code>，在之前的文章中和大家讨论过在 <code>云原生</code> 时代内的 <code>JVM</code> 太过于笨重，从 <code>JVM</code> 尝试解决这个问题的就是 <code>GraalVM</code>，但是 <code>GraalVM</code> 并非是一个无痛的，比如反射就不能使用(需要转化)，因此 <code>GraalVM</code> 就好比新能源汽车，我们已经不需要汽油发动机，因此也需要配套的设施来发挥，因此 <code>Redhat</code> 就发起了 <code>Quarkus</code> 项目。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
 <blockquote>
 <p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and <code>GraalVM</code>, crafted from the best of breed Java libraries and standards.</p>
 </blockquote>
@@ -359,7 +359,7 @@
     <p class="author-mark">其实也可以理解 Quarkus 基于 Vertx 提供了更好开箱即用的体验，并且和周边生态集成的更加紧密了。</p>
 </div>
 <h1>Helidon</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
 <p>刚刚也讲了，其实大部分的框架都比较类似了，<code>Helidon</code> 也是如此。提供了</p>
 <ul>
 <li>Reactive non-blocking database client</li>
@@ -378,7 +378,7 @@
     <p class="author-mark">Helidon 应该还算是最不完善的，文档毕竟稀少，代码的话以封装 JDK & Netty 为主。</p>
 </div>
 <h1>Micronaut</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
 <p><code>micronaut</code> 和 <code>grails</code> 实属亲戚关系，而 <code>grails</code> 和 <code>spring</code> 又经常 PY。因此我觉得 <code>Micronaut</code> 和  <code>Spring</code> 总有不可告人的秘密。</p>
 <blockquote>
 <p>Micronaut is a modern, JVM-based, full stack Java framework designed for building modular, easily testable JVM applications with support for Java, Kotlin and the Groovy language.</p>
@@ -388,9 +388,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Micronaut.run(Application<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@MicronautTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloControllerSpec</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    EmbeddedServer server; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@Client</span>(<span class="string">"/"</span>)</span><br><span class="line">    HttpClient client; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">testHelloWorldResponse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String response = client.toBlocking() </span><br><span class="line">                .retrieve(HttpRequest.GET(<span class="string">"/hello"</span>));</span><br><span class="line">        assertEquals(<span class="string">"Hello World"</span>, response); <span class="comment">//) </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从 <code>Hello World</code> 看其实和 <code>Spring</code> 没啥却别（更多地方看起来都没啥区别），我还倾向于 <code>Micronaut</code> 仅仅是 <code>Spring</code> 体系的一个马甲。</p>
 <h1>Lagom</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
 <p>Lagom 就一直属于万年老二的状态，以前和 <code>Spring</code> 竞争的 <a href="https://www.playframework.com/" target="_blank" rel="noopener"><code>Play Framework</code></a>，现在用 <code>Lagom</code> 和 <code>Spring</code> 竞争，因为 <code>Lagom</code> 的内部通讯基于 <code>Akka Remoting</code> <code>Steam Driver</code> 的机制，可是说是完全独立的一套体系。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
 <p>说到 <code>Lagom</code> 就一定要说到 <code>Akka</code>，<code>Actor</code> 这个模型说起都说好，但是实际上都没啥人用 <a href="https://www.zhihu.com/question/279512440" target="_blank" rel="noopener">为什么Akka(Actor模型)在中国不温不火？</a>。绝大多数的开发者没有意识到布道师的眼中只有优点是没有缺点的。</p>
 <p>对于 <code>Akka</code> 也不深入了解，这个就权当给大家一点开拓视野的资料。</p>
 <h1>体系之争</h1>
@@ -489,12 +489,12 @@ myChart.setOption(option, true);
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -710,8 +710,8 @@ myChart.setOption(option, true);
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -756,7 +756,7 @@ myChart.setOption(option, true);
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -927,7 +927,7 @@ myChart.setOption(option, true);
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1010,5 +1010,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

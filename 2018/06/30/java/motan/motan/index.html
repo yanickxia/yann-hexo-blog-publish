@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="Motan Motan 是一套基于java开发的RPC框架，除了常规的点对点调用外，Motan 还提供服务治理功能，包括服务节点的自动发现、摘除、高可用和负载均衡等。Motan 具有良好的扩展性，主要模块都提供了多种不同的实现，例如支持多种注册中心，支持多种rpc协议等。（可以看作 Dubbo 的复刻版） 跳过介绍">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/30/PFWib4.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/30/PFWkVJ.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/07/05/PZ93Y4.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/07/05/PVz3Yd.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/07/08/PmGFN8.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-06-30T05:25:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/06/30/PFWib4.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/06/30/java/motan/motan/">
 
@@ -315,10 +315,10 @@
 
 <h2 id="Montan架构"><a class="header-anchor" href="#Montan架构">¶</a>Montan架构</h2>
 <p><code>Motan</code> 中分为服务提供方(RPC Server)，服务调用方(RPC Client)和服务注册中心(Registry)三个角色。<br>
-<img src="https://s1.ax1x.com/2018/06/30/PFWib4.png" alt="arch-motan)"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/30/PFWib4.png" alt="arch-motan)"></p>
 <h2 id="模块概述"><a class="header-anchor" href="#模块概述">¶</a>模块概述</h2>
 <p>Motan框架中主要有 <code>register</code>、<code>transport</code>、<code>serialize</code>、<code>protocol</code>几个功能模块，各个功能模块都支持通过SPI进行扩展，各模块的交互如下图所示：<br>
-<img src="https://s1.ax1x.com/2018/06/30/PFWkVJ.png" alt="motan-models"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/30/PFWkVJ.png" alt="motan-models"></p>
 <ul>
 <li>
 <p><code>register</code>: 用来和注册中心进行交互，包括注册服务、订阅服务、服务变更通知、服务心跳发送等功能；Server端会在系统初始化时通过register模块注册服务，Client端在系统初始化时会通过register模块订阅到具体提供服务的Server列表，当Server 列表发生变更时也由register模块通知Client。</p>
@@ -357,7 +357,7 @@
 ➌ 暴露出接口并将其在 <code>exporters</code> 管理起来</p>
 <p>我们来看看 <code>Exporter</code> 的定义</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Exporter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="function">Provider&lt;T&gt; <span class="title">getProvider</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unexport</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://s1.ax1x.com/2018/07/05/PZ93Y4.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/07/05/PZ93Y4.png" alt=""></p>
 <p>原来 <code>Exporter</code> 是 <code>Provider</code> 的包装对象。迄今为止，我们值得启动流程为下图</p>
 <div style="width:100%; overflow-y:scroll;" id="diagram"></div>
 <script>
@@ -390,7 +390,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <p>➊ 这里其实是老朋友了 <code>SPI</code> 去读取了 <code>Filter</code> 的实现<br>
 ➋ 遍历每一个 Filter 让他们串联起来<br>
 ➌ 未每个Filter 创建一个 匿名的 <code>Provider</code> 让他们变成一个 <code>Chain</code></p>
-<p><img src="https://s1.ax1x.com/2018/07/05/PVz3Yd.png" alt="Provider-Chain"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/07/05/PVz3Yd.png" alt="Provider-Chain"></p>
 <div style="width:100%; overflow-y:scroll;" id="diagram2"></div>
 <script>
 	var data2 =
@@ -475,7 +475,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <h1>模块详解</h1>
 <p>经过上文的的分析，我们已经对 <code>Motan</code> 的整体架构有了一些了解，我们下面的篇幅将对不同的具体模块进行分析。</p>
 <h2 id="Registry-模块详解"><a class="header-anchor" href="#Registry-模块详解">¶</a>Registry 模块详解</h2>
-<p><img src="https://s1.ax1x.com/2018/07/08/PmGFN8.png" alt="Registry Interface"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/07/08/PmGFN8.png" alt="Registry Interface"></p>
 <p>我们从图上可以看出来，<code>Registry</code> 提供的是 <code>注册</code> 和 <code>发现</code> 两个功能，废话不多说，我们去看看源码，因为 <code>Registry</code> 有多种实现，我挑选一个 <code>ZooKeeper</code> 的分析下。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// com.weibo.api.motan.registry.support.AbstractRegistry#register</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(URL url)</span> </span>&#123;</span><br><span class="line">    doRegister(removeUnnecessaryParmas(url.createCopy())); ➊</span><br><span class="line">    registeredServiceUrls.add(url);</span><br><span class="line">    <span class="comment">// available if heartbeat switcher already open</span></span><br><span class="line">    <span class="keyword">if</span> (MotanSwitcherUtil.isOpen(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER)) &#123;</span><br><span class="line">        available(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>➊ 这里将URL注册到ZK之上，然后再下一行将 URL 缓存在本地。<br>
@@ -513,12 +513,12 @@ Filter 是 Motan 很重要的一个实现接口</p>
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -734,8 +734,8 @@ Filter 是 Motan 很重要的一个实现接口</p>
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -780,7 +780,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -951,7 +951,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1034,5 +1034,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

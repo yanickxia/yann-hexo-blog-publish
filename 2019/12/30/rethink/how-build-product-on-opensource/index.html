@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="从 2017.12 开始，我们就一直在基于 SpringCloud(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQBSyt.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQ1Tqs.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQl23F.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQMSEV.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2019-12-30T10:00:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/12/30/lQBSyt.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/">
 
@@ -340,7 +340,7 @@
 <p>开源实现的代码质量都算不上太差，而我们最为重要的是考察开源的代码里的关于设计理念部分，如果你需要一个 <code>CP</code> 的系统，自然就不要考虑 <code>AP</code> 的Eureka这样的事情，为了要把这一步放在设计之后，也是因为千万不要因为别人的实现干扰了你自己对于产品的理解。</p>
 <h3 id="设计你的架构"><a class="header-anchor" href="#设计你的架构">¶</a>设计你的架构</h3>
 <p>也没什么值得要说的，尽可能的在你的代码和开源之间增加一层适配层，重度的耦合只会让你摔的更疼。<br>
-<img src="https://s2.ax1x.com/2019/12/30/lQBSyt.png" alt="lQBSyt.png"><br>
+<img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQBSyt.png" alt="lQBSyt.png"><br>
 哪怕你只有一个实现的时候也是值得的。至少让你们的开发者更容易理解你们自己的设计。</p>
 <blockquote>
 <p>tips: 大部分的时候你都会适配其他的实现，如果这个市场只有一家产品，那很可能并不是一个好消息</p>
@@ -361,11 +361,11 @@
 <h3 id="反思1：忘记你的开源实现"><a class="header-anchor" href="#反思1：忘记你的开源实现">¶</a>反思1：忘记你的开源实现</h3>
 <p>这大概是我们在这两年内犯过最大的错误，这个错误的影响一直至今。此话怎么讲，且听我细细分析。<br>
 因为我们这套产品是基于 <code>SpringCloud</code> 此时便有 <code>SpringCloud</code> 先入为主的印象，这就让我们在后续的设计中，很多都因实现而设计。</p>
-<p><img src="https://s2.ax1x.com/2019/12/30/lQ1Tqs.png" alt="lQ1Tqs.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQ1Tqs.png" alt="lQ1Tqs.png"></p>
 <p>举个例子：我们在设计服务发现的时候，因为<code>SC</code>在实现之处是基于<code>Eureka</code>，<code>Eureka</code>对于服务的分组的非常的简单只有<code>服务</code>和<code>实例</code>这两个维度，因此我们在后续的系统设计中，我们便按照<code>服务</code>和<code>实例</code>这两个维度进行诸多的设计，比如流量的监控，服务的转发等等功能，而这些功能在实现的过程中，也作为了<code>HardCode</code>部分存在，直至后期我们需要增加额外的维度的时候就吃了一个大亏。因此在这两年的摸索中，渐渐明白了一个道理，你在实现自己的产品的时候，首先应该满足是自己产品的特性！就比如在 Spring 的实现中，<code>WebMVC</code> 可以基于 <code>Tomcat</code> <code>Netty</code> <code>Jboss</code> 其中任一种实现，Spring将那些他所需要的特性功能比如 <code>server.port</code> 作为了产品的属性，而 <code>tomcat.max-connect</code> 是作为额外的配置项存在的。</p>
 <h3 id="反思2：你究竟做的是发行版还是产品"><a class="header-anchor" href="#反思2：你究竟做的是发行版还是产品">¶</a>反思2：你究竟做的是发行版还是产品</h3>
-<p><img src="https://s2.ax1x.com/2019/12/30/lQl23F.png" alt="lQl23F.png"> <code>Linux</code> 有发行版的概念，不同的发行版之间可能是有不同的包管理工具，不同的启动机制等等，但是大部分是一直的，但是产品不一样，产品不应该将自己的内核实现暴露给用户，因此Windows只有Windows，并没有Windows的发行版，一部分是自己没有开源，另外一方面产品的内核逻辑是产品的主要竞争力。<br>
-比如某竞品的设计如此 <img src="https://s2.ax1x.com/2019/12/30/lQMSEV.png" alt="lQMSEV.png"> 当你融入自己的想法之后，你可以清晰的将原来所开源产品的组件转为你所拥有的概念，可能这样说起来有些不清晰，在我看来，一个产品如果在客户在使用的过程中，不是非常明显的感受你的实现是基于某个产品的就算是成功了。</p>
+<p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQl23F.png" alt="lQl23F.png"> <code>Linux</code> 有发行版的概念，不同的发行版之间可能是有不同的包管理工具，不同的启动机制等等，但是大部分是一直的，但是产品不一样，产品不应该将自己的内核实现暴露给用户，因此Windows只有Windows，并没有Windows的发行版，一部分是自己没有开源，另外一方面产品的内核逻辑是产品的主要竞争力。<br>
+比如某竞品的设计如此 <img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQMSEV.png" alt="lQMSEV.png"> 当你融入自己的想法之后，你可以清晰的将原来所开源产品的组件转为你所拥有的概念，可能这样说起来有些不清晰，在我看来，一个产品如果在客户在使用的过程中，不是非常明显的感受你的实现是基于某个产品的就算是成功了。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -382,12 +382,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -603,8 +603,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -649,7 +649,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -820,7 +820,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -903,5 +903,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

@@ -27,28 +27,28 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》  套用一句杜甫的话 架构本天成，妙手偶得之。而现在的互联网仿佛在神话架构师这样的角色。在这里不是要去否定 martinfowler 这样伟大的架构师，但是martin 老师实在是向社会输出了太多 New Concept，虽然本意是好的，然而在在多数的从业人眼中，架构变成了一个玄之又">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/15/UbEWe.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UF2tU.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UF3zO.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFKIw.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFhU8.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFyxk.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UFT6e.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UknjD.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UkS48.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/UkoPt.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/17/Umfqf.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/07/18/UgHafP.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/Uv4uU.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/UvB4O.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/Uv29k.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/18/Uv0ki.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-07-14T10:06:55.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.416Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="architecture">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/07/15/UbEWe.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/">
 
@@ -304,7 +304,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/07/15/UbEWe.png" alt="UbEWe.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/15/UbEWe.png" alt="UbEWe.png"></p>
 <blockquote>
 <p>它是一个唯有我们自己才能带秩序的过程,它不可能被求取,但只要我们顺应它,它便会自然而然地出现。 《建筑永恒之道》</p>
 </blockquote>
@@ -313,7 +313,7 @@
 <p>我们就从最常见的高并发的秒杀场景入手，看看架构是如何演化的。</p>
 <h1>情景分析</h1>
 <p>商品秒杀、商品抢购、群红包、抢优惠券、抽奖等等。秒杀商品价格低廉、抢购商品很好|抢手、大幅推广|广为人知、瞬时售空、一般是定时上架、持续时间短、瞬时并发量高等。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UF2tU.png" alt="UF2tU.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UF2tU.png" alt="UF2tU.png"></p>
 <ul>
 <li>秒杀前：用户不断刷新商品详情页，页面请求达到瞬时峰值。</li>
 <li>秒杀开始：用户点击秒杀按钮，下单请求达到瞬时峰值。</li>
@@ -328,14 +328,14 @@
 </ul>
 <h2 id="秒杀前：多度少写"><a class="header-anchor" href="#秒杀前：多度少写">¶</a>秒杀前：多度少写</h2>
 <p>对于多度少写的场景，是最容易解决的，对于大部分的秒杀场景，将页面静态化即可，页面静态化 + CDN分发。<br>
-<img src="https://s3.jpg.cm/2020/07/17/UF3zO.png" alt="UF3zO.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UF3zO.png" alt="UF3zO.png"></p>
 <h2 id="秒杀中"><a class="header-anchor" href="#秒杀中">¶</a>秒杀中</h2>
 <p>问题开始变的复杂起来，我们先从最简单的架构体系看起来。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UFKIw.png" alt="UFKIw.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UFKIw.png" alt="UFKIw.png"></p>
 <p>应用直接怼到服务端，服务端直接将数据落盘。这大概就是最简单的系统架构了，我们看看秒杀系统是如何一步步的迭代的。</p>
 <h3 id="扩容"><a class="header-anchor" href="#扩容">¶</a>扩容</h3>
 <p>最简单的方式，肯定是扩容。<br>
-<img src="https://s3.jpg.cm/2020/07/17/UFhU8.png" alt="UFhU8.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UFhU8.png" alt="UFhU8.png"></p>
 <p>一套系统不够，两套，三套。看起来很美好，但是这种方案需要考虑</p>
 <ul>
 <li>数据分片：不同的实例如何将数据放置于不同的实例</li>
@@ -343,29 +343,29 @@
 <li>弹性困难</li>
 </ul>
 <p>因此根据这套系统略微的变形一下。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UFyxk.png" alt="UFyxk.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UFyxk.png" alt="UFyxk.png"></p>
 <p>让应用自行进行数据分区的选择，简单来说，比如我们可以根据 <code>用户手机号</code> 取模，然后将数据定位某一台机器。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UFT6e.png" alt="UFT6e.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UFT6e.png" alt="UFT6e.png"></p>
 <p>对于这样的规则可以选择的余地还是比较的多，<code>用户ID</code>，<code>生日</code>，只要数据均衡都比较好。对于这条路，我们发现社区已经有了 <a href="http://shardingsphere.apache.org/" target="_blank" rel="noopener">shardingsphere</a> 这样的数据库中间件可以帮助我们。</p>
 <h4 id="扩容遇见的问题"><a class="header-anchor" href="#扩容遇见的问题">¶</a>*扩容遇见的问题</h4>
 <p>当我们在支撑更大规模的场景的时候，原有的系统不足够支撑的时候，我们又需要增加更多的 <code>Datebase</code> 的时候，我们遇见了一个问题。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UknjD.png" alt="UknjD.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UknjD.png" alt="UknjD.png"></p>
 <p>因为多了一个数据节点，所有的数据需要重新<strong>锚定</strong>节点，这时候如何尽可能少的迁移数据，这时候就提出了 <a href="https://zh.wikipedia.org/zh-hans/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C" target="_blank" rel="noopener">一致性Hash</a></p>
 <hr>
 <p>当然扩容并非是一条最好的选择，我们还要面临数据库中其实还有大量没有那么高频的数据，在这样的架构下，我们不就不得将一些同样的数据存多，当然也可以单独出一个 <code>Metadata</code> 的数据库。这套方案最为致命的问题应该是我们这样拆分之后，对于未来的系统开发有着非常大的限制，所有的批处理都要考虑多节点。因此在这套 <code>应用分库分表</code> 的基础上，会进化为出下一一个版本。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UkS48.png" alt="UkS48.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UkS48.png" alt="UkS48.png"></p>
 <p>我们将分发的逻辑抽离出来，这样不就好了，如果可以的话最好还可以直接将这个<strong>分片逻辑</strong>变成业务无关性的。等等，此时是不是想到了我们熟悉的 <code>tidb</code> 了。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/UkoPt.png" alt="UkoPt.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/UkoPt.png" alt="UkoPt.png"></p>
 <p>我们将整个 <code>Database Proxy</code> 和 <code>Database</code> 独立出来行成了 <code>NewSQL Database</code>，弹性扩容和伸缩都搞定了，岂不是很爽。对于开发者来说，再也不用担心数据库所带来的压力。</p>
 <h3 id="异步化"><a class="header-anchor" href="#异步化">¶</a>异步化</h3>
 <p>除了扩容之外，异步化也是一个很好的思路，因为对于数据库系统需要保证 <code>Atom</code> 特性，并且因为本身的数据结构的复杂，因此单一处理速度的上限并不算高。此时我们可以将用户的行为记录下来然后再顺序处理。</p>
 <p>但是值得注意的是，异步化本身不能提高秒杀的最终写入速度，但是因为保护的系统（不会导致系统雪崩）整体上会让秒杀系统变的健壮，也变相让系统处理更快。</p>
-<p><img src="https://s3.jpg.cm/2020/07/17/Umfqf.png" alt="Umfqf.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/17/Umfqf.png" alt="Umfqf.png"></p>
 <h4 id="异步化问题"><a class="header-anchor" href="#异步化问题">¶</a>异步化问题</h4>
 <p>异步化本身会带来一个非常不舒服的体验，就是你可以只是拿到一个一个排队的序号，但是你并没有真正的落单。就像是彩票系统，我们买了事先就存在的号码，等到最终的摇号。</p>
 <h3 id="缓存"><a class="header-anchor" href="#缓存">¶</a>缓存</h3>
 <p>上面的方案完美了么？显然不是，虽然 <code>NewSQL</code> 带来的更大的并发，但是并发并非不是没有成本的，因为数据库系统从单机变成分布式，系统内的协调耗时增加，整个处理的链路会变的更加的慢，用户的体验不是非常的好，对于真の瞬时并发也是可能击穿的。因此我们还是需要额外的技能：缓存化。</p>
-<p><img src="https://s1.ax1x.com/2020/07/18/UgHafP.png" alt="UgHafP.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/07/18/UgHafP.png" alt="UgHafP.png"></p>
 <div>
     <label class="author-mark-label">小声比比</label>
     <p class="author-mark">更多时候是成本问题，用内存能解决的问题换做磁盘，就会带来架构和复杂的上升，但是实际上架构是类似的。</p>
@@ -373,10 +373,10 @@
 <p>因为缓存多数工作在 <code>内存</code> 中，并且不一定提供的可靠的 <code>持久化</code> 方案，换来的是更快的读写速度。</p>
 <h4 id="缓存分片"><a class="header-anchor" href="#缓存分片">¶</a>缓存分片</h4>
 <p>当一个Redis不够用的时候，自然需要需要多个 Redis 来支撑系统，不过由于 <code>Redis</code> 的发展较晚也比较的完善，自带了数据分片的 <code>Cluster</code> 组件 <a href="#%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F"><sup>参考3</sup></a>。</p>
-<p><img src="https://s3.jpg.cm/2020/07/18/Uv4uU.png" alt="Uv4uU.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/18/Uv4uU.png" alt="Uv4uU.png"></p>
 <hr>
 <p>架构就自然变成了</p>
-<p><img src="https://s3.jpg.cm/2020/07/18/UvB4O.png" alt="UvB4O.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/18/UvB4O.png" alt="UvB4O.png"></p>
 <p>不过因为绝大多数的时候，我们都是混合使用 <code>DB in file</code>/<code>DB in memory</code> 这两种技术，绝大多数的时候我们的最终数据依然要落入  <code>Mysql</code> 这样的数据内，因此无论是在 <code>写入时刻</code> 将数据存入 <code>Mysql</code> 或者还是 <code>秒杀结束</code> 将数据存入 <code>Mysql</code> 都是可以的。</p>
 <h2 id="秒杀后"><a class="header-anchor" href="#秒杀后">¶</a>秒杀后</h2>
 <p>秒杀后的场景是：当某些客户进行秒杀成功之后就会疯狂的刷新自己的订单页面，而此时其他的客户可能仍在秒杀活动中。<br>
@@ -387,9 +387,9 @@
 <p>技术就是对现象的有目的的编程。</p>
 </blockquote>
 <p>对于我们来说，我们就像是在一套工具箱中选择最适合的工具然后将目标达成。</p>
-<p><img src="https://s3.jpg.cm/2020/07/18/Uv29k.png" alt="Uv29k.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/18/Uv29k.png" alt="Uv29k.png"></p>
 <p>当个工程师的意义也在于如何选择好的工具将我们的系统完成。</p>
-<p><img src="https://s3.jpg.cm/2020/07/18/Uv0ki.png" alt="Uv0ki.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/18/Uv0ki.png" alt="Uv0ki.png"></p>
 <h1>聊一聊</h1>
 <p>不得承认，现在的中国的程序员行业由于过度竞争，导致了面试的水涨船高，无论你之前是做什么行业什么工种，都喜欢问关于 <code>高并发</code> 系统的设计（大概也只有前端可幸免），导致慢慢的风气也从踏实解决问题变成了背诵式的架构面试。而真正的架构是一门实践技术，无论是看了多少网上的博客，最终如果不能在实践中获得反馈，那注定是收益有限的，因此也为什么大厂的场景是那么的值钱了。</p>
 <hr>
@@ -426,12 +426,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -650,8 +650,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -696,7 +696,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -867,7 +867,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -950,5 +950,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

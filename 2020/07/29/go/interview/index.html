@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="作为一个跨界的 Java Boy 面对 Go 的岗位还是先整理一波。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/29/bnUSE.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/29/bnRyC.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/29/bnW7t.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/07/29/bnVVD.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-07-29T02:31:37.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.420Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/07/29/bnUSE.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/07/29/go/interview/">
 
@@ -291,19 +291,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/07/29/bnUSE.png" alt="bnUSE.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/29/bnUSE.png" alt="bnUSE.png"></p>
 <p>作为一个跨界的 <code>Java Boy</code> 面对 <code>Go</code> 的岗位还是先整理一波。</p>
 <a id="more"></a>
 <h1>Go 的 Goroutine</h1>
 <p>CSP，全称Communicating Sequential Processes，意为通讯顺序进程，它是七大并发模型中的一种，它的核心观念是将两个并发执行的实体通过通道channel连接起来，所有的消息都通过channel传输，Go语言对CSP并发模型的实现——GPM调度模型。</p>
 <p>GPM代表了三个角色，分别是<code>Goroutine</code>、<code>Processor</code>、<code>Machine</code>。</p>
-<p><img src="https://s3.jpg.cm/2020/07/29/bnRyC.png" alt="bnRyC.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/29/bnRyC.png" alt="bnRyC.png"></p>
 <ul>
 <li><code>Goroutine</code>：承担运行的实体</li>
 <li><code>Processor</code>： 联通 G 和 M 的处理器</li>
 <li><code>Machine</code>： 操作系统的调度单位：线程</li>
 </ul>
-<p><img src="https://s3.jpg.cm/2020/07/29/bnW7t.png" alt="bnW7t.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/29/bnW7t.png" alt="bnW7t.png"></p>
 <p><code>Machine</code> 和 <code>Processor</code> 是 <code>1:1</code>，我们创建的 <code>Goroutine</code> 会通过放入 <code>Queue</code> 让 <code>Processor</code> 在 <code>Machine</code> 执行。<br>
 不过值得注意，在实现的过程中，有一种名为  <code>work-stealing</code> 的算法，如果某个 <code>Machine</code> 的 <code>Queue</code> 为空的时候会尝试从其他地方偷点回来。</p>
 <div>
@@ -325,7 +325,7 @@
 </ul>
 <h3 id="系统调用"><a class="header-anchor" href="#系统调用">¶</a>系统调用</h3>
 <p>对于大部分的 <code>Blocking</code> 系统调用，都是直接将这个阻塞的 <code>G</code> 从 <code>M</code> 卸载下来，换上其他的 <code>G</code> 进行运行。略有不同的，对于异步的系统调用 <code>GO</code> 实现一种 <code>NetPoller</code> 机制，这些操作并不在 <code>M</code> 进行操作，会将这个 <code>Go</code> 移动到 <code>Netpoller</code> 进行操作。这里其实也就是高性能 <code>Web</code> 的核心，不要在 <code>Blocking</code> 进行阻塞。</p>
-<p><img src="https://s3.jpg.cm/2020/07/29/bnVVD.png" alt="bnVVD.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/29/bnVVD.png" alt="bnVVD.png"></p>
 <h1>CGo 的低效问题</h1>
 <p>在 <code>dave</code> 的 <a href="https://dave.cheney.net/2016/01/18/cgo-is-not-go" target="_blank" rel="noopener"><code>cgo is not go</code></a> 中写到了</p>
 <blockquote>
@@ -366,12 +366,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -587,8 +587,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -633,7 +633,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -804,7 +804,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -887,5 +887,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

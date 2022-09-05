@@ -27,17 +27,17 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="¶目录  Lombok简介 Lombok安装 Lombok使用 Lombok原理  ¶Lombok简介  Project Lombok makes java a spicier language by adding ‘handlers’ that know &gt;how to build and compile simple, boilerplate-free, not-quite-java c">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://projectlombok.org/img/lombok-installer.png">
-<meta property="og:image" content="https://projectlombok.org/img/eclipse-about.png">
-<meta property="og:image" content="https://imgtn.gxnotes.com/images/2017/06/134ddf9134f65a7edfb655faac149d6b.jpg">
-<meta property="og:image" content="http://openjdk.java.net/groups/compiler/doc/compilation-overview/javac-flow.png">
-<meta property="og:image" content="http://4.bp.blogspot.com/_c3fRh9YnHfU/TSZEbT0mC2I/AAAAAAAAABk/VGcO_dLIo9k/s1600/Compile%2BProcess.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2017-06-06T16:12:58.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://projectlombok.org/img/lombok-installer.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2017/06/07/java/lombok-project/">
 
@@ -318,9 +318,9 @@
 Lombok支持多种使用安装方式，这里我们讲最常见的对两大IDE的支持</p>
 <h4 id="1-Eclipse-（含延伸版本）"><a class="header-anchor" href="#1-Eclipse-（含延伸版本）">¶</a>1. Eclipse （含延伸版本）</h4>
 <p>双击打开 lombok.jar （前提：你得装了JDK）, 可见如下页面点击 Install/Update<br>
-<img src="https://projectlombok.org/img/lombok-installer.png" alt="lombok-installer"></p>
+<img src="/images/loading.gif" data-original="https://projectlombok.org/img/lombok-installer.png" alt="lombok-installer"></p>
 <p>恭喜你，已经安装成功了。我们打开 Eclipse 的 About 页面我们可以看见。<br>
-<img src="https://projectlombok.org/img/eclipse-about.png" alt="eclipse-about"></p>
+<img src="/images/loading.gif" data-original="https://projectlombok.org/img/eclipse-about.png" alt="eclipse-about"></p>
 <h4 id="2-IntelliJ-IDEA"><a class="header-anchor" href="#2-IntelliJ-IDEA">¶</a>2. IntelliJ IDEA</h4>
 <ul>
 <li>定位到 File &gt; Settings &gt; Plugins</li>
@@ -329,7 +329,7 @@ Lombok支持多种使用安装方式，这里我们讲最常见的对两大IDE�
 <li>点击 Install plugin</li>
 <li>重启 IDEA</li>
 </ul>
-<p><img src="https://imgtn.gxnotes.com/images/2017/06/134ddf9134f65a7edfb655faac149d6b.jpg" alt="lombok-Plugin"></p>
+<p><img src="/images/loading.gif" data-original="https://imgtn.gxnotes.com/images/2017/06/134ddf9134f65a7edfb655faac149d6b.jpg" alt="lombok-Plugin"></p>
 <p>更多安装请参考：<a href="https://projectlombok.org/" target="_blank" rel="noopener">https://projectlombok.org/</a></p>
 <hr>
 <h2 id="Lombok使用"><a class="header-anchor" href="#Lombok使用">¶</a>Lombok使用</h2>
@@ -430,9 +430,9 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
 <hr>
 <h2 id="Lombok原理"><a class="header-anchor" href="#Lombok原理">¶</a>Lombok原理</h2>
 <p>说道 Lombok，我们就得去提到 <a href="https://www.jcp.org/en/jsr/detail?id=269" target="_blank" rel="noopener">JSR 269: Pluggable Annotation Processing API</a>  JSR 269 之前我们也有注解这样的神器，可是我们比如想要做什么必须使用反射，反射的方法局限性较大。首先，它必须定义@Retention为RetentionPolicy.RUNTIME，只能在运行时通过反射来获取注解值，使得运行时代码效率降低。其次，如果想在编译阶段利用注解来进行一些检查，对用户的某些不合理代码给出错误报告，反射的使用方法就无能为力了。而 JSR 269 之后我们可以在 Javac的编译期利用注解做这些事情。所以我们发现核心的区分是在 <strong>运行期</strong> 还是 <strong>编译期</strong></p>
-<p><img src="http://openjdk.java.net/groups/compiler/doc/compilation-overview/javac-flow.png" alt="javac-flow"></p>
+<p><img src="/images/loading.gif" data-original="http://openjdk.java.net/groups/compiler/doc/compilation-overview/javac-flow.png" alt="javac-flow"></p>
 <p>从上图可知，Annotation Processing 是在解析和生成之间的一个步骤。</p>
-<p><img src="http://4.bp.blogspot.com/_c3fRh9YnHfU/TSZEbT0mC2I/AAAAAAAAABk/VGcO_dLIo9k/s1600/Compile%2BProcess.gif" alt="Compile%2BProcess"></p>
+<p><img src="/images/loading.gif" data-original="http://4.bp.blogspot.com/_c3fRh9YnHfU/TSZEbT0mC2I/AAAAAAAAABk/VGcO_dLIo9k/s1600/Compile%2BProcess.gif" alt="Compile%2BProcess"></p>
 <p>上图是 Lombok 处理流程，在Javac 解析成抽象语法树之后(AST), Lombok 根据自己的注解处理器，动态的修改 AST，增加新的节点(所谓代码)，最终通过分析和生成字节码。</p>
 <p>关于原理我们大致上的描述下，如果有兴趣可以参考 作者注。</p>
 <blockquote>
@@ -450,10 +450,10 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
   <div class="popular-posts-header">推荐阅读</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2018/03/07/java/java-tips/" rel="bookmark">java 小技巧 (1)</a></div>
+      <div class="popular-posts-title"><a href="/2017/03/01/java/spring-cloud-01-config/" rel="bookmark">Spring cloud 配置中心服务</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2017/03/01/java/spring-cloud-01-config/" rel="bookmark">Spring cloud 配置中心服务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/07/java/java-tips/" rel="bookmark">java 小技巧 (1)</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2016/12/13/java/spring-convert-01/" rel="bookmark">Spring-convert-(基本结构)</a></div>
@@ -474,12 +474,12 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -698,8 +698,8 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -744,7 +744,7 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -915,7 +915,7 @@ stable 和 experimental 两个版本，本文侧重介绍 stable 功能：</p>
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -998,5 +998,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

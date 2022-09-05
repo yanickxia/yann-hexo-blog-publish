@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="Zuul2 Zuul2的难产，终于在 2018.4.13 上架了中心仓库，也代表着Zuul正式加入Netty全家桶的怀抱，关于 Zuul2 有一篇宏观性的博文有兴趣的可以阅读 Zuul 2 : The Netflix Journey to Asynchronous, Non-Blocking Systems 此篇博客。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/22/PSzIQs.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/22/PSzHe0.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/22/PpSZSH.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-06-22T02:49:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/06/22/PSzIQs.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/06/22/java/microservice/gateway/zuul2/">
 
@@ -302,13 +302,13 @@
 <p>Zuul2的难产，终于在 2018.4.13 上架了中心仓库，也代表着Zuul正式加入Netty全家桶的怀抱，关于 Zuul2 有一篇宏观性的博文有兴趣的可以阅读 <a href="https://medium.com/netflix-techblog/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c" target="_blank" rel="noopener">Zuul 2 : The Netflix Journey to Asynchronous, Non-Blocking Systems</a> 此篇博客。</p>
 <a id="more"></a>
 <p>简而言之，Zuul2也就是从传统的 BIO 切换到了 NIO 模式。<br>
-<img src="https://s1.ax1x.com/2018/06/22/PSzIQs.png" alt="bio-thread"><br>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/22/PSzIQs.png" alt="bio-thread"><br>
 传统的BIO模型基于Thread的方式</p>
-<p><img src="https://s1.ax1x.com/2018/06/22/PSzHe0.png" alt="nio-thread"><br>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/22/PSzHe0.png" alt="nio-thread"><br>
 NIO模型基于Reactor模型</p>
 <h2 id="Zuul2-架构"><a class="header-anchor" href="#Zuul2-架构">¶</a>Zuul2 架构</h2>
 <p>从上帝视角来开，Zuul2是一个在 <code>Netty</code> 上运行一系列Filter的服务，执行完成PreFilter (inbound filters)之后将请求通过 <code>Netty Client</code> 转发出去，然后将请求的结果通过一系列PostFilter (outbound filters) 返回，如下图所示。<br>
-<img src="https://s1.ax1x.com/2018/06/22/PpSZSH.png" alt="Architectural-over"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/22/PpSZSH.png" alt="Architectural-over"></p>
 <p>正如之前的 <code>ZuulFilter</code> 分为了 <code>Pre</code>,<code>Post</code>,<code>Route</code>,<code>Error</code>，Zuul2的Filter分为三种类型</p>
 <ul>
 <li>Inbound Filters: 在路由之前执行</li>
@@ -432,12 +432,12 @@ NIO模型基于Reactor模型</p>
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -653,8 +653,8 @@ NIO模型基于Reactor模型</p>
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -699,7 +699,7 @@ NIO模型基于Reactor模型</p>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -870,7 +870,7 @@ NIO模型基于Reactor模型</p>
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -953,5 +953,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

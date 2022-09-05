@@ -27,23 +27,23 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="istio 迈入 1.6 之后趋于稳定，大家都慢慢的开始尝试起来，摆在大家面前会有这么一个问题，原来的旧系统如何兼容 istio？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144511.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144847.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220145809.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220145846.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220150134.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220151800.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220152108.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220153800.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220154352.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220154655.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-12-20T06:30:00.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.432Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="istio">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144511.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/12/20/networking/istio/spring-cloud-with-istio/">
 
@@ -303,12 +303,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144511.png" alt=""></p>
+        <p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144511.png" alt=""></p>
 <p><code>istio</code> 迈入 <code>1.6</code> 之后趋于稳定，大家都慢慢的开始尝试起来，摆在大家面前会有这么一个问题，原来的旧系统如何兼容 <code>istio</code>？</p>
 <a id="more"></a>
 <h2 id="How-Spring-Cloud-Works"><a class="header-anchor" href="#How-Spring-Cloud-Works">¶</a>How Spring Cloud Works</h2>
 <p><code>Spring Cloud</code> 体系是如何工作的呢？</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144847.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144847.png" alt=""></p>
 <p><code>Spring Cloud</code> 体系中，每一个服务实例会将自己的 <code>IP</code> 地址上报至 <code>Service Registry</code> 中，这一步是通过 <code>Registry Client</code> 实现，当其需要访问其他的实例的时候，也会去 <code>Service Registry</code> 中获取其他实例的 <code>IP</code> 地址</p>
 <p><code>Registry Client</code> 和  <code>Service Registry </code>都是抽象的构成，在实现的过程中</p>
 <ul>
@@ -324,26 +324,26 @@
 <h3 id="基于-Eureka-的流程分析"><a class="header-anchor" href="#基于-Eureka-的流程分析">¶</a>基于 Eureka 的流程分析</h3>
 <h4 id="注册流程"><a class="header-anchor" href="#注册流程">¶</a>注册流程</h4>
 <p>不同的注册中心的区别主要在注册中心自身逻辑上[AP/CP]，对于其他部分的影响不大</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220145809.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220145809.png" alt=""></p>
 <p>实例所对应的服务是由 元数据 提供，IP 地址是由系统检测生成 (但是可以<code>手动覆盖</code>)</p>
 <h4 id="调用过程"><a class="header-anchor" href="#调用过程">¶</a>调用过程</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220145846.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220145846.png" alt=""></p>
 <p>而调用过程，<code>Biz</code> 一般会通过 <code>RestfulTemaplate</code>/<code>Feign</code> 来访问远程地址，通过一些中间件的集成。将 <code>服务名</code> 翻译成 <code>IP</code> 地址</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.restTemplate.exchange(</span><br><span class="line">    <span class="string">"http://bookmark-service/&#123;userId&#125;/bookmarks"</span>,</span><br><span class="line">    HttpMethod.GET,</span><br><span class="line">    <span class="keyword">null</span>,</span><br><span class="line">    <span class="keyword">new</span> ParameterizedTypeReference&lt;List&lt;Bookmark&gt;&gt;() &#123;</span><br><span class="line">    &#125;,(Object) <span class="string">"mstine"</span>)</span><br></pre></td></tr></table></figure>
 <p>此例中 <code>bookmark-service</code> -&gt; <code>192.168.xxx.yyy</code>  在 <code>k8s</code> 中，此 <code>IP</code> 约等同于 <code>POD IP</code></p>
 <h2 id="How-Istio-Works"><a class="header-anchor" href="#How-Istio-Works">¶</a>How Istio Works</h2>
 <p>那么相对应的 <code>istio</code> 体系又是如何工作的呢？</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220150134.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220150134.png" alt=""></p>
 <p>对于 <code>istio</code> 来说，<code>poliot</code> 将监控所有的关心的数据，在客户端进行访问远程地址的时候，通过的是 <code>ClusterIP/DNS</code> 进行访问，<code>istio</code> 通过 <code>tcp</code> 协议中的 <code>dest ip</code> 或者是 <code>http</code> 协议中的 <code>host</code> 进行判断需要访问某个具体的服务，在 <code>Envoy</code> 进行负载均衡。</p>
 <p>在 <a href="/2020/10/28/networking/istio/isito-pilot/">Isito の Pilot 组件</a> 有深入的解读，就不作展开。</p>
 <p>如果我们直接访问某个不受 <code>istio</code> 托管的服务地址 (比如 <code>pod ip</code>/<code>未知的service ip</code>) ，istio 会认为这次请求是 <code>PassthroughCluster</code> 无法利用任何 <code>istio</code> 的特性。</p>
 <h2 id="那么问题呢？"><a class="header-anchor" href="#那么问题呢？">¶</a>那么问题呢？</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220151800.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220151800.png" alt=""></p>
 <p>我们希望我们的系统能够跑在 <code>istio</code> 享受到 <code>istio</code> 所带来的诸多特性，而非是通过 <code>sidecar</code> 绕了一圈而什么都没有做。</p>
 <p>在 <code>Spring Cloud</code> 体系中，<code>Biz</code> 通过 <code>IP</code> 访问其他服务，<code>istio</code> 并不能区分 <code>192.168.2.3</code> 是哪个服务的地址，会选择直接转发，就谈不上任何管控维度。</p>
 <h3 id="WHY-TLDR"><a class="header-anchor" href="#WHY-TLDR">¶</a>WHY [TLDR]</h3>
 <p>这就要了解到 <code>Istio</code> 的工作原理，<code>istio</code> 将配置转为 <code>Envoy</code> 的配置<br>
-<img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220152108.png" alt=""></p>
+<img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220152108.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -403,14 +403,14 @@
 <h3 id="Spring-Cloud-访问-Cluster-IP"><a class="header-anchor" href="#Spring-Cloud-访问-Cluster-IP">¶</a>Spring Cloud 访问 Cluster IP</h3>
 <h4 id="By-Eureka-Server"><a class="header-anchor" href="#By-Eureka-Server">¶</a>By Eureka Server</h4>
 <p>从 <code>eureka</code> 解决这个问题，想办法让 <code>Eureka Server</code> 返回给客户端的是 <code>Service Address</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220153800.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220153800.png" alt=""></p>
 <ul>
 <li><code>Fake Eureka Server</code> 对于注册和心跳保持不处理直接返回 <code>200</code></li>
 <li><code>Fake Eureka Server</code> 对于 <code>Fetch</code> 请求，返回服务名对应的 <code>ClusterIP</code></li>
 </ul>
 <p>我们为每个服务服务创建一个 <code>Cluster IP</code> 对象即可。</p>
 <h4 id="By-Eureka-Client"><a class="header-anchor" href="#By-Eureka-Client">¶</a>By Eureka Client</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220154352.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220154352.png" alt=""></p>
 <ul>
 <li><code>Eureka Client</code> 在返回给 <code>Ribbin</code> 之前将 <code>IP</code> 翻译成 <code>Srv IP</code></li>
 </ul>
@@ -420,7 +420,7 @@
 <h3 id="Istio-匹配-Pod-IP"><a class="header-anchor" href="#Istio-匹配-Pod-IP">¶</a>Istio 匹配 Pod IP</h3>
 <h4 id="Add-Http-Header"><a class="header-anchor" href="#Add-Http-Header">¶</a>Add Http Header</h4>
 <p>对于 <code>istio</code> 来说(<code>Envoy</code>)， <code>Http filter</code> 是 一个接着一个运行的。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220154655.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220154655.png" alt=""></p>
 <p><code>Routing</code> 的 <code>HTTP Filter</code> 优先级较低，如果我们能在 <code>Routing</code> 之前增加一个 <code>Filter</code> 然后将 <code>IP</code> 转化为 <code>Host</code> 然后加入 <code>HttpHeaders</code> 中，应该就可以满足需求。<a href="https://github.com/envoyproxy/envoy-filter-example/blob/master/http-filter-example/http_filter.cc" target="_blank" rel="noopener">https://github.com/envoyproxy/envoy-filter-example/blob/master/http-filter-example/http_filter.cc</a></p>
 <figure class="highlight rust"><figcaption><span>example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> log::info;</span><br><span class="line"><span class="keyword">use</span> proxy_wasm::traits::Context;</span><br><span class="line"><span class="keyword">use</span> proxy_wasm::traits::HttpContext;</span><br><span class="line"><span class="keyword">use</span> proxy_wasm::&#123;types::Action&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[no_mangle]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="function"><span class="keyword">fn</span> <span class="title">_start</span></span>() &#123;</span><br><span class="line">    proxy_wasm::set_log_level(proxy_wasm::types::LogLevel::Trace);</span><br><span class="line">    proxy_wasm::set_http_context(|_, _| -&gt; <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> HttpContext&gt; &#123; <span class="built_in">Box</span>::new(HelloContext &#123;&#125;) &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">HelloContext</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Context <span class="keyword">for</span> HelloContext &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> HttpContext <span class="keyword">for</span> HelloContext &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">on_http_request_headers</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, num_headers: <span class="built_in">usize</span>) -&gt; Action &#123;</span><br><span class="line">        info!(<span class="string">"Set Host Header As reviews.default.svc.cluster.local."</span>);</span><br><span class="line">        <span class="keyword">self</span>.set_http_request_header(<span class="string">"Host"</span>, <span class="literal">Some</span>(<span class="string">"reviews.default.svc.cluster.local"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// call server pod ip -&gt; cluster ip</span></span><br><span class="line">        <span class="keyword">self</span>.clear_http_route_cache();  <span class="comment">//记得Cache Route Cache ！！！！！！！ FXXXXXXXXK</span></span><br><span class="line">        <span class="keyword">return</span> Action::Continue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Custom-Registry"><a class="header-anchor" href="#Custom-Registry">¶</a>Custom Registry</h4>
@@ -487,12 +487,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -712,8 +712,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -758,7 +758,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -929,7 +929,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1012,5 +1012,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

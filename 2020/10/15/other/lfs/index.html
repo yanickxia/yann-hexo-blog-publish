@@ -27,22 +27,22 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="The Design and Implementation of a Log-Structured File System 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTm8U.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9Jzy.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9aof.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9iDU.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTRLy.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9K5S.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTUM6.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTx1X.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTMOp.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-10-15T11:20:31.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="lsf">
 <meta property="article:tag" content="file-system">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/10/15/tTm8U.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/10/15/other/lfs/">
 
@@ -302,14 +302,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/10/15/tTm8U.png" alt="tTm8U.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTm8U.png" alt="tTm8U.png"></p>
 <p><a href="https://people.eecs.berkeley.edu/~brewer/cs262/LFS.pdf" target="_blank" rel="noopener">The Design and Implementation of a Log-Structured File System</a> 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。</p>
 <a id="more"></a>
 <blockquote>
 <p>作者在论文中用一个 <code>Sprite LFS</code> 来描述。</p>
 </blockquote>
 <h2 id="File-System-As-Log"><a class="header-anchor" href="#File-System-As-Log">¶</a>File System As Log</h2>
-<p><img src="https://s3.jpg.cm/2020/10/15/t9Jzy.png" alt="t9Jzy.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9Jzy.png" alt="t9Jzy.png"></p>
 <p>对于文件的写入，也是类似通过 <code>append log</code> 的方式进行追加数据。大家如果记得话 <code>Kafka</code> 的话， <code>Kafka</code> 基于 <code>顺序写</code> 的方式提高了写入的吞吐量。 <code>想法</code>非常的朴质，但是有两点需要解决：1. 如何通过日志读取最终文件，这个很容易理解。2. 如何管理空闲的数据段。</p>
 <p>管理空闲的数据段就会涉及到如下状态的处理，假如某个值为 <code>A</code>, <code>A'</code>,<code>A''</code>,<code>A'''</code> 的顺序写入，我们最终只需要 <code>A'''</code> 的状态，而其他的并不需要。</p>
 <h2 id="名词列表"><a class="header-anchor" href="#名词列表">¶</a>名词列表</h2>
@@ -357,20 +357,20 @@
 </table>
 <h2 id="文件读取"><a class="header-anchor" href="#文件读取">¶</a>文件读取</h2>
 <p>常规的 <code>log-structured</code> 的数据格式，显然我们需要从零开始一直读取到最后的日志。那显然太慢了，<code>Sprite LFS</code> 为了提高性能，每个文件都有一个 <code>inode</code> 的数据结构，保存一些元数据与 前十个<code>10</code> 个 <code>数据Blocks</code> ，对于大文件来说 <code>10</code> 个数据块显然不够，<code>inode</code> 还包含一个或多个 <code>indirect blocks</code> 的磁盘地址，每个 <code>indirect blocks</code> 包含更多数据或间接块的地址。</p>
-<p><img src="https://s3.jpg.cm/2020/10/15/t9aof.png" alt="t9aof.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9aof.png" alt="t9aof.png"></p>
 <p>因为 <code>Inode</code> 非确定的出现在任意一个位置，因此我们还需要定位 <code>Inode</code> 本身。<code>LFS</code> 里面用了一种 <code>Inode map</code> 去存 <code>Inode</code> 的地址。</p>
-<p><img src="https://s3.jpg.cm/2020/10/15/t9iDU.png" alt="t9iDU.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9iDU.png" alt="t9iDU.png"></p>
 <p>但是 <code>Inode map</code> 也是按照 <code>Block</code> 的方式写入日志中的，因此我们势必需要一个固定的区域来定位，那就有两种方式， <code>Inode Map</code> 存在固定的位置，或者再间接引用。在 <code>LFS</code> 中是有一个固定的 <code>checkpoint</code> 区域来储存 <code>inode map</code> 的位置。</p>
-<p><img src="https://s3.jpg.cm/2020/10/15/tTRLy.png" alt="tTRLy.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTRLy.png" alt="tTRLy.png"></p>
 <h2 id="空间管理"><a class="header-anchor" href="#空间管理">¶</a>空间管理</h2>
 <p><code>Sprite LFS</code> 将磁盘分成了很多个 <code>segment</code></p>
-<p><img src="https://s3.jpg.cm/2020/10/15/t9K5S.png" alt="t9K5S.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9K5S.png" alt="t9K5S.png"></p>
 <p><code>segment</code> 是在内存中，当储存的数据量超过 <code>限制大小</code> 之后才会向磁盘落盘。</p>
 <h3 id="垃圾回收"><a class="header-anchor" href="#垃圾回收">¶</a>垃圾回收</h3>
 <p>日志系统最大的问题显然是需要回收那些不需要的空间的，为了压缩空间，加入了 <code>segment cleaning</code> 技术，<code>Sprite LFS</code> 分了三步来处理这个问题：1. 读取一部分 segments 到内存 2. 标记还存活的数据  3. 将活着的数据写入较少的 segments</p>
-<p><img src="https://s3.jpg.cm/2020/10/15/tTUM6.png" alt="tTUM6.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTUM6.png" alt="tTUM6.png"></p>
 <p>为了确定哪些 <code>Block</code> 已经无效了，<code>LFS</code> 在 <code>Segment</code> 开头处中储存了一种 <code>Segment Summary</code> 数据体，<code>Segment Summary</code> 中存储了段中每个 <code>Data Block</code> 的地址，和这个 <code>Data Block</code> 的 <code>Inode Number （文件号）</code>，以及该 <code>Block</code> 在文件中的 <code>offset</code>。对于任意 <code>Block</code>，只要对比该 <code>Block</code> 的地址，和通过 <code>Inode Map</code> 查询这个 <code>Block</code> 的地址是否相同，就能判断这个 <code>Block</code> 是否过期。</p>
-<p><img src="https://s3.jpg.cm/2020/10/15/tTx1X.png" alt="tTx1X.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTx1X.png" alt="tTx1X.png"></p>
 <p>如上图中，我们 <code>Inode Map</code> 中储存的 <code>Inode2</code> 的版本是 <code>2</code>，而在 <code>Segment Summary</code> 中 <code>Inode2</code> 的版本是 <code>1</code> 因此这部分的数据就是无效的。</p>
 <h2 id="故障恢复"><a class="header-anchor" href="#故障恢复">¶</a>故障恢复</h2>
 <ul>
@@ -378,7 +378,7 @@
 <li>在 <code>Checkpoint</code> <code>中，LFS</code> 存储了这个链表的第一个 <code>Segment</code> 和最后一个 <code>Segment</code> 的地址，因此只要读取 <code>Checkpoint</code> 就能恢复出整个文件系统。</li>
 <li><code>LFS</code> 每 <code>30</code> 秒更新一次 <code>Checkpoint</code> 中的数据。</li>
 </ul>
-<p><img src="https://s3.jpg.cm/2020/10/15/tTMOp.png" alt="tTMOp.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTMOp.png" alt="tTMOp.png"></p>
 <ol>
 <li>当我们更新 <code>Checkpoint</code> 的出现问题，如果 <code>Head</code> <code>Tail</code> 都没有更新，等于没有创建，再来一次即可。</li>
 <li>当我们更新 <code>Checkpoint</code> 的出现问题，如果 <code>Head</code> 更新，<code>Tail</code> 没有更新的话
@@ -412,12 +412,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -637,8 +637,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -683,7 +683,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -854,7 +854,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -937,5 +937,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

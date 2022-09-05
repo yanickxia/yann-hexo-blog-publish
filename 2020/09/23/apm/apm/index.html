@@ -27,20 +27,20 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="人人都需要的 Application Performance Monitoring 了解一下">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HTv8R.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HanCe.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HacrG.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HaUC4.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HTOBf.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HauqX.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HaJZ6.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/23/HaNAT.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-09-23T06:41:01.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.416Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="apm">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/09/23/HTv8R.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/09/23/apm/apm/">
 
@@ -296,7 +296,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/09/23/HTv8R.png" alt="HTv8R.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HTv8R.png" alt="HTv8R.png"></p>
 <p>人人都需要的 <code>Application Performance Monitoring</code> 了解一下</p>
 <a id="more"></a>
 <h1>需要收集什么数据</h1>
@@ -312,7 +312,7 @@
 <p>探针顾名思义，插在运行程序上面的一层。因此探针体系的 <code>APM</code> 都有着最好的一个卖点 <code>无侵入</code>，大多数都是利用了特定语言提供的无侵入能力做这件事。这里面的玩家有很多 <code>Skywalking</code> <code>pinpoint</code> 等。</p>
 <h3 id="例子：-Java-Agent"><a class="header-anchor" href="#例子：-Java-Agent">¶</a>例子： Java Agent</h3>
 <p>因为 <code>Java</code> 是一门虚拟机语言，支持一种名为 <code>动态字节码</code> 的功能，这个在功能提供了 <code>2</code> 种模式，<code>C++</code> 版本的 <code>agentlib</code> 和 <code>Java</code> 版本的 <code>javaagent</code></p>
-<p><img src="https://s3.jpg.cm/2020/09/23/HanCe.png" alt="HanCe.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HanCe.png" alt="HanCe.png"></p>
 <p>只需要在启动的时候</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -javaagent:agent1.jar -javaagent:agent2.jar -jar MyProgram.jar</span><br></pre></td></tr></table></figure>
 <p>这里的 <code>agent.jar</code> 就是我们的探针代码，比如有以下代码</p>
@@ -324,8 +324,8 @@
 <li>适配繁琐：这可以参考 Skywalking 的适配，对于开源的还好，如果是内部框架呢？</li>
 </ul>
 <p>主要选手：</p>
-<img src="https://s3.jpg.cm/2020/09/23/HacrG.png" alt="skywalking" width="500" height="300" style="display:inline">
-<img src="https://s3.jpg.cm/2020/09/23/HaUC4.png" alt="pinpiont" width="500" height="300" style="display:inline">
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HacrG.png" alt="skywalking" width="500" height="300" style="display:inline">
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HaUC4.png" alt="pinpiont" width="500" height="300" style="display:inline">
 <h2 id="SDK-体系"><a class="header-anchor" href="#SDK-体系">¶</a>SDK 体系</h2>
 <p><code>SDK</code> 体系最好理解，提供了一套 <code>SDK API</code> 供使用者调用，这样就可以让使用者无感知监控的内部实现。对于大部分的 <code>编译型</code> 语言来说，这是唯一可选的路径。</p>
 <h3 id="例子-go-agent"><a class="header-anchor" href="#例子-go-agent">¶</a>例子: <a href="https://github.com/newrelic/go-agent/blob/master/GETTING_STARTED.md" target="_blank" rel="noopener">go-agent</a></h3>
@@ -336,7 +336,7 @@
 <p>原理不用猜也知道了，对于大部分的框架来说，我们在处理上下文的时候都会传递一个 <code>Context</code> 对象，我们希望能够捕获一些状态数据的话，将其放置于 <code>Context</code> 中，然后将其在最终 <code>End</code> 的地方通过异步的队列上报即可。</p>
 <h3 id="例子：Cat"><a class="header-anchor" href="#例子：Cat">¶</a>例子：<a href="https://github.com/dianping/cat" target="_blank" rel="noopener">Cat</a></h3>
 <p>单纯的埋点，无需支持任何框架，本身就是一个全局对象。用起来也非常的粗暴简单</p>
-<p><img src="https://s3.jpg.cm/2020/09/23/HTOBf.png" alt="HTOBf.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HTOBf.png" alt="HTOBf.png"></p>
 <figure class="highlight java"><figcaption><span>CAT手动埋点</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Transaction t = Cat.newTransaction(<span class="string">"URL"</span>, <span class="string">"pageName"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Cat.logEvent(<span class="string">"URL.Server"</span>, <span class="string">"serverIp"</span>, Event.SUCCESS, <span class="string">"ip=$&#123;serverIp&#125;"</span>);</span><br><span class="line">    Cat.logMetricForCount(<span class="string">"metric.key"</span>);</span><br><span class="line">    Cat.logMetricForDuration(<span class="string">"metric.key"</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    yourBusiness();</span><br><span class="line"></span><br><span class="line">    t.setStatus(Transaction.SUCCESS);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    t.setStatus(e);</span><br><span class="line">    Cat.logError(e);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    t.complete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="自报体系"><a class="header-anchor" href="#自报体系">¶</a>自报体系</h3>
 <p>还有一类以 <code>Web API</code> 提供远端的消费者来提供服务的，这样的需要自行在客户端侧进行逻辑适配，然后按照 <code>API</code> 的要求将数据上报来，因此在我们上面所说的两种监控数据类型上，社区有相对标准的数据格式。</p>
@@ -345,12 +345,12 @@
 <h3 id="小结-v2"><a class="header-anchor" href="#小结-v2">¶</a>小结</h3>
 <p><code>SDK</code> 体系就实现起来很简单，并且在使用的过程中如果有什么不兼容的在使用侧进行修改都可以，但是缺点就是一旦引入了 <code>SDK</code>，就是涉及到代码的更新，这就是传统 <code>SDK</code> 同样导致的问题。</p>
 <p>主要选手：<br>
-<img src="https://s3.jpg.cm/2020/09/23/HauqX.png" width="500" height="300" alt="cat" style="display:inline"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HauqX.png" width="500" height="300" alt="cat" style="display:inline"></p>
 <h1>处理侧</h1>
 <p>对于收集上来的数据总是需要进行处理的，因此这块设计也不尽相同。</p>
 <h2 id="聚合处理型"><a class="header-anchor" href="#聚合处理型">¶</a>聚合处理型</h2>
 <p><code>Skywalking</code> 和 <code>Pinpoint</code> 都是这个模式，以 <code>Skywalking</code> 为例子，有一个单独的部署的模块为 <code>Observability Analysis Platform</code> 下称 <code>OAP</code></p>
-<p><img src="https://s3.jpg.cm/2020/09/23/HaJZ6.png" alt="HaJZ6.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HaJZ6.png" alt="HaJZ6.png"></p>
 <p><code>OAP</code> 承担三件事情</p>
 <ol start="0">
 <li>数据计算：对于 <code>Tracing</code> 数据需要将多个 <code>Span</code> 聚合在一起</li>
@@ -365,7 +365,7 @@
 </ul>
 <h2 id="简单透传型"><a class="header-anchor" href="#简单透传型">¶</a>简单透传型</h2>
 <p><code>jaeger</code> 就属于这一类型，只有最终的一份工作，将 <code>Tracing</code> 的数据落到不同的数据库中，而且几乎不进行什么处理，因此在数据内存放的都是散落的 <code>Span</code> 信息，在后面继续分析的时候，聚合数据的工作需要留到查询侧再进行，这样的设计也不是不无道理，因为对于大部分的时间来说，我们不会去看 <code>Tracing</code> 的信息，等我们真的点击的时候再进行数据分析即可。</p>
-<p><img src="https://s3.jpg.cm/2020/09/23/HaNAT.png" alt="HaNAT.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HaNAT.png" alt="HaNAT.png"></p>
 <h2 id="理想型"><a class="header-anchor" href="#理想型">¶</a>理想型</h2>
 <ul>
 <li>数据接入：所有的数据应该可以直接连接 <code>OAP</code> 或者 <code>Kafka</code>，因为对于 <code>POC</code> 或者小客户场景，加入 <code>Kafka</code> 是不适合的，增加了运维复杂度，直接在 <code>OAP</code> 进行处理即可。</li>
@@ -398,12 +398,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -622,8 +622,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -668,7 +668,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -839,7 +839,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -922,5 +922,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="在 1.8 的版本中，istio 悄悄的上了一个预览版的功能 DNS Proxy，这个功能极为的强大，让我们一起来看看吧。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175028.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175250.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2021-02-07T04:28:41.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.432Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="isito">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175028.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/">
 
@@ -290,12 +290,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175028.png" alt=""></p>
+        <p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175028.png" alt=""></p>
 <p>在 <code>1.8</code> 的版本中，<code>istio</code> 悄悄的上了一个预览版的功能 <a href="https://istio.io/latest/blog/2020/dns-proxy/" target="_blank" rel="noopener">DNS Proxy</a>，这个功能极为的强大，让我们一起来看看吧。</p>
 <a id="more"></a>
 <h2 id="为何诞生"><a class="header-anchor" href="#为何诞生">¶</a>为何诞生</h2>
 <p>从官方的文档中，<code>DNS Proxy</code>的功能主要为了 <code>减少KubeDNS的查询</code>，这个很好理解</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175250.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20210207175250.png" alt=""></p>
 <p>除此之外，还要解决一个很重大的问题：<code>VM 和 Kubernetes</code> 的集成问题。</p>
 <iframe frameborder="0" style="width:100%;height:400px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=VMs%20to%20Kubernetes%20integration.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fyanickxia%2Fdrawio%2Fmaster%2FVMs%2520to%2520Kubernetes%2520integration.drawio"></iframe>
 <p>当我们将 <code>虚拟机</code> 接入集群的时候，<code>虚拟机</code> 中的应用如何访问 <code>Kubernates</code> 中的应用一直是一个困难的事情。还顺带解决了多集群访问的问题。让我们看看他是怎没做的。</p>
@@ -359,10 +359,10 @@
   <div class="popular-posts-header">推荐阅读</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/10/28/networking/istio/isito-pilot/" rel="bookmark">Isito の Pilot 组件</a></div>
+      <div class="popular-posts-title"><a href="/2022/04/16/networking/istio/istio-iptables/" rel="bookmark">Isito iptables & CNI</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2022/04/16/networking/istio/istio-iptables/" rel="bookmark">Isito iptables & CNI</a></div>
+      <div class="popular-posts-title"><a href="/2020/10/28/networking/istio/isito-pilot/" rel="bookmark">Isito の Pilot 组件</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2022/07/23/networking/istio/how-it-works/vm-health-check/" rel="bookmark">Isito 虚拟机健康检查</a></div>
@@ -383,12 +383,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -607,8 +607,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -653,7 +653,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -824,7 +824,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -907,5 +907,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

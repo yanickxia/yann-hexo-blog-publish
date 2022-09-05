@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128215700.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128220120.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128220630.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-11-28T14:00:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="ca">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/11/28/other/ca/">
 
@@ -292,7 +292,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png" alt=""></p>
+        <p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128222900.png" alt=""></p>
 <p>CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。</p>
 <a id="more"></a>
 <h2 id="HTTPS证书"><a class="header-anchor" href="#HTTPS证书">¶</a>HTTPS证书</h2>
@@ -304,15 +304,15 @@
 <li>客户端回应</li>
 <li>服务器的最后回应</li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128215700.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128215700.png" alt=""></p>
 <p>其中比较复杂的就是 RSA 非对称加密技术了，这里就不做展开，可以参考 <a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="noopener">RSA算法原理</a></p>
 <h2 id="CA"><a class="header-anchor" href="#CA">¶</a>CA</h2>
 <p>在上一节中，我们知道了服务器之间是需要交换公私钥的，因此其实有被串改的风险的，因为其实我们是没办法辨别对方是否是真实性，因此我们在此加入了一个中间公正机构，也就是 CA 提供商，因此我们访问一些自定义的服务SSL会导致如下</p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128220120.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128220120.png" alt=""></p>
 <p>就是因为 RSA 证书不受信任，因此CA提供商，提供了有偿服务，在服务器上维护了大量公私钥，不过有人会问，为什么CA本身不能是假的呢？其实这个也是可以的，不过在绝大多数的系统中，会提供默认的证书提供商的公钥，只要不去恶意的替换就不存在被替换的风险。</p>
 <h3 id="Root-根证书"><a class="header-anchor" href="#Root-根证书">¶</a>Root 根证书</h3>
 <p>为什么需要根证书呢？这就是和上面信任的问题，我们知道绝大多数的系统会内置一些 <code>CA</code> 提供商的证书，这些证书就是根证书，此时我们去访问一个 <code>HTTPS</code> 服务器的时候，那我们怎么知道它的证书是可靠的呢？解决之道就是 <code>证书链</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128220630.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201128220630.png" alt=""></p>
 <p><code>证书链</code> 在生成证书的时候就会生产出来，一般来说就就是三级</p>
 <ul>
 <li>end-user：即 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a>，是该网站使用 HTTPS 安装的数字证书</li>
@@ -349,12 +349,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -573,8 +573,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -619,7 +619,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -790,7 +790,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -873,5 +873,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

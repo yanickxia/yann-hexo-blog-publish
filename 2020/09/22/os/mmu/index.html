@@ -27,22 +27,22 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="MMU是Memory Management Unit的缩写，中文名是内存管理单元，有时称作分页内存管理单元（英语：paged memory management unit，缩写为PMMU）。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0y9L.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0aSU.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0i2O.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0DPw.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0Mu8.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0O4i.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H2Cqt.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H2KHR.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H3php.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-09-22T02:59:35.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="os">
 <meta property="article:tag" content="mmu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/09/22/H0y9L.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/09/22/os/mmu/">
 
@@ -302,7 +302,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/09/22/H0y9L.png" alt="H0y9L.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0y9L.png" alt="H0y9L.png"></p>
 <blockquote>
 <p>MMU是Memory Management Unit的缩写，中文名是内存管理单元，有时称作分页内存管理单元（英语：paged memory management unit，缩写为PMMU）。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。</p>
 </blockquote>
@@ -318,22 +318,22 @@
 </div>
 <h2 id="CPU-寻址"><a class="header-anchor" href="#CPU-寻址">¶</a>CPU 寻址</h2>
 <p>对于 <code>16</code> 位时代都是 <code>实模式</code>，我们访问的都是真实的物理地址。</p>
-<p><img src="https://s3.jpg.cm/2020/09/22/H0aSU.png" alt="H0aSU.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0aSU.png" alt="H0aSU.png"></p>
 <p>对于 <code>8086</code> 型号的 <code>CPU</code> 来说，我们采用了<code>偏移地址</code>技术。<code>段地址</code> * <code>16</code> + <code>偏移地址</code> = <code>实际的物理地址</code>，总之我们可以直接访问到物理内存，这样对于所有的程序来说我们共享了一份真实内存。而对于之后时代，进入了 <code>保护模式</code> 我们访问的都是虚拟地址。处理方式有所变化：</p>
-<p><img src="https://s3.jpg.cm/2020/09/22/H0i2O.png" alt="H0i2O.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0i2O.png" alt="H0i2O.png"></p>
 <p>现代处理器使用的是一种称为虚拟寻址（Virtual Addressing）的寻址方式。使用虚拟寻址，CPU需要将虚拟地址翻译成物理地址，这样才能访问到真实的物理内存。虚拟寻址需要硬件与操作系统之间互相合作。CPU中含有一个被称为内存管理单元（Memory Management Unit, MMU）的硬件，它的功能是将虚拟地址转换为物理地址。MMU需要借助存放在内存中的页表来动态翻译虚拟地址，该页表由操作系统管理。</p>
 <blockquote>
 <p>ℹ️ : <strong>重点</strong>: 转换的工作是由 MMU 进行控制，而页表是由 OS 控制的，这是软硬件的一次配合。</p>
 </blockquote>
 <h3 id="页表-PTE"><a class="header-anchor" href="#页表-PTE">¶</a>页表 (PTE)</h3>
 <p>首先真实的物理内存资源是有限的，比如 <code>4G</code> <code>10G</code> 决计不是无限的，虚拟内存对于所有进程都是从 <code>0</code> 开始到 <code>2 ^ N</code> N是常见的 32/64 位，那涉及到虚拟内存和真实内存的映射关系。</p>
-<p><img src="https://s3.jpg.cm/2020/09/22/H0DPw.png" alt="H0DPw.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0DPw.png" alt="H0DPw.png"></p>
 <blockquote>
 <p>虚拟内存：下称 VM， 真实内存：下称 PM</p>
 </blockquote>
 <p>首先，VM 和 PM 对应并非是整块的，操作系统通过将虚拟内存分割为大小固定的块来作为硬盘和内存之间的传输单位，这个块被称为虚拟页（Virtual Page, VP），每个虚拟页的大小为P=2^p字节。物理内存也会按照这种方法分割为物理页（Physical Page, PP），大小也为P字节。</p>
 <p>也就是说对于 <code>VM</code> 是由许多个 <code>VP</code> 构成的，<code>PM</code> 也是由许多个 <code>PP</code> 构成的。 将 <code>PP</code> 和 <code>VP</code> 关联来一起的是就是 <code>页表(PET)</code></p>
-<p><img src="https://s3.jpg.cm/2020/09/22/H0Mu8.png" alt="H0Mu8.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0Mu8.png" alt="H0Mu8.png"></p>
 <p>由于 <code>CPU</code> 每次进行寻址时候都需要使用 <code>PTE</code>，所以如果想控制内存系统的访问，可以在 <code>PTE</code> 上添加一些额外的许可位（例如读写权限、内核权限等），这样只要有指令违反了这些许可条件，<code>CPU</code> 就会触发一个一般保护故障，将控制权传递给内核中的异常处理程序。一般这种异常被称 <code>段错误（Segmentation Fault）</code>。</p>
 <p>因涉及到转换，就会出现两种情况：</p>
 <ul>
@@ -342,7 +342,7 @@
 </ul>
 <p>对于一个 <code>32</code> 位的操作系统，大概我们可以访问到 2^32 = 4GB 的空间，一个 PET 为 <code>4bytes</code>，那我们 4MB 个 <code>PTE</code>才能满足所有的寻址需求，那这样 PTE 实在太大，因此真实的环境下，我们会采用 <code>多级页表</code> 技术。</p>
 <h3 id="多集页表"><a class="header-anchor" href="#多集页表">¶</a>多集页表</h3>
-<p><img src="https://s3.jpg.cm/2020/09/22/H0O4i.png" alt="H0O4i.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0O4i.png" alt="H0O4i.png"></p>
 <p>采用多级页表最明显的有2个好处</p>
 <ul>
 <li>如果一个一级页表的一个PTE是空的，那么相应的二级页表也不会存在。这代表一种巨大的潜在节约（对于一个普通的程序来说，虚拟地址空间的大部分都会是未分配的）。</li>
@@ -355,12 +355,12 @@
 <figure class="highlight c"><figcaption><span>mm/memory.c:mem_init</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mem_init</span><span class="params">(<span class="keyword">long</span> start_mem, <span class="keyword">long</span> end_mem)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">	HIGH_MEMORY = end_mem;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span> ; i&lt;PAGING_PAGES ; i++)</span><br><span class="line">		mem_map[i] = USED;</span><br><span class="line">	i = MAP_NR(start_mem);</span><br><span class="line">	end_mem -= start_mem;</span><br><span class="line">	end_mem &gt;&gt;= <span class="number">12</span>;</span><br><span class="line">	<span class="keyword">while</span> (end_mem--&gt;<span class="number">0</span>)</span><br><span class="line">		mem_map[i++]=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>按照下标的方式将系统划分成 <code>PAGING_PAGES</code> 段，其中为 0 值的下标对象即是可用的区域。</p>
 <h2 id="地址翻译"><a class="header-anchor" href="#地址翻译">¶</a>地址翻译</h2>
-<p><img src="https://s3.jpg.cm/2020/09/22/H2Cqt.png" alt="H2Cqt.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H2Cqt.png" alt="H2Cqt.png"></p>
 <p>地址翻译这个事情，就是如何从 <code>线性地址</code> 翻译成 <code>物理地址</code>，这个事情还是比较直观的。 将虚拟地址的 前 N 位作为页表目录， (N+1) ~ (2N) 作为页表1，以此类推我们就可以结合在 <code>PET</code> 的数据得到我们真实的地址。</p>
-<p><img src="https://s3.jpg.cm/2020/09/22/H2KHR.png" alt="H2KHR.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H2KHR.png" alt="H2KHR.png"></p>
 <h3 id="Page-allocator"><a class="header-anchor" href="#Page-allocator">¶</a>Page allocator</h3>
 <p>每一个进程的 <code>PET</code> 都是独立的，还记得 <code>CR3</code> 寄存器吗？</p>
-<p><img src="https://s3.jpg.cm/2020/09/22/H3php.png" alt="H3php.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H3php.png" alt="H3php.png"></p>
 <p>对于 <code>Linux</code> 来说，我么对于任务的定义包含了很多数据，如下定义</p>
 <figure class="highlight c"><figcaption><span>task_struct</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line">	<span class="keyword">long</span> state;	<span class="comment">/* -1 unrunnable, 0 runnable, &gt;0 stopped */</span></span><br><span class="line">	<span class="keyword">long</span> counter;</span><br><span class="line">	<span class="keyword">long</span> priority;</span><br><span class="line">	<span class="keyword">long</span> signal;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">sigaction</span>[32];</span></span><br><span class="line">	<span class="keyword">long</span> blocked;	<span class="comment">/* bitmap of masked signals */</span></span><br><span class="line"><span class="comment">/* tss for this task */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">tss_struct</span> <span class="title">tss</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>在 <code>tss</code> 的数据结构中就保存了我们的  <code>cr3</code> 的寄存器的值，在我们调度进程的时候，就可以将 <code>cr3</code>的寄存器恢复即可。在后续的版本中单独使用 <code>pdg</code> 指向我们一级页表的基址。<br>
@@ -402,12 +402,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -627,8 +627,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -673,7 +673,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -844,7 +844,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -927,5 +927,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="笔者很久没有面试的时候被问过深度的 GC 知识了，看看腾讯的高级技术专家是如何面试 Java 的。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/03/bHP5z.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/bbokE.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/bb3uH.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/bbOuy.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buSAf.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buvHe.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buwfy.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buoZr.png">
-<meta property="og:image" content="https://s3.jpg.cm/2020/08/02/buBX5.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-07-31T11:04:04.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
@@ -46,7 +46,7 @@
 <meta property="article:tag" content="gc">
 <meta property="article:tag" content="netty">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.jpg.cm/2020/08/03/bHP5z.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/07/31/java/java-interview/">
 
@@ -306,7 +306,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s3.jpg.cm/2020/08/03/bHP5z.png" alt="bHP5z.png"></p>
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/03/bHP5z.png" alt="bHP5z.png"></p>
 <p>笔者很久没有面试的时候被问过深度的 <code>GC</code> 知识了，看看腾讯的高级技术专家是如何面试 <code>Java</code> 的。</p>
 <a id="more"></a>
 <h1>Q1: new 之后发生了什么？</h1>
@@ -348,7 +348,7 @@
 <p><code>Class文件</code> 被我们载入的 <code>Class(Method) Area</code>。不过 <code>方法区（Permanent Generation）</code> 的大小默认是无限制的，但是和普通的 <code>GC</code> 一样，这里也会发生 <code>GC</code>，常见的是在启动的时候载入的大量的 <code>Class</code> 就会出现频繁的 <code>GC</code>。</p>
 <h2 id="初始化对象"><a class="header-anchor" href="#初始化对象">¶</a>初始化对象</h2>
 <p>首先第一步我们需要在 <code>Stack</code> 分配一个指向 <code>Heap</code> 的引用对象。</p>
-<p><img src="https://s3.jpg.cm/2020/08/02/bbokE.png" alt="bbokE.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/bbokE.png" alt="bbokE.png"></p>
 <p>然后再去 <code>Heap</code> 开辟一个新空间。不过从这里在这次的面试中就有点自己知识的盲区了，我尝试着带着 <code>Google</code> 重新回顾一下。</p>
 <p>按照理解的话 <code>Linux</code> 提供了 <code>malloc</code> 的标准函数进行内存的分配，但是这样的返回仅仅是一个 <code>Address of a chunk memory</code>，对于 <code>Jvm</code> 这样的虚拟机应该将这些地址都存储起来并且在恰当的时候进行 <code>GC</code>。</p>
 <figure class="highlight java"><figcaption><span>malloc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ptr_to_container = (Container *) malloc(sizeof(Container));</span><br></pre></td></tr></table></figure>
@@ -362,7 +362,7 @@ A GC is triggered when sufficient memory cannot be found</p>
 <p>对于不同的GC算法，内存区域的开辟也有不同，常规模式下<code>内存管理器</code>维护者 <code>Free Point</code> 指向空闲的区域，然后开辟空间移动指针即可，非常规的模式下直接将 <code>block</code> 块合并返回。不过下面那种模式更快，不过也会产生更多的碎片。</p>
 <h1>Q：那JVM为何要分代</h1>
 <p>在 <a href="https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html" target="_blank" rel="noopener"><code>Understanding Memory Management</code></a> 中有提到。</p>
-<p><img src="https://s3.jpg.cm/2020/08/02/bb3uH.png" alt="bb3uH.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/bb3uH.png" alt="bb3uH.png"></p>
 <div>
     <label class="author-mark-label">小声比比</label>
     <p class="author-mark">以前我没太理解，我认为之所以要分分代是因为对于不同的区域的 GC 算法应该有所不同。</p>
@@ -390,11 +390,11 @@ Pauses are the times when an application appears unresponsive because garbage co
 </ul>
 <p>对于 <code>JRockit</code> 实现的时候并没有 <code>S0</code> 和 <code>S1</code> 的说法，只有一个 <code>survivor</code>，为什么 <code>Hotspot</code> 需要呢？</p>
 <p>在 <a href="https://stackoverflow.com/questions/10695298/java-gc-why-two-survivor-regions" target="_blank" rel="noopener">Java GC: why two survivor regions?</a> 中又说到，当我们出发了 <code>Minor GC</code> 之后，杀掉了一些对象之后，<code>Eden</code> 和 <code>Survivor</code> 都会出现碎片，为了减少碎片，<code>Sun</code> 折中选择了将 <code>S0/S1</code> 进行移动的过程中进行 <code>压实</code>。</p>
-<p><img src="https://s3.jpg.cm/2020/08/02/bbOuy.png" alt="bbOuy.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/bbOuy.png" alt="bbOuy.png"></p>
 <p>对于 <code>eden</code> 的对象要么选择去 <code>survivor</code> 要么选择 <code>killed</code>，每一次应该 <code>eden</code> 是清空的。</p>
 <h4 id="Old-generation"><a class="header-anchor" href="#Old-generation">¶</a>Old generation</h4>
 <p>上面对于 <code>Serial GC</code> 只是 <code>Minor GC</code> 的部分，当我们的 <code>Eden/Survior</code> 都满的情况下会触发 <code>Full GC</code></p>
-<p><img src="https://s3.jpg.cm/2020/08/02/buSAf.png" alt="buSAf.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/buSAf.png" alt="buSAf.png"></p>
 <h3 id="Parallel-GC"><a class="header-anchor" href="#Parallel-GC">¶</a>Parallel GC</h3>
 <p><code>Parallel GC</code> 和 <code>Serial GC</code> 一样对于 <code>young</code> 采用的是 <code>mark-copy</code>，对于 <code>old</code> 采用的 <code>mark-sweep-compact</code> 和 <code>Serial GC</code> 不一样是采用了多线程的方式进行操作，在多核系统上较好。</p>
 <h3 id="Concurrent-Mark-and-Sweep"><a class="header-anchor" href="#Concurrent-Mark-and-Sweep">¶</a>Concurrent Mark and Sweep</h3>
@@ -406,15 +406,15 @@ Pauses are the times when an application appears unresponsive because garbage co
 <li>大部分的操作是不停止应用工作的</li>
 </ul>
 <h5 id="第一步：初始化标记，这一部分会-SOW，不过只需要找到所有在-Old-中的-Root"><a class="header-anchor" href="#第一步：初始化标记，这一部分会-SOW，不过只需要找到所有在-Old-中的-Root">¶</a>第一步：初始化标记，这一部分会 SOW，不过只需要找到所有在 <code>Old</code> 中的 <code>Root</code></h5>
-<p><img src="https://s3.jpg.cm/2020/08/02/buvHe.png" alt="buvHe.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/buvHe.png" alt="buvHe.png"></p>
 <h5 id="第二步：并发标记"><a class="header-anchor" href="#第二步：并发标记">¶</a>第二步：并发标记</h5>
 <p>这一步不会 SOW<br>
-<img src="https://s3.jpg.cm/2020/08/02/buwfy.png" alt="buwfy.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/buwfy.png" alt="buwfy.png"></p>
 <h5 id="第三步：重新标记"><a class="header-anchor" href="#第三步：重新标记">¶</a>第三步：重新标记</h5>
 <p>重新标记处理并发标记过程中因为用户程序同时运行而导致标记产生变动的对象的标记记录。stop-the-world。<br>
-<img src="https://s3.jpg.cm/2020/08/02/buoZr.png" alt="buoZr.png"></p>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/buoZr.png" alt="buoZr.png"></p>
 <h5 id="第四步：并发清除-Concurrent-sweep"><a class="header-anchor" href="#第四步：并发清除-Concurrent-sweep">¶</a>第四步：并发清除 Concurrent sweep</h5>
-<p><img src="https://s3.jpg.cm/2020/08/02/buBX5.png" alt="buBX5.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/02/buBX5.png" alt="buBX5.png"></p>
 <p>对于 <code>CMS</code> 来说，肉眼即可的问题就是 <code>Free-List</code> 带来的碎片化问题。当然我们可以设置 <code>UseCMSCompactAtFullCollection</code> 来开启 <code>压实</code>操作。</p>
 <div>
     <label class="author-mark-label">小声比比3</label>
@@ -500,12 +500,12 @@ Pauses are the times when an application appears unresponsive because garbage co
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -729,8 +729,8 @@ Pauses are the times when an application appears unresponsive because garbage co
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -775,7 +775,7 @@ Pauses are the times when an application appears unresponsive because garbage co
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -946,7 +946,7 @@ Pauses are the times when an application appears unresponsive because garbage co
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1029,5 +1029,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

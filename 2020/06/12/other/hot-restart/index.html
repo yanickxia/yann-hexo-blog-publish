@@ -27,24 +27,24 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="随着Devops以及微服务的普及，应用上线周期变短，对于以前那种需要停机升级的忍受度也在不断的降低，话不多说，进入主题。 我们需要解决的  对于我们来说，我们所需要解决的是：当我们运行着一个服务进程的时候，我们期望这个进程能够突然之间变成新的(新的代码逻辑)，并且外部无感知。至少包含几点：  服务状态不丢失：比如监控状态，正在处理的数据状态 服务不中断：用户不能够感知到服务被中断  抱着这样的目的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/12/tXcilt.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/12/tXRJ78.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/12/tXWfIS.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/12/tXIoDA.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/txmtIJ.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/txmHoQ.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/txK3sP.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/txlHoT.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/txlvl9.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/tx1iFO.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/06/13/tx1a7V.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-06-12T14:00:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="server">
 <meta property="article:tag" content="hot_restart">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/12/tXcilt.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2020/06/12/other/hot-restart/">
 
@@ -306,7 +306,7 @@
       
         <p>随着Devops以及微服务的普及，应用上线周期变短，对于以前那种需要停机升级的忍受度也在不断的降低，话不多说，进入主题。</p>
 <h1>我们需要解决的</h1>
-<p><img src="https://s1.ax1x.com/2020/06/12/tXcilt.png" alt="tXcilt.png"><br>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/12/tXcilt.png" alt="tXcilt.png"><br>
 对于我们来说，我们所需要解决的是：当我们运行着一个服务进程的时候，我们期望这个进程能够突然之间变成新的(新的代码逻辑)，并且外部无感知。至少包含几点：</p>
 <ul>
 <li>服务状态不丢失：比如监控状态，正在处理的数据状态</li>
@@ -317,7 +317,7 @@
 <h1>方案一：逻辑热更新</h1>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------------------------------------------------+</span><br><span class="line">|                                                 |</span><br><span class="line">|                 动 态 脚 本 运 行 层              |</span><br><span class="line">|                                                 |</span><br><span class="line">+-------------------------------------------------+</span><br><span class="line">+-------------------------------------------------+</span><br><span class="line">|                                                 |</span><br><span class="line">|               C++&#x2F;Java&#x2F;Go 数 据 接 收 层          |</span><br><span class="line">|                                                 |</span><br><span class="line">+-------------------------------------------------+</span><br></pre></td></tr></table></figure>
 <p>这种方案是比较常见的一种解决方案，由于嵌入到进程里面的脚本语言引擎，本质上是将脚本语言代码翻译成内存中的Opcode来执行，因此这类型服务器实现“热更新”方案很简单：将新的脚本同步到服务器上，然后给服务器发出一个信号，重新读取脚本代码到内存中即可。</p>
-<p><img src="https://s1.ax1x.com/2020/06/12/tXRJ78.png" alt="tXRJ78.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/12/tXRJ78.png" alt="tXRJ78.png"></p>
 <h2 id="注意点"><a class="header-anchor" href="#注意点">¶</a>注意点</h2>
 <ol>
 <li>脚本应该是在测试环境验证过的，如果上传了错误的脚本很容易带来灾难性的后果，笔者的公司对此需要走上线审计流程</li>
@@ -335,32 +335,32 @@
 <p>WIP</p>
 <h1>方案二：来个网关</h1>
 <p>软件工程中不能解决的问题就加一个中间层来解决(:doge)，来吧我们看看一个中间层的解决方案</p>
-<p><img src="https://s1.ax1x.com/2020/06/12/tXWfIS.png" alt="tXWfIS.png"></p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/12/tXWfIS.png" alt="tXWfIS.png"></p>
 <p>基于网关控制新的流量，因为我们启动了2个版本的服务实例，此时我们按照时间线切分，在特定时间之后的请求都转发到新的服务器上去。这样对于用户来说是无感知的，不过我们增加一个需要共享内存的操作，对于简单的业务系统来说，我们可以将所有的数据持久化到数据中作为状态的储存，但是还是有一些，比如 <code>prometheus</code> 这一类型的系统，本身就是很多状态数据的，此时我们势必要加入一个共享内容的机制。</p>
 <h2 id="例子-v2"><a class="header-anchor" href="#例子-v2">¶</a>例子</h2>
 <p>这个实现在很多公司来说叫 <code>灰度发布</code></p>
 <h3 id="isito-灰度发布"><a class="header-anchor" href="#isito-灰度发布">¶</a>isito 灰度发布</h3>
 <p>现在做灰度发布的方案很多种，我们举一个现在流行的 <code>isito</code> 的解决之道。<br>
-<img src="https://s1.ax1x.com/2020/06/12/tXIoDA.png" alt="tXIoDA.png"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/12/tXIoDA.png" alt="tXIoDA.png"></p>
 <p>比如我们有一个 <code>addedvalues</code> 的服务<br>
-<img src="https://s1.ax1x.com/2020/06/13/txmtIJ.png" alt="txmtIJ.png">，在线上已经有了 50%/50% 的对于 V1和V2版本来说，这个时候我们需要上线一个新版，将所有的流量转发到新的服务上。<br>
-<img src="https://s1.ax1x.com/2020/06/13/txmHoQ.png" alt="txmHoQ.png"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/txmtIJ.png" alt="txmtIJ.png">，在线上已经有了 50%/50% 的对于 V1和V2版本来说，这个时候我们需要上线一个新版，将所有的流量转发到新的服务上。<br>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/txmHoQ.png" alt="txmHoQ.png"></p>
 <p>这个时候，我们所需要做的很简单，直接修改<code>CRD</code>即可</p>
 <div class="tabs" id="灰度发布"><ul class="nav-tabs"><li class="tab active"><a href="#灰度发布-1">原CRD</a></li><li class="tab"><a href="#灰度发布-2">新CRD</a></li></ul><div class="tab-content"><div class="tab-pane active" id="灰度发布-1"><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.istio.io/v1alpha3</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">VirtualService</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">addedvalues</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hosts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">addedvalues</span></span><br><span class="line">  <span class="attr">http:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">route:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">destination:</span></span><br><span class="line">        <span class="attr">host:</span> <span class="string">addedvalues</span></span><br><span class="line">        <span class="attr">Sub set:</span> <span class="string">v2</span></span><br><span class="line">      <span class="attr">weight:</span> <span class="number">50</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">destination:</span></span><br><span class="line">        <span class="attr">host:</span> <span class="string">addedvalues</span></span><br><span class="line">        <span class="attr">subset:</span> <span class="string">v1</span></span><br><span class="line">      <span class="attr">weight:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="灰度发布-2"><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.istio.io/v1alpha3</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">VirtualService</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">addedvalues</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hosts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">addedvalues</span></span><br><span class="line">  <span class="attr">http:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">route:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">destination:</span></span><br><span class="line">        <span class="attr">host:</span> <span class="string">addedvalues</span></span><br><span class="line">        <span class="attr">subset:</span> <span class="string">v3</span></span><br><span class="line">      <span class="attr">weight:</span> <span class="number">100</span></span><br></pre></td></tr></table></figure></div></div></div>
 <p>一切是如此的简单，<code>CNCF</code>的魅力真是糟糕的藏不住啊。</p>
 <h3 id="Spring-Cloud-优雅停机"><a class="header-anchor" href="#Spring-Cloud-优雅停机">¶</a>Spring Cloud 优雅停机</h3>
-<p><img src="https://s1.ax1x.com/2020/06/13/txK3sP.png" alt="txK3sP.png"><br>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/txK3sP.png" alt="txK3sP.png"><br>
 对于 <code>Spring Cloud</code> 体系来说，因为我们增加服务发现组件，此时我们并不一定需要网关才能做到这样的事情，我们可以采用一种变形实现方式，其实本质上都是类似的采用所谓的中间层，让外部无感知。如果有兴趣可以参考 <a href="2020/05/31/java/spring/gracefully-shutdown/">Spring的优雅停机</a></p>
 <h1>方案三： Socket 所有权转让</h1>
 <p>我们之前都是通过用户侧的方案来实现，其实还有一种实现方式，笔者也是查阅 <code>Envoy</code> 的实现才发现有这么个机制。</p>
 <p>让我们回忆一下远古的 <code>Socket</code> 编程。<br>
-<img src="https://s1.ax1x.com/2020/06/13/txlHoT.png" alt="txlHoT.png"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/txlHoT.png" alt="txlHoT.png"></p>
 <p>对于 <code>Socket</code> 编程来说，按照 <code>Linux</code>的 一切皆文件的朴质的哲学思想，对用户体系暴露的是一个 <code>FD</code>，如下图<br>
-<a href="https://imgchr.com/i/txlvl9" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/06/13/txlvl9.png" alt="txlvl9.png"></a></p>
+<a href="https://imgchr.com/i/txlvl9" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/txlvl9.png" alt="txlvl9.png"></a></p>
 <p>我们在内核用户之间是一个管理关系的，这层就是为了做到我们可以在多个进程之间共享我们打开的FD的句柄，比如我们两个程序同时打开一个文件，其实对于内核来说我们仅仅打开一个文件，只是维护了不同的 <code>sek</code>。<br>
-<a href="https://imgchr.com/i/tx1iFO" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/06/13/tx1iFO.png" alt="tx1iFO.png"></a></p>
+<a href="https://imgchr.com/i/tx1iFO" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/tx1iFO.png" alt="tx1iFO.png"></a></p>
 <p>因此我们可以发现对于用户态看到的 <code>FD</code> 其实是一个内核 <code>FD</code> 的一个影子代号，那我们是不是可以用一种方式分享我们 <code>ServerSocket</code> 给不同的用户。以达到这样的效果：</p>
-<p><a href="https://imgchr.com/i/tx1a7V" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/06/13/tx1a7V.png" alt="tx1a7V.png"></a></p>
+<p><a href="https://imgchr.com/i/tx1a7V" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/06/13/tx1a7V.png" alt="tx1a7V.png"></a></p>
 <h2 id="例子-v3"><a class="header-anchor" href="#例子-v3">¶</a>例子</h2>
 <script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
 <script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
@@ -484,12 +484,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -709,8 +709,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -755,7 +755,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -926,7 +926,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -1009,5 +1009,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

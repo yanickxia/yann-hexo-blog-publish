@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="¶ChannelPipeline ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示  在 ChannelPipeline.html 有非常详细的文档。 每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHa">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzGcXn.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzJzV0.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzJzV0.png">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-06-20T04:00:48.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
 <meta property="article:author" content="Yanick.xia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/06/19/CzGcXn.png">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/06/20/java/netty/netty-3-pipeline/">
 
@@ -309,7 +309,7 @@
 
 <h2 id="ChannelPipeline"><a class="header-anchor" href="#ChannelPipeline">¶</a>ChannelPipeline</h2>
 <p>ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示<br>
-<img src="https://s1.ax1x.com/2018/06/19/CzGcXn.png" alt="ChannelPipeline"><br>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzGcXn.png" alt="ChannelPipeline"><br>
 在 <a href="https://netty.io/4.0/api/io/netty/channel/ChannelPipeline.html" target="_blank" rel="noopener">ChannelPipeline.html</a> 有非常详细的文档。<br>
 每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandlerContext链表。</p>
 <a id="more"></a>
@@ -329,7 +329,7 @@
 <p>在 ➊ 处我们发现最为重要的增加逻辑就是在 <code>addLast0()</code> 中</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addLast0</span><span class="params">(AbstractChannelHandlerContext newCtx)</span> </span>&#123;</span><br><span class="line">    AbstractChannelHandlerContext prev = tail.prev;</span><br><span class="line">    newCtx.prev = prev;</span><br><span class="line">    newCtx.next = tail;</span><br><span class="line">    prev.next = newCtx;</span><br><span class="line">    tail.prev = newCtx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里是一个很标准的链表操作，看到这里我们就可以大致才出来<code>addXXX()</code>一系列的行为都是类似，用一张图来表示下<br>
-<img src="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"></p>
+<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"></p>
 <p>我们一直操作的都是在 <code>Head</code> 和 <code>Tail</code> 之间，我们可以任意的在之间增加或者删除具体的 <code>Handler</code></p>
 <h2 id="Pipeline的调用顺序"><a class="header-anchor" href="#Pipeline的调用顺序">¶</a>Pipeline的调用顺序</h2>
 <p>万物的开始我们知道从接受数据开始在<br>
@@ -375,7 +375,7 @@
 <p>我们看到熟悉的unsafe，根据我们这么久以来和Netty打交道的经验，这里应该就是Java原生的Nio部分。在具体的实现部分</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(Object msg, ChannelPromise promise)</span> </span>&#123;</span><br><span class="line">    ChannelOutboundBuffer outboundBuffer = <span class="keyword">this</span>.outboundBuffer;</span><br><span class="line">    outboundBuffer.addMessage(msg, size, promise);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们将需要写入的数据放入了 <code>outboundBuffer</code> 中。<br>
-具体的写入逻辑在 <code>flush</code> 中，最终会调用 <code>io.netty.channel.socket.nio.NioSocketChannel#doWrite</code> 这部分就留给读者自行阅读了。这个时候我们再回顾下 <img src="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"> 大家会发现Netty的Pipeline实现的是如此的优雅，核心的逻辑清晰明了。</p>
+具体的写入逻辑在 <code>flush</code> 中，最终会调用 <code>io.netty.channel.socket.nio.NioSocketChannel#doWrite</code> 这部分就留给读者自行阅读了。这个时候我们再回顾下 <img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzJzV0.png" alt="netty pipeline"> 大家会发现Netty的Pipeline实现的是如此的优雅，核心的逻辑清晰明了。</p>
 <h2 id="知识点"><a class="header-anchor" href="#知识点">¶</a>知识点</h2>
 <ul>
 <li>ServerChannel 如何监听事件</li>
@@ -425,12 +425,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -646,8 +646,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -692,7 +692,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -863,7 +863,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -946,5 +946,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>

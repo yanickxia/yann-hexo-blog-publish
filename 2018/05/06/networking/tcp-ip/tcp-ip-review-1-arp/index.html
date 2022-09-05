@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="¶预备知识  网络是分层的，TCP&#x2F;IP 关注的是 第三层采用 IP 协议 和 第四层 采用的是 TCP 和 UDP 协议。 对于第一层和第二层，我们需要在意的是 MTU （最大传输单元）, 这个值有一个最小值,因为载波监听的需求，并没强制性的最大值，Lan默认的是1500。(如何优化MTU可以见 参考2) 如何查询MTU可以通过 ifconfig 命令查询。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://electricala2z.com/wp-content/uploads/2017/10/osi-model.gif">
-<meta property="og:image" content="https://networkingfolks.files.wordpress.com/2012/03/arp13.jpg">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
+<meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2018-05-06T14:30:07.000Z">
 <meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="TCP&#x2F;IP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://electricala2z.com/wp-content/uploads/2017/10/osi-model.gif">
+<meta name="twitter:image" content="http://blog.yanick.site/images/loading.gif">
 
 <link rel="canonical" href="http://blog.yanick.site/2018/05/06/networking/tcp-ip/tcp-ip-review-1-arp/">
 
@@ -304,7 +304,7 @@
 
 
 <h2 id="预备知识"><a class="header-anchor" href="#预备知识">¶</a>预备知识</h2>
-<p><img src="http://electricala2z.com/wp-content/uploads/2017/10/osi-model.gif" alt="OSI"><br>
+<p><img src="/images/loading.gif" data-original="http://electricala2z.com/wp-content/uploads/2017/10/osi-model.gif" alt="OSI"><br>
 网络是<strong>分层</strong>的，TCP/IP 关注的是 第三层采用 IP 协议 和 第四层 采用的是 TCP 和 UDP 协议。<br>
 对于第一层和第二层，我们需要在意的是 <strong>MTU</strong> （最大传输单元）,<br>
 这个值有一个<strong>最小值</strong>,因为载波监听的需求，并没强制性的最大值，Lan默认的是1500。(如何优化MTU可以见 <strong>参考2</strong>) 如何查询MTU可以通过 <code>ifconfig</code> 命令查询。</p>
@@ -316,7 +316,7 @@
 <li>静态映射：直接写在路由表内</li>
 <li>动态映射：采用广播的方式查询（ARP协议）</li>
 </ul>
-<p><img src="https://networkingfolks.files.wordpress.com/2012/03/arp13.jpg" alt="ARP"></p>
+<p><img src="/images/loading.gif" data-original="https://networkingfolks.files.wordpress.com/2012/03/arp13.jpg" alt="ARP"></p>
 <h3 id="ARP-流程"><a class="header-anchor" href="#ARP-流程">¶</a>ARP 流程</h3>
 <p><strong>ARP</strong>的核心是有一个源目标IP地址和目标IP地址，目标的物理地址是<strong>填充0</strong>，以广播的方式发送出去，识别出是自己IP的机器以单播的方式返回给发送者。</p>
 
@@ -361,10 +361,10 @@
       <div class="popular-posts-title"><a href="/2018/05/07/networking/tcp-ip/tcp-ip-review-2-ip/" rel="bookmark">TCP/IP-(2)-Internet协议</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/" rel="bookmark">TCP/IP-(3)-UDP协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/" rel="bookmark">TCP/IP-(4)-TCP协议</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/" rel="bookmark">TCP/IP-(4)-TCP协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/" rel="bookmark">TCP/IP-(3)-UDP协议</a></div>
     </li>
   </ul>
 
@@ -376,12 +376,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -600,8 +600,8 @@
     <div id="hitokoto">:D 获取中...</div>
     <i id="hitofrom">:D 获取中...</i>
 
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
     <script>
     fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
         .then(function (res){
@@ -646,7 +646,7 @@
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="noopener"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
         
 <div class="busuanzi-count">
@@ -817,7 +817,7 @@
 
   
 <script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
-<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
 <script src="/js/algolia-search.js"></script>
 
 
@@ -900,5 +900,18 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 });
 </script>
 
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
 </html>
