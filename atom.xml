@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-08-20T09:54:16.658Z</updated>
+  <updated>2022-09-08T10:29:17.279Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ambient Mesh Works</title>
+    <link href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/"/>
+    <id>http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</id>
+    <published>2022-09-08T09:38:10.000Z</published>
+    <updated>2022-09-08T10:29:17.279Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202209081807714.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+    
+      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+  </entry>
   
   <entry>
     <title>程序员的自我修养： 如何写好单元测试</title>
@@ -462,31 +483,6 @@
     
     
       <category term="rethink" scheme="http://blog.yanick.site/tags/rethink/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Cloud Run In Istio</title>
-    <link href="http://blog.yanick.site/2020/12/20/networking/istio/spring-cloud-with-istio/"/>
-    <id>http://blog.yanick.site/2020/12/20/networking/istio/spring-cloud-with-istio/</id>
-    <published>2020-12-20T06:30:00.000Z</published>
-    <updated>2021-10-21T03:11:29.432Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201220144511.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;istio&lt;/code&gt; 迈入 &lt;code&gt;1.6&lt;/code&gt; 之后趋于稳定，大家都慢慢的开始尝试起来，摆在大家面前会有这么一个问题，原来的旧系统如何兼容 &lt;code&gt;istio&lt;/code&gt;？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="spring" scheme="http://blog.yanick.site/categories/spring/"/>
-    
-      <category term="istio" scheme="http://blog.yanick.site/categories/spring/istio/"/>
-    
-    
-      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
-    
-      <category term="spring" scheme="http://blog.yanick.site/tags/spring/"/>
     
   </entry>
   
