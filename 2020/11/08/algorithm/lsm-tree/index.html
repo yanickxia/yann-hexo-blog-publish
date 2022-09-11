@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="og:image" content="http://blog.yanick.site/images/loading.gif">
 <meta property="article:published_time" content="2020-11-08T05:46:07.000Z">
-<meta property="article:modified_time" content="2021-10-21T03:11:29.416Z">
+<meta property="article:modified_time" content="2022-09-11T13:34:21.132Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="algorithm">
 <meta property="article:tag" content="lsm">
@@ -268,7 +268,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+                <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,7 +307,7 @@
 <a id="more"></a>
 <h2 id="LSM-Tree"><a class="header-anchor" href="#LSM-Tree">¶</a>LSM Tree</h2>
 <p>在原始的 <a href="http://paperhub.s3.amazonaws.com/18e91eb4db2114a06ea614f0384f2784.pdf" target="_blank" rel="noopener"><code>The Log-Structured Merge-Tree (LSM Tree)</code></a> 的设计中，我们在内存中维护一个 C<sub>0</sub>  树，我们不断的向这个树中  <code>Append</code> 数据，当内存中的 C<sub>0</sub> 超过一定大小，我们将部分数据落入磁盘的 C<sub>1</sub> 树，分级之后还有 C<sub>2</sub> 树 C<sub>3</sub> 树 C<sub>K</sub> 树，每一颗树都比前一颗树更大。不过在 <code>LevelDB</code> 中的设计有所形变。</p>
-<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108220445.png" alt="lsm tree"></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108220445.png" alt="lsm tree"></p>
 <h3 id="SSTables"><a class="header-anchor" href="#SSTables">¶</a>SSTables</h3>
 <p>在 <code>LevelDB</code> 的 <code>LSM Tree</code> 的数据结构中，我们映射到持久化的磁盘对象时候用的对象叫 <code>SSTable [Sorted Strings Table]</code> 在 <code>SSTABLE</code> 中由多个 <code>Segement</code> 构成，这和我们在 <code>LS file system</code> 中一样，减少小碎片文件的写入。</p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/11/08/S4nBu.png" alt="S4nBu.png"></p>
@@ -337,7 +337,7 @@
 <p>跳过中间那些 foreach 执行的部分，我们看看真正的 <code>PUT</code> 逻辑，在 <code>MemTableInserter::Put</code> 中</p>
 <figure class="highlight cpp"><figcaption><span>MemTableInserter::Put</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Put</span><span class="params">(<span class="keyword">const</span> Slice&amp; key, <span class="keyword">const</span> Slice&amp; value)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  mem_-&gt;Add(sequence_, kTypeValue, key, value);</span><br><span class="line">  sequence_++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MemTable Add 的逻辑很简单，开辟空间，扔进去</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MemTable::Add</span><span class="params">(SequenceNumber s, ValueType type, <span class="keyword">const</span> Slice&amp; key,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="keyword">const</span> Slice&amp; value)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">size_t</span> key_size = key.size();</span><br><span class="line">  <span class="keyword">size_t</span> val_size = value.size();</span><br><span class="line">  <span class="keyword">size_t</span> internal_key_size = key_size + <span class="number">8</span>;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> encoded_len = VarintLength(internal_key_size) +</span><br><span class="line">                             internal_key_size + VarintLength(val_size) +</span><br><span class="line">                             val_size;</span><br><span class="line">  <span class="comment">// 开辟一个 buf 空间给这个 kv</span></span><br><span class="line">  <span class="keyword">char</span>* buf = arena_.Allocate(encoded_len);</span><br><span class="line">  <span class="keyword">char</span>* p = EncodeVarint32(buf, internal_key_size);</span><br><span class="line">  <span class="comment">// copy 进去</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">memcpy</span>(p, key.data(), key_size);</span><br><span class="line">  p += key_size;</span><br><span class="line">  EncodeFixed64(p, (s &lt;&lt; <span class="number">8</span>) | type);</span><br><span class="line">  p += <span class="number">8</span>;</span><br><span class="line">  p = EncodeVarint32(p, val_size);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">memcpy</span>(p, value.data(), val_size);</span><br><span class="line">  assert(p + val_size == buf + encoded_len);</span><br><span class="line">  <span class="comment">// 将索引写入 Table 中 [其实是SkipList] </span></span><br><span class="line">  table_.Insert(buf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对于 <code>SkipList</code> 就不做多解释了。</p>
-<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201109171348.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201109171348.png" alt=""></p>
 <p>详细<a href="#%E5%8F%82%E8%80%83">参考</a>。</p>
 <h5 id="Write-Disk"><a class="header-anchor" href="#Write-Disk">¶</a>Write Disk</h5>
 <p>而对于 <code>MemTable</code> 满了如何写入磁盘，这里的操作在我们略过的 <code>MakeRoomForWrite</code> 中</p>
@@ -352,7 +352,7 @@
 <p>当我们查找某个 <code>Key</code>，比如 <code>Dollar</code> 这个值势必在 <code>dog</code> 和 <code>downgrade</code> 之间，因此我们只需要扫描 <code>17208</code> 到 <code>19504</code> 但是如果数据没有的情况下，我们可能会扫描全表，因此我们加入 <a href="https://yetanotherdevblog.com/bloom-filters/" target="_blank" rel="noopener"><code>bloom filter</code></a> 来帮助我们快速确认是否某个值根本不存在。</p>
 <h4 id="精准读"><a class="header-anchor" href="#精准读">¶</a>精准读</h4>
 <p>考虑下这样数据结构下的读操作</p>
-<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108222116.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108222116.png" alt=""></p>
 <p>如果我们想要读取 <code>23</code> 的值得话，按照图中标示的顺序，会先读取内存，在从<code>Level0</code>依次往高层读取，直到找到<code>key=23</code>的数据。</p>
 <blockquote>
 <p>这大概也是 LevelDB 的由来吧</p>
@@ -381,7 +381,7 @@
 <li>读取 <code>offset</code> 范围内的对象，然后找到再返回</li>
 </ul>
 <p>在 <code>Read</code> <code>Write</code> <code>Space</code> 也有类似于 <code>CAP</code> 的定理</p>
-<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.net/gh/yanickxia/picture-bed/20201108223732.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108223732.png" alt=""></p>
 <hr>
 <p>讲了一大串和 <code>时序数据库</code>  有啥关系呢？时序数据库是一个大规模写的系统，查询也有，不过倒是容忍多高，因此大多数的 <code>TSDB [Time Series Database]</code> 都是使用 <code>LSM</code> 来进行储存的。解决完单机的储存，对于分布式系统，靠一台机器肯定是不行的，因此我们就要想到如何把数据分散到不同的机器上。</p>
 <h2 id="分布式存储"><a class="header-anchor" href="#分布式存储">¶</a>分布式存储</h2>
