@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2020/03/01/announcement/announcement/</loc>
+    
+    <lastmod>2022-09-13T04:49:19.297Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2020/11/28/other/ca/</loc>
     
     <lastmod>2022-09-11T13:34:21.136Z</lastmod>
@@ -23,14 +30,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/</loc>
+    <loc>http://blog.yanick.site/2021/06/20/rust/rust-pin/</loc>
     
     <lastmod>2022-09-11T13:34:21.136Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/06/20/rust/rust-pin/</loc>
+    <loc>http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/</loc>
     
     <lastmod>2022-09-11T13:34:21.136Z</lastmod>
     
@@ -65,13 +72,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/</loc>
-    
-    <lastmod>2022-09-11T13:34:21.136Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</loc>
     
     <lastmod>2022-09-11T13:34:21.136Z</lastmod>
@@ -79,7 +79,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/09/10/networking/istio/upgrade/1.11.x/</loc>
+    <loc>http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/</loc>
     
     <lastmod>2022-09-11T13:34:21.136Z</lastmod>
     
@@ -87,6 +87,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/</loc>
+    
+    <lastmod>2022-09-11T13:34:21.136Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2021/09/10/networking/istio/upgrade/1.11.x/</loc>
     
     <lastmod>2022-09-11T13:34:21.136Z</lastmod>
     
@@ -114,13 +121,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/04/30/go/go-impossible-missions/</loc>
-    
-    <lastmod>2022-09-11T13:34:21.132Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2022/03/17/go/generic/</loc>
     
     <lastmod>2022-09-11T13:34:21.132Z</lastmod>
@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/03/26/go/ot/</loc>
+    <loc>http://blog.yanick.site/2021/04/30/go/go-impossible-missions/</loc>
     
     <lastmod>2022-09-11T13:34:21.132Z</lastmod>
     
@@ -136,6 +136,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/</loc>
+    
+    <lastmod>2022-09-11T13:34:21.132Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2021/03/26/go/ot/</loc>
     
     <lastmod>2022-09-11T13:34:21.132Z</lastmod>
     
@@ -247,6 +254,27 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/04/20/rethink/what-is-learn-in-2018/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2020/05/26/rethink/what-is-go-good-at/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
@@ -261,42 +289,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/04/20/rethink/what-is-learn-in-2018/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/06/28/rethink/why-learn-by-self-so-hard/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2020/09/12/rust/actix/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
     
@@ -311,6 +304,20 @@
   
   <url>
     <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
     
@@ -352,6 +359,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2016/12/22/other/how-to-write-a-git-commit-message/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2020/06/12/other/hot-restart/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
@@ -359,7 +373,21 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2016/12/22/other/how-to-write-a-git-commit-message/</loc>
+    <loc>http://blog.yanick.site/2020/10/15/other/lfs/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2017/02/20/other/object-oriented-design/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -387,14 +415,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-5-recommend/</loc>
+    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-4-recommend/</loc>
+    <loc>http://blog.yanick.site/2019/01/28/recommend/2019-week-5-recommend/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -408,14 +436,21 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
+    <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/05/08/rethink/different-way-for-cosumer/</loc>
+    <loc>http://blog.yanick.site/2019/03/06/rethink/microservice-trend-in-2019/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/03/31/rethink/another-hard-way-to-die/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -436,35 +471,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2019/03/06/rethink/microservice-trend-in-2019/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/09/01/rethink/pain-of-microservice/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/08/18/rethink/rethink-code-ability/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -485,7 +492,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/</loc>
+    <loc>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/08/18/rethink/rethink-code-ability/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -499,28 +513,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/13/other/swagger/</loc>
+    <loc>http://blog.yanick.site/2018/08/15/rethink/rethink-in-gateway/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/10/15/other/lfs/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2017/02/20/other/object-oriented-design/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/05/06/networking/tcp-ip/tcp-ip-review-1-arp/</loc>
+    <loc>http://blog.yanick.site/2020/07/06/rethink/stop-create-a-product/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -528,6 +528,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/09/30/networking/tcp-ip/build-tcp/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/05/06/networking/tcp-ip/tcp-ip-review-1-arp/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -625,7 +632,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2016/12/27/java/spring-convert-02/</loc>
+    <loc>http://blog.yanick.site/2019/03/07/kubernetes/how-kubernetes-network-0/</loc>
     
     <lastmod>2021-10-21T03:11:29.428Z</lastmod>
     
@@ -639,7 +646,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/03/07/kubernetes/how-kubernetes-network-0/</loc>
+    <loc>http://blog.yanick.site/2016/12/27/java/spring-convert-02/</loc>
     
     <lastmod>2021-10-21T03:11:29.428Z</lastmod>
     
@@ -730,14 +737,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/</loc>
+    <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-object/</loc>
     
     <lastmod>2021-10-21T03:11:29.428Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-object/</loc>
+    <loc>http://blog.yanick.site/2018/08/15/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-omissions/</loc>
     
     <lastmod>2021-10-21T03:11:29.428Z</lastmod>
     
@@ -786,7 +793,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/</loc>
+    <loc>http://blog.yanick.site/2018/03/07/java/java-tips/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
@@ -807,7 +814,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/03/07/java/java-tips/</loc>
+    <loc>http://blog.yanick.site/2019/05/29/java/fxxk-java-in-cloud-native/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
@@ -835,21 +842,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-0-prepare/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
@@ -891,7 +884,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/05/07/java/nio/java-nio-1-basic/</loc>
+    <loc>http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/06/30/java/motan/motan/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
@@ -899,6 +899,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2018/05/07/java/nio/java-nio-1-basic/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
@@ -919,21 +926,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/07/30/architecture/next/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2018/05/20/bugs/a-strange-apollo-config-error/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2019/04/13/cs/art-of-software/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
@@ -947,7 +940,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2016/05/26/docker/use-daocloud-hexo/</loc>
+    <loc>http://blog.yanick.site/2020/07/30/architecture/next/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
@@ -955,6 +948,20 @@
   
   <url>
     <loc>http://blog.yanick.site/2017/01/20/game/how-to-code-gobang-in-c/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2019/04/13/cs/art-of-software/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.420Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2016/05/26/docker/use-daocloud-hexo/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
@@ -989,6 +996,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.416Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/</loc>
     
     <lastmod>2021-10-21T03:11:29.416Z</lastmod>
@@ -997,13 +1011,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/09/23/apm/apm/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.416Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/07/14/architecture/architecture-not-mysticism/</loc>
     
     <lastmod>2021-10-21T03:11:29.416Z</lastmod>
     
