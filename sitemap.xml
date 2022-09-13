@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.yanick.site/2020/03/01/announcement/announcement/</loc>
+    <loc>http://blog.yanick.site/2015/03/01/announcement/announcement/</loc>
     
-    <lastmod>2022-09-13T04:49:19.297Z</lastmod>
+    <lastmod>2022-09-13T08:34:22.300Z</lastmod>
     
   </url>
   
@@ -296,6 +296,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
@@ -304,13 +311,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
     

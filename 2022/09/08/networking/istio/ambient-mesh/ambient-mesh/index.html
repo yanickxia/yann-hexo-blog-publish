@@ -2,10 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
-
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
@@ -14,13 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/5.15.3/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"xxx"}},"path":"search.xml"};
+  </script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="在最新的一次发布中，Istio 带来一个超级重磅的消息，带来了无 Sidecar 的版本 Ambient Mesh">
+  <meta name="description" content="在最新的一次发布中，Istio 带来一个超级重磅的消息，带来了无 Sidecar 的版本 Ambient Mesh">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ambient Mesh Works">
 <meta property="og:url" content="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/index.html">
@@ -38,49 +38,81 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png">
 
-
 <link rel="canonical" href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/">
 
 
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/","path":"2022/09/08/networking/istio/ambient-mesh/ambient-mesh/","title":"Ambient Mesh Works"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Ambient Mesh Works | Yanick's Blog</title>
+  <title>Ambient Mesh Works | Yanick's Blog</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
 
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Yanick's Blog</p>
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
   </div>
@@ -94,8 +126,59 @@
 
 
 
+
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-专栏">
+
+    <a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-随想">
+
+    <a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-专题">
+
+    <a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -106,37 +189,291 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
+    <div class="popup search-popup">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container"></div>
-  <span class="popup-btn-close" role="button">
+  <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div class="search-result-container">
-  <div class="algolia-stats"><hr></div>
-  <div class="algolia-hits"></div>
-  <div class="algolia-pagination"></div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
 </div>
 
+      
     </div>
   </div>
 
 </div>
-        
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ambient Mesh Works
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-08 17:38:10" itemprop="dateCreated datePublished" datetime="2022-09-08T17:38:10+08:00">2022-09-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/istio/" itemprop="url" rel="index"><span itemprop="name">istio</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/" class="post-meta-item leancloud_visitors" data-flag-title="Ambient Mesh Works" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png" alt=""></p>
+<p>在最新的一次发布中，<code>Istio</code> 带来一个超级重磅的消息，带来了无 <code>Sidecar</code> 的版本 <a target="_blank" rel="noopener" href="https://istio.io/latest/blog/2022/get-started-ambient/"><code>Ambient Mesh</code></a></p>
+<span id="more"></span>
+<h2 id="Intro-v2"><a class="header-anchor" href="#Intro-v2">¶</a>Intro</h2>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081714129.png" alt=""></p>
+<p>在官方的文档中，我们可以发现这次我们取消了 <code>App</code> 同样 <code>POD</code> 的 <code>Sidecar</code> 转而将转发的逻辑下沉到 2个全新的组件上</p>
+<ul>
+<li><code>ztunnel</code> 一个处理 L4 请求的 <code>Node</code> 级别的组件</li>
+<li><code>waypoint</code> 一个处理 L7 请求的 <code>Namespace</code> 级别的组件</li>
+</ul>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091302721.png" alt=""></p>
+<p>可以理解成当前的 gateway 有四种角色</p>
+<ul>
+<li>ingressGateway: 消费 Gateway CR</li>
+<li>eastwestGateway: 消费 VS/DR 但是仅仅为跨集群通讯服务</li>
+<li>Ztunnel: Node 级别的 Gateway 进行 mtls+tcp 流量传播</li>
+<li>Waypoint: Namespace 级别的 Gateway 进行 L7  流量治理。</li>
+</ul>
+<h2 id="Ztunnel"><a class="header-anchor" href="#Ztunnel">¶</a>Ztunnel</h2>
+<p>对于 <code>Ztunnel</code> 的实现，官方描述的比较少，不过在社区的体验分支中有这么一些说明</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* ambient-mesh: uproxy l4 implementation with Envoy</span><br></pre></td></tr></table></figure>
+<p>显然 <code>L4</code> 还是基于 <code>Envoy</code>，具体的逻辑在 <a target="_blank" rel="noopener" href="https://github.com/istio/proxy/compare/master...experimental-ambient"><code>istio proxy: experimental-ambient</code></a></p>
+<p>按照架构图的思路，我们很好去理解，<code>Ztunnel</code> 需要做两件事情，分别是转发 L4 请求和判断权限(含mtls)因此，在 <code>istio</code> 中包含了全新的生成器来协助新组件完成工作。</p>
+<ul>
+<li>UProxyConfigGenerator： 负责生成转发的逻辑</li>
+<li>PEPGenerator: 负责生成安全策略</li>
+</ul>
+<p>后来做了二合一</p>
+<ul>
+<li>ZTunnelConfigGenerator: 负责所有策略</li>
+</ul>
+<figure class="highlight go"><figcaption><span>ztunnelgen.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/networking/ambientgen/ztunnelgen.go#L107-L123">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *ZTunnelConfigGenerator)</span></span> Generate(</span><br><span class="line">	proxy *model.Proxy,</span><br><span class="line">	w *model.WatchedResource,</span><br><span class="line">	req *model.PushRequest,</span><br><span class="line">) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	push := req.Push</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildListeners(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildClusters(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.EndpointType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildEndpoints(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里再配合原先生成 Cluster 的逻辑等等，我们就把整个流程给串联起来。</p>
+<h2 id="Waypoint"><a class="header-anchor" href="#Waypoint">¶</a>Waypoint</h2>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081814686.png" alt=""></p>
+<p><code>Waypoint</code> 显然是处理 <code>L7</code> 逻辑的。</p>
+<blockquote>
+<p>Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.</p>
+</blockquote>
+<p>而对于 <code>Waypoint</code> 的创建，因为是一个 <code>Namespace</code> 的组件。有一个 <code>Watch NS</code> 的 <code>Controller</code> 来完成这个事情。</p>
+<figure class="highlight go"><figcaption><span>waypoint_controller.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/ambient/controller/waypoint_controller.go#L125-L234">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rc *WaypointProxyController)</span></span> Reconcile(name types.NamespacedName) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> rc.injectConfig().Values.Struct().GetGlobal().GetHub() == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="comment">// Mostly used to avoid issues with local runs</span></span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;injection config invalid, skipping reconile&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	log := waypointLog.WithLabels(<span class="string">&quot;gateway&quot;</span>, name.String())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询所有的 waypoint</span></span><br><span class="line">	gw, err := rc.gateways.Gateways(name.Namespace).Get(name.Name)</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找有的，和需要有的</span></span><br><span class="line">	haveProxies := sets.New()</span><br><span class="line">	wantProxies := sets.New()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 去创建 waypoint</span></span><br><span class="line">	<span class="keyword">for</span> _, k := <span class="keyword">range</span> add &#123;</span><br><span class="line">		log.Infof(<span class="string">&quot;adding waypoint proxy %v&quot;</span>, k+<span class="string">&quot;-waypoint-proxy&quot;</span>)</span><br><span class="line">		input := MergedInput&#123;</span><br><span class="line">			Namespace:      gw.Namespace,</span><br><span class="line">			GatewayName:    gw.Name,</span><br><span class="line">			UID:            <span class="type">string</span>(gw.UID),</span><br><span class="line">			ServiceAccount: k,</span><br><span class="line">			Cluster:        rc.cluster.String(),</span><br><span class="line">		&#125;</span><br><span class="line">		proxyDeploy, err := rc.RenderDeploymentMerged(input)</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Waypoint</code> 还是一个 <code>Envoy</code> 实例，对其的配置项和 <code>Ztunnel</code> 一致。</p>
+<figure class="highlight go"><figcaption><span>waypointgen.go  github</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/networking/ambientgen/waypointgen.go#L67-L87">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *WaypointGenerator)</span></span> Generate(proxy *model.Proxy, w *model.WatchedResource, req *model.PushRequest) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> out model.Resources</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		sidecarListeners := p.ConfigGenerator.BuildListeners(proxy, req.Push)</span><br><span class="line">		resources := model.Resources&#123;&#125;</span><br><span class="line">		<span class="keyword">for</span> _, c := <span class="keyword">range</span> sidecarListeners &#123;</span><br><span class="line">			resources = <span class="built_in">append</span>(resources, &amp;discovery.Resource&#123;</span><br><span class="line">				Name:     c.Name,</span><br><span class="line">				Resource: protoconv.MessageToAny(c),</span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">		out = <span class="built_in">append</span>(p.buildWaypointListeners(proxy, req.Push), resources...)</span><br><span class="line">		out = <span class="built_in">append</span>(out, outboundTunnelListener(<span class="string">&quot;tunnel&quot;</span>, proxy.Metadata.ServiceAccount))</span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		sidecarClusters, _ := p.ConfigGenerator.BuildClusters(proxy, req)</span><br><span class="line">		waypointClusters := p.buildClusters(proxy, req.Push)</span><br><span class="line">		out = <span class="built_in">append</span>(waypointClusters, sidecarClusters...)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> out, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而 <code>Ztuunel</code> 访问 <code>Waypoint</code> 通过一个 <code>Proxy</code> 组件，这个就比较简单了</p>
+<figure class="highlight go"><figcaption><span>server.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pkg/hbone/server.go#L53-L83">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleConnect</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	t0 := time.Now()</span><br><span class="line">	log.WithLabels(<span class="string">&quot;host&quot;</span>, r.Host, <span class="string">&quot;source&quot;</span>, r.RemoteAddr).Info(<span class="string">&quot;Received CONNECT&quot;</span>)</span><br><span class="line">	<span class="comment">// Send headers back immediately so we can start getting the body</span></span><br><span class="line">	w.(http.Flusher).Flush()</span><br><span class="line">	ctx, cancel := context.WithTimeout(context.Background(), <span class="number">10</span>*time.Second)</span><br><span class="line">	<span class="keyword">defer</span> cancel()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	dst, err := (&amp;net.Dialer&#123;&#125;).DialContext(ctx, <span class="string">&quot;tcp&quot;</span>, r.Host)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		w.WriteHeader(http.StatusServiceUnavailable)</span><br><span class="line">		log.Errorf(<span class="string">&quot;failed to dial upstream: %v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	log.Infof(<span class="string">&quot;Connected to %v&quot;</span>, r.Host)</span><br><span class="line">	w.WriteHeader(http.StatusOK)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	wg := sync.WaitGroup&#123;&#125;</span><br><span class="line">	wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="comment">// downstream (hbone client) &lt;-- upstream (app)</span></span><br><span class="line">		copyBuffered(w, dst, log.WithLabels(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;dst to w&quot;</span>))</span><br><span class="line">		r.Body.Close()</span><br><span class="line">		wg.Done()</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="comment">// downstream (hbone client) --&gt; upstream (app)</span></span><br><span class="line">	copyBuffered(dst, r.Body, log.WithLabels(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;body to dst&quot;</span>))</span><br><span class="line">	wg.Wait()</span><br><span class="line">	log.Infof(<span class="string">&quot;connection closed in %v&quot;</span>, time.Since(t0))</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/12/20/networking/istio/spring-cloud-with-istio/" rel="bookmark">Spring Cloud Run In Istio</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/08/27/networking/istio/How-Istio-works-translate/" rel="bookmark">How Istio works&#58 translate</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/istio/" rel="tag"># istio</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/06/other/unittest/" rel="prev" title="程序员的自我修养： 如何写好单元测试">
+      <i class="fa fa-chevron-left"></i> 程序员的自我修养： 如何写好单元测试
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
   <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
+      <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
           文章目录
         </li>
@@ -145,39 +482,43 @@
         </li>
       </ul>
 
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro-v2"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ztunnel"><span class="nav-number">2.</span> <span class="nav-text">Ztunnel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Waypoint"><span class="nav-number">3.</span> <span class="nav-text">Waypoint</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro-v2"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ztunnel"><span class="nav-number">2.</span> <span class="nav-text">Ztunnel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Waypoint"><span class="nav-number">3.</span> <span class="nav-text">Waypoint</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Yanick.xia</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/archives/">
+          <a href="/archives/">
           <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-          <a href="/categories/">
+            <a href="/categories/">
         <span class="site-state-item-count">108</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-          <a href="/tags/">
+            <a href="/tags/">
         <span class="site-state-item-count">87</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
-  <div class="links-of-author site-overview-item animated">
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
       </span>
@@ -193,7 +534,7 @@
   </div>
 
 
-  <div class="links-of-blogroll site-overview-item animated">
+  <div class="links-of-blogroll motion-element">
     <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
       Links
     </div>
@@ -259,236 +600,26 @@
         })
     </script>
 </div>
-        </div>
       </div>
+
     </div>
   </aside>
-  <div class="sidebar-dimmer"></div>
+  <div id="sidebar-dimmer"></div>
 
 
-    </header>
-
-    
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Ambient Mesh Works | Yanick's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Ambient Mesh Works
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-09-08 17:38:10" itemprop="dateCreated datePublished" datetime="2022-09-08T17:38:10+08:00">2022-09-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/istio/" itemprop="url" rel="index"><span itemprop="name">istio</span></a>
-        </span>
-    </span>
-
-  
-    <span id="/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/" class="post-meta-item leancloud_visitors" data-flag-title="Ambient Mesh Works" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="leancloud-visitors-count"></span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png" alt=""></p>
-<p>在最新的一次发布中，<code>Istio</code> 带来一个超级重磅的消息，带来了无 <code>Sidecar</code> 的版本 <a target="_blank" rel="noopener" href="https://istio.io/latest/blog/2022/get-started-ambient/"><code>Ambient Mesh</code></a></p>
-<span id="more"></span>
-<h2 id="Intro-v2"><a class="header-anchor" href="#Intro-v2">¶</a>Intro</h2>
-<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081714129.png" alt=""></p>
-<p>在官方的文档中，我们可以发现这次我们取消了 <code>App</code> 同样 <code>POD</code> 的 <code>Sidecar</code> 转而将转发的逻辑下沉到 2个全新的组件上</p>
-<ul>
-<li><code>ztunnel</code> 一个处理 L4 请求的 <code>Node</code> 级别的组件</li>
-<li><code>waypoint</code> 一个处理 L7 请求的 <code>Namespace</code> 级别的组件</li>
-</ul>
-<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091302721.png" alt=""></p>
-<p>可以理解成当前的 gateway 有四种角色</p>
-<ul>
-<li>ingressGateway: 消费 Gateway CR</li>
-<li>eastwestGateway: 消费 VS/DR 但是仅仅为跨集群通讯服务</li>
-<li>Ztunnel: Node 级别的 Gateway 进行 mtls+tcp 流量传播</li>
-<li>Waypoint: Namespace 级别的 Gateway 进行 L7  流量治理。</li>
-</ul>
-<h2 id="Ztunnel"><a class="header-anchor" href="#Ztunnel">¶</a>Ztunnel</h2>
-<p>对于 <code>Ztunnel</code> 的实现，官方描述的比较少，不过在社区的体验分支中有这么一些说明</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* ambient-mesh: uproxy l4 implementation with Envoy</span><br></pre></td></tr></table></figure>
-<p>显然 <code>L4</code> 还是基于 <code>Envoy</code>，具体的逻辑在 <a target="_blank" rel="noopener" href="https://github.com/istio/proxy/compare/master...experimental-ambient"><code>istio proxy: experimental-ambient</code></a></p>
-<p>按照架构图的思路，我们很好去理解，<code>Ztunnel</code> 需要做两件事情，分别是转发 L4 请求和判断权限(含mtls)因此，在 <code>istio</code> 中包含了全新的生成器来协助新组件完成工作。</p>
-<ul>
-<li>UProxyConfigGenerator： 负责生成转发的逻辑</li>
-<li>PEPGenerator: 负责生成安全策略</li>
-</ul>
-<p>后来做了二合一</p>
-<ul>
-<li>ZTunnelConfigGenerator: 负责所有策略</li>
-</ul>
-<figure class="highlight go"><figcaption><span>ztunnelgen.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/networking/ambientgen/ztunnelgen.go#L107-L123">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *ZTunnelConfigGenerator)</span></span> Generate(</span><br><span class="line">	proxy *model.Proxy,</span><br><span class="line">	w *model.WatchedResource,</span><br><span class="line">	req *model.PushRequest,</span><br><span class="line">) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	push := req.Push</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildListeners(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildClusters(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.EndpointType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildEndpoints(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里再配合原先生成 Cluster 的逻辑等等，我们就把整个流程给串联起来。</p>
-<h2 id="Waypoint"><a class="header-anchor" href="#Waypoint">¶</a>Waypoint</h2>
-<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081814686.png" alt=""></p>
-<p><code>Waypoint</code> 显然是处理 <code>L7</code> 逻辑的。</p>
-<blockquote>
-<p>Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.</p>
-</blockquote>
-<p>而对于 <code>Waypoint</code> 的创建，因为是一个 <code>Namespace</code> 的组件。有一个 <code>Watch NS</code> 的 <code>Controller</code> 来完成这个事情。</p>
-<figure class="highlight go"><figcaption><span>waypoint_controller.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/ambient/controller/waypoint_controller.go#L125-L234">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rc *WaypointProxyController)</span></span> Reconcile(name types.NamespacedName) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> rc.injectConfig().Values.Struct().GetGlobal().GetHub() == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="comment">// Mostly used to avoid issues with local runs</span></span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;injection config invalid, skipping reconile&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	log := waypointLog.WithLabels(<span class="string">&quot;gateway&quot;</span>, name.String())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询所有的 waypoint</span></span><br><span class="line">	gw, err := rc.gateways.Gateways(name.Namespace).Get(name.Name)</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找有的，和需要有的</span></span><br><span class="line">	haveProxies := sets.New()</span><br><span class="line">	wantProxies := sets.New()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 去创建 waypoint</span></span><br><span class="line">	<span class="keyword">for</span> _, k := <span class="keyword">range</span> add &#123;</span><br><span class="line">		log.Infof(<span class="string">&quot;adding waypoint proxy %v&quot;</span>, k+<span class="string">&quot;-waypoint-proxy&quot;</span>)</span><br><span class="line">		input := MergedInput&#123;</span><br><span class="line">			Namespace:      gw.Namespace,</span><br><span class="line">			GatewayName:    gw.Name,</span><br><span class="line">			UID:            <span class="type">string</span>(gw.UID),</span><br><span class="line">			ServiceAccount: k,</span><br><span class="line">			Cluster:        rc.cluster.String(),</span><br><span class="line">		&#125;</span><br><span class="line">		proxyDeploy, err := rc.RenderDeploymentMerged(input)</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Waypoint</code> 还是一个 <code>Envoy</code> 实例，对其的配置项和 <code>Ztunnel</code> 一致。</p>
-<figure class="highlight go"><figcaption><span>waypointgen.go  github</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/networking/ambientgen/waypointgen.go#L67-L87">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *WaypointGenerator)</span></span> Generate(proxy *model.Proxy, w *model.WatchedResource, req *model.PushRequest) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> out model.Resources</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		sidecarListeners := p.ConfigGenerator.BuildListeners(proxy, req.Push)</span><br><span class="line">		resources := model.Resources&#123;&#125;</span><br><span class="line">		<span class="keyword">for</span> _, c := <span class="keyword">range</span> sidecarListeners &#123;</span><br><span class="line">			resources = <span class="built_in">append</span>(resources, &amp;discovery.Resource&#123;</span><br><span class="line">				Name:     c.Name,</span><br><span class="line">				Resource: protoconv.MessageToAny(c),</span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">		out = <span class="built_in">append</span>(p.buildWaypointListeners(proxy, req.Push), resources...)</span><br><span class="line">		out = <span class="built_in">append</span>(out, outboundTunnelListener(<span class="string">&quot;tunnel&quot;</span>, proxy.Metadata.ServiceAccount))</span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		sidecarClusters, _ := p.ConfigGenerator.BuildClusters(proxy, req)</span><br><span class="line">		waypointClusters := p.buildClusters(proxy, req.Push)</span><br><span class="line">		out = <span class="built_in">append</span>(waypointClusters, sidecarClusters...)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> out, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而 <code>Ztuunel</code> 访问 <code>Waypoint</code> 通过一个 <code>Proxy</code> 组件，这个就比较简单了</p>
-<figure class="highlight go"><figcaption><span>server.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pkg/hbone/server.go#L53-L83">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleConnect</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	t0 := time.Now()</span><br><span class="line">	log.WithLabels(<span class="string">&quot;host&quot;</span>, r.Host, <span class="string">&quot;source&quot;</span>, r.RemoteAddr).Info(<span class="string">&quot;Received CONNECT&quot;</span>)</span><br><span class="line">	<span class="comment">// Send headers back immediately so we can start getting the body</span></span><br><span class="line">	w.(http.Flusher).Flush()</span><br><span class="line">	ctx, cancel := context.WithTimeout(context.Background(), <span class="number">10</span>*time.Second)</span><br><span class="line">	<span class="keyword">defer</span> cancel()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	dst, err := (&amp;net.Dialer&#123;&#125;).DialContext(ctx, <span class="string">&quot;tcp&quot;</span>, r.Host)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		w.WriteHeader(http.StatusServiceUnavailable)</span><br><span class="line">		log.Errorf(<span class="string">&quot;failed to dial upstream: %v&quot;</span>, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	log.Infof(<span class="string">&quot;Connected to %v&quot;</span>, r.Host)</span><br><span class="line">	w.WriteHeader(http.StatusOK)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	wg := sync.WaitGroup&#123;&#125;</span><br><span class="line">	wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="comment">// downstream (hbone client) &lt;-- upstream (app)</span></span><br><span class="line">		copyBuffered(w, dst, log.WithLabels(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;dst to w&quot;</span>))</span><br><span class="line">		r.Body.Close()</span><br><span class="line">		wg.Done()</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="comment">// downstream (hbone client) --&gt; upstream (app)</span></span><br><span class="line">	copyBuffered(dst, r.Body, log.WithLabels(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;body to dst&quot;</span>))</span><br><span class="line">	wg.Wait()</span><br><span class="line">	log.Infof(<span class="string">&quot;connection closed in %v&quot;</span>, time.Since(t0))</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
-    </div>
-
-    
-    
-    
-      
-
-
-    <footer class="post-footer">
-          <div class="reward-container">
-  <div>来杯奶茶, 嗝~~~</div>
-  <button>
-    赞赏
-  </button>
-  <div class="post-reward">
-      <div>
-        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
-        <span>微信</span>
       </div>
-      <div>
-        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
-        <span>支付宝</span>
-      </div>
+    </main>
 
-  </div>
-</div>
-
-          <div class="post-tags">
-              <a href="/tags/istio/" rel="tag"># istio</a>
-          </div>
+    <footer class="footer">
+      <div class="footer-inner">
+        
 
         
-  <div class="post-widgets">
-    <div class="wpac-rating-container">
-      <div id="wpac-rating"></div>
-    </div>
-  </div>
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2022/08/06/other/unittest/" rel="prev" title="程序员的自我修养： 如何写好单元测试">
-                  <i class="fa fa-chevron-left"></i> 程序员的自我修养： 如何写好单元测试
-                </a>
-            </div>
-            <div class="post-nav-item">
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
-
-
-
-
-
-
-      <div class="tabs tabs-comment">
-        <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
-            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane changyan" id="comment-changyan">
-              <div class="comments" id="SOHUCS" sid="10350921a9fb7eef7d08959f136ff551"></div>
-            </div>
-            <div class="tab-pane livere" id="comment-livere">
-              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
-            </div>
-            <div class="tab-pane disqus" id="comment-disqus">
-              
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
-            </div>
-        </div>
-      </div>
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
   </div>
 
 <div class="copyright">
+  
   &copy; 2015 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
@@ -496,8 +627,13 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+        
 <div class="busuanzi-count">
-    <span class="post-meta-item" id="busuanzi_container_site_uv">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
       </span>
@@ -505,7 +641,8 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv">
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="eye"></i>
       </span>
@@ -514,43 +651,236 @@
       </span>
     </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
-    </div>
-  </footer>
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://embed.widgetpack.com/widget.js" async></script>
-  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
-  <script src="/js/third-party/rating.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
-<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
-<script src="/js/third-party/chat/chatra.js"></script>
-<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
 
 
 
 
 
   
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
 
-  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
-  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/";
+    this.page.identifier = "2022/09/08/networking/istio/ambient-mesh/ambient-mesh/";
+    this.page.title = "Ambient Mesh Works";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
-<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470","count":false}</script>
-<script src="/js/third-party/comments/changyan.js"></script>
-<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":false,"i18n":{"disqus":"disqus"}}</script>
-<script src="/js/third-party/comments/disqus.js"></script>
-<script src="/js/third-party/comments/livere.js"></script>
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
 
 
         <style>

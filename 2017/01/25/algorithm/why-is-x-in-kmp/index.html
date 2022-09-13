@@ -2,10 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
-
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
@@ -14,13 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/5.15.3/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"xxx"}},"path":"search.xml"};
+  </script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="最近看了一个算法，KMP，字符串查询算法，这个方法有各种各样的讲解，我个人最喜欢的还是在 《算法》 中所提到的用DFA的方式去解答这个算法。 算法的核心可以看这篇文章：  从DFA角度理解KMP算法 算法第四版 kmp 算法">
+  <meta name="description" content="最近看了一个算法，KMP，字符串查询算法，这个方法有各种各样的讲解，我个人最喜欢的还是在 《算法》 中所提到的用DFA的方式去解答这个算法。 算法的核心可以看这篇文章：  从DFA角度理解KMP算法 算法第四版 kmp 算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于KMP算法中的一个小问题">
 <meta property="og:url" content="http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/index.html">
@@ -34,49 +34,81 @@
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
-
 <link rel="canonical" href="http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/">
 
 
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/","path":"2017/01/25/algorithm/why-is-x-in-kmp/","title":"关于KMP算法中的一个小问题"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>关于KMP算法中的一个小问题 | Yanick's Blog</title>
+  <title>关于KMP算法中的一个小问题 | Yanick's Blog</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
 
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Yanick's Blog</p>
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
   </div>
@@ -90,8 +122,59 @@
 
 
 
+
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-专栏">
+
+    <a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-随想">
+
+    <a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-专题">
+
+    <a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -102,37 +185,294 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
+    <div class="popup search-popup">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container"></div>
-  <span class="popup-btn-close" role="button">
+  <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div class="search-result-container">
-  <div class="algolia-stats"><hr></div>
-  <div class="algolia-hits"></div>
-  <div class="algolia-pagination"></div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
 </div>
 
+      
     </div>
   </div>
 
 </div>
-        
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于KMP算法中的一个小问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-01-25 13:46:07" itemprop="dateCreated datePublished" datetime="2017-01-25T13:46:07+08:00">2017-01-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/KMP/" itemprop="url" rel="index"><span itemprop="name">KMP</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/KMP/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/01/25/algorithm/why-is-x-in-kmp/" class="post-meta-item leancloud_visitors" data-flag-title="关于KMP算法中的一个小问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近看了一个算法，KMP，字符串查询算法，这个方法有各种各样的讲解，我个人最喜欢的还是在 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/10432347/">《算法》</a> 中所提到的用DFA的方式去解答这个算法。</p>
+<p>算法的核心可以看这篇文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/congduan/article/details/45459963">从DFA角度理解KMP算法</a></li>
+<li><a target="_blank" rel="noopener" href="http://judes.me/2016/04/10/kmp/">算法第四版 kmp 算法</a></li>
+</ul>
+<span id="more"></span>
+<h2 id="问题"><a class="header-anchor" href="#问题">¶</a>问题</h2>
+<p>关于其中一个小问题，我想仔细的聊一聊(如果没有看前面，请看下上文)。<br>
+这个问题就是关于DFA这个二维数组构建的时候，其中有一个变量X是什么？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy  dfa[][X] to  dfa[][j]</span><br><span class="line">dfa[pat.charAt(j)][j] = j+1;</span><br><span class="line">X = dfa[pat.charAt(j)][X];</span><br></pre></td></tr></table></figure>
+<h2 id="探寻"><a class="header-anchor" href="#探寻">¶</a>探寻</h2>
+<p>** 我们要明白X就是当前回退的状态 **</p>
+<h3 id="Step-0："><a class="header-anchor" href="#Step-0：">¶</a>Step 0：</h3>
+<p>第一步构造，我们发现 我们现在所在的状态，能够回退的只有状态 0，而只有输入A的时候<br>
+我们才能进入1状态，这个没什么好说的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X （这是在初始化之后赋值的）</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1</span><br><span class="line">B 0</span><br><span class="line">C 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Step-2"><a class="header-anchor" href="#Step-2">¶</a>Step 2:</h3>
+<p>第二步构造，我们首先确认，我们发现我们回退的状态是 0，那我怎么确定，我们所能回退的状态，这个时候X的作用出来了，X = 0这个时候，因为我们这个时候输入所有的，都是从0 开始回退的。</p>
+<ul>
+<li>copy  dfa[][X] to  dfa[][j] ， 这里其实就是匹配失败，我们发现，在第二次 匹配B的时候<br>
+如果我们匹配的是A，我们是的确回到1状态就是 0 状态那一列，但是问题来了，这是我们自己想出来的，从DFA怎么看出来的，一开始我们所能回退的状态对于任何输入来说都是从 上一次的状态开始 开始，那我们这一次能够回退的就是 0 状态，就是所谓 <strong>状态为0的那一列</strong>。 换言之，我们这次输入如果不成功，那我们所有的输入都是从新开始计算的，那从新计算是不是状态0+某个数据 = 新状态，而这个新状态就是 0 状态那一列？</li>
+</ul>
+<p><strong>上面可能看不懂</strong> 其实就是假设，1 -&gt; 2 状态转换的时候，我们失败了，那我们需要从哪里开始重新计算，那很简单，因为我们才 1 -&gt; 2 状态，那我们只能从 0 -&gt; 1重新计算。你 0 -&gt; 1 状态的变化，是不是 J = 0 的那一列？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1</span><br><span class="line">B 0 0</span><br><span class="line">C 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>dfa[pat.charAt(j)][j] = j+1; 这里很简单，就是如果是正确输入的字符串，我们的状态应该是当前输入状态+1.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1</span><br><span class="line">B 0 2</span><br><span class="line">C 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>X = dfa[pat.charAt(j)][X] 这里为什么要升级X，原因是因为我们需要知道B这次是不是部份匹配上了，这一次 X = dfa[pat.charAt(j)][X] 带入参数，我们发现是 X = dfa[B][0], 这里就是以B为输入量，状态为 0 的时候，转换成了对象的状态, X= 0, 但是这个 0 和上次的 0 不是一个含义，这个 0 的含义是，这次输入B，<strong>所能从0状态转换成的状态也是0！</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1</span><br><span class="line">B 0 2</span><br><span class="line">C 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Step-3"><a class="header-anchor" href="#Step-3">¶</a>Step 3:</h3>
+<ul>
+<li>copy  dfa[][X] to  dfa[][j]</li>
+<li>dfa[pat.charAt(j)][j] = j+1</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1 3</span><br><span class="line">B 0 2 0</span><br><span class="line">C 0 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>X = dfa[pat.charAt(j)][X] 重点看这个问题，这个时候，我们看见我们的表格还是如上图。这个时候 X = dfa[A][0], X = 1, 为什么这里是 1，这个问题很和谐，其实这里的含义是，我们之前所能回退的状态都是0，而这一次我们输入的是 A，那在0状态输入A状态会变成什么？，当然是变成1状态。好，这个X我们保存。所以X = 1</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    X</span><br><span class="line">    ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1 3</span><br><span class="line">B 0 2 0</span><br><span class="line">C 0 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Step-4"><a class="header-anchor" href="#Step-4">¶</a>Step 4:</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">      X</span><br><span class="line">      ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1 3 1</span><br><span class="line">B 0 2 0 4</span><br><span class="line">C 0 0 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里哦我们就发现了，其实这里我们 <em>copy  dfa[][X] to  dfa[][j]</em> 的时候，我们是考虑匹配失败的时候，因为之前上一次的A，已经保证我们的状态会在1上，我们只需要从 1状态上把失败的状态Copy过来，更新成功的对象，在更新X就可以了。</p>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>本篇是关于KMP的基于DFA状态机的理解，至于在算导中的next数组，还没有看各位看官还望斧正。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/KMP/" rel="tag"># KMP</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/20/game/how-to-code-gobang-in-c/" rel="prev" title="如何用C语言写一个五子棋">
+      <i class="fa fa-chevron-left"></i> 如何用C语言写一个五子棋
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/07/docker/getting-started-with-docker/" rel="next" title="从零开始学Docker">
+      从零开始学Docker <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
   <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
+      <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
           文章目录
         </li>
@@ -141,39 +481,43 @@
         </li>
       </ul>
 
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E5%AF%BB"><span class="nav-number">2.</span> <span class="nav-text">探寻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-0%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">Step 0：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2"><span class="nav-number">2.2.</span> <span class="nav-text">Step 2:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3"><span class="nav-number">2.3.</span> <span class="nav-text">Step 3:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4"><span class="nav-number">2.4.</span> <span class="nav-text">Step 4:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E5%AF%BB"><span class="nav-number">2.</span> <span class="nav-text">探寻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-0%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">Step 0：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2"><span class="nav-number">2.2.</span> <span class="nav-text">Step 2:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3"><span class="nav-number">2.3.</span> <span class="nav-text">Step 3:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4"><span class="nav-number">2.4.</span> <span class="nav-text">Step 4:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Yanick.xia</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/archives/">
+          <a href="/archives/">
           <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-          <a href="/categories/">
+            <a href="/categories/">
         <span class="site-state-item-count">108</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-          <a href="/tags/">
+            <a href="/tags/">
         <span class="site-state-item-count">87</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
-  <div class="links-of-author site-overview-item animated">
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
       </span>
@@ -189,7 +533,7 @@
   </div>
 
 
-  <div class="links-of-blogroll site-overview-item animated">
+  <div class="links-of-blogroll motion-element">
     <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
       Links
     </div>
@@ -255,248 +599,26 @@
         })
     </script>
 </div>
-        </div>
       </div>
+
     </div>
   </aside>
-  <div class="sidebar-dimmer"></div>
+  <div id="sidebar-dimmer"></div>
 
 
-    </header>
-
-    
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="关于KMP算法中的一个小问题 | Yanick's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          关于KMP算法中的一个小问题
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-01-25 13:46:07" itemprop="dateCreated datePublished" datetime="2017-01-25T13:46:07+08:00">2017-01-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/KMP/" itemprop="url" rel="index"><span itemprop="name">KMP</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/KMP/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-    <span id="/2017/01/25/algorithm/why-is-x-in-kmp/" class="post-meta-item leancloud_visitors" data-flag-title="关于KMP算法中的一个小问题" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="leancloud-visitors-count"></span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <p>最近看了一个算法，KMP，字符串查询算法，这个方法有各种各样的讲解，我个人最喜欢的还是在 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/10432347/">《算法》</a> 中所提到的用DFA的方式去解答这个算法。</p>
-<p>算法的核心可以看这篇文章：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/congduan/article/details/45459963">从DFA角度理解KMP算法</a></li>
-<li><a target="_blank" rel="noopener" href="http://judes.me/2016/04/10/kmp/">算法第四版 kmp 算法</a></li>
-</ul>
-<span id="more"></span>
-<h2 id="问题"><a class="header-anchor" href="#问题">¶</a>问题</h2>
-<p>关于其中一个小问题，我想仔细的聊一聊(如果没有看前面，请看下上文)。<br>
-这个问题就是关于DFA这个二维数组构建的时候，其中有一个变量X是什么？</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy  dfa[][X] to  dfa[][j]</span><br><span class="line">dfa[pat.charAt(j)][j] = j+1;</span><br><span class="line">X = dfa[pat.charAt(j)][X];</span><br></pre></td></tr></table></figure>
-<h2 id="探寻"><a class="header-anchor" href="#探寻">¶</a>探寻</h2>
-<p>** 我们要明白X就是当前回退的状态 **</p>
-<h3 id="Step-0："><a class="header-anchor" href="#Step-0：">¶</a>Step 0：</h3>
-<p>第一步构造，我们发现 我们现在所在的状态，能够回退的只有状态 0，而只有输入A的时候<br>
-我们才能进入1状态，这个没什么好说的。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X （这是在初始化之后赋值的）</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1</span><br><span class="line">B 0</span><br><span class="line">C 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="Step-2"><a class="header-anchor" href="#Step-2">¶</a>Step 2:</h3>
-<p>第二步构造，我们首先确认，我们发现我们回退的状态是 0，那我怎么确定，我们所能回退的状态，这个时候X的作用出来了，X = 0这个时候，因为我们这个时候输入所有的，都是从0 开始回退的。</p>
-<ul>
-<li>copy  dfa[][X] to  dfa[][j] ， 这里其实就是匹配失败，我们发现，在第二次 匹配B的时候<br>
-如果我们匹配的是A，我们是的确回到1状态就是 0 状态那一列，但是问题来了，这是我们自己想出来的，从DFA怎么看出来的，一开始我们所能回退的状态对于任何输入来说都是从 上一次的状态开始 开始，那我们这一次能够回退的就是 0 状态，就是所谓 <strong>状态为0的那一列</strong>。 换言之，我们这次输入如果不成功，那我们所有的输入都是从新开始计算的，那从新计算是不是状态0+某个数据 = 新状态，而这个新状态就是 0 状态那一列？</li>
-</ul>
-<p><strong>上面可能看不懂</strong> 其实就是假设，1 -&gt; 2 状态转换的时候，我们失败了，那我们需要从哪里开始重新计算，那很简单，因为我们才 1 -&gt; 2 状态，那我们只能从 0 -&gt; 1重新计算。你 0 -&gt; 1 状态的变化，是不是 J = 0 的那一列？</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1</span><br><span class="line">B 0 0</span><br><span class="line">C 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>dfa[pat.charAt(j)][j] = j+1; 这里很简单，就是如果是正确输入的字符串，我们的状态应该是当前输入状态+1.</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1</span><br><span class="line">B 0 2</span><br><span class="line">C 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>X = dfa[pat.charAt(j)][X] 这里为什么要升级X，原因是因为我们需要知道B这次是不是部份匹配上了，这一次 X = dfa[pat.charAt(j)][X] 带入参数，我们发现是 X = dfa[B][0], 这里就是以B为输入量，状态为 0 的时候，转换成了对象的状态, X= 0, 但是这个 0 和上次的 0 不是一个含义，这个 0 的含义是，这次输入B，<strong>所能从0状态转换成的状态也是0！</strong></li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1</span><br><span class="line">B 0 2</span><br><span class="line">C 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="Step-3"><a class="header-anchor" href="#Step-3">¶</a>Step 3:</h3>
-<ul>
-<li>copy  dfa[][X] to  dfa[][j]</li>
-<li>dfa[pat.charAt(j)][j] = j+1</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  X</span><br><span class="line">  ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1 3</span><br><span class="line">B 0 2 0</span><br><span class="line">C 0 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>X = dfa[pat.charAt(j)][X] 重点看这个问题，这个时候，我们看见我们的表格还是如上图。这个时候 X = dfa[A][0], X = 1, 为什么这里是 1，这个问题很和谐，其实这里的含义是，我们之前所能回退的状态都是0，而这一次我们输入的是 A，那在0状态输入A状态会变成什么？，当然是变成1状态。好，这个X我们保存。所以X = 1</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    X</span><br><span class="line">    ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1 3</span><br><span class="line">B 0 2 0</span><br><span class="line">C 0 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="Step-4"><a class="header-anchor" href="#Step-4">¶</a>Step 4:</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">      X</span><br><span class="line">      ↓</span><br><span class="line">J 0 1 2 3 4 5</span><br><span class="line">  A B A B A C</span><br><span class="line">¯¯¯¯¯¯¯¯¯¯¯¯¯¯</span><br><span class="line">A 1 1 3 1</span><br><span class="line">B 0 2 0 4</span><br><span class="line">C 0 0 0 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这里哦我们就发现了，其实这里我们 <em>copy  dfa[][X] to  dfa[][j]</em> 的时候，我们是考虑匹配失败的时候，因为之前上一次的A，已经保证我们的状态会在1上，我们只需要从 1状态上把失败的状态Copy过来，更新成功的对象，在更新X就可以了。</p>
-<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
-<p>本篇是关于KMP的基于DFA状态机的理解，至于在算导中的next数组，还没有看各位看官还望斧正。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
-    </div>
-
-    
-    
-    
-      
-
-
-    <footer class="post-footer">
-          <div class="reward-container">
-  <div>来杯奶茶, 嗝~~~</div>
-  <button>
-    赞赏
-  </button>
-  <div class="post-reward">
-      <div>
-        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
-        <span>微信</span>
       </div>
-      <div>
-        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
-        <span>支付宝</span>
-      </div>
+    </main>
 
-  </div>
-</div>
-
-          <div class="post-tags">
-              <a href="/tags/KMP/" rel="tag"># KMP</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
-          </div>
+    <footer class="footer">
+      <div class="footer-inner">
+        
 
         
-  <div class="post-widgets">
-    <div class="wpac-rating-container">
-      <div id="wpac-rating"></div>
-    </div>
-  </div>
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2017/01/20/game/how-to-code-gobang-in-c/" rel="prev" title="如何用C语言写一个五子棋">
-                  <i class="fa fa-chevron-left"></i> 如何用C语言写一个五子棋
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2017/02/07/docker/getting-started-with-docker/" rel="next" title="从零开始学Docker">
-                  从零开始学Docker <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
-
-
-
-
-
-
-      <div class="tabs tabs-comment">
-        <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
-            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane changyan" id="comment-changyan">
-              <div class="comments" id="SOHUCS" sid="b6e8e9fe07cee26fdc4a76460f535211"></div>
-            </div>
-            <div class="tab-pane livere" id="comment-livere">
-              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
-            </div>
-            <div class="tab-pane disqus" id="comment-disqus">
-              
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
-            </div>
-        </div>
-      </div>
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
   </div>
 
 <div class="copyright">
+  
   &copy; 2015 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
@@ -504,8 +626,13 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+        
 <div class="busuanzi-count">
-    <span class="post-meta-item" id="busuanzi_container_site_uv">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
       </span>
@@ -513,7 +640,8 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv">
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="eye"></i>
       </span>
@@ -522,43 +650,236 @@
       </span>
     </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
-    </div>
-  </footer>
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://embed.widgetpack.com/widget.js" async></script>
-  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
-  <script src="/js/third-party/rating.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
-<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
-<script src="/js/third-party/chat/chatra.js"></script>
-<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
 
 
 
 
 
   
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
 
-  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
-  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2017/01/25/algorithm/why-is-x-in-kmp/";
+    this.page.identifier = "2017/01/25/algorithm/why-is-x-in-kmp/";
+    this.page.title = "关于KMP算法中的一个小问题";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
-<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470","count":false}</script>
-<script src="/js/third-party/comments/changyan.js"></script>
-<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":false,"i18n":{"disqus":"disqus"}}</script>
-<script src="/js/third-party/comments/disqus.js"></script>
-<script src="/js/third-party/comments/livere.js"></script>
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
 
 
         <style>

@@ -2,10 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
-
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
@@ -14,13 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/5.15.3/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"xxx"}},"path":"search.xml"};
+  </script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
-
-    <meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="Rust Dynamic Dispatching">
 <meta property="og:url" content="http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
@@ -36,49 +36,81 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://n1.i5h5.com/2020/10/14/torLS.png">
 
-
 <link rel="canonical" href="http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/">
 
 
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/","path":"2020/10/13/rust/dynamic-dispatch/","title":"Rust Dynamic Dispatching"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Rust Dynamic Dispatching | Yanick's Blog</title>
+  <title>Rust Dynamic Dispatching | Yanick's Blog</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
 
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Yanick's Blog</p>
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
   </div>
@@ -92,8 +124,59 @@
 
 
 
+
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-专栏">
+
+    <a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-随想">
+
+    <a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-专题">
+
+    <a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -104,37 +187,319 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
+    <div class="popup search-popup">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container"></div>
-  <span class="popup-btn-close" role="button">
+  <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div class="search-result-container">
-  <div class="algolia-stats"><hr></div>
-  <div class="algolia-hits"></div>
-  <div class="algolia-pagination"></div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
 </div>
 
+      
     </div>
   </div>
 
 </div>
-        
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust Dynamic Dispatching
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-13 17:38:10" itemprop="dateCreated datePublished" datetime="2020-10-13T17:38:10+08:00">2020-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/rust/deep-dive/" itemprop="url" rel="index"><span itemprop="name">deep-dive</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/13/rust/dynamic-dispatch/" class="post-meta-item leancloud_visitors" data-flag-title="Rust Dynamic Dispatching" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/images/loading.gif" data-original="https://n1.i5h5.com/2020/10/14/torLS.png" alt="torLS.png"></p>
+<span id="more"></span>
+<h2 id="举个例子"><a class="header-anchor" href="#举个例子">¶</a>举个例子</h2>
+<p>假设我们有如下定义的一组对象。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Backend</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TypeA</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TypeB</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">TypeA</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">TypeB</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要构建一个 <code>Services</code> 列表，现在是很常规的操作。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Service</span> &lt;T: Backend&gt; &#123;</span><br><span class="line">    backend: T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们具型化的时候会发现一个问题</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">backends</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>(TypeA);</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>(TypeB);  <span class="comment">// &lt;---- 类型错误</span></span><br></pre></td></tr></table></figure>
+<p>我们如果想要实现这样的机制需要这样操作</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Service</span>&#123;</span><br><span class="line">    backends: <span class="type">Vec</span>&lt;<span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;&gt;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">backends</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>( <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(PositiveBackend&#123;&#125;) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>( <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(NegativeBackend&#123;&#125;) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br></pre></td></tr></table></figure>
+<p>上诉的操作就称之为 “Dynamic Dispatching” 动态分发，我们在调用 Backend 之前并不知道他的类型。这也是实现多态的必要条件，不过这样的操作在运行时会有性能损失，为什么会有性能损耗，我们还是来探索一下。</p>
+<h2 id="基线测试"><a class="header-anchor" href="#基线测试">¶</a>基线测试</h2>
+<p>我们先看看静态分发的性能损耗。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PositiveBackend</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">PositiveBackend</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>, number: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> <span class="type">u64</span> &#123;</span><br><span class="line">        number + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">backend</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(PositiveBackend);</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">res</span> = <span class="number">0</span> <span class="keyword">as</span> <span class="type">u64</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">start_time</span> = SystemTime::<span class="title function_ invoke__">now</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">total</span> = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="type">u64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// our main loop</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..total &#123;</span><br><span class="line">        res += backend.<span class="title function_ invoke__">compute</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>, res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elapsed_ms: &#123;&#125;&quot;</span>, start_time.<span class="title function_ invoke__">elapsed</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">as_millis</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在笔者的机器上的执行结果几乎不耗时（记得打开release）</p>
+<figure class="highlight bash"><figcaption><span>debug</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run --release</span><br><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.02s</span><br><span class="line">     Running `target/release/learning`</span><br><span class="line"></span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 0</span><br></pre></td></tr></table></figure>
+<h2 id="静态分发"><a class="header-anchor" href="#静态分发">¶</a>静态分发</h2>
+<h3 id="为什么静态分发这么快"><a class="header-anchor" href="#为什么静态分发这么快">¶</a>为什么静态分发这么快</h3>
+<p>我们打开 <code>Hopper Disassembler</code> 对二进制文件进行分析。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">call       __ZN3std4time10SystemTime3now17h76cefb4014446fb3E ; System.now() 获得当前时间</span><br><span class="line">mov        qword [rbp+var_60], rax</span><br><span class="line">mov        qword [rbp+var_58], rdx</span><br><span class="line">movabs     rax, 0xb5e6218d1680  ; 0xb5e6218d1680 -&gt; 200000010000000 直接是计算好的结果</span><br><span class="line">mov        qword [rbp+var_50], rax</span><br><span class="line">lea        rax, qword [rbp+var_50]</span><br><span class="line">mov        qword [rbp+var_18], rax</span><br><span class="line">lea        rax, qword [__ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u64$GT$3fmt17hb00db9d5e1e54df6E]</span><br><span class="line">mov        qword [rbp+var_10], rax</span><br><span class="line">lea        rax, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br></pre></td></tr></table></figure>
+<p>对于编译器来说，在静态器已经知道的数据类型，和计算都可直接通过静态分析得到结果，而不用在运行时真正的再算一遍。</p>
+<h3 id="Debug-为什么又这么慢"><a class="header-anchor" href="#Debug-为什么又这么慢">¶</a>Debug 为什么又这么慢</h3>
+<p>我们如果运行在 <code>Debug</code> 模式下，结果又是另外一番。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run               </span><br><span class="line">   Compiling learning v0.1.0 (/Users/yann/Codes/rust/learning)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.57s</span><br><span class="line">     Running `target/debug/learning`</span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 741</span><br></pre></td></tr></table></figure>
+<p>还是打开我们的反编译器看看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">loc_100003f2c: ; PositiveBackend:Compute 子函数</span><br><span class="line">0000000100003f49         call       __ZN8learning15PositiveBackend7compute17hbdcd6a613a6654c0E ; PositiveBackend  计算函数的调用</span><br><span class="line">0000000100003f4e         mov        qword [rbp+var_1A8], rax</span><br><span class="line">0000000100003f55         jmp        loc_100003f57</span><br><span class="line"></span><br><span class="line">loc_100003e20: ; For 循环子函数</span><br><span class="line">0000000100003e68         call       __ZN63_$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$9into_iter17h5ff7777380a60e23E ; _$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$::into_iter::h5ff7777380a60e23</span><br><span class="line">0000000100003e6d         mov        qword [rbp+var_170], rdx</span><br><span class="line">0000000100003e74         mov        qword [rbp+var_178], rax</span><br><span class="line">0000000100003e7b         jmp        loc_100003e7d</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loc_100003eb5: 比较 total 是否满足</span><br><span class="line">0000000100003eb5         mov        rax, qword [rbp+var_188]                    ; CODE XREF=__ZN8learning4main17h9a9a004d32cb7481E+211</span><br><span class="line">0000000100003ebc         mov        qword [rbp+var_118], rax</span><br><span class="line">0000000100003ec3         mov        rcx, qword [rbp+var_180]</span><br><span class="line">0000000100003eca         mov        qword [rbp+var_110], rcx</span><br><span class="line">0000000100003ed1         mov        rdx, qword [rbp+var_118]</span><br><span class="line">0000000100003ed8         test       rdx, rdx</span><br><span class="line">0000000100003edb         je         loc_100003ee1</span><br></pre></td></tr></table></figure>
+<p>对于 <code>Debug</code> 模式下，我们需要进循环体，因此我们将函数拆分了多段，并且通过 call/je 将程序组装起来，显然就是比直接结果 mov 进来要来的慢的多。</p>
+<h2 id="动态分发"><a class="header-anchor" href="#动态分发">¶</a>动态分发</h2>
+<p>我们将代码修改为如下</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::env;</span><br><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">Backend</span>&#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>,number: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">i64</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PositiveBackend</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">NegativeBackend</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">PositiveBackend</span>&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>,number: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">i64</span>&#123;</span><br><span class="line">        number+<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">NegativeBackend</span>&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>,number: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">i64</span>&#123;</span><br><span class="line">        number-<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">backend</span> = <span class="keyword">match</span> env::<span class="title function_ invoke__">args</span>().<span class="title function_ invoke__">skip</span>(<span class="number">1</span>).<span class="title function_ invoke__">next</span>() &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(x) =&gt; <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(PositiveBackend ) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;,</span><br><span class="line">        _ =&gt; <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(NegativeBackend) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">res</span>= <span class="number">0</span> <span class="keyword">as</span> <span class="type">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">start_time</span> = SystemTime::<span class="title function_ invoke__">now</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">total</span> = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="type">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span> .. total &#123;</span><br><span class="line">        res += backend.<span class="title function_ invoke__">compute</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>,res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elapsed_ms: &#123;&#125;&quot;</span>, start_time.<span class="title function_ invoke__">elapsed</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">as_millis</span>());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.03s</span><br><span class="line">     Running `target/release/learning 1`</span><br><span class="line">Result: -20000002</span><br><span class="line">Elapsed_ms: 46</span><br></pre></td></tr></table></figure>
+<p>这个时间和我们的 <code>Debug</code> 模式都差不多了。</p>
+<h3 id="动态分发的实现"><a class="header-anchor" href="#动态分发的实现">¶</a>动态分发的实现</h3>
+<p>对于大多数的编程语言 <code>Rust</code> <code>C++</code> 为了实现动态分发(多态的需求)，都采用了一种叫 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Virtual_method_table"><code>vtable</code></a> 的技术。</p>
+<p><img src="/images/loading.gif" data-original="https://n1.i5h5.com/2020/10/14/toD44.png" alt="toD44.png"></p>
+<p>对于 <code>Box&lt;dyn Trait&gt;</code> 我们至少需要 <code>2</code> 个 <code>Vtable</code> 这里我们就不看汇编了，我们看看 <code>汇编</code> 生成的伪代码</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">loc_100004aab:</span><br><span class="line">    r12 = *(r15 + <span class="number">0x18</span>);</span><br><span class="line">    r13 = <span class="number">0x0</span>;</span><br><span class="line">    rbx = <span class="number">0x0</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">            rax = (r12)(<span class="number">0x1</span>, rbx);</span><br><span class="line">            rbx = rbx + <span class="number">0x1</span>;</span><br><span class="line">            r13 = rax + r13 * <span class="number">0x2</span>;</span><br><span class="line">            var_78 = r13;</span><br><span class="line">    &#125; <span class="title function_ invoke__">while</span> (rbx != <span class="number">0x1312d00</span>);</span><br><span class="line">    std::io::stdio::_print::<span class="title function_ invoke__">hdea2154009b9e479</span>(<span class="number">0x1000300b0</span>);</span><br><span class="line">    std::time::SystemTime::elapsed::<span class="title function_ invoke__">hd316930bad90c880</span>(<span class="number">0x1000300b0</span>, var_98);</span><br><span class="line">    <span class="keyword">return</span> rax;</span><br></pre></td></tr></table></figure>
+<p>现在这次编译出来的结果并没有直接优化成一个值，而是真的去 <code>loop</code> 了 <code>0x1312d00</code> 去计算，那是为什么呢？</p>
+<p>答案和代码一体两证的可以发现。 <code>(r12)(0x1, rbx)</code> 是一个函数，而这 <code>r12</code> 就是我们动态代理的核心。</p>
+<p>打开反汇编，很容易找到如下代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">0000000100004adc         mov        qword [rbp+var_98], rax</span><br><span class="line">0000000100004ae3         mov        qword [rbp+var_90], rdx</span><br><span class="line">0000000100004aea         mov        r12, qword [r15+0x18]</span><br><span class="line">0000000100004aee         xor        r13d, r13d</span><br><span class="line">0000000100004af1         xor        ebx, ebx</span><br><span class="line">0000000100004af3         nop        word [cs:rax+rax]</span><br><span class="line">0000000100004afd         nop        dword [rax]</span><br><span class="line"></span><br><span class="line">loc_100004b00: 循环计算子函数</span><br><span class="line">0000000100004b00         mov        edi, 0x1 ;  立即数 1</span><br><span class="line">0000000100004b05         mov        rsi, rbx</span><br><span class="line">0000000100004b08         call       r12  ; Backend:Compute 函数</span><br><span class="line">0000000100004b0b         inc        rbx</span><br><span class="line">0000000100004b0e         add        r13, rax</span><br><span class="line">0000000100004b11         mov        qword [rbp+var_78], r13</span><br><span class="line">0000000100004b15         cmp        rbx, 0x1312d00 ; 20000000 次循环</span><br><span class="line">0000000100004b1c         jne        loc_100004b00</span><br></pre></td></tr></table></figure>
+<p>我们可以发现的核心的恰好就是 <code>r12</code> 这个寄存器中的地址，而如何判断具体应该调用哪一个呢？<code>r12</code> 是 <code>r15</code> + <code>0x18</code> 的固定片偏移而来。</p>
+<p>为什么是 <code>0x18</code>？因为 <code>Vtable</code> 的第一部分是一个指向析构函数的 <code>Pointer</code>：<code>8bytes</code>，然后是两个 <code>64bit</code> 的数字是 <code>vtable</code> 的大小和对齐。然后才是我们的函数指向，因为我们只有一个函数，也就是 <code>index:0</code>，那刚好就是 <code>8 + 8 * 2 = 24 = 0x18</code>。</p>
+<p>那 <code>r15</code> 是什么？我们从上面可以得知。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">loc_1000049ec:</span><br><span class="line">00000001000049f7         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br><span class="line"></span><br><span class="line">loc_100004a14:</span><br><span class="line">0000000100004a1f         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+112]</span><br></pre></td></tr></table></figure>
+<p>我们有2个子函数进行处理，究竟是 <code>80</code> 的偏移量还是 <code>112</code> 呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">00000001000049a2         call       __ZN73_$LT$std..env..Args$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h92f309c39800957bE ; 获得参数</span><br><span class="line">00000001000049a7         mov        rdi, qword [rbp+var_70]</span><br><span class="line">00000001000049ab         test       rdi, rdi ; 比较，也就是 match env::args().skip(1).next()</span><br><span class="line">00000001000049ae         je         loc_1000049ec ; goto +80 偏移量</span><br><span class="line"></span><br><span class="line">loc_1000049c0:</span><br><span class="line">00000001000049c0         mov        rsi, qword [rbp+var_68]</span><br><span class="line">00000001000049c4         inc        rbx</span><br><span class="line">00000001000049c7         je         loc_100004a14 ; goto +112 偏移量</span><br></pre></td></tr></table></figure>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/14/t49aL.png" alt="t49aL.png"><br>
+从调用流程上也很容易分析出来。</p>
+<h3 id="动态分发的消耗"><a class="header-anchor" href="#动态分发的消耗">¶</a>动态分发的消耗</h3>
+<p>根据 <a target="_blank" rel="noopener" href="https://medium.com/digitalfrontiers/rust-dynamic-dispatching-deep-dive-236a5896e49b"></a> 测试的看来</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Iterating over 20M elements:</span><br><span class="line">----------------------------</span><br><span class="line">static dispatch:      64 ms</span><br><span class="line">dynamic dispatch:    216 ms</span><br></pre></td></tr></table></figure>
+<p>动态分发还是会有不小的衰耗。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">推荐阅读</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/06/20/rust/rust-pin/" rel="bookmark">Rust Pin</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/09/12/rust/actix/" rel="bookmark">Actix &#58 Rust 中 Actor 模型的实现</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/09/04/rust/understanding-rust-async/" rel="bookmark">解密 Rust 异步编程</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/" rel="bookmark">使用 Rust 为 Envoy 构建插件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/10/16/rust/talent-plan/project-2/" rel="bookmark">Rust Project 2&#58 Log-structured file I/O 解读</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rust/" rel="tag"># rust</a>
+              <a href="/tags/deep-dive/" rel="tag"># deep-dive</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/08/networking/http/http/" rel="prev" title="HTTP 1 & 2">
+      <i class="fa fa-chevron-left"></i> HTTP 1 & 2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/15/other/lfs/" rel="next" title="Log-structured File System">
+      Log-structured File System <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
   <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
+      <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
           文章目录
         </li>
@@ -143,39 +508,43 @@
         </li>
       </ul>
 
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">1.</span> <span class="nav-text">举个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%BA%BF%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">基线测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%88%86%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">静态分发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9D%99%E6%80%81%E5%88%86%E5%8F%91%E8%BF%99%E4%B9%88%E5%BF%AB"><span class="nav-number">3.1.</span> <span class="nav-text">为什么静态分发这么快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%88%E8%BF%99%E4%B9%88%E6%85%A2"><span class="nav-number">3.2.</span> <span class="nav-text">Debug 为什么又这么慢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8F%91"><span class="nav-number">4.</span> <span class="nav-text">动态分发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8F%91%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.</span> <span class="nav-text">动态分发的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8F%91%E7%9A%84%E6%B6%88%E8%80%97"><span class="nav-number">4.2.</span> <span class="nav-text">动态分发的消耗</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">1.</span> <span class="nav-text">举个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%BA%BF%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">基线测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%88%86%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">静态分发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9D%99%E6%80%81%E5%88%86%E5%8F%91%E8%BF%99%E4%B9%88%E5%BF%AB"><span class="nav-number">3.1.</span> <span class="nav-text">为什么静态分发这么快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%88%E8%BF%99%E4%B9%88%E6%85%A2"><span class="nav-number">3.2.</span> <span class="nav-text">Debug 为什么又这么慢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8F%91"><span class="nav-number">4.</span> <span class="nav-text">动态分发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8F%91%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.</span> <span class="nav-text">动态分发的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8F%91%E7%9A%84%E6%B6%88%E8%80%97"><span class="nav-number">4.2.</span> <span class="nav-text">动态分发的消耗</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Yanick.xia</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/archives/">
+          <a href="/archives/">
           <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-          <a href="/categories/">
+            <a href="/categories/">
         <span class="site-state-item-count">108</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-          <a href="/tags/">
+            <a href="/tags/">
         <span class="site-state-item-count">87</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
-  <div class="links-of-author site-overview-item animated">
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
       </span>
@@ -191,7 +560,7 @@
   </div>
 
 
-  <div class="links-of-blogroll site-overview-item animated">
+  <div class="links-of-blogroll motion-element">
     <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
       Links
     </div>
@@ -257,255 +626,26 @@
         })
     </script>
 </div>
-        </div>
       </div>
+
     </div>
   </aside>
-  <div class="sidebar-dimmer"></div>
+  <div id="sidebar-dimmer"></div>
 
 
-    </header>
-
-    
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Rust Dynamic Dispatching | Yanick's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Rust Dynamic Dispatching
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-13 17:38:10" itemprop="dateCreated datePublished" datetime="2020-10-13T17:38:10+08:00">2020-10-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/rust/deep-dive/" itemprop="url" rel="index"><span itemprop="name">deep-dive</span></a>
-        </span>
-    </span>
-
-  
-    <span id="/2020/10/13/rust/dynamic-dispatch/" class="post-meta-item leancloud_visitors" data-flag-title="Rust Dynamic Dispatching" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="leancloud-visitors-count"></span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <p><img src="/images/loading.gif" data-original="https://n1.i5h5.com/2020/10/14/torLS.png" alt="torLS.png"></p>
-<span id="more"></span>
-<h2 id="举个例子"><a class="header-anchor" href="#举个例子">¶</a>举个例子</h2>
-<p>假设我们有如下定义的一组对象。</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Backend</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TypeA</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TypeB</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">TypeA</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">TypeB</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>我们需要构建一个 <code>Services</code> 列表，现在是很常规的操作。</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Service</span> &lt;T: Backend&gt; &#123;</span><br><span class="line">    backend: T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们具型化的时候会发现一个问题</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">backends</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>(TypeA);</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>(TypeB);  <span class="comment">// &lt;---- 类型错误</span></span><br></pre></td></tr></table></figure>
-<p>我们如果想要实现这样的机制需要这样操作</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Service</span>&#123;</span><br><span class="line">    backends: <span class="type">Vec</span>&lt;<span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;&gt;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">backends</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>( <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(PositiveBackend&#123;&#125;) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br><span class="line">backends.<span class="title function_ invoke__">push</span>( <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(NegativeBackend&#123;&#125;) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;);</span><br></pre></td></tr></table></figure>
-<p>上诉的操作就称之为 “Dynamic Dispatching” 动态分发，我们在调用 Backend 之前并不知道他的类型。这也是实现多态的必要条件，不过这样的操作在运行时会有性能损失，为什么会有性能损耗，我们还是来探索一下。</p>
-<h2 id="基线测试"><a class="header-anchor" href="#基线测试">¶</a>基线测试</h2>
-<p>我们先看看静态分发的性能损耗。</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PositiveBackend</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">PositiveBackend</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>, number: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> <span class="type">u64</span> &#123;</span><br><span class="line">        number + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">backend</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(PositiveBackend);</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">res</span> = <span class="number">0</span> <span class="keyword">as</span> <span class="type">u64</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">start_time</span> = SystemTime::<span class="title function_ invoke__">now</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">total</span> = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="type">u64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// our main loop</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..total &#123;</span><br><span class="line">        res += backend.<span class="title function_ invoke__">compute</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>, res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elapsed_ms: &#123;&#125;&quot;</span>, start_time.<span class="title function_ invoke__">elapsed</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">as_millis</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在笔者的机器上的执行结果几乎不耗时（记得打开release）</p>
-<figure class="highlight bash"><figcaption><span>debug</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run --release</span><br><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.02s</span><br><span class="line">     Running `target/release/learning`</span><br><span class="line"></span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 0</span><br></pre></td></tr></table></figure>
-<h2 id="静态分发"><a class="header-anchor" href="#静态分发">¶</a>静态分发</h2>
-<h3 id="为什么静态分发这么快"><a class="header-anchor" href="#为什么静态分发这么快">¶</a>为什么静态分发这么快</h3>
-<p>我们打开 <code>Hopper Disassembler</code> 对二进制文件进行分析。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">call       __ZN3std4time10SystemTime3now17h76cefb4014446fb3E ; System.now() 获得当前时间</span><br><span class="line">mov        qword [rbp+var_60], rax</span><br><span class="line">mov        qword [rbp+var_58], rdx</span><br><span class="line">movabs     rax, 0xb5e6218d1680  ; 0xb5e6218d1680 -&gt; 200000010000000 直接是计算好的结果</span><br><span class="line">mov        qword [rbp+var_50], rax</span><br><span class="line">lea        rax, qword [rbp+var_50]</span><br><span class="line">mov        qword [rbp+var_18], rax</span><br><span class="line">lea        rax, qword [__ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u64$GT$3fmt17hb00db9d5e1e54df6E]</span><br><span class="line">mov        qword [rbp+var_10], rax</span><br><span class="line">lea        rax, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br></pre></td></tr></table></figure>
-<p>对于编译器来说，在静态器已经知道的数据类型，和计算都可直接通过静态分析得到结果，而不用在运行时真正的再算一遍。</p>
-<h3 id="Debug-为什么又这么慢"><a class="header-anchor" href="#Debug-为什么又这么慢">¶</a>Debug 为什么又这么慢</h3>
-<p>我们如果运行在 <code>Debug</code> 模式下，结果又是另外一番。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  learning git:(master) ✗ cargo run               </span><br><span class="line">   Compiling learning v0.1.0 (/Users/yann/Codes/rust/learning)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.57s</span><br><span class="line">     Running `target/debug/learning`</span><br><span class="line">Result: 200000010000000</span><br><span class="line">Elapsed_ms: 741</span><br></pre></td></tr></table></figure>
-<p>还是打开我们的反编译器看看</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">loc_100003f2c: ; PositiveBackend:Compute 子函数</span><br><span class="line">0000000100003f49         call       __ZN8learning15PositiveBackend7compute17hbdcd6a613a6654c0E ; PositiveBackend  计算函数的调用</span><br><span class="line">0000000100003f4e         mov        qword [rbp+var_1A8], rax</span><br><span class="line">0000000100003f55         jmp        loc_100003f57</span><br><span class="line"></span><br><span class="line">loc_100003e20: ; For 循环子函数</span><br><span class="line">0000000100003e68         call       __ZN63_$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$9into_iter17h5ff7777380a60e23E ; _$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$::into_iter::h5ff7777380a60e23</span><br><span class="line">0000000100003e6d         mov        qword [rbp+var_170], rdx</span><br><span class="line">0000000100003e74         mov        qword [rbp+var_178], rax</span><br><span class="line">0000000100003e7b         jmp        loc_100003e7d</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loc_100003eb5: 比较 total 是否满足</span><br><span class="line">0000000100003eb5         mov        rax, qword [rbp+var_188]                    ; CODE XREF=__ZN8learning4main17h9a9a004d32cb7481E+211</span><br><span class="line">0000000100003ebc         mov        qword [rbp+var_118], rax</span><br><span class="line">0000000100003ec3         mov        rcx, qword [rbp+var_180]</span><br><span class="line">0000000100003eca         mov        qword [rbp+var_110], rcx</span><br><span class="line">0000000100003ed1         mov        rdx, qword [rbp+var_118]</span><br><span class="line">0000000100003ed8         test       rdx, rdx</span><br><span class="line">0000000100003edb         je         loc_100003ee1</span><br></pre></td></tr></table></figure>
-<p>对于 <code>Debug</code> 模式下，我们需要进循环体，因此我们将函数拆分了多段，并且通过 call/je 将程序组装起来，显然就是比直接结果 mov 进来要来的慢的多。</p>
-<h2 id="动态分发"><a class="header-anchor" href="#动态分发">¶</a>动态分发</h2>
-<p>我们将代码修改为如下</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::env;</span><br><span class="line"><span class="keyword">use</span> std::time::SystemTime;</span><br><span class="line"></span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">Backend</span>&#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>,number: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">i64</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">PositiveBackend</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">NegativeBackend</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">PositiveBackend</span>&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>,number: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">i64</span>&#123;</span><br><span class="line">        number+<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Backend</span> <span class="keyword">for</span> <span class="title class_">NegativeBackend</span>&#123;</span><br><span class="line">    <span class="meta">#[inline(never)]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">compute</span>(&amp;<span class="keyword">self</span>,number: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">i64</span>&#123;</span><br><span class="line">        number-<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">backend</span> = <span class="keyword">match</span> env::<span class="title function_ invoke__">args</span>().<span class="title function_ invoke__">skip</span>(<span class="number">1</span>).<span class="title function_ invoke__">next</span>() &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(x) =&gt; <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(PositiveBackend ) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;,</span><br><span class="line">        _ =&gt; <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(NegativeBackend) <span class="keyword">as</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Backend&gt;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">res</span>= <span class="number">0</span> <span class="keyword">as</span> <span class="type">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">start_time</span> = SystemTime::<span class="title function_ invoke__">now</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">total</span> = <span class="number">20_000_000</span> <span class="keyword">as</span> <span class="type">i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span> .. total &#123;</span><br><span class="line">        res += backend.<span class="title function_ invoke__">compute</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>,res);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Elapsed_ms: &#123;&#125;&quot;</span>, start_time.<span class="title function_ invoke__">elapsed</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">as_millis</span>());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行结果如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    Finished release [optimized] target(s) <span class="keyword">in</span> 0.03s</span><br><span class="line">     Running `target/release/learning 1`</span><br><span class="line">Result: -20000002</span><br><span class="line">Elapsed_ms: 46</span><br></pre></td></tr></table></figure>
-<p>这个时间和我们的 <code>Debug</code> 模式都差不多了。</p>
-<h3 id="动态分发的实现"><a class="header-anchor" href="#动态分发的实现">¶</a>动态分发的实现</h3>
-<p>对于大多数的编程语言 <code>Rust</code> <code>C++</code> 为了实现动态分发(多态的需求)，都采用了一种叫 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Virtual_method_table"><code>vtable</code></a> 的技术。</p>
-<p><img src="/images/loading.gif" data-original="https://n1.i5h5.com/2020/10/14/toD44.png" alt="toD44.png"></p>
-<p>对于 <code>Box&lt;dyn Trait&gt;</code> 我们至少需要 <code>2</code> 个 <code>Vtable</code> 这里我们就不看汇编了，我们看看 <code>汇编</code> 生成的伪代码</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">loc_100004aab:</span><br><span class="line">    r12 = *(r15 + <span class="number">0x18</span>);</span><br><span class="line">    r13 = <span class="number">0x0</span>;</span><br><span class="line">    rbx = <span class="number">0x0</span>;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">            rax = (r12)(<span class="number">0x1</span>, rbx);</span><br><span class="line">            rbx = rbx + <span class="number">0x1</span>;</span><br><span class="line">            r13 = rax + r13 * <span class="number">0x2</span>;</span><br><span class="line">            var_78 = r13;</span><br><span class="line">    &#125; <span class="title function_ invoke__">while</span> (rbx != <span class="number">0x1312d00</span>);</span><br><span class="line">    std::io::stdio::_print::<span class="title function_ invoke__">hdea2154009b9e479</span>(<span class="number">0x1000300b0</span>);</span><br><span class="line">    std::time::SystemTime::elapsed::<span class="title function_ invoke__">hd316930bad90c880</span>(<span class="number">0x1000300b0</span>, var_98);</span><br><span class="line">    <span class="keyword">return</span> rax;</span><br></pre></td></tr></table></figure>
-<p>现在这次编译出来的结果并没有直接优化成一个值，而是真的去 <code>loop</code> 了 <code>0x1312d00</code> 去计算，那是为什么呢？</p>
-<p>答案和代码一体两证的可以发现。 <code>(r12)(0x1, rbx)</code> 是一个函数，而这 <code>r12</code> 就是我们动态代理的核心。</p>
-<p>打开反汇编，很容易找到如下代码。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">0000000100004adc         mov        qword [rbp+var_98], rax</span><br><span class="line">0000000100004ae3         mov        qword [rbp+var_90], rdx</span><br><span class="line">0000000100004aea         mov        r12, qword [r15+0x18]</span><br><span class="line">0000000100004aee         xor        r13d, r13d</span><br><span class="line">0000000100004af1         xor        ebx, ebx</span><br><span class="line">0000000100004af3         nop        word [cs:rax+rax]</span><br><span class="line">0000000100004afd         nop        dword [rax]</span><br><span class="line"></span><br><span class="line">loc_100004b00: 循环计算子函数</span><br><span class="line">0000000100004b00         mov        edi, 0x1 ;  立即数 1</span><br><span class="line">0000000100004b05         mov        rsi, rbx</span><br><span class="line">0000000100004b08         call       r12  ; Backend:Compute 函数</span><br><span class="line">0000000100004b0b         inc        rbx</span><br><span class="line">0000000100004b0e         add        r13, rax</span><br><span class="line">0000000100004b11         mov        qword [rbp+var_78], r13</span><br><span class="line">0000000100004b15         cmp        rbx, 0x1312d00 ; 20000000 次循环</span><br><span class="line">0000000100004b1c         jne        loc_100004b00</span><br></pre></td></tr></table></figure>
-<p>我们可以发现的核心的恰好就是 <code>r12</code> 这个寄存器中的地址，而如何判断具体应该调用哪一个呢？<code>r12</code> 是 <code>r15</code> + <code>0x18</code> 的固定片偏移而来。</p>
-<p>为什么是 <code>0x18</code>？因为 <code>Vtable</code> 的第一部分是一个指向析构函数的 <code>Pointer</code>：<code>8bytes</code>，然后是两个 <code>64bit</code> 的数字是 <code>vtable</code> 的大小和对齐。然后才是我们的函数指向，因为我们只有一个函数，也就是 <code>index:0</code>，那刚好就是 <code>8 + 8 * 2 = 24 = 0x18</code>。</p>
-<p>那 <code>r15</code> 是什么？我们从上面可以得知。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">loc_1000049ec:</span><br><span class="line">00000001000049f7         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+80]</span><br><span class="line"></span><br><span class="line">loc_100004a14:</span><br><span class="line">0000000100004a1f         lea        r15, qword [_anon.c8e953eae41e214c40f6f056fcde3153.0+112]</span><br></pre></td></tr></table></figure>
-<p>我们有2个子函数进行处理，究竟是 <code>80</code> 的偏移量还是 <code>112</code> 呢？</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">00000001000049a2         call       __ZN73_$LT$std..env..Args$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h92f309c39800957bE ; 获得参数</span><br><span class="line">00000001000049a7         mov        rdi, qword [rbp+var_70]</span><br><span class="line">00000001000049ab         test       rdi, rdi ; 比较，也就是 match env::args().skip(1).next()</span><br><span class="line">00000001000049ae         je         loc_1000049ec ; goto +80 偏移量</span><br><span class="line"></span><br><span class="line">loc_1000049c0:</span><br><span class="line">00000001000049c0         mov        rsi, qword [rbp+var_68]</span><br><span class="line">00000001000049c4         inc        rbx</span><br><span class="line">00000001000049c7         je         loc_100004a14 ; goto +112 偏移量</span><br></pre></td></tr></table></figure>
-<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/14/t49aL.png" alt="t49aL.png"><br>
-从调用流程上也很容易分析出来。</p>
-<h3 id="动态分发的消耗"><a class="header-anchor" href="#动态分发的消耗">¶</a>动态分发的消耗</h3>
-<p>根据 <a target="_blank" rel="noopener" href="https://medium.com/digitalfrontiers/rust-dynamic-dispatching-deep-dive-236a5896e49b"></a> 测试的看来</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Iterating over 20M elements:</span><br><span class="line">----------------------------</span><br><span class="line">static dispatch:      64 ms</span><br><span class="line">dynamic dispatch:    216 ms</span><br></pre></td></tr></table></figure>
-<p>动态分发还是会有不小的衰耗。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
-    </div>
-
-    
-    
-    
-      
-
-
-    <footer class="post-footer">
-          <div class="reward-container">
-  <div>来杯奶茶, 嗝~~~</div>
-  <button>
-    赞赏
-  </button>
-  <div class="post-reward">
-      <div>
-        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
-        <span>微信</span>
       </div>
-      <div>
-        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
-        <span>支付宝</span>
-      </div>
+    </main>
 
-  </div>
-</div>
-
-          <div class="post-tags">
-              <a href="/tags/rust/" rel="tag"># rust</a>
-              <a href="/tags/deep-dive/" rel="tag"># deep-dive</a>
-          </div>
+    <footer class="footer">
+      <div class="footer-inner">
+        
 
         
-  <div class="post-widgets">
-    <div class="wpac-rating-container">
-      <div id="wpac-rating"></div>
-    </div>
-  </div>
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2020/10/08/networking/http/http/" rel="prev" title="HTTP 1 & 2">
-                  <i class="fa fa-chevron-left"></i> HTTP 1 & 2
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2020/10/15/other/lfs/" rel="next" title="Log-structured File System">
-                  Log-structured File System <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
-
-
-
-
-
-
-      <div class="tabs tabs-comment">
-        <ul class="nav-tabs">
-            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
-            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
-            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane changyan" id="comment-changyan">
-              <div class="comments" id="SOHUCS" sid="d482aa5834593b788c2abfe5c7419130"></div>
-            </div>
-            <div class="tab-pane livere" id="comment-livere">
-              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
-            </div>
-            <div class="tab-pane disqus" id="comment-disqus">
-              
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
-            </div>
-        </div>
-      </div>
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
   </div>
 
 <div class="copyright">
+  
   &copy; 2015 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
@@ -513,8 +653,13 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+        
 <div class="busuanzi-count">
-    <span class="post-meta-item" id="busuanzi_container_site_uv">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
       </span>
@@ -522,7 +667,8 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv">
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="eye"></i>
       </span>
@@ -531,43 +677,236 @@
       </span>
     </span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
-    </div>
-  </footer>
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://embed.widgetpack.com/widget.js" async></script>
-  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
-  <script src="/js/third-party/rating.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
-<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
-<script src="/js/third-party/chat/chatra.js"></script>
-<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
 
 
 
 
 
   
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
 
-  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
-  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2020/10/13/rust/dynamic-dispatch/";
+    this.page.identifier = "2020/10/13/rust/dynamic-dispatch/";
+    this.page.title = "Rust Dynamic Dispatching";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
-<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470","count":false}</script>
-<script src="/js/third-party/comments/changyan.js"></script>
-<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":false,"i18n":{"disqus":"disqus"}}</script>
-<script src="/js/third-party/comments/disqus.js"></script>
-<script src="/js/third-party/comments/livere.js"></script>
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
 
 
         <style>
