@@ -205,14 +205,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/plan/index.html</loc>
+    <loc>http://blog.yanick.site/link/index.html</loc>
     
     <lastmod>2021-10-21T03:11:29.452Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/link/index.html</loc>
+    <loc>http://blog.yanick.site/plan/index.html</loc>
     
     <lastmod>2021-10-21T03:11:29.452Z</lastmod>
     
@@ -296,13 +296,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2017/01/01/times/bye-2016/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
@@ -311,6 +304,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2019/02/15/times/what-is-to-learn-in-2019/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.440Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2020/09/04/rust/understanding-rust-async/</loc>
     
     <lastmod>2021-10-21T03:11:29.440Z</lastmod>
     
@@ -436,14 +436,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</loc>
+    <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/</loc>
+    <loc>http://blog.yanick.site/2019/12/29/rethink/look-back-2019/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -520,14 +520,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
@@ -877,6 +877,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2018/05/07/java/nio/java-nio-1-basic/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2020/06/20/java/other/2020-new-direction/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
@@ -885,13 +892,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2021/04/24/java/other/java11/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2018/05/07/java/nio/java-nio-1-basic/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
