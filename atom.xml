@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-09-11T13:34:21.136Z</updated>
+  <updated>2022-09-13T10:04:21.914Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -21,11 +21,11 @@
     <link href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/"/>
     <id>http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</id>
     <published>2022-09-08T09:38:10.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
+    <updated>2022-09-13T10:04:21.914Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131754322.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
     
     </summary>

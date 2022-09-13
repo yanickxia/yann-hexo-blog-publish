@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="Yanick&#39;s Blog">
 <meta property="og:description" content="在最新的一次发布中，Istio 带来一个超级重磅的消息，带来了无 Sidecar 的版本 Ambient Mesh">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081714129.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091302721.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081814686.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131754322.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131758697.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131758097.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131759402.png">
 <meta property="article:published_time" content="2022-09-08T09:38:10.000Z">
-<meta property="article:modified_time" content="2022-09-11T13:34:21.136Z">
+<meta property="article:modified_time" content="2022-09-13T10:04:21.914Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="istio">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131754322.png">
 
 <link rel="canonical" href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/">
 
@@ -262,7 +262,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+                <time title="修改时间：2022-09-13 18:04:21" itemprop="dateModified" datetime="2022-09-13T18:04:21+08:00">2022-09-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -292,17 +292,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png" alt=""></p>
+        <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131754322.png" alt=""></p>
 <p>在最新的一次发布中，<code>Istio</code> 带来一个超级重磅的消息，带来了无 <code>Sidecar</code> 的版本 <a target="_blank" rel="noopener" href="https://istio.io/latest/blog/2022/get-started-ambient/"><code>Ambient Mesh</code></a></p>
 <span id="more"></span>
 <h2 id="Intro-v2"><a class="header-anchor" href="#Intro-v2">¶</a>Intro</h2>
-<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081714129.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131758697.png" alt=""></p>
 <p>在官方的文档中，我们可以发现这次我们取消了 <code>App</code> 同样 <code>POD</code> 的 <code>Sidecar</code> 转而将转发的逻辑下沉到 2个全新的组件上</p>
 <ul>
 <li><code>ztunnel</code> 一个处理 L4 请求的 <code>Node</code> 级别的组件</li>
 <li><code>waypoint</code> 一个处理 L7 请求的 <code>Namespace</code> 级别的组件</li>
 </ul>
-<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091302721.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131758097.png" alt=""></p>
 <p>可以理解成当前的 gateway 有四种角色</p>
 <ul>
 <li>ingressGateway: 消费 Gateway CR</li>
@@ -326,7 +326,7 @@
 <figure class="highlight go"><figcaption><span>ztunnelgen.go</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/networking/ambientgen/ztunnelgen.go#L107-L123">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *ZTunnelConfigGenerator)</span></span> Generate(</span><br><span class="line">	proxy *model.Proxy,</span><br><span class="line">	w *model.WatchedResource,</span><br><span class="line">	req *model.PushRequest,</span><br><span class="line">) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	push := req.Push</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildListeners(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildClusters(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.EndpointType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildEndpoints(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里再配合原先生成 Cluster 的逻辑等等，我们就把整个流程给串联起来。</p>
 <h2 id="Waypoint"><a class="header-anchor" href="#Waypoint">¶</a>Waypoint</h2>
-<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209081814686.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131759402.png" alt=""></p>
 <p><code>Waypoint</code> 显然是处理 <code>L7</code> 逻辑的。</p>
 <blockquote>
 <p>Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.</p>
