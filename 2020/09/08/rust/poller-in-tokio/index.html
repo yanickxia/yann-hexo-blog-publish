@@ -1,16 +1,704 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在上一篇 解密 Rust 异步编程 中我们已经知道了 Funture 工作的原理，让我们看看真实世界里面是如何工作的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="真实世界中的 Rust 异步编程">
+<meta property="og:url" content="http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="在上一篇 解密 Rust 异步编程 中我们已经知道了 Funture 工作的原理，让我们看看真实世界里面是如何工作的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/08/1zH7t.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/10/1jmGR.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/09/1KeIQ.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/12/1MTqk.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/12/walqRH.png">
+<meta property="article:published_time" content="2020-09-08T08:50:04.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.440Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="rust">
+<meta property="article:tag" content="async">
+<meta property="article:tag" content="tokio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/09/08/1zH7t.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/","path":"2020/09/08/rust/poller-in-tokio/","title":"真实世界中的 Rust 异步编程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>真实世界中的 Rust 异步编程 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Example-v3"><span class="nav-number">1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-Funture"><span class="nav-number">2.</span> <span class="nav-text">Read Funture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executor-Scheduler-Worker"><span class="nav-number">3.</span> <span class="nav-text">Executor (Scheduler Worker)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Threaded-Scheduler"><span class="nav-number">3.1.</span> <span class="nav-text">Threaded Scheduler</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Worker"><span class="nav-number">3.1.1.</span> <span class="nav-text">Worker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wake"><span class="nav-number">3.1.2.</span> <span class="nav-text">Wake</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scheduler"><span class="nav-number">3.1.3.</span> <span class="nav-text">Scheduler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Harness"><span class="nav-number">3.1.4.</span> <span class="nav-text">Harness</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Worker-Launch"><span class="nav-number">3.1.5.</span> <span class="nav-text">Worker Launch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#COOP"><span class="nav-number">3.1.6.</span> <span class="nav-text">*COOP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%B0%8F%E7%BB%93"><span class="nav-number">3.1.7.</span> <span class="nav-text">流程小结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.1.7.1.</span> <span class="nav-text">创建任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.1.7.2.</span> <span class="nav-text">运行任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%89%E8%AF%BB-Switch-Thread"><span class="nav-number">3.1.7.3.</span> <span class="nav-text">[选读] Switch Thread</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Basic-Scheduler"><span class="nav-number">3.2.</span> <span class="nav-text">Basic Scheduler</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spawner"><span class="nav-number">3.2.1.</span> <span class="nav-text">Spawner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EventLoop"><span class="nav-number">3.2.2.</span> <span class="nav-text">EventLoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wake-v2"><span class="nav-number">3.2.3.</span> <span class="nav-text">Wake</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%B0%8F%E7%BB%93-v2"><span class="nav-number">3.2.4.</span> <span class="nav-text">流程小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">线程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-v21"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/09/08/rust/poller-in-tokio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="真实世界中的 Rust 异步编程 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          真实世界中的 Rust 异步编程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-08 16:50:04" itemprop="dateCreated datePublished" datetime="2020-09-08T16:50:04+08:00">2020-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/async/" itemprop="url" rel="index"><span itemprop="name">async</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rust/async/tokio/" itemprop="url" rel="index"><span itemprop="name">tokio</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/09/08/rust/poller-in-tokio/" class="post-meta-item leancloud_visitors" data-flag-title="真实世界中的 Rust 异步编程" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="真实世界中的 Rust 异步编程" href="/2020/09/08/rust/poller-in-tokio/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::2a27e411286eb020de39c0bc222519d7" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/09/08/rust/poller-in-tokio/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/08/rust/poller-in-tokio/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/08/1zH7t.png" alt="1zH7t.png"></p>
+<p>在上一篇 <a href="/2020/09/04/rust/understanding-rust-async/">解密 Rust 异步编程</a> 中我们已经知道了 <code>Funture</code> 工作的原理，让我们看看真实世界里面是如何工作的。</p>
+<span id="more"></span>
+
+
+<script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
+<script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script src="https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js"></script>
+<script src="https://lib.baomitu.com/raphael/2.2.7/raphael.min.js"></script>
+<script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+
+
+
+<blockquote>
+<p>本文基于 <code>Tokio 0.3.0</code> 版本</p>
+</blockquote>
+<h2 id="Example-v3"><a class="header-anchor" href="#Example-v3">¶</a>Example</h2>
+<p><code>Tokio</code> 启动一个最基础的 <code>TCP Echo</code> 服务如下代码</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[tokio::main]</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Error&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">addr</span> = env::<span class="title function_ invoke__">args</span>()</span><br><span class="line">        .<span class="title function_ invoke__">nth</span>(<span class="number">1</span>)</span><br><span class="line">        .<span class="title function_ invoke__">unwrap_or_else</span>(|| <span class="string">&quot;127.0.0.1:8080&quot;</span>.<span class="title function_ invoke__">to_string</span>());</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">listener</span> = TcpListener::<span class="title function_ invoke__">bind</span>(&amp;addr).<span class="keyword">await</span>?;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Listening on: &#123;&#125;&quot;</span>, addr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> (<span class="keyword">mut</span> socket, _) = listener.<span class="title function_ invoke__">accept</span>().<span class="keyword">await</span>?;</span><br><span class="line">        tokio::<span class="title function_ invoke__">spawn</span>(<span class="keyword">async</span> <span class="keyword">move</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buf</span> = [<span class="number">0</span>; <span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">// In a loop, read data from the socket and write the data back.</span></span><br><span class="line">            <span class="keyword">loop</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">n</span> = socket</span><br><span class="line">                    .<span class="title function_ invoke__">read</span>(&amp;<span class="keyword">mut</span> buf)</span><br><span class="line">                    .<span class="keyword">await</span></span><br><span class="line">                    .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to read data from socket&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> n == <span class="number">0</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                socket</span><br><span class="line">                    .<span class="title function_ invoke__">write_all</span>(&amp;buf[<span class="number">0</span>..n])</span><br><span class="line">                    .<span class="keyword">await</span></span><br><span class="line">                    .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to write data to socket&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Read-Funture"><a class="header-anchor" href="#Read-Funture">¶</a>Read Funture</h2>
+<p>我们很容易定位到，我们在处理这个可停止的系统要处理的就是 <code>read</code> 和 <code>write</code> 这两个操作，因此这2个操作都是使用 <code>.await</code> 返回了一个 <code>Future</code> 对象，我们看看 <code>read</code> 部分返回的。</p>
+<figure class="highlight rust"><figcaption><span>Read</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;R&gt; Future <span class="keyword">for</span> <span class="title class_">Read</span>&lt;<span class="symbol">&#x27;_</span>, R&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    R: AsyncRead + Unpin + ?<span class="built_in">Sized</span>,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = io::<span class="type">Result</span>&lt;<span class="type">usize</span>&gt;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">poll</span>(<span class="keyword">mut</span> <span class="keyword">self</span>: Pin&lt;&amp;<span class="keyword">mut</span> <span class="keyword">Self</span>&gt;, cx: &amp;<span class="keyword">mut</span> Context&lt;<span class="symbol">&#x27;_</span>&gt;) <span class="punctuation">-&gt;</span> Poll&lt;io::<span class="type">Result</span>&lt;<span class="type">usize</span>&gt;&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">me</span> = &amp;<span class="keyword">mut</span> *<span class="keyword">self</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buf</span> = ReadBuf::<span class="title function_ invoke__">new</span>(me.buf);</span><br><span class="line">        <span class="comment">// ready!(Pin::new(&amp;mut *me.reader).poll_read(cx, &amp;mut buf))?; 方便理解我把宏展开了</span></span><br><span class="line">        <span class="keyword">match</span> Pin::<span class="title function_ invoke__">new</span>(&amp;<span class="keyword">mut</span> *me.reader).<span class="title function_ invoke__">poll_read</span>(cx, &amp;<span class="keyword">mut</span> buf) &#123;</span><br><span class="line">            std::task::Poll::<span class="title function_ invoke__">Ready</span>(t) =&gt; t,</span><br><span class="line">            std::task::Poll::Pending =&gt; <span class="keyword">return</span> std::task::Poll::Pending,</span><br><span class="line">        &#125;</span><br><span class="line">        Poll::<span class="title function_ invoke__">Ready</span>(<span class="title function_ invoke__">Ok</span>(buf.<span class="title function_ invoke__">filled</span>().<span class="title function_ invoke__">len</span>()))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>Read</code> 的逻辑也很简单，我们尝试用 <code>self.reader</code> 中获得数据，如果就绪就返回 <code>Ready</code> 不然就是 <code>Pending</code>。而逻辑主要是在 <code>reader</code>中，我们定位进去。</p>
+<figure class="highlight rust"><figcaption><span>TcpStream</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">fn</span> <span class="title function_">poll_read_priv</span>(</span><br><span class="line">        &amp;<span class="keyword">self</span>,</span><br><span class="line">        cx: &amp;<span class="keyword">mut</span> Context&lt;<span class="symbol">&#x27;_</span>&gt;,</span><br><span class="line">        buf: &amp;<span class="keyword">mut</span> ReadBuf&lt;<span class="symbol">&#x27;_</span>&gt;,</span><br><span class="line">) <span class="punctuation">-&gt;</span> Poll&lt;io::<span class="type">Result</span>&lt;()&gt;&gt; &#123;</span><br><span class="line">    ready!(<span class="keyword">self</span>.io.<span class="title function_ invoke__">poll_read_ready</span>(cx, mio::Ready::<span class="title function_ invoke__">readable</span>()))?; <span class="comment">// ➊ 如果不可读直接返回 Pending，同上</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="keyword">unsafe</span> &#123; &amp;<span class="keyword">mut</span> *(buf.<span class="title function_ invoke__">unfilled_mut</span>() <span class="keyword">as</span> *<span class="keyword">mut</span> [std::mem::MaybeUninit&lt;<span class="type">u8</span>&gt;] <span class="keyword">as</span> *<span class="keyword">mut</span> [<span class="type">u8</span>]) &#125;;</span><br><span class="line">    <span class="keyword">match</span> <span class="keyword">self</span>.io.<span class="title function_ invoke__">get_ref</span>().<span class="title function_ invoke__">read</span>(b) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(n) =&gt; &#123;</span><br><span class="line">            <span class="keyword">unsafe</span> &#123;</span><br><span class="line">                buf.<span class="title function_ invoke__">assume_init</span>(n);</span><br><span class="line">            &#125;</span><br><span class="line">            buf.<span class="title function_ invoke__">add_filled</span>(n);</span><br><span class="line">            Poll::<span class="title function_ invoke__">Ready</span>(<span class="title function_ invoke__">Ok</span>(())) <span class="comment">//➋ 获得到数据即是 Ready</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; Poll::<span class="title function_ invoke__">Ready</span>(<span class="title function_ invoke__">Err</span>(e)), <span class="comment">// ➌ 如何是异常就是返回就绪的异常</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一段就是我们底层的逻辑，对于 <code>self.io.poll_read_ready(cx, mio::Ready::readable())</code> 来说，是我们所依赖的 <code>Mio</code> 对于 <code>Epoll</code> 封装，这里就不做展开。</p>
+<p>我们既然知道了在读取的过程中，我们有一个客户被暂停的对象的话，那我们此时我们就要看下我们的执行器以及<code>wake</code></p>
+<h2 id="Executor-Scheduler-Worker"><a class="header-anchor" href="#Executor-Scheduler-Worker">¶</a>Executor (Scheduler Worker)</h2>
+<p>我们这里也不用和代码死磕了，从官方的设计文档中 <a target="_blank" rel="noopener" href="https://docs.rs/tokio/0.2.22/tokio/runtime/index.html">runtime</a> 中我们可以得知，对于我们在上文中分析的 <code>Executor</code> 也就是对应到 <code>Runtime</code> 这个抽象，而这个抽象有两个具体的实现: <code>Basic Scheduler</code> 和 <code>Threaded Scheduler</code>，而这两者最大的区别是 <code>Basic Scheduler</code> 是一个 <em><code>single-threaded</code></em> 的设计，因此社区也推荐对于大部分的时候，我们都应该使用 <code>Threaded Scheduler</code>，我们先分析下 <code>Threaded Scheduler</code>，然后再看看 <code>Basic Scheduler</code></p>
+<h3 id="Threaded-Scheduler"><a class="header-anchor" href="#Threaded-Scheduler">¶</a>Threaded Scheduler</h3>
+<p>对于 <code>Threaded Scheduler</code> 来说，对于每一个线程都是对等的，每个线程都会生成一个 <code>Worker</code> 对象。</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/thread_pool/worker.rs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">struct</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    shared: Arc&lt;Shared&gt;,</span><br><span class="line">    index: <span class="type">usize</span>,</span><br><span class="line">    core: AtomicCell&lt;Core&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Worker"><a class="header-anchor" href="#Worker">¶</a>Worker</h4>
+<p>对于 <code>worker</code> 运行的逻辑同文件中，如下所示：</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/thread_pool/worker.rs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">run</span>(&amp;<span class="keyword">self</span>, <span class="keyword">mut</span> core: <span class="type">Box</span>&lt;Core&gt;) <span class="punctuation">-&gt;</span> RunResult &#123;</span><br><span class="line">    <span class="keyword">while</span> !core.is_shutdown &#123; <span class="comment">//当系统未停机的时候</span></span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 检查当前线程是否有可以可以运行的任务</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(task) = core.<span class="title function_ invoke__">next_task</span>(&amp;<span class="keyword">self</span>.worker) &#123;</span><br><span class="line">            core = <span class="keyword">self</span>.<span class="title function_ invoke__">run_task</span>(task, core)?;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 本地没有可以运行的任务的话，就去其他的Worker偷一个回来</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(task) = core.<span class="title function_ invoke__">steal_work</span>(&amp;<span class="keyword">self</span>.worker) &#123;</span><br><span class="line">            core = <span class="keyword">self</span>.<span class="title function_ invoke__">run_task</span>(task, core)?;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 其他的 Worker 也没有，就 Park</span></span><br><span class="line">            core = <span class="keyword">self</span>.<span class="title function_ invoke__">park</span>(core);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Signal shutdown</span></span><br><span class="line">    <span class="keyword">self</span>.worker.shared.<span class="title function_ invoke__">shutdown</span>(core, <span class="keyword">self</span>.worker.<span class="title function_ invoke__">clone</span>());</span><br><span class="line">    <span class="title function_ invoke__">Err</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过在这个 <code>park</code> 中另有玄机，在代码处，我们可以发现</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tokio/src/io/driver/mod.rs</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">park</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> io::<span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">    <span class="keyword">self</span>.<span class="title function_ invoke__">turn</span>(<span class="literal">None</span>)?;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// tokio/src/io/driver/mod.rs</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">turn</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, max_wait: <span class="type">Option</span>&lt;Duration&gt;) <span class="punctuation">-&gt;</span> io::<span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">    <span class="comment">//获得我们的 IO Event</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">events</span> = <span class="keyword">self</span>.events.<span class="title function_ invoke__">take</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;i/o driver event store missing&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在这里等待 IO 的事件的发生， 这里的 max_wait 对于 Tokio 传入的是 0，无限制等待</span></span><br><span class="line">    <span class="keyword">match</span> <span class="keyword">self</span>.inner.io.<span class="title function_ invoke__">poll</span>(&amp;<span class="keyword">mut</span> events, max_wait) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(_) =&gt; &#123;&#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(e),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理我们获取到的事件</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">event</span> <span class="keyword">in</span> events.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">token</span> = event.<span class="title function_ invoke__">token</span>();</span><br><span class="line">        <span class="keyword">if</span> token == TOKEN_WAKEUP &#123;</span><br><span class="line">            <span class="keyword">self</span>.inner</span><br><span class="line">                .wakeup</span><br><span class="line">                .<span class="title function_ invoke__">set_readiness</span>(mio::Ready::<span class="title function_ invoke__">empty</span>())</span><br><span class="line">                .<span class="title function_ invoke__">unwrap</span>(); <span class="comment">//唤醒 Task</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.<span class="title function_ invoke__">dispatch</span>(token, event.<span class="title function_ invoke__">readiness</span>()); <span class="comment">//这里其实也是在用 wake 唤醒，不过这里需要使用  Token 进行转换一下</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.events = <span class="title function_ invoke__">Some</span>(events);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过值得注意的这里的 <code>Poller</code> 是作为 <code>Worker</code> 的私有属性的存在的，这样的话我们可以明白了 <em><code>非阻塞</code></em> 原理是怎么工作的。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/10/1jmGR.png" alt="1jmGR.png"></p>
+<ol>
+<li>获取本地的工作队列，如果有就进入 3，如果没有就跳转到 2</li>
+<li>获取其他Worker的工作队列中的任务，如果有就进入 3，没有就进入 4</li>
+<li>执行 Poll 逻辑</li>
+<li>进入 Park 逻辑，等待就绪实践的完成</li>
+</ol>
+<p>这里仍有一个小问题，工作队列的填充工作势必是由 <code>Wake</code> 进行填充的，这段逻辑我们再接下来分析一下</p>
+<h4 id="Wake"><a class="header-anchor" href="#Wake">¶</a>Wake</h4>
+<p>而对于 <code>Tokio</code> 而言，<code>Wake</code> 对象的创建在我们创建 <code>Task</code> 进行 <code>Spwan</code> 的时候已经创建完成</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/task/core.rs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">fn</span> <span class="title function_">poll</span>(&amp;<span class="keyword">self</span>, header: &amp;Header) <span class="punctuation">-&gt;</span> Poll&lt;T::Output&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span> = &#123;</span><br><span class="line">        <span class="keyword">self</span>.stage.<span class="title function_ invoke__">with_mut</span>(|ptr| &#123;</span><br><span class="line">            <span class="comment">// 在我们调用的外侧封装一层 Poll，我们的额 Waker 就是 Header 这个对象</span></span><br><span class="line">            <span class="keyword">let</span> <span class="variable">waker_ref</span> = waker_ref::&lt;T, S&gt;(header);</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">cx</span> = Context::<span class="title function_ invoke__">from_waker</span>(&amp;*waker_ref);</span><br><span class="line"></span><br><span class="line">            future.<span class="title function_ invoke__">poll</span>(&amp;<span class="keyword">mut</span> cx)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>wake</code> 的逻辑如下</p>
+<figure class="highlight rust"><figcaption><span>wake_by_ref</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">fn</span> <span class="title function_">wake_by_ref</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">self</span>.<span class="title function_ invoke__">header</span>().state.<span class="title function_ invoke__">transition_to_notified</span>() &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">core</span>().<span class="title function_ invoke__">schedule</span>(<span class="title function_ invoke__">Notified</span>(<span class="keyword">self</span>.<span class="title function_ invoke__">to_task</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从代码中也很容易看出来，我们将 <code>Header</code> 对象转化成了 <code>Task</code>，然后重新回到了调度器中进行调度，而这里又引入了一个新的理念了 <code>Scheduler</code>，这个我们晚一点再来解释，先看看 <code>Header</code>，<code>Header</code> 其实就是这个 <code>Task</code> 的状态数据。</p>
+<figure class="highlight rust"><figcaption><span>Task Init</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: Future, S: Schedule&gt; Cell&lt;T, S&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">fn</span> <span class="title function_">new</span>(future: T, state: State) <span class="punctuation">-&gt;</span> <span class="type">Box</span>&lt;Cell&lt;T, S&gt;&gt; &#123;</span><br><span class="line">        <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(Cell &#123;</span><br><span class="line">            header: Header &#123;</span><br><span class="line">                state,</span><br><span class="line">                owned: UnsafeCell::<span class="title function_ invoke__">new</span>(linked_list::Pointers::<span class="title function_ invoke__">new</span>()),</span><br><span class="line">                queue_next: UnsafeCell::<span class="title function_ invoke__">new</span>(<span class="literal">None</span>),</span><br><span class="line">                stack_next: UnsafeCell::<span class="title function_ invoke__">new</span>(<span class="literal">None</span>),</span><br><span class="line">                vtable: raw::vtable::&lt;T, S&gt;(),</span><br><span class="line">            &#125;,</span><br><span class="line">            core: Core &#123;</span><br><span class="line">                scheduler: UnsafeCell::<span class="title function_ invoke__">new</span>(<span class="literal">None</span>),</span><br><span class="line">                stage: UnsafeCell::<span class="title function_ invoke__">new</span>(Stage::<span class="title function_ invoke__">Running</span>(future)),</span><br><span class="line">            &#125;,</span><br><span class="line">            trailer: Trailer &#123;</span><br><span class="line">                waker: UnsafeCell::<span class="title function_ invoke__">new</span>(<span class="literal">None</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Scheduler"><a class="header-anchor" href="#Scheduler">¶</a>Scheduler</h4>
+<p>在真正实现 <code>NoBlocking</code> 的时候，我们需要将 <code>Task</code> 放置到相关的 <code>Task queue</code>中，而这部分的逻辑就交付给 <code>Scheduler</code> 这个抽象对象进行处理。</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/thread_pool/worker.rs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">schedule</span>(&amp;<span class="keyword">self</span>, task: Notified) &#123;</span><br><span class="line">    <span class="keyword">self</span>.shared.<span class="title function_ invoke__">schedule</span>(task, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">fn</span> <span class="title function_">schedule</span>(&amp;<span class="keyword">self</span>, task: Notified, is_yield: <span class="type">bool</span>) &#123;</span><br><span class="line">    CURRENT.<span class="title function_ invoke__">with</span>(|maybe_cx| &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(cx) = maybe_cx &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">self</span>.<span class="title function_ invoke__">ptr_eq</span>(&amp;cx.worker.shared) &#123;</span><br><span class="line">                <span class="comment">// 属于当前线程的任务就在本地进行调度</span></span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(core) = cx.core.<span class="title function_ invoke__">borrow_mut</span>().<span class="title function_ invoke__">as_mut</span>() &#123;</span><br><span class="line">                    <span class="keyword">self</span>.<span class="title function_ invoke__">schedule_local</span>(core, task, is_yield);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 其他情况就置于队列，然后唤醒其他的 Worker</span></span><br><span class="line">        <span class="keyword">self</span>.inject.<span class="title function_ invoke__">push</span>(task);</span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">notify_parked</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Harness"><a class="header-anchor" href="#Harness">¶</a>Harness</h4>
+<p>特地的分出了一个章节和大家再聊聊一个和 <code>Wake</code> 对等的抽象 <code>Harness</code>，对于我们系统来说，Wake是进行线程唤醒的，涉及到 <code>Task</code> 的状态修改，而这个对象就是 <code>Harness</code> (而实际上 Harness 也是我们具象化的 Wake 对象)。</p>
+<figure class="highlight rust"><figcaption><span>Harness Poll</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">fn</span> <span class="title function_">poll</span>(<span class="keyword">self</span>) &#123;</span><br><span class="line">    <span class="comment">//如果是第一次运行就需要在下面进行 Core 绑定</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">is_not_bound</span> = !<span class="keyword">self</span>.<span class="title function_ invoke__">core</span>().<span class="title function_ invoke__">is_bound</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Transition the task to the running state.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// 恢复 Task 到运行状态</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">snapshot</span> = <span class="keyword">match</span> <span class="keyword">self</span>.<span class="title function_ invoke__">header</span>().state.<span class="title function_ invoke__">transition_to_running</span>(is_not_bound) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(snapshot) =&gt; snapshot,</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;</span><br><span class="line">            <span class="keyword">self</span>.<span class="title function_ invoke__">drop_reference</span>();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> is_not_bound &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">core</span>().<span class="title function_ invoke__">bind_scheduler</span>(<span class="keyword">self</span>.<span class="title function_ invoke__">to_task</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里就是执行我们真正的 Task 的逻辑</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span> = panic::<span class="title function_ invoke__">catch_unwind</span>(panic::<span class="title function_ invoke__">AssertUnwindSafe</span>(|| &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> snapshot.<span class="title function_ invoke__">is_cancelled</span>() &#123; <span class="comment">// 已经取消就返回</span></span><br><span class="line">            Poll::<span class="title function_ invoke__">Ready</span>(<span class="title function_ invoke__">Err</span>(JoinError::<span class="title function_ invoke__">cancelled2</span>()))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">res</span> = guard.core.<span class="title function_ invoke__">poll</span>(<span class="keyword">self</span>.<span class="title function_ invoke__">header</span>()); <span class="comment">// 这里又回到我们上面的 创建 Wake 的地方，又是一轮循环</span></span><br><span class="line">            res.<span class="title function_ invoke__">map</span>(<span class="literal">Ok</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> res &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(Poll::<span class="title function_ invoke__">Ready</span>(out)) =&gt; &#123;</span><br><span class="line">            <span class="keyword">self</span>.<span class="title function_ invoke__">complete</span>(out, snapshot.<span class="title function_ invoke__">is_join_interested</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(Poll::Pending) =&gt; &#123; <span class="comment">// 如果真实的逻辑是 返回 Pending</span></span><br><span class="line">            <span class="keyword">match</span> <span class="keyword">self</span>.<span class="title function_ invoke__">header</span>().state.<span class="title function_ invoke__">transition_to_idle</span>() &#123; <span class="comment">// 将Task的状态保存</span></span><br><span class="line">                <span class="title function_ invoke__">Ok</span>(snapshot) =&gt; &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="title function_ invoke__">Err</span>(_) =&gt; <span class="keyword">self</span>.<span class="title function_ invoke__">cancel_task</span>(),</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; &#123;</span><br><span class="line">            <span class="keyword">self</span>.<span class="title function_ invoke__">complete</span>(<span class="title function_ invoke__">Err</span>(JoinError::<span class="title function_ invoke__">panic2</span>(err)), snapshot.<span class="title function_ invoke__">is_join_interested</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Worker-Launch"><a class="header-anchor" href="#Worker-Launch">¶</a>Worker Launch</h4>
+<p>我们的 <code>Worker</code> 是如何启动的？还得我们最开始的 <code>Example</code> 中的 <code>tokio::spawn()</code> 吗？</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/builder.rs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">build_threaded_runtime</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> io::<span class="type">Result</span>&lt;Runtime&gt; &#123;</span><br><span class="line">    <span class="comment">//根据 CPU CORE 启动 WORKER 的线程数</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">core_threads</span> = <span class="keyword">self</span>.core_threads.<span class="title function_ invoke__">unwrap_or_else</span>(|| cmp::<span class="title function_ invoke__">min</span>(<span class="keyword">self</span>.max_threads, <span class="title function_ invoke__">num_cpus</span>()));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> (io_driver, io_handle) = io::<span class="title function_ invoke__">create_driver</span>(<span class="keyword">self</span>.enable_io)?;</span><br><span class="line">    <span class="keyword">let</span> (driver, time_handle) = time::<span class="title function_ invoke__">create_driver</span>(<span class="keyword">self</span>.enable_time, io_driver, clock.<span class="title function_ invoke__">clone</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建一组Worker 和 一个启动器</span></span><br><span class="line">    <span class="keyword">let</span> (scheduler, launch) = ThreadPool::<span class="title function_ invoke__">new</span>(core_threads, Parker::<span class="title function_ invoke__">new</span>(driver));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">spawner</span> = Spawner::<span class="title function_ invoke__">ThreadPool</span>(scheduler.<span class="title function_ invoke__">spawner</span>().<span class="title function_ invoke__">clone</span>());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建 Blocking Pool</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">blocking_pool</span> = blocking::<span class="title function_ invoke__">create_blocking_pool</span>(<span class="keyword">self</span>, <span class="keyword">self</span>.max_threads);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">blocking_spawner</span> = blocking_pool.<span class="title function_ invoke__">spawner</span>().<span class="title function_ invoke__">clone</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create the runtime handle</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">handle</span> = Handle &#123;</span><br><span class="line">        spawner,</span><br><span class="line">        io_handle,</span><br><span class="line">        time_handle,</span><br><span class="line">        clock,</span><br><span class="line">        blocking_spawner,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里开始启动 Worker</span></span><br><span class="line">    handle.<span class="title function_ invoke__">enter</span>(|| launch.<span class="title function_ invoke__">launch</span>());</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(Runtime &#123;</span><br><span class="line">        kind: Kind::<span class="title function_ invoke__">ThreadPool</span>(scheduler),</span><br><span class="line">        handle,</span><br><span class="line">        blocking_pool,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此在 <code>tokio/src/runtime/blocking/pool.rs:spawn</code> 中，我们创建出来所有的 <code>Worker</code>，而 <code>Worker</code> 的逻辑是我上面所使用的的 <code>Example</code> 部分。因此最后我们会生成多个 <code>Worker</code></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/09/1KeIQ.png" alt="1KeIQ.png"></p>
+<h4 id="COOP"><a class="header-anchor" href="#COOP">¶</a>*COOP</h4>
+<p>从官方的 <a target="_blank" rel="noopener" href="https://docs.rs/tokio/0.2.22/src/tokio/coop.rs.html"><code>Docs</code></a> 中得知，为了防止某个 <code>Funture</code> 一直返回 <code>Ready</code> 状态（这样就变成了一个 Loop 了），因此增加了一个 <code>COOP</code>机制，也比较容易理解。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">fn</span> <span class="title function_">poll_proceed</span>(cx: &amp;<span class="keyword">mut</span> Context&lt;<span class="symbol">&#x27;_</span>&gt;) <span class="punctuation">-&gt;</span> Poll&lt;RestoreOnPending&gt; &#123;</span><br><span class="line">    CURRENT.<span class="title function_ invoke__">with</span>(|cell| &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">budget</span> = cell.<span class="title function_ invoke__">get</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> budget.<span class="title function_ invoke__">decrement</span>() &#123; <span class="comment">// 当 Rem 可减的时候正常返回</span></span><br><span class="line">            <span class="keyword">let</span> <span class="variable">restore</span> = <span class="title function_ invoke__">RestoreOnPending</span>(Cell::<span class="title function_ invoke__">new</span>(cell.<span class="title function_ invoke__">get</span>()));</span><br><span class="line">            cell.<span class="title function_ invoke__">set</span>(budget);</span><br><span class="line">            Poll::<span class="title function_ invoke__">Ready</span>(restore)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cx.<span class="title function_ invoke__">waker</span>().<span class="title function_ invoke__">wake_by_ref</span>(); <span class="comment">// 当 Rem 不可减的时候就强制返回 Pending</span></span><br><span class="line">            Poll::Pending</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">decrement</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(num) = &amp;<span class="keyword">mut</span> <span class="keyword">self</span>.<span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> *num &gt; <span class="number">0</span> &#123;</span><br><span class="line">            *num -= <span class="number">1</span>;</span><br><span class="line">            <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">fn</span> <span class="title function_">initial</span>() <span class="punctuation">-&gt;</span> Budget &#123;</span><br><span class="line">    <span class="title function_ invoke__">Budget</span>(<span class="title function_ invoke__">Some</span>(<span class="number">128</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也就是如果一个 <code>Funture</code> 一直返回 <code>Ready</code>，当返回 <code>128</code> 次 <code>Ready</code> 之后就强制返回 <code>Pending</code>。</p>
+<h4 id="流程小结"><a class="header-anchor" href="#流程小结">¶</a>流程小结</h4>
+<p>当我们启动就绪什么都没有发生的时候，此时我们系统所有的 <code>Worker</code> 都进入了 <code>Waiting</code> 的状态等待任务被创建再执行。<br>
+我们执行 <code>nc localhost 8080</code> 尝试建立连接之后系统就开始真正的工作起来。</p>
+<h5 id="创建任务"><a class="header-anchor" href="#创建任务">¶</a>创建任务</h5>
+<div style="width:100%; overflow-y:scroll;" id="diagram"></div>
+<script>
+	var data =
+	['Title: Task创建流程',
+     'Spawn#task->Worker#schedule: 1. 创建任务然后放入调度器队列',
+     'Worker#schedule->Worker#notify_parked: 2. 选择某个Worker启动线程开始运行',
+     'Note right of Spawn#task: Thread main',
+     'Note right of Worker#schedule: Thread main',
+     'Note right of Worker#notify_parked: Thread main',
+    ].join('\n');
+  	var diagram = Diagram.parse(data);
+  	diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
+</script>
+<p>执行完成之后，主线程因为等待 <code>accept</code> 事件就 <code>parking</code> 过去了。</p>
+<h5 id="运行任务"><a class="header-anchor" href="#运行任务">¶</a>运行任务</h5>
+<div style="width:100%; overflow-y:scroll;" id="diagram2"></div>
+<script>
+	let data2 =
+	['Title: Task运行流程',
+     'Worker#run->Worker#run_task: 1. 被唤醒运行任务',
+     'Worker#run_task->Worker#parking: 2. 等待Read事件就绪',
+     'Worker#parking->Worker#wake: 3. 通过wake唤醒Task继续运行',
+     'Worker#wake->Worker#schedule_local: 4. 将任务放入本地的队列中，继续执行',
+     'Worker#run->Worker#run_task: 5. 执行任务',
+     'Note right of Worker#run: Thread Worker N',
+    ].join('\n');
+  	let diagram2 = Diagram.parse(data2);
+  	diagram2.drawSVG("diagram2", {theme: 'simple', scale: 0.5});
+</script>
+<h5 id="选读-Switch-Thread"><a class="header-anchor" href="#选读-Switch-Thread">¶</a><em>[选读] Switch Thread</em></h5>
+<p>在正在的执行过程中，我们会观察到一个有趣的现状，比如我们修改下 <code>Example</code></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tokio::<span class="title function_ invoke__">spawn</span>(<span class="keyword">async</span> <span class="keyword">move</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buf</span> = [<span class="number">0</span>; <span class="number">1024</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">n</span> = socket</span><br><span class="line">            .<span class="title function_ invoke__">read</span>(&amp;<span class="keyword">mut</span> buf)</span><br><span class="line">            .<span class="keyword">await</span></span><br><span class="line">            .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to read data from socket&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;current thread: &#123;:?&#125;&quot;</span>, thread::<span class="title function_ invoke__">current</span>());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>运行的时候我们会观察到一个有趣的情况：</p>
+<figure class="highlight bash"><figcaption><span>read thread</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Listening on: 127.0.0.1:8080</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(4), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(12), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(4), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(12), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(4), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(12), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(4), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(12), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">current thread: Thread &#123; <span class="built_in">id</span>: ThreadId(4), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br></pre></td></tr></table></figure>
+<p>并不是很符合我们的直觉，这里的设计是在</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/thread_pool/worker.rs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">run_task</span>(&amp;<span class="keyword">self</span>, task: Notified, <span class="keyword">mut</span> core: <span class="type">Box</span>&lt;Core&gt;) <span class="punctuation">-&gt;</span> RunResult &#123;</span><br><span class="line">        <span class="comment">// 让这个Worker的状态置于可以被窃取的状态</span></span><br><span class="line">        core.<span class="title function_ invoke__">transition_from_searching</span>(&amp;<span class="keyword">self</span>.worker);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">transition_worker_from_searching</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">self</span>.idle.<span class="title function_ invoke__">transition_worker_from_searching</span>() &#123;</span><br><span class="line">        <span class="comment">// 唤醒一个 Worker 让其窃取</span></span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">notify_parked</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>看到这里我们做一个全景性质的小结<br>
+<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/12/1MTqk.png" alt="1MTqk.png"></p>
+<h3 id="Basic-Scheduler"><a class="header-anchor" href="#Basic-Scheduler">¶</a>Basic Scheduler</h3>
+<p>有了上面的 <code>Threaded Scheduler</code>,对于 <code>Basic Scheduler</code> 的理解就简单很多了。</p>
+<h4 id="Spawner"><a class="header-anchor" href="#Spawner">¶</a>Spawner</h4>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">struct</span> <span class="title class_">Spawner</span> &#123;</span><br><span class="line">    shared: Arc&lt;Shared&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Spawner</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">fn</span> <span class="title function_">spawn</span>&lt;F&gt;(&amp;<span class="keyword">self</span>, future: F) <span class="punctuation">-&gt;</span> JoinHandle&lt;F::Output&gt;</span><br><span class="line">    <span class="keyword">where</span></span><br><span class="line">        F: Future + <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span>,</span><br><span class="line">        F::Output: <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> (task, handle) = task::<span class="title function_ invoke__">joinable</span>(future);</span><br><span class="line">        <span class="keyword">self</span>.shared.<span class="title function_ invoke__">schedule</span>(task); <span class="comment">// ➊ cx.tasks.borrow_mut().queue.push_back(task);</span></span><br><span class="line">        handle</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>Spawner</code> 来说蛮简单的就是直接将任务 <code>PUSH</code> 进  <code>Task Queue</code> 即可。</p>
+<h4 id="EventLoop"><a class="header-anchor" href="#EventLoop">¶</a>EventLoop</h4>
+<p>对于 <code>Basic Scheduler</code> 逻辑理解起来更为的简单一些。</p>
+<figure class="highlight rust"><figcaption><span>tokio/src/runtime/basic_scheduler.rs:run</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">_enter</span> = runtime::<span class="title function_ invoke__">enter</span>(<span class="literal">false</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">waker</span> = <span class="title function_ invoke__">waker_ref</span>(&amp;scheduler.spawner.shared);</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">cx</span> = std::task::Context::<span class="title function_ invoke__">from_waker</span>(&amp;waker);</span><br><span class="line"><span class="symbol">&#x27;outer</span>: </span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Ready</span>(v) = crate::coop::<span class="title function_ invoke__">budget</span>(|| future.<span class="title function_ invoke__">as_mut</span>().<span class="title function_ invoke__">poll</span>(&amp;<span class="keyword">mut</span> cx)) &#123;</span><br><span class="line">            <span class="keyword">return</span> v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ➊ MAX_TASKS_PER_TICK 单个唤醒周期内处理多少任务</span></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="number">0</span>..MAX_TASKS_PER_TICK &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">tick</span> = scheduler.tick;</span><br><span class="line">            scheduler.tick = scheduler.tick.<span class="title function_ invoke__">wrapping_add</span>(<span class="number">1</span>); <span class="comment">// 将 tick + 1</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// ➋ REMOTE_FIRST_INTERVAL = 31，经过 31 轮之后检查 Spawner 队列，是 else 部分</span></span><br><span class="line">            <span class="keyword">let</span> <span class="variable">next</span> = <span class="keyword">if</span> tick % REMOTE_FIRST_INTERVAL == <span class="number">0</span> &#123; </span><br><span class="line">                scheduler</span><br><span class="line">                    .spawner</span><br><span class="line">                    .<span class="title function_ invoke__">pop</span>()</span><br><span class="line">                    .<span class="title function_ invoke__">or_else</span>(|| context.tasks.<span class="title function_ invoke__">borrow_mut</span>().queue.<span class="title function_ invoke__">pop_front</span>()) <span class="comment">// 没有就去 全局队列 取</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">                context</span><br><span class="line">                    .tasks</span><br><span class="line">                    .<span class="title function_ invoke__">borrow_mut</span>()</span><br><span class="line">                    .queue</span><br><span class="line">                    .<span class="title function_ invoke__">pop_front</span>()</span><br><span class="line">                    .<span class="title function_ invoke__">or_else</span>(|| scheduler.spawner.<span class="title function_ invoke__">pop</span>())</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// ➌ 获取到任务，就处理， 没有就直接 Park ，等待下次唤起</span></span><br><span class="line">            <span class="keyword">match</span> next &#123;</span><br><span class="line">                <span class="title function_ invoke__">Some</span>(task) =&gt; crate::coop::<span class="title function_ invoke__">budget</span>(|| task.<span class="title function_ invoke__">run</span>()),</span><br><span class="line">                <span class="literal">None</span> =&gt; &#123;</span><br><span class="line">                    <span class="comment">// Park until the thread is signaled</span></span><br><span class="line">                    scheduler.park.<span class="title function_ invoke__">park</span>().<span class="title function_ invoke__">ok</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to park&quot;</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Try polling the `block_on` future next</span></span><br><span class="line">                    <span class="keyword">continue</span> <span class="symbol">&#x27;outer</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//没有任务直接直接 Park 了</span></span><br><span class="line">        scheduler</span><br><span class="line">            .park</span><br><span class="line">            .<span class="title function_ invoke__">park_timeout</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">0</span>))</span><br><span class="line">            .<span class="title function_ invoke__">ok</span>()</span><br><span class="line">            .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to park&quot;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>Basic Scheduler</code> 来说唯一有些复杂的就是，在 <code>Spwan</code> 和 <code>BasicScheduler</code> 中都会有任务，因为会涉及到在一定轮数下就会切换到 <code>Spwan</code>中，不过从实际的运行过程中，会发现我们几乎都是在 <code>cx.tasks.borrow_mut().queue.push_back(task)</code> 进行工作，因为每一次运行都涉及到 <code>bind</code>，不过值得注意的是 <code>Spawner</code> 是会在多个线程之间共享的。</p>
+<h4 id="Wake-v2"><a class="header-anchor" href="#Wake-v2">¶</a>Wake</h4>
+<p>对于 <code>wake</code> 就很简单了，将 <code>unpark</code> 对象进行 <code>unpark</code> 即可。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Wake</span> <span class="keyword">for</span> <span class="title class_">Shared</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">wake</span>(<span class="keyword">self</span>: Arc&lt;<span class="keyword">Self</span>&gt;) &#123;</span><br><span class="line">        Wake::<span class="title function_ invoke__">wake_by_ref</span>(&amp;<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Wake by reference</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">wake_by_ref</span>(arc_self: &amp;Arc&lt;<span class="keyword">Self</span>&gt;) &#123;</span><br><span class="line">        arc_self.unpark.<span class="title function_ invoke__">unpark</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="流程小结-v2"><a class="header-anchor" href="#流程小结-v2">¶</a>流程小结</h4>
+<p>正常使用 <code>Spawner</code> 会从 <code>Context</code> 也就是当前线程中创建出来一个 <code>Spawner</code> 进行任务提交的时候，并不会将 <code>Task</code> 放入 <code>Spanwer</code> 内置的队列中。</p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/09/12/walqRH.png" alt="walqRH.png"></p>
+<h2 id="线程模型"><a class="header-anchor" href="#线程模型">¶</a>线程模型</h2>
+<p>在 <a href="/2020/08/10/networking/epoll-thread/">Epoll 之下的线程模型</a> 中，我们也提及过，对于利用多核的能力，我们可以对 <code>accept()</code> 或者 <code>read()</code> 进行负载均衡，对于 <code>Tokio</code> 来说，我们实际上并没有像 <code>Netty</code> 那样限制了 <code>BossGroup</code> 和 <code>WorkGroup</code>，<code>Tokio</code> 作为一个底层框架并没有限制这样的工作模式，比如我们就可以按照自己的想法进行定制。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[tokio::main]</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Error&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">boss</span> = runtime::Builder::<span class="title function_ invoke__">new</span>()</span><br><span class="line">        .<span class="title function_ invoke__">threaded_scheduler</span>()</span><br><span class="line">        .<span class="title function_ invoke__">enable_all</span>()</span><br><span class="line">        .<span class="title function_ invoke__">core_threads</span>(<span class="number">2</span>)</span><br><span class="line">        .<span class="title function_ invoke__">build</span>()?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">workers</span> = runtime::Builder::<span class="title function_ invoke__">new</span>()</span><br><span class="line">        .<span class="title function_ invoke__">threaded_scheduler</span>()</span><br><span class="line">        .<span class="title function_ invoke__">enable_all</span>()</span><br><span class="line">        .<span class="title function_ invoke__">core_threads</span>(<span class="number">4</span>)</span><br><span class="line">        .<span class="title function_ invoke__">build</span>()?;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">addr</span> = env::<span class="title function_ invoke__">args</span>()</span><br><span class="line">        .<span class="title function_ invoke__">nth</span>(<span class="number">1</span>)</span><br><span class="line">        .<span class="title function_ invoke__">unwrap_or_else</span>(|| <span class="string">&quot;127.0.0.1:8080&quot;</span>.<span class="title function_ invoke__">to_string</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">listener</span> = TcpListener::<span class="title function_ invoke__">bind</span>(&amp;addr).<span class="keyword">await</span>?;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Listening on: &#123;&#125;&quot;</span>, addr);</span><br><span class="line"></span><br><span class="line">    boss.<span class="title function_ invoke__">spawn</span>(<span class="keyword">async</span> <span class="keyword">move</span> &#123;</span><br><span class="line">        <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> (<span class="keyword">mut</span> socket, _) = listener.<span class="title function_ invoke__">accept</span>()</span><br><span class="line">                .<span class="keyword">await</span>.<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to accept from socket&quot;</span>);</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;accept thread: &#123;:?&#125;&quot;</span>, thread::<span class="title function_ invoke__">current</span>());</span><br><span class="line">            workers.<span class="title function_ invoke__">spawn</span>(<span class="keyword">async</span> <span class="keyword">move</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buf</span> = [<span class="number">0</span>; <span class="number">1024</span>];</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">loop</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">n</span> = socket.<span class="title function_ invoke__">read</span>(&amp;<span class="keyword">mut</span> buf).<span class="keyword">await</span>.<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed to read data from socket&quot;</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                socket.<span class="title function_ invoke__">shutdown</span>(Shutdown::Write);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(thread::<span class="title function_ invoke__">park</span>())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">accept thread: Thread &#123; <span class="built_in">id</span>: ThreadId(14), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">accept thread: Thread &#123; <span class="built_in">id</span>: ThreadId(14), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">accept thread: Thread &#123; <span class="built_in">id</span>: ThreadId(15), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br><span class="line">accept thread: Thread &#123; <span class="built_in">id</span>: ThreadId(15), name: Some(<span class="string">&quot;tokio-runtime-worker&quot;</span>) &#125;</span><br></pre></td></tr></table></figure>
+<p>按照上面的代码我们就可以模拟出 <code>Netty</code> 的线程模型。</p>
+<h2 id="参考-v21"><a class="header-anchor" href="#参考-v21">¶</a>参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tokio.rs/blog/2019-10-scheduler">Making the Tokio scheduler 10x faster</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/rust/" rel="tag"># rust</a>
+              <a href="/tags/async/" rel="tag"># async</a>
+              <a href="/tags/tokio/" rel="tag"># tokio</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/04/rust/understanding-rust-async/" rel="prev" title="解密 Rust 异步编程">
+                  <i class="fa fa-chevron-left"></i> 解密 Rust 异步编程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/12/rust/actix/" rel="next" title="Actix &#58 Rust 中 Actor 模型的实现">
+                  Actix &#58 Rust 中 Actor 模型的实现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="2a27e411286eb020de39c0bc222519d7"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

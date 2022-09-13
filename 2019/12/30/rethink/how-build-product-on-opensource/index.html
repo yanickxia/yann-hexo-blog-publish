@@ -1,16 +1,627 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="从 2017.12 开始，我们就一直在基于 SpringCloud(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于开源构建自己的产品">
+<meta property="og:url" content="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="从 2017.12 开始，我们就一直在基于 SpringCloud(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQBSyt.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQ1Tqs.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQl23F.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/30/lQMSEV.png">
+<meta property="article:published_time" content="2019-12-30T10:00:48.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/12/30/lQBSyt.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/","path":"2019/12/30/rethink/how-build-product-on-opensource/","title":"基于开源构建自己的产品"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于开源构建自己的产品 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8E%E5%BC%80%E6%BA%90%E5%81%9A%E4%BA%A7%E5%93%81"><span class="nav-number">1.</span> <span class="nav-text">如何基于开源做产品</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E5%88%B0%E6%96%B9%E5%90%91"><span class="nav-number">1.1.</span> <span class="nav-text">找到方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%92%E5%AE%9A%E8%87%AA%E5%B7%B1%E7%9A%84%E8%8C%83%E5%9B%B4"><span class="nav-number">1.2.</span> <span class="nav-text">划定自己的范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%85%8E%E9%87%8D%E8%80%83%E5%AF%9F%E4%BD%A0%E7%9A%84%E5%BC%80%E6%BA%90%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">慎重考察你的开源实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E4%BD%A0%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="nav-number">1.4.</span> <span class="nav-text">设计你的架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%9A%E6%8C%81%E4%BD%A0%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.5.</span> <span class="nav-text">坚持你的设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%93%E6%B3%A8"><span class="nav-number">1.6.</span> <span class="nav-text">专注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E6%8C%81%E5%85%B3%E6%B3%A8"><span class="nav-number">1.7.</span> <span class="nav-text">保持关注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E6%80%9D"><span class="nav-number">2.</span> <span class="nav-text">反思</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E6%80%9D1%EF%BC%9A%E5%BF%98%E8%AE%B0%E4%BD%A0%E7%9A%84%E5%BC%80%E6%BA%90%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">反思1：忘记你的开源实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E6%80%9D2%EF%BC%9A%E4%BD%A0%E7%A9%B6%E7%AB%9F%E5%81%9A%E7%9A%84%E6%98%AF%E5%8F%91%E8%A1%8C%E7%89%88%E8%BF%98%E6%98%AF%E4%BA%A7%E5%93%81"><span class="nav-number">2.2.</span> <span class="nav-text">反思2：你究竟做的是发行版还是产品</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/12/30/rethink/how-build-product-on-opensource/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于开源构建自己的产品 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于开源构建自己的产品
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-30 18:00:48" itemprop="dateCreated datePublished" datetime="2019-12-30T18:00:48+08:00">2019-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/rethink/" itemprop="url" rel="index"><span itemprop="name">rethink</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2019/12/30/rethink/how-build-product-on-opensource/" class="post-meta-item leancloud_visitors" data-flag-title="基于开源构建自己的产品" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="基于开源构建自己的产品" href="/2019/12/30/rethink/how-build-product-on-opensource/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::fc5488742ddffec6a3a5ed0f7ddd6f9a" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/12/30/rethink/how-build-product-on-opensource/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/12/30/rethink/how-build-product-on-opensource/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>从 <code>2017.12</code> 开始，我们就一直在基于 <code>SpringCloud</code>(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。</p>
+<span id="more"></span>
+<h2 id="如何基于开源做产品"><a class="header-anchor" href="#如何基于开源做产品">¶</a>如何基于开源做产品</h2>
+<p>如何基于开源做产品，让我们聊一聊这个话题。在大部分的中小型公司，我们都会基于某一个开源产品进行二次开发，直到最后这个开源产品被吸收殆尽，融入我们的产品，但这是一个漫长的过程。</p>
+<h3 id="找到方向"><a class="header-anchor" href="#找到方向">¶</a>找到方向</h3>
+<p>无论你怎么在技术市场中嗅探到一股新技术的清香味，比如 <code>Docker</code>或<code>SpringCloud</code>，我们最应该了解的都是这个技术背后是怎么样的需求在推进它前进。</p>
+<ul>
+<li><code>Hadoop</code> 的背后是企业对于海量数据需要存储的需求，更深层的是企业的IT从功能化向数据化转型。</li>
+<li><code>Docker</code> 的背后是大规模虚拟机集群管理的困难，更深层是企业的IT的规模化，不再是以前几台机器跑天下的时代。</li>
+<li><code>SpringCloud</code> 的背后是企业应用巨型化，迭代困难导致。</li>
+</ul>
+<p>而这些技术的背后的内驱力，我们的方向，那我们找的方向显然应该是</p>
+<ul>
+<li><code>以海量数据为方向</code>：为企业提供可以简单运维的集群，更大的存储量，更快的查询速度……</li>
+<li><code>以海量机器为方向</code>：为企业提供不可变基础设施，完善的监控体系，简化的部署……</li>
+<li><code>以巨大应用为方向</code>：为企业提供敏捷开发，应用的拆分化方案，基础设施的模式化……</li>
+</ul>
+<h3 id="划定自己的范围"><a class="header-anchor" href="#划定自己的范围">¶</a>划定自己的范围</h3>
+<p>上述说的每一块都是巨大的市场，如若非巨头实难将这一切都啃下来，因此我们下一步是划定自己的范围。假设我们是以<code>以巨大应用为方向</code>为产品的方向，我们可以将产品拆解为</p>
+<ul>
+<li><code>应用框架</code>：客户既有代码如何使用我们的整个产品。</li>
+<li><code>平台支撑</code>：我们所提供的产品的范围
+<ul>
+<li><code>服务发现</code>：如何进行服务发现
+<ul>
+<li><code>服务注册</code>：服务注册的信息包含哪些</li>
+<li><code>服务管理</code>：是否包含服务的管理属性
+<ul>
+<li><code>服务下线</code>：是否能够手动将服务下线</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>配置中心</code>：如何进行配置管理
+<ul>
+<li><code>配置侧</code>：是否需要进行数据隔离</li>
+<li><code>读取侧</code>：读取侧是否需要进行缓存等</li>
+</ul>
+</li>
+<li><code>系统监控</code>：如何进行系统监控</li>
+<li><code>其他</code></li>
+</ul>
+</li>
+</ul>
+<p>正如上文的列表，我们需要将系统的功能点列出来，这里有着整个产品最大的一个陷阱 <a href="#%E5%BF%98%E8%AE%B0%E4%BD%A0%E7%9A%84%E5%BC%80%E6%BA%90%E5%AE%9E%E7%8E%B0">反思1：忘记你的开源实现</a>，此时的你应该可以输出产品的功能清单，尽可能的详尽，在后续的迭代中也也是至为重要的指导纲领。</p>
+<h3 id="慎重考察你的开源实现"><a class="header-anchor" href="#慎重考察你的开源实现">¶</a>慎重考察你的开源实现</h3>
+<p>开源实现的代码质量都算不上太差，而我们最为重要的是考察开源的代码里的关于设计理念部分，如果你需要一个 <code>CP</code> 的系统，自然就不要考虑 <code>AP</code> 的Eureka这样的事情，为了要把这一步放在设计之后，也是因为千万不要因为别人的实现干扰了你自己对于产品的理解。</p>
+<h3 id="设计你的架构"><a class="header-anchor" href="#设计你的架构">¶</a>设计你的架构</h3>
+<p>也没什么值得要说的，尽可能的在你的代码和开源之间增加一层适配层，重度的耦合只会让你摔的更疼。<br>
+<img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQBSyt.png" alt="lQBSyt.png"><br>
+哪怕你只有一个实现的时候也是值得的。至少让你们的开发者更容易理解你们自己的设计。</p>
+<blockquote>
+<p>tips: 大部分的时候你都会适配其他的实现，如果这个市场只有一家产品，那很可能并不是一个好消息</p>
+</blockquote>
+<h3 id="坚持你的设计"><a class="header-anchor" href="#坚持你的设计">¶</a>坚持你的设计</h3>
+<p>哪怕是你发现底层的开源实现无法满足你的需求的时候，你可以使用很复杂的方式实现你的设计，也不要轻易的改变你的设计。改变那些无关紧要的部分，对于核心的理解是切记不能改变的，不然你就很快会变成下面这样</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">你的产品：100%    别人的产品： 0%</span><br><span class="line">------- 因为难以实现的功能 --------</span><br><span class="line">你的产品： 80%    别人的产品： 20%</span><br><span class="line">------- 因为难以实现的功能 * 2 --------</span><br><span class="line">你的产品： 60%    别人的产品： 40%</span><br><span class="line">------- 因为难以实现的功能 * 3 --------</span><br><span class="line">你的产品： 40%    别人的产品： 60%</span><br></pre></td></tr></table></figure>
+<p>此时的你需要增加自己的设计的时候，你就会发现你自己的概念是极其难以加入的，为什么？因为这个产品的主体已经不是你设计的产品了，已经变成一个开源产品的发行版 (注：<a href="#%E4%BD%A0%E7%A9%B6%E7%AB%9F%E5%81%9A%E7%9A%84%E6%98%AF%E5%8F%91%E8%A1%8C%E7%89%88%E8%BF%98%E6%98%AF%E4%BA%A7%E5%93%81">反思2:你究竟做的是发行版还是产品</a>)</p>
+<h3 id="专注"><a class="header-anchor" href="#专注">¶</a>专注</h3>
+<p>每个产品都可能包含很多组件，在刚开始的阶段，我们可能处处完善，更应该专注于某一块，对于一个商业产品可以先从数据的展示的方面进行设计，比如在微服务设计中，对于监控数据的展示，投入更多的精力在 <code>APM</code>，切莫贪大导致的每一块都做的不怎么样。</p>
+<blockquote>
+<p>Tips: 对于我们的组件是可以融合的，更应该能够拆分，产品的某一部分都是独立的产品，用开源的方式去做一个独立的产品会让你的产品走的更远。</p>
+</blockquote>
+<h3 id="保持关注"><a class="header-anchor" href="#保持关注">¶</a>保持关注</h3>
+<p>在一个新的方向上，经常会出现全面性的风向转变，就比如容器技术就经历了 <code>Swam</code> 转至 <code>K8S</code>，因为上面的概念解耦，我们也需要耗费一些精力进行下层的适配，而有些技术可能天生就是冲突的，比如 <code>SpringCloud</code> 所基于的 <code>REST</code> 和 <code>Dubbo</code> 所基于非透明的 <code>RPC</code> 在使用的过程就是完全不一样的，在选择的过程中可能会面领着市场的完全方向转变，甚至于被 <code>ServicsMesh</code> 这样的新的技术革命掉。因此产品在自己的概念中也时刻关注是否有一些已经 <code>outdate</code> 了。</p>
+<p>比如说在传统的微服务领域中的给服务外挂Sidecar的方式完全在后续的迭代版本中会被 <code>isito</code> 此类的方案取缔，甚至于服务发现也会随之消失。</p>
+<h2 id="反思"><a class="header-anchor" href="#反思">¶</a>反思</h2>
+<h3 id="反思1：忘记你的开源实现"><a class="header-anchor" href="#反思1：忘记你的开源实现">¶</a>反思1：忘记你的开源实现</h3>
+<p>这大概是我们在这两年内犯过最大的错误，这个错误的影响一直至今。此话怎么讲，且听我细细分析。<br>
+因为我们这套产品是基于 <code>SpringCloud</code> 此时便有 <code>SpringCloud</code> 先入为主的印象，这就让我们在后续的设计中，很多都因实现而设计。</p>
+<p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQ1Tqs.png" alt="lQ1Tqs.png"></p>
+<p>举个例子：我们在设计服务发现的时候，因为<code>SC</code>在实现之处是基于<code>Eureka</code>，<code>Eureka</code>对于服务的分组的非常的简单只有<code>服务</code>和<code>实例</code>这两个维度，因此我们在后续的系统设计中，我们便按照<code>服务</code>和<code>实例</code>这两个维度进行诸多的设计，比如流量的监控，服务的转发等等功能，而这些功能在实现的过程中，也作为了<code>HardCode</code>部分存在，直至后期我们需要增加额外的维度的时候就吃了一个大亏。因此在这两年的摸索中，渐渐明白了一个道理，你在实现自己的产品的时候，首先应该满足是自己产品的特性！就比如在 Spring 的实现中，<code>WebMVC</code> 可以基于 <code>Tomcat</code> <code>Netty</code> <code>Jboss</code> 其中任一种实现，Spring将那些他所需要的特性功能比如 <code>server.port</code> 作为了产品的属性，而 <code>tomcat.max-connect</code> 是作为额外的配置项存在的。</p>
+<h3 id="反思2：你究竟做的是发行版还是产品"><a class="header-anchor" href="#反思2：你究竟做的是发行版还是产品">¶</a>反思2：你究竟做的是发行版还是产品</h3>
+<p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQl23F.png" alt="lQl23F.png"> <code>Linux</code> 有发行版的概念，不同的发行版之间可能是有不同的包管理工具，不同的启动机制等等，但是大部分是一直的，但是产品不一样，产品不应该将自己的内核实现暴露给用户，因此Windows只有Windows，并没有Windows的发行版，一部分是自己没有开源，另外一方面产品的内核逻辑是产品的主要竞争力。<br>
+比如某竞品的设计如此 <img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQMSEV.png" alt="lQMSEV.png"> 当你融入自己的想法之后，你可以清晰的将原来所开源产品的组件转为你所拥有的概念，可能这样说起来有些不清晰，在我看来，一个产品如果在客户在使用的过程中，不是非常明显的感受你的实现是基于某个产品的就算是成功了。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/29/rethink/look-back-2019/" rel="prev" title="我的2019">
+                  <i class="fa fa-chevron-left"></i> 我的2019
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/01/06/pm/why-docs-make-me-fuzzy/" rel="next" title="为什么开发者的文档总是无法让人满足">
+                  为什么开发者的文档总是无法让人满足 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="fc5488742ddffec6a3a5ed0f7ddd6f9a"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

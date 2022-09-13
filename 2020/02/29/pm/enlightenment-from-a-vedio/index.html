@@ -1,16 +1,666 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="周末的时候看了一篇好文 做产品真的难于上天！ 从文后的链接听了一遍 Marty Cagan 的演讲，受益良多因此记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 Marty Cagan 那获得启示">
+<meta property="og:url" content="http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="周末的时候看了一篇好文 做产品真的难于上天！ 从文后的链接听了一遍 Marty Cagan 的演讲，受益良多因此记录一下。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.ax1x.com/2020/02/29/3ySjTf.png">
+<meta property="article:published_time" content="2020-02-29T01:48:01.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="项目管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/02/29/3ySjTf.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/","path":"2020/02/29/pm/enlightenment-from-a-vedio/","title":"从 Marty Cagan 那获得启示"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>从 Marty Cagan 那获得启示 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">frustration with Lean And Agile</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">不同周期的产品研发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E7%B4%A2%E9%98%B6%E6%AE%B5"><span class="nav-number">2.1.</span> <span class="nav-text">探索阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E4%BA%A4%E4%BB%98%E9%98%B6%E6%AE%B5"><span class="nav-number">2.2.</span> <span class="nav-text">产品交付阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-number">2.3.</span> <span class="nav-text">一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E6%A0%B7%E8%AE%A9%E8%80%81%E6%9D%BF%E4%BB%AC%E4%BF%A1%E4%BB%BBProduct-Team"><span class="nav-number">2.3.1.</span> <span class="nav-text">怎样让老板们信任Product Team</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BB%A1%E8%84%91%E5%AD%90%E5%8F%AA%E6%9C%89%E5%8D%95%E4%B8%80%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="nav-number">2.3.2.</span> <span class="nav-text">满脑子只有单一方案？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AA%E6%9C%89%E6%97%A0%E5%B0%BD%E7%9A%84%E4%BA%A7%E5%93%81%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="nav-number">2.3.3.</span> <span class="nav-text">只有无尽的产品优化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E7%AE%A1%E7%90%86%E7%9A%84%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B"><span class="nav-number">2.3.4.</span> <span class="nav-text">产品管理的核心能力</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">终章</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/02/29/pm/enlightenment-from-a-vedio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="从 Marty Cagan 那获得启示 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从 Marty Cagan 那获得启示
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-29 09:48:01" itemprop="dateCreated datePublished" datetime="2020-02-29T09:48:01+08:00">2020-02-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/02/29/pm/enlightenment-from-a-vedio/" class="post-meta-item leancloud_visitors" data-flag-title="从 Marty Cagan 那获得启示" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="从 Marty Cagan 那获得启示" href="/2020/02/29/pm/enlightenment-from-a-vedio/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::8a7d2aa04cd2cfe18a59e0fb15226446" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/02/29/pm/enlightenment-from-a-vedio/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/02/29/pm/enlightenment-from-a-vedio/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2020/02/29/3ySjTf.png" alt="3ySjTf.png"></p>
+<p>周末的时候看了一篇好文 <a target="_blank" rel="noopener" href="https://coffee.pmcaff.com/article/G2Qd2GR5kZ">做产品真的难于上天！</a> 从文后的链接听了一遍 Marty Cagan 的演讲，受益良多因此记录一下。</p>
+<span id="more"></span>
+<h1>frustration with Lean And Agile</h1>
+<p>对于「精益」 (Lean) 和「敏捷」 (Agile) 方法的挫败感。从我的角度上也是对敏捷最终留下了一个站会的形式，从剥离的外在的敏捷看来只有2个核心点。</p>
+<ul>
+<li>
+<p>「要频繁的发布」，频繁的意思是「至少每两周发布一次」。如果你每月或每季才发布一次，就算你自称敏捷，你其实没有获得任何敏捷的好处。好的产品团队甚至每天发布好几次，就是所谓的「持续交付」 (Continuous Delivery)。也不是说大家都要做持续交付，但若你不是每两周发布一次，这会是很大的问题。</p>
+</li>
+<li>
+<p>「团队要被赋权且被问责」，被赋权的意思是「交由团队来找解决问题的最佳方法」。举例来说，不是由管理层告知团队「请串接日本当地LN 公司的行动支付」，而是告诉团队「我们眼前看到的问题，是太少日本当地人购买我们的产品，海外转换率实在太低了，请你们解决这个问题」。如果串接了日本当地LN 公司的行动支付，没有解决这个问题，团队就要继续探索其他方案。</p>
+</li>
+</ul>
+<p>第一点毋庸置疑，从 <a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91">Wiki-敏捷开发</a> 也可以轻易的发现，但是对于第二点是一个极为隐藏的问题，敏捷区别于其他方法的最为本质的区别是从<code>面向项目</code>的方式变化为<code>面向人</code>的方式。</p>
+<p>从敏捷宣言中</p>
+<blockquote>
+<blockquote>
+<p>个体和互动 高于 流程和工具<br>
+工作的软件 高于 详尽的文档<br>
+客户合作 高于 合同谈判<br>
+响应变化 高于 遵循计划</p>
+</blockquote>
+</blockquote>
+<p>我们也发现了，敏捷对于人的价值更为重视。而人的价值就伴随着权利与责任，很多团队被告知要更加敏捷，但其实管理层一直给团队「待完成的功能清单」（传统意义上的产品路线图Product Roadmap），每月或每季都跟团队说「请做这些功能」，这在任何意义上来说都不是敏捷。</p>
+<hr>
+<p>说完了敏捷，再看看《精益》</p>
+<p>Lean 有五大原则</p>
+<ol>
+<li>Identify Value识别价值：从顾客的角度定义什么是价值（顾客愿意花钱的）</li>
+<li>Identify ValueStream识别价值流：找到那些增值的步骤（往往一个公司只有5%）</li>
+<li>Create Flow流动起来：让价值流动起来（通过消除浪费）</li>
+<li>Respond toCustomer Pull根据顾客的需求时间、量来生产（拉动式生产）</li>
+<li>Pursue Perfection不断完善以上过程（PDCA）</li>
+</ol>
+<p>而 <code>Marty</code> 的总结为</p>
+<ul>
+<li>
+<p>「我们要快速学习才能创新」，创新源自于我们能够尝试多少点子，因为我们知道大部分的点子都行不通。（这里对应着是识别价值）</p>
+</li>
+<li>
+<p>「我们得要消除浪费」，所谓的浪费就是花了4 个月才发现「这不是解决问题的好方法」，这就是浪费。在创业阶段我常看见的浪费就是「我们正在做一个MVP 」(Minimum Viable Product 最小可行性产品)。然后我就会问「太好了，那可以让我看看MVP 吗？」结果他们就说「正在做了，还要4 个月」。坦白说，这根本不是MVP，只是个半成品、是不成熟的产品。真正的MVP 只需要4 小时或4 天，不是4 个月。</p>
+</li>
+</ul>
+<h1>不同周期的产品研发</h1>
+<h2 id="探索阶段"><a class="header-anchor" href="#探索阶段">¶</a>探索阶段</h2>
+<p>此阶段我们要搞清楚「探索该打造的产品」，我称之为「产品探索」(Product Discovery)。这个意思是要找到一个产品方案，符合以下四个条件：</p>
+<ul>
+<li>对用户有价值(valuable)：就是顾客会买单</li>
+<li>易于使用(usable)：意思就是顾客能自己搞懂如何使用</li>
+<li>可被打造(feasible)：是我们知道如何打造</li>
+<li>商业上可行(viable)：有市场可行性，包括这个产品，包含宣传、销售、客服，也有收益</li>
+</ul>
+<p>在这个阶段，我们交付 「原型」 (prototypes)，而不是「产品」 (products)。</p>
+<h2 id="产品交付阶段"><a class="header-anchor" href="#产品交付阶段">¶</a>产品交付阶段</h2>
+<p>交付工程师有自信的产品，让我们可以真正开始运营这个产品。这个最终产品要符合的条件是：</p>
+<ul>
+<li>稳定(reliable)</li>
+<li>可扩展(scalable)</li>
+<li>高效能(performant)</li>
+<li>可维护(maintainable)</li>
+<li>支援多国语言且本地化(internationalized and localized)</li>
+</ul>
+<p><strong>作者注：</strong> 就我的经验看来，国内的研发经常会混合着这两种模式，同时需要满足以上两点的产品对于传统命令式的软件开发为主（其实也不存在探索阶段），对于创业公司，第一种情况是团队小心谨慎的闭门工作了4个月，发布产品后发现这是错误的产品。第二种情况是团队超级迅速的发布了好几次产品，其中有些成功了，但也创造了极大的技术成本，打造了难以维护、难以扩张、很低效能的产品，得再花4个月重构，令团队无法继续迅速发布。</p>
+<p>探索阶段就是build the right thing，然后交付阶段是build the thing right。失败的软件总是有类似的状况,Marty Cagan在INSPIRED书中，介绍了产品失败的4大风险，分别是:</p>
+<ol>
+<li>实行性风险(Feasibility Risk)：团队明确需求，但手边并没有解决问题的技术，或技术尚未成熟，就是「我们知道要做什么产品，但是做不出来」的状况</li>
+<li>易用性风险(Usability Risk)：顾客想用这个产品，但不知如何使用，或太少人克服使用门槛，就是「产品做出来了，但是好多顾客看不懂、不会用」的状况</li>
+<li>价值风险(Value Risk)：这个产品并没有解决顾客需求，为顾客带来价值，就是「产品做出来了，某些顾客也会用了，但后来都不继续用，因为没有满足需求」的状况</li>
+<li>商业可行性风险(Business Viability Risk)：这个产品对公司没有商业价值，或无法在市场竞争中存活，就是「产品做出来了，顾客也爱用，但是无法赚钱，或拿不到更多预算与资金，或无法赢过竞争者」的状况。</li>
+</ol>
+<h2 id="一些问题"><a class="header-anchor" href="#一些问题">¶</a>一些问题</h2>
+<h3 id="怎样让老板们信任Product-Team"><a class="header-anchor" href="#怎样让老板们信任Product-Team">¶</a>怎样让老板们信任Product Team</h3>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>我试着跟产品团队说，你们的工作不只是告诉大家「为何这些不可行」，你们的工作还必须告诉大家「这些构想更能解决问题、更有机会成功」。如果今天的课题是「国际交易支付量过低」，产品团队除了告诉大家「串接PayPal 不是个好方法」，还必须告诉大家「PayPal 以外还有哪些方法」可以解决问题，这才是优良产品团队和新手产品团队的差别。优良的产品团队知道，自己还必须提出可行的方案，而且这些方案要更有机会成功。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>产品不仅仅要告诉老板们，为何我们觉得这些不行，重要的是为了解决问题，我们还要一些其他办法。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>我们可以在很多公司，见证这种做法的影响力。因为，只要产品团队开始展现这些能力，高管们开始认定这些团队是「问题排除者」 (Problem Solver)，而不是「阻碍者」 (Blocker)。只会验证点子(validating ideas) 的团队是阻碍者，你可以在很多公司看到这样的症状。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3 id="满脑子只有单一方案？"><a class="header-anchor" href="#满脑子只有单一方案？">¶</a>满脑子只有单一方案？</h3>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>很多团队接着采取的行动，就是继续制作原型(prototyping)、继续20、30、50 次迭代，直到他们用完所有的时间，或直到放弃。其实，你真正想要理解的是「总是有很多种解决问题的方法」，所以当你在做少量规划的时候，你要确保自己记得「这里有5种解决问题的方法」，至少要把这件事记在心上。我们认为其中一个方法最好，所以从这里开始，但如果我们没获得成果，我们就要尝试下一个。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>对于产品的解决之道可以有多种渠道，而对于软件的解决之道？倒是存疑。</p>
+<h3 id="只有无尽的产品优化？"><a class="header-anchor" href="#只有无尽的产品优化？">¶</a>只有无尽的产品优化？</h3>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>他们只在做这件事情。我可以告诉你，如果这是你唯一做的事情(指不断的优化产品)，你正在一个缓慢死亡的道路上，因为这只是「捕捉价值」 (value capture) 的行为，就像提高价格一样。这是件好事，没什么不对，但如果你只做这件事，你只是逐渐消耗价值而已。我们身为产品人的工作，是要创造更多价值，大余我们捕捉到的价值。产品探索(Product Discovery) 就为了「创造价值」 (value creation)，产品优化(Product Optimization) 只为了放大价值。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3 id="产品管理的核心能力"><a class="header-anchor" href="#产品管理的核心能力">¶</a>产品管理的核心能力</h3>
+<ul>
+<li>对用户和顾客的深入研究</li>
+<li>对用户操作的深入研究</li>
+<li>对生意/商业模式的深入研究</li>
+<li>对产业的深入研究</li>
+</ul>
+<h1>终章</h1>
+<p>这一篇讲产品为主，然后在我的观点中，我认为复合型的人才是未来的发展的主要方向，当程序员准备去生产产品的时候，我们也应该从产品的角度去了解这个产品为何是现在这番模样。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" rel="tag"># 项目管理</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/18/rethink/separate-front-end/" rel="prev" title="前后端分离的罪与罚">
+                  <i class="fa fa-chevron-left"></i> 前后端分离的罪与罚
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/01/announcement/announcement/" rel="next" title="Welcome to the Yanick Blog">
+                  Welcome to the Yanick Blog <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="8a7d2aa04cd2cfe18a59e0fb15226446"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

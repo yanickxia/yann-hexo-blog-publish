@@ -1,16 +1,719 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="上一章，我们看过 kotlin 的一些函数的基本用法，kotlin 作为一门年轻的语言，当然不能和 1995年的 Java 一样，当然还有一些不一样的特性，我们今天就来看看 kotlin 的一些函数的高阶特性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶">
+<meta property="og:url" content="http://blog.yanick.site/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="上一章，我们看过 kotlin 的一些函数的基本用法，kotlin 作为一门年轻的语言，当然不能和 1995年的 Java 一样，当然还有一些不一样的特性，我们今天就来看看 kotlin 的一些函数的高阶特性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtmXYn.jpg">
+<meta property="article:published_time" content="2018-07-24T23:58:48.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.428Z">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/07/25/PtmXYn.jpg">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/","path":"2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/","title":"写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">操作符重载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%85%83%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">一元表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%A2%9E%E4%B8%8E%E9%80%92%E5%87%8F%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">1.2.</span> <span class="nav-text">递增与递减操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%85%83%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">二元操作符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">解构函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">中缀表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">3.1.</span> <span class="nav-text">更多的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">lambda 表达式 &amp; 高阶函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">高阶函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">Lambda 表达式与匿名函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BC%A0%E7%BB%99%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">4.2.1.</span> <span class="nav-text">lambda 表达式传给最后一个参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#it%EF%BC%9A%E5%8D%95%E4%B8%AA%E5%8F%82%E6%95%B0%E7%9A%84%E9%9A%90%E5%BC%8F%E5%90%8D%E7%A7%B0"><span class="nav-number">4.2.2.</span> <span class="nav-text">it：单个参数的隐式名称</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E-lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E5%80%BC"><span class="nav-number">4.2.3.</span> <span class="nav-text">从 lambda 表达式中返回一个值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E5%88%92%E7%BA%BF%E7%94%A8%E4%BA%8E%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8F%98%E9%87%8F"><span class="nav-number">4.2.4.</span> <span class="nav-text">下划线用于未使用的变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%AF%E9%87%8C%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">柯里化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E4%BD%93%E9%AA%8C"><span class="nav-number">6.1.</span> <span class="nav-text">快速体验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92"><span class="nav-number">6.2.</span> <span class="nav-text">协程事件传递</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE-v2"><span class="nav-number">7.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-25 07:58:48" itemprop="dateCreated datePublished" datetime="2018-07-25T07:58:48+08:00">2018-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kotlin/" itemprop="url" rel="index"><span itemprop="name">kotlin</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kotlin/easy-way-to-kotlin-for-java-programer/" itemprop="url" rel="index"><span itemprop="name">easy-way-to-kotlin-for-java-programer</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/" class="post-meta-item leancloud_visitors" data-flag-title="写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="写给 Java 开发者的 Kotlin 教程 (7) - 函数高阶" href="/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::fc86ed667c7e9e0f2d1c6b0815c459f3" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/25/kotlin/easy-way-to-kotlin-for-java-proggamer/functions-advance/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/07/25/PtmXYn.jpg" alt="banner"></p>
+<p>上一章，我们看过 <code>kotlin</code> 的一些函数的基本用法，<code>kotlin</code> 作为一门年轻的语言，当然不能和 <code>1995</code>年的 <code>Java</code> 一样，当然还有一些不一样的特性，我们今天就来看看 <code>kotlin</code> 的一些函数的高阶特性。</p>
+<span id="more"></span>
+<h2 id="操作符重载"><a class="header-anchor" href="#操作符重载">¶</a>操作符重载</h2>
+<h3 id="一元表达式"><a class="header-anchor" href="#一元表达式">¶</a>一元表达式</h3>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>翻译为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+a</td>
+<td>a.unaryPlus()</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>a.unaryMinus()</td>
+</tr>
+<tr>
+<td>!a</td>
+<td>a.not()</td>
+</tr>
+</tbody>
+</table>
+<p>举个例子</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Point</span>(<span class="keyword">val</span> x: <span class="built_in">Int</span>, <span class="keyword">val</span> y: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> Point.<span class="title">unaryMinus</span><span class="params">()</span></span> = Point(-x, -y)  <span class="comment">//这里是扩展函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> point = Point(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">println(-point)  <span class="comment">// 打印结果为 &quot;(-10, -20)&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="递增与递减操作符"><a class="header-anchor" href="#递增与递减操作符">¶</a>递增与递减操作符</h3>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>翻译为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a++</td>
+<td>a.inc()</td>
+</tr>
+<tr>
+<td>a–</td>
+<td>a.dec()</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二元操作符"><a class="header-anchor" href="#二元操作符">¶</a>二元操作符</h3>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>翻译为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a + b</td>
+<td>a.plus(b)</td>
+</tr>
+<tr>
+<td>a - b</td>
+<td>a.minus(b)</td>
+</tr>
+<tr>
+<td>a * b</td>
+<td>a.times(b)</td>
+</tr>
+<tr>
+<td>a / b</td>
+<td>a.div(b)</td>
+</tr>
+<tr>
+<td>a % b</td>
+<td>a.rem(b)</td>
+</tr>
+<tr>
+<td>a…b</td>
+<td>a.rangeTo(b)</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Counter</span>(<span class="keyword">val</span> dayIndex: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">plus</span><span class="params">(increment: <span class="type">Int</span>)</span></span>: Counter &#123;</span><br><span class="line">        <span class="keyword">return</span> Counter(dayIndex + increment)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解构函数"><a class="header-anchor" href="#解构函数">¶</a>解构函数</h2>
+<p>比如我们有这么表达式</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> collections: Collection&lt;Pair&lt;<span class="built_in">Int</span>,String&gt;&gt;</span><br><span class="line"><span class="keyword">for</span> ((a, b) <span class="keyword">in</span> collection) &#123; ... &#125;</span><br><span class="line"><span class="comment">// 注意这个 (a, b) 就是解构</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Person</span>(<span class="keyword">var</span> name: String, <span class="keyword">var</span> age: <span class="built_in">Int</span>) &#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person: Person = Person(<span class="string">&quot;Jone&quot;</span>, <span class="number">20</span>)</span><br><span class="line"><span class="keyword">var</span> (name, age) = person</span><br><span class="line">println(<span class="string">&quot;name: <span class="variable">$name</span>, age: <span class="variable">$age</span>&quot;</span>)<span class="comment">// 打印：name: Jone, age: 20</span></span><br></pre></td></tr></table></figure>
+<p>这里有一个语法糖，对于解构的对象语法，kotlin 会去调用 <code>componentX</code> 函数，比如上文的 <code>name</code> 和 <code>age</code>，对应到 <code>kotlin</code> 其实是在 <code>var (name, age) = person</code> 调用了 <code>component1()</code> 和 <code>component2()</code> 函数。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> i = <span class="number">1</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> j = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">component1</span><span class="params">()</span></span> = i</span><br><span class="line">    <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">component2</span><span class="params">()</span></span> = j</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> (i,j) = Test()</span><br></pre></td></tr></table></figure>
+<h2 id="中缀表达式"><a class="header-anchor" href="#中缀表达式">¶</a>中缀表达式</h2>
+<p>在 <code>kotlin</code> 源码中，我们发现一些函数是被 <code>infix</code> 修饰的，这种函数在 <code>kotlin</code> 是能够使用 <code>中缀表达式</code> 进行操作的，举个例子：</p>
+<div class="tabs" id="infix-notation"><ul class="nav-tabs"><li class="tab active"><a href="#infix-notation-1">Kotlin infix</a></li><li class="tab"><a href="#infix-notation-2">Kotlin without infix</a></li></ul><div class="tab-content"><div class="tab-pane active" id="infix-notation-1"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1</span> to <span class="string">&quot;one&quot;</span>, <span class="number">2</span> to <span class="string">&quot;two&quot;</span>, <span class="number">3</span> to <span class="string">&quot;three&quot;</span>)</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="infix-notation-2"><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1.</span>to(<span class="string">&quot;one&quot;</span>), <span class="number">2.</span>to(<span class="string">&quot;two&quot;</span>), <span class="number">3.</span>to(<span class="string">&quot;three&quot;</span>))</span><br></pre></td></tr></table></figure></div></div></div>
+<p><code>中缀表达式</code> 直观上的表现形式将 . 和 () 去掉了，带来的是代码的可读性的提高。我们看看<code>中缀函数的申明</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B&gt;</span> A.<span class="title">to</span><span class="params">(that: <span class="type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword">this</span>, that)</span><br></pre></td></tr></table></figure>
+<p>这个函数和普通的函数并没有什么区别，唯独多的也就是 <code>infix</code> 关键字。但是如果想要申明一个函数是 <code>infix</code> 必须满足一下几个条件：</p>
+<ul>
+<li>它们必须是<code>成员函数</code>或<code>扩展函数</code></li>
+<li>它们必须只有<code>一个</code>参数</li>
+<li>其参数<code>不得</code>接受<code>可变数量的参数</code>且<code>不能有默认值</code></li>
+</ul>
+<h3 id="更多的例子"><a class="header-anchor" href="#更多的例子">¶</a>更多的例子</h3>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比如我们声明</span></span><br><span class="line"><span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">shl</span><span class="params">(x: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123; …… &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用中缀表示法调用该函数</span></span><br><span class="line"><span class="number">1</span> shl <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于这样</span></span><br><span class="line"><span class="number">1.</span>shl(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="注意点"><a class="header-anchor" href="#注意点">¶</a>注意点</h3>
+<ol>
+<li>中缀函数调用的优先级低于算术操作符、类型转换以及 rangeTo 操作符。</li>
+<li>中缀函数调用的优先级高于布尔操作符 &amp;&amp; 与 ||、is- 与 in- 检测以及其他一些操作符。</li>
+</ol>
+<h2 id="lambda-表达式-高阶函数"><a class="header-anchor" href="#lambda-表达式-高阶函数">¶</a>lambda 表达式 &amp; 高阶函数</h2>
+<h3 id="高阶函数"><a class="header-anchor" href="#高阶函数">¶</a>高阶函数</h3>
+<p>在阐述 <code>lambda</code> 之前，我们先来了解一下 <code>Kotlin</code> 函数都是头等的，这意味着它们可以存储在变量与数据结构中、作为参数传递给其他高阶函数以及从其他高阶函数返回。可以像操作任何其他非函数值一样操作函数。</p>
+<p>举个例子</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;T, R&gt;</span> Collection<span class="type">&lt;T&gt;</span>.<span class="title">fold</span><span class="params">(➊</span></span></span><br><span class="line"><span class="params"><span class="function">    initial: <span class="type">R</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    combine: (<span class="type">acc</span>: <span class="type">R</span>, <span class="type">nextElement</span>: <span class="type">T</span>) -&gt; <span class="type">R</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>: R &#123;➋</span><br><span class="line">    <span class="keyword">var</span> accumulator: R = initial</span><br><span class="line">    <span class="keyword">for</span> (element: T <span class="keyword">in</span> <span class="keyword">this</span>) &#123;</span><br><span class="line">        accumulator = combine(accumulator, element)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> accumulator</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>➊ 处为 <code>Collection</code> 类型增加一个 <code>fold</code> 函数，参数有两个 <code>initial</code> 和 <code>combine</code> 而 <code>combine</code> 的定义是一个函数类型 <code>(acc: R, nextElement: T) -&gt; R</code> 也就说我们需要传入的第二个 参数 是一个函数。<br>
+➋ 定义了返回的 R 类型的类型</p>
+<p>所以对于 <code>Kotlin</code> 来说，我们可以使用 <code>函数</code> 作为参数，也就是具有了 <code>高阶函数</code> 的特性。</p>
+<p>我们在这里看到了 <code>Kotlin</code> 使用类似 <code>(Int) -&gt; String</code> 的一系列函数类型来处理函数的声明，而在这里就是我们下面要讲到来的一个概念，Lambda 表达式。</p>
+<h3 id="Lambda-表达式与匿名函数"><a class="header-anchor" href="#Lambda-表达式与匿名函数">¶</a>Lambda 表达式与匿名函数</h3>
+<p>比如我们有一个 <code>max</code> 函数，<code>max</code> 是一个高阶函数，它接受一个函数作为第二个参数。 其第二个参数是一个表达式，它本身是一个函数</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max(strings, &#123; a, b -&gt; a.length &lt; b.length &#125;)</span><br></pre></td></tr></table></figure>
+<p>而 <code>&#123; a, b -&gt; a.length &lt; b.length &#125;</code> 等价于以下的命名函数:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">compare</span><span class="params">(a: <span class="type">String</span>, b: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> = a.length &lt; b.length</span><br></pre></td></tr></table></figure>
+<p>Lambda 表达式的完整语法形式如下:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sum = &#123; x: <span class="built_in">Int</span>, y: <span class="built_in">Int</span> -&gt; x + y &#125;</span><br></pre></td></tr></table></figure>
+<p>我们把所有可选标注都留下，看起来如下:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sum: (<span class="built_in">Int</span>, <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> = &#123; x, y -&gt; x + y &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><code>kotlin</code> 的 <code>Lambda</code> 有以下一些特性</p>
+<h4 id="lambda-表达式传给最后一个参数"><a class="header-anchor" href="#lambda-表达式传给最后一个参数">¶</a>lambda 表达式传给最后一个参数</h4>
+<p>在 Kotlin 中有一个约定：如果函数的最后一个参数接受函数，那么作为相应参数传入的 lambda 表达式可以放在圆括号之外：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> product = items.fold(<span class="number">1</span>) &#123; acc, e -&gt; acc * e &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="it：单个参数的隐式名称"><a class="header-anchor" href="#it：单个参数的隐式名称">¶</a>it：单个参数的隐式名称</h4>
+<p>一个 lambda 表达式只有一个参数是很常见的。<br>
+如果编译器自己可以识别出签名，也可以不用声明唯一的参数并忽略 -&gt;。 该参数会隐式声明为 <code>it</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ints.filter &#123; it &gt; <span class="number">0</span> &#125; <span class="comment">// (it: Int) -&gt; Boolean</span></span><br></pre></td></tr></table></figure>
+<h4 id="从-lambda-表达式中返回一个值"><a class="header-anchor" href="#从-lambda-表达式中返回一个值">¶</a>从 lambda 表达式中返回一个值</h4>
+<p>我们可以使用返回语法从 lambda 显式返回一个值。 否则，将隐式返回<code>最后一个表达式</code>的值。</p>
+<h4 id="下划线用于未使用的变量"><a class="header-anchor" href="#下划线用于未使用的变量">¶</a>下划线用于未使用的变量</h4>
+<p>从 1.1 版本之后，我们可以用下划线取代其名称：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.forEach &#123; _, value -&gt; println(<span class="string">&quot;<span class="variable">$value</span>!&quot;</span>) &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="柯里化"><a class="header-anchor" href="#柯里化">¶</a>柯里化</h2>
+<p><code>FP</code> 语言里面有个很不错的特性叫 <code>柯里化</code></p>
+<blockquote>
+<p>只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。</p>
+</blockquote>
+<p>比如在 <code>javascript</code> 中，我们就可以这么做</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">y</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> increment = <span class="title function_">add</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> addTen = <span class="title function_">add</span>(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">increment</span>(<span class="number">2</span>); <span class="comment">//结果 -&gt; 3</span></span><br><span class="line"><span class="title function_">addTen</span>(<span class="number">2</span>); <span class="comment">//结果 -&gt; 12</span></span><br></pre></td></tr></table></figure>
+<p>而在 <code>kotlin</code> 中我们依然可以使用这样的方式比如</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">add</span><span class="params">(a: <span class="type">Int</span>)</span></span>: (<span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; b: <span class="built_in">Int</span> -&gt; a + b &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> increment2 = add(<span class="number">2</span>)</span><br><span class="line">increment2(<span class="number">10</span>) <span class="comment">//结果 -&gt; 12</span></span><br></pre></td></tr></table></figure>
+<p>其实我们这里看到，在这里，返回了一个 <code>lambda</code>，我们利用 <code>lambda</code> 完成一个 <code>柯里化</code> 的操作。</p>
+<h2 id="协程"><a class="header-anchor" href="#协程">¶</a>协程</h2>
+<p>一些 API 启动长时间运行的操作（例如网络 IO、文件 IO、CPU 或 GPU 密集型任务等），并要求调用者阻塞直到它们完成。协程提供了一种避免阻塞线程并用更廉价、更可控的操作替代线程阻塞的方法：<code>协程挂起</code>。</p>
+<h3 id="快速体验"><a class="header-anchor" href="#快速体验">¶</a>快速体验</h3>
+<p><code>kotlin</code> 提供一个新的关键字叫 <code>suspend</code> 被这个关键字所修饰的 函数只能被协程调用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">(foo: <span class="type">Foo</span>)</span></span>: Bar&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举个例子</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> result: Deferred&lt;String&gt; = async &#123; doSomethingTimeout() &#125;</span><br><span class="line">	println(<span class="string">&quot;I will got the result <span class="subst">$&#123;result.await()&#125;</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomethingTimeout</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Result&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里， <code>async</code> 代码块会新启动一个协程后立即执行，并且返回一个 <code>Deferred</code> 类型的值，调用它的 <code>await</code> 方法后会<code>暂停</code>当前协程，直到获取到 <code>async</code> 代码块执行结果，当前协程才会继续执行。</p>
+<h3 id="协程事件传递"><a class="header-anchor" href="#协程事件传递">¶</a>协程事件传递</h3>
+<p>如果我们需要在不同的<code>协程</code>之间传递数据，我们需要 <code>channel</code> 调用它的 <code>send</code> 与 <code>receive</code> 方法，就是最简单的使用了。不过要注意，这两个方法会互相等待，所以它们必须运行在<code>不同的</code>协程。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> = runBlocking&lt;<span class="built_in">Unit</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> channel = Channel()</span><br><span class="line">    launch &#123;</span><br><span class="line">        <span class="keyword">for</span> (x <span class="keyword">in</span> <span class="number">1.</span><span class="number">.5</span>) channel.send(x)</span><br><span class="line">        channel.close()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (x <span class="keyword">in</span> <span class="number">1.</span><span class="number">.5</span>) println(channel.receive())</span><br><span class="line">    <span class="comment">//  or `for (x in channel) println(x)`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献-v2"><a class="header-anchor" href="#参考文献-v2">¶</a>参考文献</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.callicoder.com/kotlin-infix-notation/">kotlin-functions</a></li>
+<li><a target="_blank" rel="noopener" href="https://hltj.gitbooks.io/kotlin-reference-chinese/content/txt/functions.html">Reference</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/07/22/kotlin/easy-way-to-kotlin-for-java-proggamer/functions/" rel="prev" title="写给 Java 开发者的 Kotlin 教程 (6) - 函数基础">
+                  <i class="fa fa-chevron-left"></i> 写给 Java 开发者的 Kotlin 教程 (6) - 函数基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/03/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-basic/" rel="next" title="写给 Java 开发者的 Kotlin 教程 (8) -  面向对象 - 基础">
+                  写给 Java 开发者的 Kotlin 教程 (8) -  面向对象 - 基础 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="fc86ed667c7e9e0f2d1c6b0815c459f3"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

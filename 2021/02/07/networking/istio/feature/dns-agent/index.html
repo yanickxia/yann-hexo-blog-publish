@@ -1,16 +1,613 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在 1.8 的版本中，istio 悄悄的上了一个预览版的功能 DNS Proxy，这个功能极为的强大，让我们一起来看看吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Isito 1.8 新功能&amp;#58 DNS Agent">
+<meta property="og:url" content="http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="在 1.8 的版本中，istio 悄悄的上了一个预览版的功能 DNS Proxy，这个功能极为的强大，让我们一起来看看吧。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175250.png">
+<meta property="article:published_time" content="2021-02-07T04:28:41.000Z">
+<meta property="article:modified_time" content="2022-09-11T13:34:21.136Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="isito">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/","path":"2021/02/07/networking/istio/feature/dns-agent/","title":"Isito 1.8 新功能&#58 DNS Agent"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Isito 1.8 新功能&#58 DNS Agent | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BD%95%E8%AF%9E%E7%94%9F"><span class="nav-number">1.</span> <span class="nav-text">为何诞生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-Proxy"><span class="nav-number">2.</span> <span class="nav-text">DNS Proxy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-%E8%AF%B7%E6%B1%82%E6%8B%A6%E6%88%AA"><span class="nav-number">2.1.</span> <span class="nav-text">DNS 请求拦截</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-Agent"><span class="nav-number">2.2.</span> <span class="nav-text">DNS Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pilot-Discovery"><span class="nav-number">2.3.</span> <span class="nav-text">Pilot-Discovery</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-Proxy-Works"><span class="nav-number">3.</span> <span class="nav-text">DNS Proxy Works</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VM-%E8%AE%BF%E9%97%AE-Kube-%E5%86%85%E8%B5%84%E6%BA%90"><span class="nav-number">3.1.</span> <span class="nav-text">VM 访问 Kube 内资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E9%9B%86%E7%BE%A4%E8%AE%BF%E9%97%AE"><span class="nav-number">3.2.</span> <span class="nav-text">跨集群访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ServiceEntry-%E4%B8%80%E9%94%AE%E6%8E%A5%E5%85%A5%E5%A4%96%E9%83%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.3.</span> <span class="nav-text">ServiceEntry 一键接入外部服务</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Isito 1.8 新功能&#58 DNS Agent | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Isito 1.8 新功能&#58 DNS Agent
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-07 12:28:41" itemprop="dateCreated datePublished" datetime="2021-02-07T12:28:41+08:00">2021-02-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/isito/" itemprop="url" rel="index"><span itemprop="name">isito</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/02/07/networking/istio/feature/dns-agent/" class="post-meta-item leancloud_visitors" data-flag-title="Isito 1.8 新功能&#58 DNS Agent" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Isito 1.8 新功能&#58 DNS Agent" href="/2021/02/07/networking/istio/feature/dns-agent/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::6f91c47dcdd300d89a4608d573b1c814" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/02/07/networking/istio/feature/dns-agent/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/07/networking/istio/feature/dns-agent/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png" alt=""></p>
+<p>在 <code>1.8</code> 的版本中，<code>istio</code> 悄悄的上了一个预览版的功能 <a target="_blank" rel="noopener" href="https://istio.io/latest/blog/2020/dns-proxy/">DNS Proxy</a>，这个功能极为的强大，让我们一起来看看吧。</p>
+<span id="more"></span>
+<h2 id="为何诞生"><a class="header-anchor" href="#为何诞生">¶</a>为何诞生</h2>
+<p>从官方的文档中，<code>DNS Proxy</code>的功能主要为了 <code>减少KubeDNS的查询</code>，这个很好理解</p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175250.png" alt=""></p>
+<p>除此之外，还要解决一个很重大的问题：<code>VM 和 Kubernetes</code> 的集成问题。</p>
+<iframe frameborder="0" style="width:100%;height:400px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=VMs%20to%20Kubernetes%20integration.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fyanickxia%2Fdrawio%2Fmaster%2FVMs%2520to%2520Kubernetes%2520integration.drawio"></iframe>
+<p>当我们将 <code>虚拟机</code> 接入集群的时候，<code>虚拟机</code> 中的应用如何访问 <code>Kubernates</code> 中的应用一直是一个困难的事情。还顺带解决了多集群访问的问题。让我们看看他是怎没做的。</p>
+<h2 id="DNS-Proxy"><a class="header-anchor" href="#DNS-Proxy">¶</a>DNS Proxy</h2>
+<p>启用此功能需要在 <code>pilot-agent</code> 的环境变量增加 <code>ISTIO_META_DNS_CAPTURE=true</code></p>
+<h3 id="DNS-请求拦截"><a class="header-anchor" href="#DNS-请求拦截">¶</a>DNS 请求拦截</h3>
+<p>当<code>Pod</code>启动的时候，我们会为 <code>Pod</code> 指定域名解析服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bash-5.0<span class="comment"># cat /etc/resolv.conf </span></span><br><span class="line">nameserver 10.96.0.10</span><br><span class="line">search test-istio.svc.cluster.local svc.cluster.local cluster.local byted.org</span><br><span class="line">options ndots:5</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>nameserver</code> 指向的就是 <code>kube-dns</code> 的地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get svc --all-namespaces | grep <span class="string">&#x27;10.96.0.10&#x27;</span></span><br><span class="line">kube-system    kube-dns                ClusterIP      10.96.0.10       &lt;none&gt;         53/UDP,53/TCP,9153/TCP                                                       39d</span><br></pre></td></tr></table></figure>
+<p><code>istio</code> 在会将此请求拦截，转发至 <code>pilot-agent</code>，这里并没有通过 <code>envoy</code>，是通过 <code>iptables</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ nsenter -t1963097 -n iptables-save -L</span><br><span class="line">.....</span><br><span class="line">-A OUTPUT -p udp -m udp --dport 53 -m owner --uid-owner 1337 -j RETURN</span><br><span class="line">-A OUTPUT -p udp -m udp --dport 53 -m owner --gid-owner 1337 -j RETURN</span><br><span class="line">-A OUTPUT -p udp -m udp --dport 53 -j DNAT --to-destination 127.0.0.1:15053</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p>在 <code>isito</code> 的 <code>pilot/pkg/dns/proxy.go:62</code> 中，我们可以很轻松的看到</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *dnsProxy)</span></span> start() &#123;</span><br><span class="line">	log.Infof(<span class="string">&quot;Starting local %s DNS server at 0.0.0.0:15053&quot;</span>, p.protocol)</span><br><span class="line">	err := p.downstreamServer.ActivateAndServe()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Errorf(<span class="string">&quot;Local %s DNS server terminated: %v&quot;</span>, p.protocol, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="DNS-Agent"><a class="header-anchor" href="#DNS-Agent">¶</a>DNS Agent</h3>
+<p>对于 <code>DNS Agent</code> 的运行逻辑也相对的不算很复杂。主要集中在 <code>pilot/pkg/dns/dns.go</code> 的 <code>ServeDNS</code> 函数中。</p>
+<figure class="highlight go"><figcaption><span>ServeDNS</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1.8.2/pilot/pkg/dns/dns.go#L154">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *LocalDNSServer)</span></span> ServeDNS(proxy *dnsProxy, w dns.ResponseWriter, req *dns.Msg) &#123;</span><br><span class="line">	<span class="keyword">var</span> response *dns.Msg</span><br><span class="line"></span><br><span class="line">    lp := h.lookupTable.Load()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// lookupTable 未加载成功，返回解析失败</span></span><br><span class="line">    <span class="keyword">if</span> lp == <span class="literal">nil</span> &#123;</span><br><span class="line">        response = <span class="built_in">new</span>(dns.Msg)</span><br><span class="line">        response.SetReply(req)</span><br><span class="line">        response.Rcode = dns.RcodeNameError</span><br><span class="line">        _ = w.WriteMsg(response)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    lookupTable := lp.(*LookupTable)</span><br><span class="line">    <span class="keyword">var</span> answers []dns.RR</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 去 lookupTable 进行查找</span></span><br><span class="line">    hostname := strings.ToLower(req.Question[<span class="number">0</span>].Name)</span><br><span class="line">    answers, hostFound := lookupTable.lookupHost(req.Question[<span class="number">0</span>].Qtype, hostname)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> hostFound &#123; <span class="comment">// 找到就是返回</span></span><br><span class="line">        response = <span class="built_in">new</span>(dns.Msg)</span><br><span class="line">        response.SetReply(req)</span><br><span class="line">        response.Answer = answers</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(answers) == <span class="number">0</span> &#123; <span class="comment">// 多个地址特殊处理失败</span></span><br><span class="line">            response.Rcode = dns.RcodeNameError</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// 找不到向上游查询</span></span><br><span class="line">        response = h.queryUpstream(proxy.upstreamClient, req)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	_ = w.WriteMsg(response)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理的逻辑并不算复杂，而比较复杂的显然是 <code>lookupTable</code> 从何而来，这个答案都指向了 <code>pilot-discovery</code> 组件</p>
+<figure class="highlight go"><figcaption><span>HandleUpstream</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1.8.2/pkg/istio-agent/xds_proxy.go#L241">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *XdsProxy)</span></span> HandleUpstream(ctx context.Context, con *ProxyConnection, xds discovery.AggregatedDiscoveryServiceClient) <span class="type">error</span> &#123;</span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    <span class="keyword">select</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> resp, ok := &lt;-con.responsesChan:</span><br><span class="line">    <span class="keyword">switch</span> resp.TypeUrl &#123;</span><br><span class="line">    <span class="keyword">case</span> v3.NameTableType:</span><br><span class="line">        <span class="keyword">if</span> p.localDNSServer != <span class="literal">nil</span> &amp;&amp; <span class="built_in">len</span>(resp.Resources) &gt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> nt nds.NameTable</span><br><span class="line">            <span class="keyword">if</span> err = ptypes.UnmarshalAny(resp.Resources[<span class="number">0</span>], &amp;nt); err != <span class="literal">nil</span> &#123;</span><br><span class="line">                log.Errorf(<span class="string">&quot;failed to unmarshall name table: %v&quot;</span>, err)</span><br><span class="line">            &#125;</span><br><span class="line">            p.localDNSServer.UpdateLookupTable(&amp;nt)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见 <code>pilot-discovery</code> 将这些数据 <code>push</code> 到了我们的 <code>pilot-agent</code> 上。</p>
+<h3 id="Pilot-Discovery"><a class="header-anchor" href="#Pilot-Discovery">¶</a>Pilot-Discovery</h3>
+<p>对于 <code>XDS</code> 来说，我们熟系的有 <code>LDS</code> <code>RDS</code> <code>RSDS</code> 等，对于 <code>DNS</code> 的数据，<code>istio</code> 拓展了一种 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1.8.2/pilot/pkg/xds/nds.go"><code>NDS</code></a> 协议</p>
+<figure class="highlight go"><figcaption><span>DNS Generate</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1.8.2/pilot/pkg/xds/nds.go#L68">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n NdsGenerator)</span></span> Generate(proxy *model.Proxy, push *model.PushContext, w *model.WatchedResource, req *model.PushRequest) model.Resources &#123;</span><br><span class="line">	<span class="keyword">if</span> !ndsNeedsPush(req) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	nt := n.Server.ConfigGenerator.BuildNameTable(proxy, push)</span><br><span class="line">	<span class="keyword">if</span> nt == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	resources := model.Resources&#123;util.MessageToAny(nt)&#125;</span><br><span class="line">	<span class="keyword">return</span> resources</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在代码的生成中，我们可以发现那些东西会被 <code>Push</code> 到 <code>Agent</code> 中</p>
+<figure class="highlight go"><figcaption><span>BuildNameTable</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1.8.2/pilot/pkg/networking/core/v1alpha3/name_table.go#L27">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(configgen *ConfigGeneratorImpl)</span></span> BuildNameTable(node *model.Proxy, push *model.PushContext) *nds.NameTable &#123;</span><br><span class="line">	out := &amp;nds.NameTable&#123;</span><br><span class="line">		Table: <span class="keyword">map</span>[<span class="type">string</span>]*nds.NameTable_NameInfo&#123;&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获得所有的服务 [这里是一个整合的概念，不仅仅包含了 kube Service]</span></span><br><span class="line">	<span class="keyword">for</span> _, svc := <span class="keyword">range</span> push.Services(node) &#123;</span><br><span class="line">		<span class="keyword">if</span> svc.Hostname.IsWildCarded() &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		svcAddress := svc.GetServiceAddressForProxy(node, push)</span><br><span class="line">		<span class="keyword">var</span> addressList []<span class="type">string</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果地址是 0.0.0.0 </span></span><br><span class="line">		<span class="keyword">if</span> svcAddress == constants.UnspecifiedIP &#123;</span><br><span class="line">			<span class="keyword">if</span> svc.Attributes.ServiceRegistry == <span class="type">string</span>(serviceregistry.Kubernetes) &amp;&amp;</span><br><span class="line">				svc.Resolution == model.Passthrough &amp;&amp; <span class="built_in">len</span>(svc.Ports) &gt; <span class="number">0</span> &#123;</span><br><span class="line">				<span class="comment">// 如果是 Passthrough 的模式并且有 Ports 的配置，就把 ServiceInstance 的 IP 写入 </span></span><br><span class="line">				<span class="keyword">for</span> _, instance := <span class="keyword">range</span> push.ServiceInstancesByPort(svc, svc.Ports[<span class="number">0</span>].Port, <span class="literal">nil</span>) &#123;</span><br><span class="line">					addressList = <span class="built_in">append</span>(addressList, instance.Endpoint.Address)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(addressList) == <span class="number">0</span> &#123;</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123; <span class="comment">// 其他直接放地址即可</span></span><br><span class="line">			addressList = <span class="built_in">append</span>(addressList, svcAddress)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		nameInfo := &amp;nds.NameTable_NameInfo&#123;</span><br><span class="line">			Ips:      addressList,</span><br><span class="line">			Registry: svc.Attributes.ServiceRegistry, </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> out</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>抛开 <code>headless</code> 的服务来说，大部分的服务地址都可以通过 <code>GetServiceAddressForProxy</code> 获得。</p>
+<figure class="highlight go"><figcaption><span>GetServiceAddressForProxy</span><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1.8.2/pilot/pkg/model/service.go#L600">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span></span> GetServiceAddressForProxy(node *Proxy, push *PushContext) <span class="type">string</span> &#123;</span><br><span class="line">    <span class="comment">// 从节点内获得 ClusterIP</span></span><br><span class="line">	<span class="keyword">if</span> node.Metadata != <span class="literal">nil</span> &amp;&amp; node.Metadata.ClusterID != <span class="string">&quot;&quot;</span> &amp;&amp; push.ServiceIndex.ClusterVIPs[s][node.Metadata.ClusterID] != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> push.ServiceIndex.ClusterVIPs[s][node.Metadata.ClusterID]</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 如果开启 DNSCapture 而且服务又是 Headless 的，这里会使用 AutoAllocatedAddress</span></span><br><span class="line">	<span class="keyword">if</span> node.Metadata != <span class="literal">nil</span> &amp;&amp; node.Metadata.DNSCapture != <span class="string">&quot;&quot;</span> &amp;&amp;</span><br><span class="line">		s.Address == constants.UnspecifiedIP &amp;&amp; s.AutoAllocatedAddress != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> s.AutoAllocatedAddress</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s.Address</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而生产 <code>IP</code> 的逻辑在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/88a2bfb3bd8e0010229ee66befc4e56b326c2a3a/pilot/pkg/serviceregistry/serviceentry/servicediscovery.go#L894">autoAllocateIPs</a> 不做过多的展开。</p>
+<p>在 <code>PushContext</code> 中，获得所有的 <code>Service</code> 的时候，会自动的生成这些 <code>IP</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *ServiceEntryStore)</span></span> Services() ([]*model.Service, <span class="type">error</span>) &#123;</span><br><span class="line">	services := <span class="built_in">make</span>([]*model.Service, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">for</span> _, cfg := <span class="keyword">range</span> s.store.ServiceEntries() &#123;</span><br><span class="line">		services = <span class="built_in">append</span>(services, convertServices(cfg)...)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> autoAllocateIPs(services), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="DNS-Proxy-Works"><a class="header-anchor" href="#DNS-Proxy-Works">¶</a>DNS Proxy Works</h2>
+<p>说了那么多的原理，让我们看看，这个功能究竟会给我们带来什么。</p>
+<h3 id="VM-访问-Kube-内资源"><a class="header-anchor" href="#VM-访问-Kube-内资源">¶</a>VM 访问 Kube 内资源</h3>
+<iframe frameborder="0" style="width:100%;height:400px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=vm-access-kube.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fyanickxia%2Fdrawio%2Fmaster%2Fvm-access-kube.drawio"></iframe>
+<p>当我们让 <code>VM</code> 访问 <code>Kube</code> 内资源的时候，会经过</p>
+<ol>
+<li>VM 内应用查询 DNS 解析 <code>demo.demo.srv.cluster.local</code></li>
+<li>DNS 解析返回缓存的地址，实际上对应的 <code>srv</code> 地址</li>
+<li>访问此地址，被 <code>Envoy</code> 拦截</li>
+<li><code>Envoy</code> 将请求转发至 <code>Ingress Gateway</code></li>
+<li><code>Ingress Gateway</code> 通过 <code>SNI</code> 转发至 <code>Service</code></li>
+</ol>
+<h3 id="跨集群访问"><a class="header-anchor" href="#跨集群访问">¶</a>跨集群访问</h3>
+<p>在以前的跨集群访问中，如果某个服务仅仅在某一个集群中，此时我们在另外一个不包含此服务的集群中访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/ <span class="comment"># curl something.demo.srv.cluster.local</span></span><br><span class="line">curl: (6) Could not resolve host: something.demo.srv.cluster.local</span><br></pre></td></tr></table></figure>
+<p>这里错误是因为 <code>KubeDNS</code> 并不能成功的了解析其他集群中的服务地址。现在基于 <code>DNS PROXY</code> 和 <a href="">#VM 访问 Kube 内资源</a> 一样解决了这样的问题。</p>
+<iframe frameborder="0" style="width:100%;height:400px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=access-other-kube.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fyanickxia%2Fdrawio%2Fmaster%2Faccess-other-kube.drawio"></iframe>
+<h3 id="ServiceEntry-一键接入外部服务"><a class="header-anchor" href="#ServiceEntry-一键接入外部服务">¶</a>ServiceEntry 一键接入外部服务</h3>
+<p>以前我们想要将一个 <code>vm</code> 的服务单方向的接入系统，我们需要如下配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.istio.io/v1alpha3</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceEntry</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">details-svc</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hosts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">notexist.foo.cluster.local</span></span><br><span class="line">  <span class="attr">location:</span> <span class="string">MESH_EXTERNAL</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">number:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">HTTP</span></span><br><span class="line">  <span class="attr">resolution:</span> <span class="string">STATIC</span></span><br></pre></td></tr></table></figure>
+<p>此时我们访问 <code>notexist.foo.cluster.local</code> 依然会出现 <code>Could not resolve host</code> 的问题，解决办法是创建一个 <code>headless</code> 的 <code>service</code> 资源。</p>
+<p>而现在不需要了，<code>ServiceEntry</code> 的对象会分配一个 <code>E Class IP</code>，因此我们进行解析的时候会获得一个 <code>IP</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/ <span class="comment"># nslookup notexist.foo.cluster.local</span></span><br><span class="line">Server:         10.233.0.3</span><br><span class="line">Address:        10.233.0.3:53</span><br><span class="line"></span><br><span class="line">** server can<span class="string">&#x27;t find notexist.foo.cluster.local: NXDOMAIN</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Non-authoritative answer:</span></span><br><span class="line"><span class="string">Name:   notexist.foo.cluster.local</span></span><br><span class="line"><span class="string">Address: 240.240.12.17</span></span><br></pre></td></tr></table></figure>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/isito/" rel="tag"># isito</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/24/game/learn-by-game/learn-by-game-01/" rel="prev" title="Learn By Game&#58 01 环境准备">
+                  <i class="fa fa-chevron-left"></i> Learn By Game&#58 01 环境准备
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/09/proggramming/Rank-N-Types/" rel="next" title="Rank N Types">
+                  Rank N Types <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="6f91c47dcdd300d89a4608d573b1c814"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

@@ -1,16 +1,661 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="The Design and Implementation of a Log-Structured File System 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log-structured File System">
+<meta property="og:url" content="http://blog.yanick.site/2020/10/15/other/lfs/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="The Design and Implementation of a Log-Structured File System 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTm8U.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9Jzy.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9aof.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9iDU.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTRLy.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/t9K5S.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTUM6.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTx1X.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/10/15/tTMOp.png">
+<meta property="article:published_time" content="2020-10-15T11:20:31.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="lsf">
+<meta property="article:tag" content="file-system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/10/15/tTm8U.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2020/10/15/other/lfs/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/10/15/other/lfs/","path":"2020/10/15/other/lfs/","title":"Log-structured File System"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Log-structured File System | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#File-System-As-Log"><span class="nav-number">1.</span> <span class="nav-text">File System As Log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E5%88%97%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">名词列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="nav-number">3.</span> <span class="nav-text">文件读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">空间管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">4.1.</span> <span class="nav-text">垃圾回收</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D"><span class="nav-number">5.</span> <span class="nav-text">故障恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-v6"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/10/15/other/lfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Log-structured File System | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Log-structured File System
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-15 19:20:31" itemprop="dateCreated datePublished" datetime="2020-10-15T19:20:31+08:00">2020-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/lsf/" itemprop="url" rel="index"><span itemprop="name">lsf</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/lsf/file-system/" itemprop="url" rel="index"><span itemprop="name">file-system</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/10/15/other/lfs/" class="post-meta-item leancloud_visitors" data-flag-title="Log-structured File System" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Log-structured File System" href="/2020/10/15/other/lfs/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::2bebe952365764e9059313d01e5664e9" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/10/15/other/lfs/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/15/other/lfs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTm8U.png" alt="tTm8U.png"></p>
+<p><a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~brewer/cs262/LFS.pdf">The Design and Implementation of a Log-Structured File System</a> 是 Mendel Rosenblum 和 John K. Ousterhout 在90年代初发表的一篇经典论文，作者认为随机读不是 主要问题：随着越来越大的内存，大部分的读操作都能被 cache，因此 LFS 主要要解决的是减少对硬盘的随机写操作。</p>
+<span id="more"></span>
+<blockquote>
+<p>作者在论文中用一个 <code>Sprite LFS</code> 来描述。</p>
+</blockquote>
+<h2 id="File-System-As-Log"><a class="header-anchor" href="#File-System-As-Log">¶</a>File System As Log</h2>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9Jzy.png" alt="t9Jzy.png"></p>
+<p>对于文件的写入，也是类似通过 <code>append log</code> 的方式进行追加数据。大家如果记得话 <code>Kafka</code> 的话， <code>Kafka</code> 基于 <code>顺序写</code> 的方式提高了写入的吞吐量。 <code>想法</code>非常的朴质，但是有两点需要解决：1. 如何通过日志读取最终文件，这个很容易理解。2. 如何管理空闲的数据段。</p>
+<p>管理空闲的数据段就会涉及到如下状态的处理，假如某个值为 <code>A</code>, <code>A'</code>,<code>A''</code>,<code>A'''</code> 的顺序写入，我们最终只需要 <code>A'''</code> 的状态，而其他的并不需要。</p>
+<h2 id="名词列表"><a class="header-anchor" href="#名词列表">¶</a>名词列表</h2>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inode</td>
+<td>定位文件块，包含存储保护位、更新时间等</td>
+</tr>
+<tr>
+<td>Inode map</td>
+<td>定位log中inode的位置，包含最近访问时间和版本号</td>
+</tr>
+<tr>
+<td>Indriect block</td>
+<td>定位大容量数据块</td>
+</tr>
+<tr>
+<td>Segement summary</td>
+<td>标识segment的内容(文件数量以及每个block的偏移量)</td>
+</tr>
+<tr>
+<td>Segement usage table</td>
+<td>计算segments中存活的bytes数，并为segement中的数据存储的写 时间</td>
+</tr>
+<tr>
+<td>Super Block</td>
+<td>存储静态配置信息，包括segements的数量和大小</td>
+</tr>
+<tr>
+<td>Checkpoint region</td>
+<td>定位inode map、segment useage table所在的block，并标识log中上一个check point的位置</td>
+</tr>
+<tr>
+<td>Directory  change log</td>
+<td>记录目录操作，从而保证inode 中的引用数量一致性</td>
+</tr>
+</tbody>
+</table>
+<h2 id="文件读取"><a class="header-anchor" href="#文件读取">¶</a>文件读取</h2>
+<p>常规的 <code>log-structured</code> 的数据格式，显然我们需要从零开始一直读取到最后的日志。那显然太慢了，<code>Sprite LFS</code> 为了提高性能，每个文件都有一个 <code>inode</code> 的数据结构，保存一些元数据与 前十个<code>10</code> 个 <code>数据Blocks</code> ，对于大文件来说 <code>10</code> 个数据块显然不够，<code>inode</code> 还包含一个或多个 <code>indirect blocks</code> 的磁盘地址，每个 <code>indirect blocks</code> 包含更多数据或间接块的地址。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9aof.png" alt="t9aof.png"></p>
+<p>因为 <code>Inode</code> 非确定的出现在任意一个位置，因此我们还需要定位 <code>Inode</code> 本身。<code>LFS</code> 里面用了一种 <code>Inode map</code> 去存 <code>Inode</code> 的地址。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9iDU.png" alt="t9iDU.png"></p>
+<p>但是 <code>Inode map</code> 也是按照 <code>Block</code> 的方式写入日志中的，因此我们势必需要一个固定的区域来定位，那就有两种方式， <code>Inode Map</code> 存在固定的位置，或者再间接引用。在 <code>LFS</code> 中是有一个固定的 <code>checkpoint</code> 区域来储存 <code>inode map</code> 的位置。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTRLy.png" alt="tTRLy.png"></p>
+<h2 id="空间管理"><a class="header-anchor" href="#空间管理">¶</a>空间管理</h2>
+<p><code>Sprite LFS</code> 将磁盘分成了很多个 <code>segment</code></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/t9K5S.png" alt="t9K5S.png"></p>
+<p><code>segment</code> 是在内存中，当储存的数据量超过 <code>限制大小</code> 之后才会向磁盘落盘。</p>
+<h3 id="垃圾回收"><a class="header-anchor" href="#垃圾回收">¶</a>垃圾回收</h3>
+<p>日志系统最大的问题显然是需要回收那些不需要的空间的，为了压缩空间，加入了 <code>segment cleaning</code> 技术，<code>Sprite LFS</code> 分了三步来处理这个问题：1. 读取一部分 segments 到内存 2. 标记还存活的数据  3. 将活着的数据写入较少的 segments</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTUM6.png" alt="tTUM6.png"></p>
+<p>为了确定哪些 <code>Block</code> 已经无效了，<code>LFS</code> 在 <code>Segment</code> 开头处中储存了一种 <code>Segment Summary</code> 数据体，<code>Segment Summary</code> 中存储了段中每个 <code>Data Block</code> 的地址，和这个 <code>Data Block</code> 的 <code>Inode Number （文件号）</code>，以及该 <code>Block</code> 在文件中的 <code>offset</code>。对于任意 <code>Block</code>，只要对比该 <code>Block</code> 的地址，和通过 <code>Inode Map</code> 查询这个 <code>Block</code> 的地址是否相同，就能判断这个 <code>Block</code> 是否过期。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTx1X.png" alt="tTx1X.png"></p>
+<p>如上图中，我们 <code>Inode Map</code> 中储存的 <code>Inode2</code> 的版本是 <code>2</code>，而在 <code>Segment Summary</code> 中 <code>Inode2</code> 的版本是 <code>1</code> 因此这部分的数据就是无效的。</p>
+<h2 id="故障恢复"><a class="header-anchor" href="#故障恢复">¶</a>故障恢复</h2>
+<ul>
+<li><code>LFS</code> 的每个 <code>Segment</code> 都存储了下一个 <code>Segment</code> 的地址，像链表一样。</li>
+<li>在 <code>Checkpoint</code> <code>中，LFS</code> 存储了这个链表的第一个 <code>Segment</code> 和最后一个 <code>Segment</code> 的地址，因此只要读取 <code>Checkpoint</code> 就能恢复出整个文件系统。</li>
+<li><code>LFS</code> 每 <code>30</code> 秒更新一次 <code>Checkpoint</code> 中的数据。</li>
+</ul>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/10/15/tTMOp.png" alt="tTMOp.png"></p>
+<ol>
+<li>当我们更新 <code>Checkpoint</code> 的出现问题，如果 <code>Head</code> <code>Tail</code> 都没有更新，等于没有创建，再来一次即可。</li>
+<li>当我们更新 <code>Checkpoint</code> 的出现问题，如果 <code>Head</code> 更新，<code>Tail</code> 没有更新的话
+<ul>
+<li><code>LFS</code> 在硬盘的头部和尾部存储了两个 <code>Checkpoint</code>，每次 <code>Checkpoint</code> 时 <code>LFS</code> 交替地存储在头部或是尾部的 <code>Checkpoint</code> 中。 这样即使写入一个 <code>Checkpoint</code> 失败， <code>LFS</code> 也能恢复到上一个 <code>Checkpoint</code></li>
+<li>同时 <code>LFS</code> 利用时间戳来检测 <code>Checkpoint</code> 的失败：在写入 <code>Checkpoint</code> 时，先更新头指针和对应的时间戳，再更新 <code>Checkpoint</code> 中的其它内容，最后更新尾指针和相同的时间戳。如果 LFS 在读取 <code>Checkpoint</code> 时发现头指针和尾指针的时间戳不一致，就知道这个 <code>Checkpoint</code> 并没有完成。</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结-v6"><a class="header-anchor" href="#总结-v6">¶</a>总结</h2>
+<p>为什么 <code>LFS</code> 被大家喜欢，<code>LFS</code> 将文件系统按照日志的方式进行储存，假设大部分<code>读</code>都可以在 <code>Buffer Cache</code> 中完成，而写入速度是更高优先级，通过 <code>Segment</code> 的机制让随机写入变成顺序写入，并且很容易的完成快速恢复。</p>
+<p>但是 <code>LFS</code> 并非是没有缺点，在 <a href=""><code>compared FFS to a BSD port of Sprite’s LFS</code></a> 论文提及到：</p>
+<ul>
+<li>磁盘常常是满的（回收器需要在大量的Segment中才能找到一点点可以回收的空间）</li>
+<li>写操作随机（因为空闲空间将均匀地分布在各个段中，迫使回收器读取许多段以释放空间）</li>
+</ul>
+<p>类似于 <code>Java</code> 如何控制垃圾回收反而是一个更复杂的问题，大概也是从 <code>1991</code> 诞生之后并没有大规模的普及，但是对后世的很多系统都产生了深远的影响。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/lsf/" rel="tag"># lsf</a>
+              <a href="/tags/file-system/" rel="tag"># file-system</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/10/13/rust/dynamic-dispatch/" rel="prev" title="Rust Dynamic Dispatching">
+                  <i class="fa fa-chevron-left"></i> Rust Dynamic Dispatching
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/10/16/rust/talent-plan/project-2/" rel="next" title="Rust Project 2&#58 Log-structured file I/O 解读">
+                  Rust Project 2&#58 Log-structured file I/O 解读 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="2bebe952365764e9059313d01e5664e9"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

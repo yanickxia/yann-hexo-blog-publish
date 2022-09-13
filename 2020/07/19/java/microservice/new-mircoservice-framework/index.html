@@ -1,16 +1,734 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在 Java社区的新方向 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务框架 - 2020">
+<meta property="og:url" content="http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="在 Java社区的新方向 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBmpO.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBOc6.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBZvT.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBfWe.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfLlQ.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBgHy.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfPsh.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfRhS.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UfWnW.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/07/20/UBaW4.png">
+<meta property="article:published_time" content="2020-07-19T12:49:48.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.424Z">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/07/20/UBmpO.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/","path":"2020/07/19/java/microservice/new-mircoservice-framework/","title":"微服务框架 - 2020"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>微服务框架 - 2020 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot&#x2F;Cloud</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">Eclipse Vert.X</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Verticles"><span class="nav-number">2.1.</span> <span class="nav-text">Verticles</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Server"><span class="nav-number">2.2.</span> <span class="nav-text">Web Server</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">Quarkus</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Server-v2"><span class="nav-number">3.1.</span> <span class="nav-text">Web Server</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">Helidon</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Server-v3"><span class="nav-number">4.1.</span> <span class="nav-text">Web Server</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">Micronaut</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-server"><span class="nav-number">5.1.</span> <span class="nav-text">Web server</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">Lagom</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">体系之争</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">8.</span> <span class="nav-text">雷达</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="微服务框架 - 2020 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          微服务框架 - 2020
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-19 20:49:48" itemprop="dateCreated datePublished" datetime="2020-07-19T20:49:48+08:00">2020-07-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">框架</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/07/19/java/microservice/new-mircoservice-framework/" class="post-meta-item leancloud_visitors" data-flag-title="微服务框架 - 2020" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="微服务框架 - 2020" href="/2020/07/19/java/microservice/new-mircoservice-framework/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::84043fe1e8c298e2e33e3d01f366c81a" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/07/19/java/microservice/new-mircoservice-framework/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/19/java/microservice/new-mircoservice-framework/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
+<p>在 <a href="2020/06/20/java/other/2020-new-direction/">Java社区的新方向</a> 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。</p>
+<span id="more"></span>
+<h1>Spring Boot/Cloud</h1>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
+<p><code>Spring Boot</code> 和 <code>Spring Cloud</code> 现阶段仍是最大的微服务框架。大多数读者对其都很熟悉，我们就以 <code>Spring Boot</code> 为标杆，来和其他的框架进行对比。</p>
+<p>在最终的 <code>雷达图</code> 中，我们会对比这几种框架的 <code>制品大小</code> <code>启动速度</code> <code>功能性</code> <code>性能</code> 这几个指标。在每个新框架内尽可能举一些比较生动的 DEMO 给大家进行参考。</p>
+<h1>Eclipse Vert.X</h1>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
+<p><a target="_blank" rel="noopener" href="https://vertx.io/"><code>Vert.X</code></a> 如果说起来可能比微服务还略早一些，笔者也曾经为其中文社区翻译过文档，<code>Vert.X</code> 社区因为觉得 <code>Spring</code> 还是太重量级了，对于现在的软件开发来说，我们可能需要的仅仅是一组工具，因此推出了此框架：</p>
+<blockquote>
+<p>Eclipse Vert.x is a <code>tool-kit</code> for building <code>reactive</code> applications on the JVM.</p>
+</blockquote>
+<p>重点也给大家标红了 <code>tool-kit</code> 和 <code>reactive</code> 是他的最为重要的特征，除此之外</p>
+<ul>
+<li>轻量级：Core部分代码只有 700kb 左右</li>
+<li>快速：<a target="_blank" rel="noopener" href="https://www.techempower.com/benchmarks/">techempower benchmarks</a> java 社区少数能打的、</li>
+<li>模块化： Vertx的模块化做的非常好，不像 SpringCloud属于拼凑式的模块化</li>
+</ul>
+<h2 id="Verticles"><a class="header-anchor" href="#Verticles">¶</a>Verticles</h2>
+<p><code>Vert.X</code> 比较有趣的基于一种名为 <code>Verticle</code> 的对象进行编程，我们编写函数入口/对象 都是一种 <code>Verticle</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyVerticle</span> <span class="keyword">extends</span> <span class="title class_">AbstractVerticle</span> &#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Called when verticle is deployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">start</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Optional - called when verticle is undeployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stop</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此在设计之处，<code>Vertx</code> 已经考虑到 <code>Hotrestart</code>，对于开发者更容易理解。<code>Verticle</code> 之间的通讯又有点类似于 <code>Actor</code> 的通讯机制，不过值得注意的，<code>Core</code> 部分是不提供跨主机调研的，只能在同一个 <code>Verticle Deployment</code> 进行通讯，因此并不是可以直接等价于 <code>Akka</code>。</p>
+<h2 id="Web-Server"><a class="header-anchor" href="#Web-Server">¶</a>Web Server</h2>
+<p><code>Vert.X</code> 更喜欢将控制权返给开发者，<code>框架</code>封装使用，<code>工具</code>展示本质。因此对于我们来说，如果需要构建一个 <code>web server</code>，我们应该使用如下方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">HttpServer</span> <span class="variable">server</span> <span class="operator">=</span> vertx.createHttpServer();</span><br><span class="line"></span><br><span class="line"><span class="type">Router</span> <span class="variable">router</span> <span class="operator">=</span> Router.router(vertx);</span><br><span class="line"></span><br><span class="line">router.route().handler(routingContext -&gt; &#123;</span><br><span class="line">  <span class="type">HttpServerResponse</span> <span class="variable">response</span> <span class="operator">=</span> routingContext.response();</span><br><span class="line">  response.putHeader(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>);</span><br><span class="line">  response.end(<span class="string">&quot;Hello World from Vert.x-Web!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.requestHandler(router).listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
+<p>从短短的几行里面，我们可以发现 <code>Vert.x</code> 正如宣传的提供的是一系列的 <code>Tookit</code> 在构建的过程中推荐开发者自己亲手搭建一个系统。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
+<hr>
+<p>不过 <code>Vert.x</code> 这个工具箱很强大，提供了 <code>Web</code> <code>Data Access</code> <code>Reactive</code> <code>IoT</code> <code>Authentication and Authorisation</code> <code>Messaging</code> <code>Integration</code> <code>Event Bus Bridge</code> <code>DevOps</code> <code>Testing</code> <code>Clustering</code> <code>Services</code> <code>Standards</code> 这么多系列的工具，总有一款适合你。</p>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">个人还是比较喜欢 Vert.X， 像 GoLanguage 也证明这种基于小工具的组合其实也是可以满足需求的，并且因为足够简单在使用的过程中也比较好去排查问题。</p>
+</div>
+<h1>Quarkus</h1>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
+<p>说起 <code>quarkus</code> 就有点厉害了， <code>quarkus</code> 主打的是 <code>GraalVM</code>，在之前的文章中和大家讨论过在 <code>云原生</code> 时代内的 <code>JVM</code> 太过于笨重，从 <code>JVM</code> 尝试解决这个问题的就是 <code>GraalVM</code>，但是 <code>GraalVM</code> 并非是一个无痛的，比如反射就不能使用(需要转化)，因此 <code>GraalVM</code> 就好比新能源汽车，我们已经不需要汽油发动机，因此也需要配套的设施来发挥，因此 <code>Redhat</code> 就发起了 <code>Quarkus</code> 项目。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
+<blockquote>
+<p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and <code>GraalVM</code>, crafted from the best of breed Java libraries and standards.</p>
+</blockquote>
+<p><code>云原生</code> 是其主打特征。</p>
+<h2 id="Web-Server-v2"><a class="header-anchor" href="#Web-Server-v2">¶</a>Web Server</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;fruits&quot;)</span></span><br><span class="line"><span class="meta">@Produces(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="meta">@Consumes(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FruitResource</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@ConfigProperty(name = &quot;myapp.schema.create&quot;, defaultValue = &quot;true&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> schemaCreate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    PgPool client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="keyword">public</span> Multi&lt;Fruit&gt; <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findAll(client);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Path(&quot;&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">getSingle</span><span class="params">(<span class="meta">@PathParam</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findById(client, id)</span><br><span class="line">                .onItem().apply(fruit -&gt; fruit != <span class="literal">null</span> ? Response.ok(fruit) : Response.status(Status.NOT_FOUND))</span><br><span class="line">                .onItem().apply(ResponseBuilder::build);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@POST</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">create</span><span class="params">(Fruit fruit)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fruit.save(client)</span><br><span class="line">                .onItem().apply(id -&gt; URI.create(<span class="string">&quot;/fruits/&quot;</span> + id))</span><br><span class="line">                .onItem().apply(uri -&gt; Response.created(uri).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整体的使用上，<code>Quarkus</code> 是非常接近 <code>Spring</code> 的体验，不过整体上因为 <code>Quarkus</code>  更加的拥抱云原生，因此并没有在 <code>Cloud</code> 侧的组件做更多的时期，希望用户基于 <code>CNCF</code> 所提供的能力进行工作，这点可能会让开发者很不舒服。悄悄的告诉你(Quarkus底层也会依赖Vertx)</p>
+<blockquote>
+<p>Quarkus is based on Vert.x, and almost all network-related features rely on Vert.x. While lots of reactive features from Quarkus don’t show Vert.x, it’s used underneath.</p>
+</blockquote>
+<p>面向微服务、云原生，编译到 native 以获得超快启动时间、超低内存占用，统一命令式与反应式编程范式，这几点其实新的框架都差不多，Quarkus 更重视“把问题提前到编译期解决”。不过这件事情对于开发者来讲可能就没有什么体感了。</p>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">其实也可以理解 Quarkus 基于 Vertx 提供了更好开箱即用的体验，并且和周边生态集成的更加紧密了。</p>
+</div>
+<h1>Helidon</h1>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
+<p>刚刚也讲了，其实大部分的框架都比较类似了，<code>Helidon</code> 也是如此。提供了</p>
+<ul>
+<li>Reactive non-blocking database client</li>
+<li>Supports existing blocking JDBC drivers</li>
+<li>Relational and non-relational databases</li>
+<li>Metrics, tracing, health checks</li>
+<li>Portability</li>
+<li>Extensibility</li>
+</ul>
+<p>值得一说的是对 <code>GraalVM</code> 也是积极支持的。<code>Helidon</code> 将项目分为了 <code>SE</code> <code>MP</code>，对于 <code>SE</code> 作为功能组件存在，<code>MP</code> 则是为了实现 <a target="_blank" rel="noopener" href="https://projects.eclipse.org/proposals/eclipse-microprofile"><code>MicroProfile</code></a></p>
+<p><code>MicroProfile</code> 说起来就比较厉害了，拉了 <code>IBM</code> <code>RedHat</code> <code>Payara</code> <code>Tomitribe</code> <code>SouJava</code> 下水，准备重新搞标准了 ， 天下还苦 <code>Spring</code> 久已， <code>Spring</code> 的确现在看起来有些笨重。</p>
+<h2 id="Web-Server-v3"><a class="header-anchor" href="#Web-Server-v3">¶</a>Web Server</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">WebServer</span> <span class="variable">webServer</span> <span class="operator">=</span> WebServer</span><br><span class="line">            .create(Routing.builder()</span><br><span class="line">                            .any((req, res) -&gt; res.send(<span class="string">&quot;It works!&quot;</span>))) </span><br><span class="line">            .start() </span><br><span class="line">            .await(<span class="number">10</span>, TimeUnit.SECONDS); </span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;Server started at: http://localhost:&quot;</span> + webServer.port()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">Helidon 应该还算是最不完善的，文档毕竟稀少，代码的话以封装 JDK & Netty 为主。</p>
+</div>
+<h1>Micronaut</h1>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
+<p><code>micronaut</code> 和 <code>grails</code> 实属亲戚关系，而 <code>grails</code> 和 <code>spring</code> 又经常 PY。因此我觉得 <code>Micronaut</code> 和  <code>Spring</code> 总有不可告人的秘密。</p>
+<blockquote>
+<p>Micronaut is a modern, JVM-based, full stack Java framework designed for building modular, easily testable JVM applications with support for Java, Kotlin and the Groovy language.</p>
+</blockquote>
+<p>Micronaut 还是有一些有趣的东西，不过和其他家也类似，<code>IOC</code> 是通过 <code>annotation Processor</code> 处理的，也就是所谓的了静态处理。</p>
+<h2 id="Web-server"><a class="header-anchor" href="#Web-server">¶</a>Web server</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Micronaut.run(Application.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@MicronautTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloControllerSpec</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    EmbeddedServer server; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@Client(&quot;/&quot;)</span></span><br><span class="line">    HttpClient client; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">testHelloWorldResponse</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> client.toBlocking() </span><br><span class="line">                .retrieve(HttpRequest.GET(<span class="string">&quot;/hello&quot;</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;Hello World&quot;</span>, response); <span class="comment">//) </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从 <code>Hello World</code> 看其实和 <code>Spring</code> 没啥却别（更多地方看起来都没啥区别），我还倾向于 <code>Micronaut</code> 仅仅是 <code>Spring</code> 体系的一个马甲。</p>
+<h1>Lagom</h1>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
+<p>Lagom 就一直属于万年老二的状态，以前和 <code>Spring</code> 竞争的 <a target="_blank" rel="noopener" href="https://www.playframework.com/"><code>Play Framework</code></a>，现在用 <code>Lagom</code> 和 <code>Spring</code> 竞争，因为 <code>Lagom</code> 的内部通讯基于 <code>Akka Remoting</code> <code>Steam Driver</code> 的机制，可是说是完全独立的一套体系。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
+<p>说到 <code>Lagom</code> 就一定要说到 <code>Akka</code>，<code>Actor</code> 这个模型说起都说好，但是实际上都没啥人用 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/279512440">为什么Akka(Actor模型)在中国不温不火？</a>。绝大多数的开发者没有意识到布道师的眼中只有优点是没有缺点的。</p>
+<p>对于 <code>Akka</code> 也不深入了解，这个就权当给大家一点开拓视野的资料。</p>
+<h1>体系之争</h1>
+<p>现在开源早就过了单兵作战的时代，每一个开源项目的背后企业也是我们应该考虑的。</p>
+<ul>
+<li>Spring → Pivotal → VMware</li>
+<li>Quarkus/Vert.x → Eclipse 基金会 → Red Hat 支持</li>
+<li>Helidon → Oracle</li>
+<li>Micronaut → Object Computing（Grails、OpenDDS） → Spring 有 PY</li>
+<li>Lagom → Lightbend（Akka）</li>
+</ul>
+<p>前三家都算是家大业大也不怕跑路， <code>Micronaut</code> 就略为弱一点， <code>Lightbend</code> 和其他家有所区别 <code>Lightbend</code> 面向 <code>EE</code> 因此也是为数几家可以提供 <code>企业化</code> 服务的体系。</p>
+<h1>雷达</h1>
+<div id="spring-vertx" style="height: 400px"></div>
+<script crossorigin="anonymous" integrity="sha384-et+fqdf7kslHL5Ip8rXSJPUPODLa7eMfpFTBaCfnlMzrcAz/wxI5Xm/mNTZwd+7H" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script>
+<script type="text/javascript">
+var dom = document.getElementById("spring-vertx");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+option = {
+    title: {
+        text: '技术雷达图'
+    },
+    tooltip: {},
+    legend: {
+        data: ['Spring', 'Vertx', 'Quarkus', 'Helidon', 'Micronaut', 'Lagom']
+    },
+    radar: {
+        // shape: 'circle',
+        name: {
+            textStyle: {
+                color: '#fff',
+                backgroundColor: '#999',
+                borderRadius: 3,
+                padding: [3, 5]
+            }
+        },
+        indicator: [
+            { name: '制品大小', max: 100},
+            { name: '功能性', max: 100},
+            { name : '启动速度（越小越好）', max: 100 },
+            { name: '性能', max: 100 },
+            { name: '生态建设', max: 100},
+        ],
+        radius: '65%'
+    },
+    series: [{
+        name: '大比拼',
+        type: 'radar',
+        // areaStyle: {normal: {}},
+        data: [
+            {
+                value: [100, 90, 100, 50, 100],
+                name: 'Spring'
+            },
+            {
+                value: [60, 70, 50, 90, 80],
+                name: 'Vertx'
+            },
+            {
+                value: [70, 70, 45, 80, 80],
+                name: 'Quarkus'
+            },
+            {
+                value: [70, 70, 50, 80, 70],
+                name: 'Helidon'
+            },
+            {
+                value: [80, 70, 60, 70, 60],
+                name: 'Micronaut'
+            },
+            {
+                value: [80, 70, 70, 70, 60],
+                name: 'Lagom'
+            }
+        ]
+    }]
+};;
+
+myChart.setOption(option, true);
+
+</script><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/14/architecture/architecture-not-mysticism/" rel="prev" title="架构亦非玄学">
+                  <i class="fa fa-chevron-left"></i> 架构亦非玄学
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/29/go/interview/" rel="next" title="Go 面试汇总">
+                  Go 面试汇总 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="84043fe1e8c298e2e33e3d01f366c81a"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

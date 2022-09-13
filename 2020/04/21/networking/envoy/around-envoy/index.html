@@ -1,16 +1,834 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="¶开发环境搭建 基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Envoy的知识">
+<meta property="og:url" content="http://blog.yanick.site/2020/04/21/networking/envoy/around-envoy/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="¶开发环境搭建 基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210312145904.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/26/JgPwQS.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/26/JgiIc8.png">
+<meta property="article:published_time" content="2020-04-21T14:30:00.000Z">
+<meta property="article:modified_time" content="2022-09-11T13:34:21.132Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="Gateway">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210312145904.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2020/04/21/networking/envoy/around-envoy/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/04/21/networking/envoy/around-envoy/","path":"2020/04/21/networking/envoy/around-envoy/","title":"关于Envoy的知识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>关于Envoy的知识 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-v2"><span class="nav-number">1.</span> <span class="nav-text">开发环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.</span> <span class="nav-text">基础工具下载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Bazel"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装 Bazel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BE%9D%E8%B5%96"><span class="nav-number">1.1.2.</span> <span class="nav-text">安装基础依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Clang-%E6%9E%84%E5%BB%BA%E7%8E%AF%E5%A2%83-%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">Clang 构建环境 （可选）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-bazel%E6%9E%84%E5%BB%BADEBUG%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.4.</span> <span class="nav-text">使用 bazel构建DEBUG版本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E6%88%90-Clion"><span class="nav-number">2.</span> <span class="nav-text">集成 Clion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86-Bazel-%E8%BD%AC%E5%8C%96%E4%B8%BA-Cmake"><span class="nav-number">2.1.</span> <span class="nav-text">将 Bazel 转化为 Cmake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%8F%82%E8%80%83"><span class="nav-number">2.2.</span> <span class="nav-text">开发环境搭建参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Envoy-%E5%9F%BA%E7%A1%80"><span class="nav-number">3.</span> <span class="nav-text">Envoy 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Libevent"><span class="nav-number">3.1.</span> <span class="nav-text">Libevent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Libevent-in-Envoy"><span class="nav-number">3.2.</span> <span class="nav-text">Libevent in Envoy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text">线程模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chain-in-Envoy"><span class="nav-number">4.</span> <span class="nav-text">Chain in Envoy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E9%93%BE"><span class="nav-number">4.1.</span> <span class="nav-text">请求处理链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E9%93%BE%E8%B7%AF"><span class="nav-number">4.2.</span> <span class="nav-text">响应数据处理链路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Envoy-Extend"><span class="nav-number">5.</span> <span class="nav-text">Envoy Extend</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Envoy-Admin"><span class="nav-number">6.</span> <span class="nav-text">Envoy Admin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Envoy-Dynamic-Manager"><span class="nav-number">7.</span> <span class="nav-text">Envoy Dynamic Manager</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LDS-v2"><span class="nav-number">7.1.</span> <span class="nav-text">LDS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gaph"><span class="nav-number">7.2.</span> <span class="nav-text">Gaph</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/04/21/networking/envoy/around-envoy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="关于Envoy的知识 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于Envoy的知识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-21 22:30:00" itemprop="dateCreated datePublished" datetime="2020-04-21T22:30:00+08:00">2020-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/" itemprop="url" rel="index"><span itemprop="name">API</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/" itemprop="url" rel="index"><span itemprop="name">Gateway</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/04/21/networking/envoy/around-envoy/" class="post-meta-item leancloud_visitors" data-flag-title="关于Envoy的知识" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="关于Envoy的知识" href="/2020/04/21/networking/envoy/around-envoy/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::e4de8999a28c95249252b384a59ccba7" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/04/21/networking/envoy/around-envoy/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/21/networking/envoy/around-envoy/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210312145904.png" alt=""></p>
+<h2 id="开发环境搭建-v2"><a class="header-anchor" href="#开发环境搭建-v2">¶</a>开发环境搭建</h2>
+<p>基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1</p>
+<span id="more"></span>
+<h3 id="基础工具下载"><a class="header-anchor" href="#基础工具下载">¶</a>基础工具下载</h3>
+<h4 id="安装-Bazel"><a class="header-anchor" href="#安装-Bazel">¶</a>安装 Bazel</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /usr/local/bin/bazel https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64</span><br><span class="line">sudo <span class="built_in">chmod</span> +x /usr/local/bin/bazel</span><br></pre></td></tr></table></figure>
+<h4 id="安装基础依赖"><a class="header-anchor" href="#安装基础依赖">¶</a>安装基础依赖</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libtool cmake automake autoconf make ninja-build curl unzip virtualenv</span><br></pre></td></tr></table></figure>
+<h4 id="Clang-构建环境-（可选）"><a class="header-anchor" href="#Clang-构建环境-（可选）">¶</a>Clang 构建环境 （可选）</h4>
+<p>从 <a target="_blank" rel="noopener" href="http://releases.llvm.org/download.html">llvm</a> 下载安装，9.0 版本比较兼容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bazel/setup_clang.sh &lt;PATH_TO_EXTRACTED_CLANG_LLVM&gt;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;build --config=clang&quot;</span> &gt;&gt; user.bazelrc</span><br></pre></td></tr></table></figure>
+<h4 id="使用-bazel构建DEBUG版本"><a class="header-anchor" href="#使用-bazel构建DEBUG版本">¶</a>使用 bazel构建DEBUG版本</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bazel build -c dbg --spawn_strategy=standalone  //source/exe:envoy-static</span><br></pre></td></tr></table></figure>
+<h2 id="集成-Clion"><a class="header-anchor" href="#集成-Clion">¶</a>集成 Clion</h2>
+<h3 id="将-Bazel-转化为-Cmake"><a class="header-anchor" href="#将-Bazel-转化为-Cmake">¶</a>将 Bazel 转化为 Cmake</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/lizan/bazel-cmakelists.git &lt;PATH&gt;</span><br><span class="line">&lt;bazel-cmakelists <span class="built_in">dir</span>&gt;/bazel-cmakelists --targets //source/exe:envoy-static //test/...</span><br><span class="line">// 如果不需要构建可以</span><br><span class="line">&lt;bazel-cmakelists <span class="built_in">dir</span>&gt;/bazel-cmakelists --targets //source/exe:envoy-static //test/... --skip_build</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开Clion导入Cmake项目即可，Clion的 <code>Bazel插件</code> 不能够针对Envoy良好的工作。</li>
+<li>设置Debug启动即可。</li>
+</ul>
+<h3 id="开发环境搭建参考"><a class="header-anchor" href="#开发环境搭建参考">¶</a>开发环境搭建参考</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.gmem.cc/clion-faq#debug">CLion知识集锦</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/envoyproxy/envoy/blob/master/bazel/README.md">Building Envoy with Bazel</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/envoyproxy/envoy/issues/6297">How to set up develop environment on mac using clion or vs code #6297</a></li>
+</ul>
+<h2 id="Envoy-基础"><a class="header-anchor" href="#Envoy-基础">¶</a>Envoy 基础</h2>
+<h3 id="Libevent"><a class="header-anchor" href="#Libevent">¶</a>Libevent</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Envoy is an L7 proxy and communication bus designed <span class="keyword">for</span> large modern service oriented architectures. The project was born out of the belief.</span><br></pre></td></tr></table></figure>
+<p>如同在官网的介绍一样，Envoy是一个高性能的代理服务软件，支持 L4 和 L7 的代理能力。但是Envoy也并非是一个完全重复造轮子的产品，Envoy的底层与操作系统交互网络部分采用的是  <a target="_blank" rel="noopener" href="https://libevent.org/">libevent</a>。</p>
+<p>libevent 是一个轻量级的网络<strong>事件</strong>库，提供了对于底层 Socket 的读写等事件的回调处理能力。</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        export函数
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> MESSAGE[] = <span class="string">&quot;Hello, World!\n&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">int</span> PORT = <span class="number">9995</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">listener_cb</span><span class="params">(<span class="keyword">struct</span> evconnlistener *, <span class="type">evutil_socket_t</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">struct</span> sockaddr *, <span class="type">int</span> socklen, <span class="type">void</span> *)</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">conn_writecb</span><span class="params">(<span class="keyword">struct</span> bufferevent *, <span class="type">void</span> *)</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">conn_eventcb</span><span class="params">(<span class="keyword">struct</span> bufferevent *, <span class="type">short</span>, <span class="type">void</span> *)</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">signal_cb</span><span class="params">(<span class="type">evutil_socket_t</span>, <span class="type">short</span>, <span class="type">void</span> *)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span></span><br><span class="line"><span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">event_base</span> *<span class="title">base</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">evconnlistener</span> *<span class="title">listener</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">event</span> *<span class="title">signal_event</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span> =</span> &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _WIN32</span></span><br><span class="line">	WSADATA wsa_data;</span><br><span class="line">	WSAStartup(<span class="number">0x0201</span>, &amp;wsa_data);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	base = event_base_new();</span><br><span class="line">	<span class="keyword">if</span> (!base) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Could not initialize libevent!\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sin</span>.sin_family = AF_INET;</span><br><span class="line">	<span class="built_in">sin</span>.sin_port = htons(PORT);</span><br><span class="line"></span><br><span class="line">	listener = evconnlistener_new_bind(base, listener_cb, (<span class="type">void</span> *)base,</span><br><span class="line">	    LEV_OPT_REUSEABLE|LEV_OPT_CLOSE_ON_FREE, <span class="number">-1</span>,</span><br><span class="line">	    (<span class="keyword">struct</span> sockaddr*)&amp;<span class="built_in">sin</span>,</span><br><span class="line">	    <span class="keyword">sizeof</span>(<span class="built_in">sin</span>));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!listener) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Could not create a listener!\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	signal_event = evsignal_new(base, SIGINT, signal_cb, (<span class="type">void</span> *)base);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!signal_event || event_add(signal_event, <span class="literal">NULL</span>)&lt;<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Could not create/add a signal event!\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	event_base_dispatch(base);</span><br><span class="line"></span><br><span class="line">	evconnlistener_free(listener);</span><br><span class="line">	event_free(signal_event);</span><br><span class="line">	event_base_free(base);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;done\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span></span><br><span class="line"><span class="title function_">listener_cb</span><span class="params">(<span class="keyword">struct</span> evconnlistener *listener, <span class="type">evutil_socket_t</span> fd,</span></span><br><span class="line"><span class="params">    <span class="keyword">struct</span> sockaddr *sa, <span class="type">int</span> socklen, <span class="type">void</span> *user_data)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">event_base</span> *<span class="title">base</span> =</span> user_data;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">bufferevent</span> *<span class="title">bev</span>;</span></span><br><span class="line"></span><br><span class="line">	bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);</span><br><span class="line">	<span class="keyword">if</span> (!bev) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Error constructing bufferevent!&quot;</span>);</span><br><span class="line">		event_base_loopbreak(base);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	bufferevent_setcb(bev, <span class="literal">NULL</span>, conn_writecb, conn_eventcb, <span class="literal">NULL</span>);</span><br><span class="line">	bufferevent_enable(bev, EV_WRITE);</span><br><span class="line">	bufferevent_disable(bev, EV_READ);</span><br><span class="line"></span><br><span class="line">	bufferevent_write(bev, MESSAGE, <span class="built_in">strlen</span>(MESSAGE));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span></span><br><span class="line"><span class="title function_">conn_writecb</span><span class="params">(<span class="keyword">struct</span> bufferevent *bev, <span class="type">void</span> *user_data)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">evbuffer</span> *<span class="title">output</span> =</span> bufferevent_get_output(bev);</span><br><span class="line">	<span class="keyword">if</span> (evbuffer_get_length(output) == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;flushed answer\n&quot;</span>);</span><br><span class="line">		bufferevent_free(bev);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span></span><br><span class="line"><span class="title function_">conn_eventcb</span><span class="params">(<span class="keyword">struct</span> bufferevent *bev, <span class="type">short</span> events, <span class="type">void</span> *user_data)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (events &amp; BEV_EVENT_EOF) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Connection closed.\n&quot;</span>);</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (events &amp; BEV_EVENT_ERROR) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Got an error on the connection: %s\n&quot;</span>,</span><br><span class="line">		    strerror(errno));<span class="comment">/*XXX win32*/</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/* None of the other events can happen here, since we haven&#x27;t enabled</span></span><br><span class="line"><span class="comment">	 * timeouts */</span></span><br><span class="line">	bufferevent_free(bev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span></span><br><span class="line"><span class="title function_">signal_cb</span><span class="params">(<span class="type">evutil_socket_t</span> sig, <span class="type">short</span> events, <span class="type">void</span> *user_data)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">event_base</span> *<span class="title">base</span> =</span> user_data;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">delay</span> =</span> &#123; <span class="number">2</span>, <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Caught an interrupt signal; exiting cleanly in two seconds.\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	event_base_loopexit(base, &amp;delay);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+<p>从上文中我们自然可以很明白的看懂，我们处理 lister/read/write/signal 这四个事件进行了监听处理。</p>
+<h3 id="Libevent-in-Envoy"><a class="header-anchor" href="#Libevent-in-Envoy">¶</a>Libevent in Envoy</h3>
+<p>续上文，libevent在Envoy中的定位也是偏底层的，通过不同事件获得的数据包会真实的扭转至 Envoy 的系统内部进行处理，我们举一个常见的读取的例子。但是在讲这个之前，我们先来看看 Envoy 的代码的入口定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> </span>&#123;</span><br><span class="line">  std::unique_ptr&lt;Envoy::MainCommon&gt; main_common;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    main_common = std::<span class="built_in">make_unique</span>&lt;Envoy::MainCommon&gt;(argc, argv);</span><br><span class="line">  &#125; <span class="built_in">catch</span> (<span class="type">const</span> Envoy::NoServingException&amp; e) &#123;</span><br><span class="line">    <span class="keyword">return</span> EXIT_SUCCESS;</span><br><span class="line">  &#125; <span class="built_in">catch</span> (<span class="type">const</span> Envoy::MalformedArgvException&amp; e) &#123;</span><br><span class="line">    std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> EXIT_FAILURE;</span><br><span class="line">  &#125; <span class="built_in">catch</span> (<span class="type">const</span> Envoy::EnvoyException&amp; e) &#123;</span><br><span class="line">    std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> EXIT_FAILURE;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> main_common-&gt;<span class="built_in">run</span>() ? EXIT_SUCCESS : EXIT_FAILURE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>抛开那些兼容系统的代码，我们可以发现和绝大多数的系统设计一样，我们有一个最底层的设计称之为<code>MainCommon</code>，通过一顿类型跳转大法，我们可以定位到真正的启动位置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InstanceImpl::run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// RunHelper exists primarily to facilitate how we respond to early shutdown during</span></span><br><span class="line">  <span class="comment">// startup (see RunHelperTest in server_test.cc).</span></span><br><span class="line">  <span class="type">const</span> <span class="keyword">auto</span> run_helper = <span class="built_in">RunHelper</span>(*<span class="keyword">this</span>, options_, *dispatcher_, <span class="built_in">clusterManager</span>(),</span><br><span class="line">                                    access_log_manager_, init_manager_, <span class="built_in">overloadManager</span>(), [<span class="keyword">this</span>] &#123;</span><br><span class="line">                                      <span class="built_in">notifyCallbacksForStage</span>(Stage::PostInit);</span><br><span class="line">                                      <span class="built_in">startWorkers</span>(); <span class="comment">// ➁</span></span><br><span class="line">                                    &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Run the main dispatch loop waiting to exit.</span></span><br><span class="line">  <span class="built_in">ENVOY_LOG</span>(info, <span class="string">&quot;starting main dispatch loop&quot;</span>);</span><br><span class="line">  <span class="keyword">auto</span> watchdog =</span><br><span class="line">      guard_dog_-&gt;<span class="built_in">createWatchDog</span>(api_-&gt;<span class="built_in">threadFactory</span>().<span class="built_in">currentThreadId</span>(), <span class="string">&quot;main_thread&quot;</span>);</span><br><span class="line">  watchdog-&gt;<span class="built_in">startWatchdog</span>(*dispatcher_);</span><br><span class="line">  dispatcher_-&gt;<span class="built_in">post</span>([<span class="keyword">this</span>] &#123; <span class="built_in">notifyCallbacksForStage</span>(Stage::Startup); &#125;);</span><br><span class="line">  dispatcher_-&gt;<span class="built_in">run</span>(Event::Dispatcher::RunType::Block); ➀</span><br><span class="line">  <span class="built_in">ENVOY_LOG</span>(info, <span class="string">&quot;main dispatch loop exited&quot;</span>);</span><br><span class="line">  guard_dog_-&gt;<span class="built_in">stopWatching</span>(watchdog);</span><br><span class="line">  watchdog.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">  <span class="built_in">terminate</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在 ➀ 处四周的代码暂且不管，实际上我们发现我们最终的主循环是在此处。在一顿跳转之后，我们终于拨开了层层外衣，看到了 Libevent 的部分。在 ➁ 处参考 <a href="#%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%BC%8F">线程模式</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LibeventScheduler::run</span><span class="params">(Dispatcher::RunType mode)</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> flag = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">switch</span> (mode) &#123;</span><br><span class="line">  <span class="keyword">case</span> Dispatcher::RunType::NonBlock:</span><br><span class="line">    flag = EVLOOP_NONBLOCK;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> Dispatcher::RunType::Block:</span><br><span class="line">    <span class="comment">// The default flags have &#x27;block&#x27; behavior. See</span></span><br><span class="line">    <span class="comment">// http://www.wangafu.net/~nickm/libevent-book/Ref3_eventloop.html</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> Dispatcher::RunType::RunUntilExit:</span><br><span class="line">    flag = EVLOOP_NO_EXIT_ON_EMPTY;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">event_base_loop</span>(libevent_.<span class="built_in">get</span>(), flag); ➀</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>➀ 处理刚好即是我们最终构建的 Libevent 的Loop循环，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">event_base_loop</span><span class="params">(<span class="keyword">struct</span> event_base *, <span class="type">int</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>当 event_base 内部不存在任何注册事件之后，才会停止工作。那下一步，我们的目标是找到，我们何时何地的为这个 event_base 创建了各类事件的？</p>
+<p>不难发现，经过我们的细心勘察，我们可以在 ListenerImpl::setupServerSocket 中发现监听端口的逻辑：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ListenerImpl::setupServerSocket</span><span class="params">(Event::DispatcherImpl&amp; dispatcher, Socket&amp; socket)</span> </span>&#123;</span><br><span class="line">  listener_.<span class="built_in">reset</span>(</span><br><span class="line">      <span class="built_in">evconnlistener_new</span>(&amp;dispatcher.<span class="built_in">base</span>(), listenCallback, <span class="keyword">this</span>, <span class="number">0</span>, <span class="number">-1</span>, socket.<span class="built_in">ioHandle</span>().<span class="built_in">fd</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一点和 Netty 等网络框架不一样，Libevent 是一个全局性的事件监听库，他可以监听不同的端口，回忆一下，Socket 是不是区分为 <code>Server Socket</code> 和 <code>Client Socket</code> ，一点没错，这里做的事情，是创建一个 <code>Server Socket</code> 并且监听他的 listenCallback 也就创建新连接时的事件。</p>
+<p>在 <code>ListenCallback</code> 函数中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ListenerImpl::listenCallback</span><span class="params">(evconnlistener*, <span class="type">evutil_socket_t</span> fd, sockaddr* remote_addr,</span></span></span><br><span class="line"><span class="params"><span class="function">                                  <span class="type">int</span> remote_addr_len, <span class="type">void</span>* arg)</span> </span>&#123;</span><br><span class="line">  ListenerImpl* listener = <span class="built_in">static_cast</span>&lt;ListenerImpl*&gt;(arg);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Create the IoSocketHandleImpl for the fd here.</span></span><br><span class="line">  IoHandlePtr io_handle = std::<span class="built_in">make_unique</span>&lt;IoSocketHandleImpl&gt;(fd);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Get the local address from the new socket if the listener is listening on IP ANY</span></span><br><span class="line">  <span class="comment">// (e.g., 0.0.0.0 for IPv4) (local_address_ is nullptr in this case).</span></span><br><span class="line">  <span class="type">const</span> Address::InstanceConstSharedPtr&amp; local_address =</span><br><span class="line">      listener-&gt;local_address_ ? listener-&gt;local_address_</span><br><span class="line">                               : listener-&gt;<span class="built_in">getLocalAddress</span>(io_handle-&gt;<span class="built_in">fd</span>());</span><br><span class="line">  listener-&gt;cb_.<span class="built_in">onAccept</span>(</span><br><span class="line">      std::<span class="built_in">make_unique</span>&lt;AcceptedSocketImpl&gt;(std::<span class="built_in">move</span>(io_handle), local_address, remote_address));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在最后一行就可以清晰的发现，当我们的 <code>ServerSocket</code> 获得一个新的客户端连接的时候就会将这个文件句柄 <code>fd</code> 。</p>
+<blockquote>
+<p>编者注: 这里的 <code>FD</code> 一切皆文件的思想，并且这里并没有使用 Libevent 的 Read 回调，所以这里在建立的时候，这个FD已经转交给 Envoy 的系统。</p>
+</blockquote>
+<p>当我们继续看下去，我们在真实的接受网络请求的时候此处的回调函数执行逻辑如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> ConnectionHandlerImpl::ActiveTcpListener::<span class="built_in">onAcceptWorker</span>(</span><br><span class="line">    Network::ConnectionSocketPtr&amp;&amp; socket, <span class="type">bool</span> hand_off_restored_destination_connections, <span class="type">bool</span> rebalanced) &#123;</span><br><span class="line">  <span class="keyword">auto</span> active_socket = std::<span class="built_in">make_unique</span>&lt;ActiveTcpSocket&gt;(*<span class="keyword">this</span>, std::<span class="built_in">move</span>(socket),</span><br><span class="line">                                                         hand_off_restored_destination_connections);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Create and run the filters</span></span><br><span class="line">  config_.<span class="built_in">filterChainFactory</span>().<span class="built_in">createListenerFilterChain</span>(*active_socket); ➀</span><br><span class="line">  active_socket-&gt;<span class="built_in">continueFilterChain</span>(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Move active_socket to the sockets_ list if filter iteration needs to continue later.</span></span><br><span class="line">  <span class="comment">// Otherwise we let active_socket be destructed when it goes out of scope.</span></span><br><span class="line">  <span class="keyword">if</span> (active_socket-&gt;iter_ != active_socket-&gt;accept_filters_.<span class="built_in">end</span>()) &#123;</span><br><span class="line">    active_socket-&gt;<span class="built_in">startTimer</span>();</span><br><span class="line">    active_socket-&gt;<span class="built_in">moveIntoListBack</span>(std::<span class="built_in">move</span>(active_socket), sockets_); ➁</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>➀ 在这里为 Socket 创建了 FilterChain。<br>
+➁ 将 socket 压入待处理的队列，从这里我们可以大胆的假设：对于已经和服务器建立起连接的Socket，Envoy会采用和Netty类型的 Reactor 模式类似的方式进行线程管理。也就是接受线程就是 Listener，真正的Worker会从这里的List中获取工作的Socket。</p>
+<p>额外的资料 :</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gist.github.com/fxsjy/0170293e75eb53bbf007">libevent multithread worker example</a></li>
+</ul>
+<p>又在一波骚操作之下，我们发来到了创建新连接的地方（其实更像是分配新连接） ConnectionHandlerImpl::ActiveTcpListener::newConnection。但是在这里我们依然不能发现Read的逻辑，献出我们的人肉Debug大法，我们在读取数据的 <strong>ConnectionImpl::onRead</strong> 放下断点这一大杀器。</p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/04/26/JgPwQS.png" alt="JgPwQS.png"></p>
+<p>我们依然发现起始点仍然是 event_base_loop，那我们的疑问自然就变成了，究竟是在哪里进行事件注册的，因为我们知道注册进来的是 event_base 对象，我们通过 usage 的方式进行查找，找到了一个可疑点 <strong>FileEventImpl::assignEvents</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FileEventImpl::assignEvents</span><span class="params">(<span class="type">uint32_t</span> events, event_base* base)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">ASSERT</span>(base != <span class="literal">nullptr</span>);</span><br><span class="line">  <span class="built_in">event_assign</span>(</span><br><span class="line">      &amp;raw_event_, base, fd_,</span><br><span class="line">      EV_PERSIST | (trigger_ == FileTriggerType::Level ? <span class="number">0</span> : EV_ET) |</span><br><span class="line">          (events &amp; FileReadyType::Read ? EV_READ : <span class="number">0</span>) |</span><br><span class="line">          (events &amp; FileReadyType::Write ? EV_WRITE : <span class="number">0</span>) |</span><br><span class="line">          (events &amp; FileReadyType::Closed ? EV_CLOSED : <span class="number">0</span>),</span><br><span class="line">      [](<span class="type">evutil_socket_t</span>, <span class="type">short</span> what, <span class="type">void</span>* arg) -&gt; <span class="type">void</span> &#123;</span><br><span class="line">        <span class="keyword">auto</span>* event = <span class="built_in">static_cast</span>&lt;FileEventImpl*&gt;(arg);</span><br><span class="line">        <span class="type">uint32_t</span> events = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// ... skip something</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看起来，在这里进行了事件的分配，我们打上断点，再走一遍。从调用的栈中，我们可以清晰的发现：</p>
+<p><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2020/04/26/JgiIc8.png" alt="JgiIc8.png"></p>
+<p>在 <code>OnAccpet</code> -&gt; <code>newConnection</code> -&gt; <code>AssignEvents</code> 这样的一个逻辑，只是因为整个过程的栈太深，我们不能轻易的发现，事件的注册是在创建客户端的 socket 的时候创建的。剩下来的注册逻辑是 libevent 部分，不做深入。</p>
+<h3 id="线程模式"><a class="header-anchor" href="#线程模式">¶</a>线程模式</h3>
+<p>首先可以阅读下 <a target="_blank" rel="noopener" href="https://blog.envoyproxy.io/envoy-threading-model-a8d44b922310">Envoy threading model</a></p>
+<p>在 <code>Envoy</code> 中 <code>Libevent</code> 充当了一个更底层的lib依赖，如同我们写 SpringWeb 时候的 Tomcat，对于 <code>Socket</code> 的读写等事件是委托给 <code>Libevnet</code> 的。第一步是为我们的 Event_base 创建了 Listen 的监听事件。之后，在建立起连接的时候，Envoy增加了对于 Socket 的Read/Write 事件的监听。</p>
+<blockquote>
+<p>其实如果在 AssginEvents 处设置断点再重新启动，第一个注册的事件是对于配置文件的读事件的事件（为的是热更新配置），之后是 DNS 的事件注册，之后我们启动了Envoy服务，再此之后，我们要初始化配置文件中的各种 Listener，但是值得注意的是，LibeventScheduler::run 的是在每一个 Worker 中都存在的。</p>
+</blockquote>
+<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2020-04-26T14:37:09.852Z\&quot; agent=\&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36\&quot; etag=\&quot;4g4FSudXRvnBnlDdvQeA\&quot; version=\&quot;13.0.1\&quot; type=\&quot;github\&quot;&gt;&lt;diagram id=\&quot;4hUaTbZ2IO-6oDbpjdxY\&quot; name=\&quot;第 1 页\&quot;&gt;7VnZcpswFP0aHpNhN36MlySdOpN20k6bp4wMMqgRiAp5IV9fyQgDRondxk5wW9sP0tWCdM4990pYs4bx6oqCNLohAcSaqQcrzRpppmnYpqmJnx7khcXTjcIQUhTITpXhDj1BadSldY4CmDU6MkIwQ2nT6JMkgT5r2AClZNnsNiO4+dQUhLBluPMBblu/oYBFchdmr7JfQxRG5ZMNt1+0xKDsLHeSRSAgy5rJGmvWkBLCilK8GkIswCtxKcZdPtO6WRiFCdtnwOQpopOf97e3i9z4Grnu6NL2z5xilgXAc7lhuViWlwhQMk8CKCbRNWuwjBCDdynwReuSc85tEYsxrxm8OEMYDwkmlNcTkvBOg/Y65dIXkDK4qpnkuq8giSGjOe9StpbeIJ3IdGV9WVFi2dIW1eiwdGkE0g3CzdwVUrwgwfoN4OyTAM7bwk1v4+aZCtxs+1i4GS3cJmgKF2KLr8LvEF7mNtGy+m20DBVa7rHAavsUDHh0klVCWURCkgA8rqyDJmpVnwkhqcTqB2Qsl6EWzBlpIskBpPl3Mf7cKav39bbRSk5e1HJZe5aBjMypD3f7BAM0hGx3P4HBi3xSiAFDi2YEPzg5VsuT1278MAUZfMAC7W3yuB+yJtYAozDhZZ8PhFz6A+GtiGefC9kQoyAoaIUZegLT9VQC7ZSghK235Aw0ZyTm4kxmBakHEsQmekpB2IZCEIZCEOaxBOG2MP8SUQgCMStfFqGPHMXdsGeMkke4FW4VEXh/elTRqanEQ/DRtxt8OFabD1UWPBodvZNIgk73Tg9ed7Og07ks2P83sqC3Zxb0OpUFS239xWmw17k0aJgt0MfJguTvC/WMJEzqScB5kPvLVuh2VRcYZeR+PfLe9dQI3JvFjXn28d5d3k4uPj8ori8ndgBpYa9g6IXrZJOOtzyAKOlw3yM1KOPvzpivXL+9Z8y33yjEv7TIms8PMVIdVcicYZRwty5fxekyKpRerZkW/16KZw9CCgIxy5bHN5VRH1CXB7fP1h9uD0AWbegs9TEBU4g/8ejEEBE6mRLGSKwQEBOkt3VWP5RWYc0wy7rctHgkyNJitzO0EusYZBFIRWO8CsU70XOwzOxzHk3XzvDBF+sRwbUoNXv5BbAHEetGiVKsiqzlHukYp3Sj3olr1TkFrbbf5/7X6glo1fW6pdX2/bR0lA4c5l+FtL11vTX2hPoPjjC8Wv27s26r/UdmjX8B&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+<p>和 <code>Netty</code> 的处理不同，这里的 Listener 也是分布在所有的 Thread 上的。也就是在接受到一个新的请求的时候，是随机在 Worker 中选择一个进行处理的。</p>
+<h2 id="Chain-in-Envoy"><a class="header-anchor" href="#Chain-in-Envoy">¶</a>Chain in Envoy</h2>
+<p>在上文中，我们已经知道，在 <code>ClientSocket</code> 建立的 <code>Listen</code> 事件中，我们就将此 <code>Socket</code> 的 <code>Read/Write</code> 事件注册到 <code>Event_Base</code>，我们在注册的事件中，我们轻而易举的定位到  <code>ConnectionImpl::onRead</code> 此处是读取逻辑处。</p>
+<h3 id="请求处理链"><a class="header-anchor" href="#请求处理链">¶</a>请求处理链</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConnectionImpl::onRead</span><span class="params">(<span class="type">uint64_t</span> read_buffer_size)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!read_enabled_ || <span class="built_in">inDelayedClose</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">ASSERT</span>(<span class="built_in">ioHandle</span>().<span class="built_in">isOpen</span>());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (read_buffer_size == <span class="number">0</span> &amp;&amp; !read_end_stream_) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  filter_manager_.<span class="built_in">onRead</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在最后一行，我们就进入了整个流程处理的开始  <code>FilterManager</code> 开始处理的逻辑。在之后的几层跳转中，我们发现了处理逻辑的核心所在：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FilterManagerImpl::onContinueReading</span><span class="params">(ActiveReadFilter* filter,</span></span></span><br><span class="line"><span class="params"><span class="function"> </span></span></span><br><span class="line"><span class="params"><span class="function">  std::list&lt;ActiveReadFilterPtr&gt;::iterator entry;</span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="keyword">if</span> (!filter) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    connection_.streamInfo().addBytesReceived(buffer_source.getReadBuffer().buffer.length());</span></span></span><br><span class="line"><span class="params"><span class="function">    entry = upstream_filters_.begin();</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125; <span class="keyword">else</span> &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    entry = std::next(filter-&gt;entry());</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;</span></span></span><br><span class="line"><span class="params"><span class="function"></span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="keyword">for</span> (; entry != upstream_filters_.end(); entry++) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">if</span> (!(*entry)-&gt;initialized_) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">      (*entry)-&gt;initialized_ = <span class="literal">true</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">      FilterStatus status = (*entry)-&gt;filter_-&gt;onNewConnection(); ➀</span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="keyword">if</span> (status == FilterStatus::StopIteration || connection_.state() != Connection::State::Open) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">return</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">      &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">    &#125;</span></span></span><br><span class="line"><span class="params"><span class="function"></span></span></span><br><span class="line"><span class="params"><span class="function">    StreamBuffer read_buffer = buffer_source.getReadBuffer();</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">if</span> (read_buffer.buffer.length() &gt; <span class="number">0</span> || read_buffer.end_stream) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">      FilterStatus status = (*entry)-&gt;filter_-&gt;onData(read_buffer.buffer, read_buffer.end_stream); ➁</span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="keyword">if</span> (status == FilterStatus::StopIteration || connection_.state() != Connection::State::Open) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="keyword">return</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">      &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">    &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span></span></span><br></pre></td></tr></table></figure>
+<p>➀ 对于 Envoy 来说，也规定了一系列 Fitler 的抽象限定比如  <code>Network::ReadFilter</code> 就定义了 ReadFilter 一系列虚函数，我们可以看到在第一个Filter处，我们调用了 onNewConnection 这里必然是一个生命周期的回调函数，至于具体的内容我们需要去查看具体的实现类进行判断。</p>
+<p>➁ 从这里我们发现真实的读取了数据的逻辑。从这里因为本文重点是在 Http协议的处理，我们这里的 ReadFilter 也会查看 <code>Http::ConnectionManagerImpl</code> 这个类的实现机制。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">etwork::FilterStatus <span class="title">ConnectionManagerImpl::onData</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span>)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">  <span class="type">bool</span> redispatch;</span><br><span class="line">  <span class="keyword">do</span> &#123;</span><br><span class="line">    redispatch = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      codec_-&gt;<span class="built_in">dispatch</span>(data); <span class="comment">//将此数据分发出去</span></span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">if</span> (codec_-&gt;<span class="built_in">protocol</span>() &lt; Protocol::Http2) &#123;</span><br><span class="line">      <span class="keyword">if</span> (read_callbacks_-&gt;<span class="built_in">connection</span>().<span class="built_in">state</span>() == Network::Connection::State::Open &amp;&amp;</span><br><span class="line">          data.<span class="built_in">length</span>() &gt; <span class="number">0</span> &amp;&amp; streams_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        redispatch = <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (!streams_.<span class="built_in">empty</span>() &amp;&amp; streams_.<span class="built_in">front</span>()-&gt;state_.remote_complete_) &#123;</span><br><span class="line">        read_callbacks_-&gt;<span class="built_in">connection</span>().<span class="built_in">readDisable</span>(<span class="literal">true</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">while</span> (redispatch);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!read_callbacks_-&gt;<span class="built_in">connection</span>().<span class="built_in">streamInfo</span>().<span class="built_in">protocol</span>()) &#123;</span><br><span class="line">    read_callbacks_-&gt;<span class="built_in">connection</span>().<span class="built_in">streamInfo</span>().<span class="built_in">protocol</span>(codec_-&gt;<span class="built_in">protocol</span>());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Network::FilterStatus::StopIteration;  <span class="comment">//返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里的实现过程中，我们至少发现了envoy 的 Filter 不是如同Java 的Fitler 是层层调用的，每一层只会做自己的事情，因为从代码内，我们可以发现这些因为如果正常处理的过程，我们应该会走完所有的 Fitler， 那基于这样的逻辑，我们可以判断出来，在这个 <code>codec_</code> 的逻辑里面，我们应该只是将 HTTP 进行解码，然而在实际的断点之中，其实在这个 codec 之中有一个优化是当我们 Pase 完成HTTP请求的时候，此处就会直接进行逻辑处理，具体的会跳转至如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ServerConnectionImpl::onMessageComplete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (active_request_.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    <span class="keyword">auto</span>&amp; active_request = active_request_.<span class="built_in">value</span>();</span><br><span class="line">    active_request.remote_complete_ = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (deferred_end_stream_headers_) &#123;</span><br><span class="line">      active_request.request_decoder_-&gt;<span class="built_in">decodeHeaders</span>(</span><br><span class="line">          std::<span class="built_in">move</span>(absl::<span class="built_in">get</span>&lt;RequestHeaderMapPtr&gt;(headers_or_trailers_)), <span class="literal">true</span>); ➀</span><br><span class="line">      deferred_end_stream_headers_ = <span class="literal">false</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (processing_trailers_) &#123;</span><br><span class="line">      active_request.request_decoder_-&gt;<span class="built_in">decodeTrailers</span>(</span><br><span class="line">          std::<span class="built_in">move</span>(absl::<span class="built_in">get</span>&lt;RequestTrailerMapPtr&gt;(headers_or_trailers_)));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      Buffer::OwnedImpl buffer;</span><br><span class="line">      active_request.request_decoder_-&gt;<span class="built_in">decodeData</span>(buffer, <span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reset to ensure no information from one requests persists to the next.</span></span><br><span class="line">    headers_or_trailers_.<span class="built_in">emplace</span>&lt;RequestHeaderMapPtr&gt;(<span class="literal">nullptr</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">http_parser_pause</span>(&amp;parser_, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 ➀ 处会进入 Route 阶段（其实笔者觉得这里的设计是不太清晰，导致在阅读的过程中，不得不借助于Debug工具），在这里最终进入 <code>ConfigImpl::route</code> 逻辑。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">RouteConstSharedPtr <span class="title">RouteMatcher::route</span><span class="params">(<span class="type">const</span> Http::RequestHeaderMap&amp; headers,</span></span></span><br><span class="line"><span class="params"><span class="function">                                        <span class="type">const</span> StreamInfo::StreamInfo&amp; stream_info,</span></span></span><br><span class="line"><span class="params"><span class="function">                                        <span class="type">uint64_t</span> random_value)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">  <span class="type">const</span> VirtualHostImpl* virtual_host = <span class="built_in">findVirtualHost</span>(headers);</span><br><span class="line">  <span class="keyword">if</span> (virtual_host) &#123;</span><br><span class="line">    <span class="keyword">return</span> virtual_host-&gt;<span class="built_in">getRouteFromEntries</span>(headers, stream_info, random_value); </span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过是否返回命中的 Route 来判断下一步的处理逻辑。在之后的逻辑中，我们随着断点来到了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> ConnectionManagerImpl::ActiveStream::<span class="built_in">decodeHeaders</span>(RequestHeaderMapPtr&amp;&amp; headers, <span class="type">bool</span> end_stream) &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 略....</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">decodeHeaders</span>(<span class="literal">nullptr</span>, *request_headers_, end_stream);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Reset it here for both global and overridden cases.</span></span><br><span class="line">  <span class="built_in">resetIdleTimer</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>ConnectionManagerImpl::ActiveStream::decodeHeaders</code> 代码中有大量的处理 httpheader的逻辑，这里不做展开，我们进入，最重要的 decodeHeaders 的函数继续我们的探索,在这里的逻辑中，我们可以发现这里一个非常复杂的逻辑处理，我们慢慢的看一下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Http::FilterHeadersStatus <span class="title">Filter::decodeHeaders</span><span class="params">(Http::RequestHeaderMap&amp; headers, <span class="type">bool</span> end_stream)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 判断是否拥有 Route，如果没有就直接Return了</span></span><br><span class="line">  route_ = callbacks_-&gt;<span class="built_in">route</span>();</span><br><span class="line">  <span class="keyword">if</span> (!route_) &#123;</span><br><span class="line">    config_.stats_.no_route_.<span class="built_in">inc</span>();</span><br><span class="line">    <span class="built_in">ENVOY_STREAM_LOG</span>(debug, <span class="string">&quot;no cluster match for URL &#x27;&#123;&#125;&#x27;&quot;</span>, *callbacks_,</span><br><span class="line">                     headers.<span class="built_in">Path</span>()-&gt;<span class="built_in">value</span>().<span class="built_in">getStringView</span>());</span><br><span class="line"></span><br><span class="line">    callbacks_-&gt;<span class="built_in">streamInfo</span>().<span class="built_in">setResponseFlag</span>(StreamInfo::ResponseFlag::NoRouteFound);</span><br><span class="line">    callbacks_-&gt;<span class="built_in">sendLocalReply</span>(Http::Code::NotFound, <span class="string">&quot;&quot;</span>, modify_headers, absl::<span class="literal">nullopt</span>,</span><br><span class="line">                               StreamInfo::ResponseCodeDetails::<span class="built_in">get</span>().RouteNotFound);</span><br><span class="line">    <span class="keyword">return</span> Http::FilterHeadersStatus::StopIteration;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 找到这个请求的路由对象</span></span><br><span class="line">  route_entry_ = route_-&gt;<span class="built_in">routeEntry</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 拿到配置的Cluster，其实也就是目标的地址</span></span><br><span class="line">  cluster_ = cluster-&gt;<span class="built_in">info</span>();</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">  <span class="comment">// 从上游获得连接为了获得 host</span></span><br><span class="line">  <span class="type">const</span> <span class="keyword">auto</span>&amp; upstream_http_protocol_options = cluster_-&gt;<span class="built_in">upstreamHttpProtocolOptions</span>();</span><br><span class="line">  Http::ConnectionPool::Instance* http_pool = <span class="built_in">getHttpConnPool</span>();</span><br><span class="line">  Upstream::HostDescriptionConstSharedPtr host;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">ENVOY_STREAM_LOG</span>(debug, <span class="string">&quot;router decoding headers:\n&#123;&#125;&quot;</span>, *callbacks_, headers);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将需要处理的数据压栈</span></span><br><span class="line">  modify_headers_ = modify_headers;</span><br><span class="line"></span><br><span class="line">  UpstreamRequestPtr upstream_request =</span><br><span class="line">      std::<span class="built_in">make_unique</span>&lt;UpstreamRequest&gt;(*<span class="keyword">this</span>, std::<span class="built_in">make_unique</span>&lt;HttpConnPool&gt;(*http_pool));</span><br><span class="line">  upstream_request-&gt;<span class="built_in">moveIntoList</span>(std::<span class="built_in">move</span>(upstream_request), upstream_requests_);</span><br><span class="line">  upstream_requests_.<span class="built_in">front</span>()-&gt;<span class="built_in">encodeHeaders</span>(end_stream);</span><br><span class="line">  <span class="keyword">if</span> (end_stream) &#123;</span><br><span class="line">    <span class="built_in">onRequestComplete</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Http::FilterHeadersStatus::StopIteration;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在   upstream_requests_.front()-&gt;encodeHeaders(end_stream) 这一步别有洞天</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">UpstreamRequest::encodeHeaders</span><span class="params">(<span class="type">bool</span> end_stream)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">ASSERT</span>(!encode_complete_);</span><br><span class="line">  encode_complete_ = end_stream;</span><br><span class="line"></span><br><span class="line">  conn_pool_-&gt;<span class="built_in">newStream</span>(<span class="keyword">this</span>); ➀</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>➀ 在此处我们创建了一个向下游的 connection。随着我们代码的深入探索：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ConnPoolImplBase::ActiveClient::<span class="built_in">ActiveClient</span>(ConnPoolImplBase&amp; parent,</span><br><span class="line">                                             <span class="type">uint64_t</span> lifetime_request_limit,</span><br><span class="line">                                             <span class="type">uint64_t</span> concurrent_request_limit)</span><br><span class="line">    : <span class="built_in">parent_</span>(parent), <span class="built_in">remaining_requests_</span>(<span class="built_in">translateZeroToUnlimited</span>(lifetime_request_limit)),</span><br><span class="line">      <span class="built_in">concurrent_request_limit_</span>(<span class="built_in">translateZeroToUnlimited</span>(concurrent_request_limit)),</span><br><span class="line">      <span class="built_in">connect_timer_</span>(parent_.dispatcher_.<span class="built_in">createTimer</span>([<span class="keyword">this</span>]() -&gt; <span class="type">void</span> &#123; <span class="built_in">onConnectTimeout</span>(); &#125;)) &#123;</span><br><span class="line">  Upstream::Host::CreateConnectionData data = parent_.host_-&gt;<span class="built_in">createConnection</span>(</span><br><span class="line">      parent_.dispatcher_, parent_.socket_options_, parent_.transport_socket_options_);</span><br><span class="line">  real_host_description_ = data.host_description_;</span><br><span class="line">  codec_client_ = parent_.<span class="built_in">createCodecClient</span>(data);</span><br><span class="line">  codec_client_-&gt;<span class="built_in">addConnectionCallbacks</span>(*<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">  conn_connect_ms_ = std::<span class="built_in">make_unique</span>&lt;Stats::HistogramCompletableTimespanImpl&gt;(</span><br><span class="line">      parent_.host_-&gt;<span class="built_in">cluster</span>().<span class="built_in">stats</span>().upstream_cx_connect_ms_, parent_.dispatcher_.<span class="built_in">timeSource</span>());</span><br><span class="line">  conn_length_ = std::<span class="built_in">make_unique</span>&lt;Stats::HistogramCompletableTimespanImpl&gt;(</span><br><span class="line">      parent_.host_-&gt;<span class="built_in">cluster</span>().<span class="built_in">stats</span>().upstream_cx_length_ms_, parent_.dispatcher_.<span class="built_in">timeSource</span>());</span><br><span class="line">  connect_timer_-&gt;<span class="built_in">enableTimer</span>(parent_.host_-&gt;<span class="built_in">cluster</span>().<span class="built_in">connectTimeout</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以发现在这里我才真正的去创建一个下游的连接。但是我们知道，对于一个高性能的WebServer，我们对于下游的访问也是不能进行 Blocking 的，因此，我们常见的处理能力应该是将下游的请求建立起来之后进行挂起，我们等待下游的返回再进行处理，因此在后面我们可以发现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ConnectionImpl::<span class="built_in">ConnectionImpl</span>(Event::Dispatcher&amp; dispatcher, ConnectionSocketPtr&amp;&amp; socket,</span><br><span class="line">                               TransportSocketPtr&amp;&amp; transport_socket,</span><br><span class="line">                               StreamInfo::StreamInfo&amp; stream_info, <span class="type">bool</span> connected)</span><br><span class="line">    : <span class="built_in">ConnectionImplBase</span>(dispatcher, next_global_id_++),</span><br><span class="line">  <span class="comment">// We never ask for both early close and read at the same time. If we are reading, we want to</span></span><br><span class="line">  <span class="comment">// consume all available data.</span></span><br><span class="line">  file_event_ = dispatcher_.<span class="built_in">createFileEvent</span>(</span><br><span class="line">      <span class="built_in">ioHandle</span>().<span class="built_in">fd</span>(), [<span class="keyword">this</span>](<span class="type">uint32_t</span> events) -&gt; <span class="type">void</span> &#123; <span class="built_in">onFileEvent</span>(events); &#125;, trigger,</span><br><span class="line">      Event::FileReadyType::Read | Event::FileReadyType::Write);</span><br><span class="line"></span><br><span class="line">  transport_socket_-&gt;<span class="built_in">setTransportSocketCallbacks</span>(*<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在创建下游的链接的时候，我们就将下游回复数据的 <code>Read</code> 和 <code>Write</code> 事件注册到当前的 <code>Worker</code> 线程的 <code>Event_Base</code> 中。到这里我们先来看看前半段的整个流程：</p>
+
+
+<script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
+<script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script src="https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js"></script>
+<script src="https://lib.baomitu.com/raphael/2.2.7/raphael.min.js"></script>
+<script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+
+
+<div style="width:100%; overflow-y:scroll;" id="diagram"></div>
+<script>
+	var data =
+	['Title: Envoy下游响应前的处理流程',
+	 'ConnectionImpl.onFileEvent->FilterManagerImpl.onRead: 1. 从Libevent触发的Read事件的数据倒腾到FilterManager',
+	 'FilterManagerImpl.onRead->ConnectionImpl.dispatch: 2. 将数据进行分发',
+   'ConnectionImpl.dispatch->ServerConnectionImpl.onMessageComplete: 3.当Http的数据读取完成进行下一步',
+   'ServerConnectionImpl.onMessageComplete->Filter.decodeHeaders: 4.将数据导入FilterChain进行处理',
+   'Filter.decodeHeaders->RouteImpl:route: 5.进行路由选择',
+   'Filter.decodeHeaders->HostImpl.createConnection: 6.创建下游的HTTP连接',
+   'HostImpl.createConnection->DispatcherImpl.createFileEvent: 7. 在Worker中创建响应连接的Read事件'
+    ].join('\n');
+  	var diagram = Diagram.parse(data);
+  	diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
+</script>
+<p>直至上面的内容，我们已经走过了接收到请求到创建到下游的请求的大部分流程，在此之后还有一些其他的事务性的需要处理，比如响应超时等，不做太多的深入，我们进入下一个环节：响应数据的处理链路。</p>
+<h3 id="响应数据处理链路"><a class="header-anchor" href="#响应数据处理链路">¶</a>响应数据处理链路</h3>
+<p>对于响应的数据，我们也知道在我们在执行完成之后，我们将后续的对 BackendSteam 的读写事件载入了 <code>EventBase</code> 我们看看后续这些数据如何处理，入口依然是 <code>OnRead()</code> 函数，之后的逻辑和之前类似，直到 <code>FilterManagerImpl::onRead</code> 之后调用的具体实现类是 <code>CodecClient</code> 相对会毕竟的简单，因为响应体我们不需要再进行什么路由设置等操作，然后当我们读取完成之后，就进入了 <code>ConnectionImpl::onMessageCompleteBase</code> 函数，进入了结束流程，我们就来看看，当我们从响应流里面读取完成所有的数据之后，又是如何响应最初的调用者的。然后就进入了 <code>ClientConnectionImpl::onMessageComplete</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ClientConnectionImpl::onMessageComplete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">ENVOY_CONN_LOG</span>(trace, <span class="string">&quot;message complete&quot;</span>, connection_);</span><br><span class="line">  <span class="keyword">if</span> (pending_response_.<span class="built_in">has_value</span>()) &#123; <span class="comment">// 当我们有挂起的 Response 的时候才处理</span></span><br><span class="line">    <span class="keyword">if</span> (connection_.<span class="built_in">state</span>() == Network::Connection::State::Open) &#123;</span><br><span class="line">      <span class="keyword">while</span> (!connection_.<span class="built_in">readEnabled</span>()) &#123;</span><br><span class="line">        connection_.<span class="built_in">readDisable</span>(<span class="literal">false</span>); <span class="comment">// 让链接禁读，因为要写入了</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (deferred_end_stream_headers_) &#123;</span><br><span class="line">      response.decoder_-&gt;<span class="built_in">decodeHeaders</span>(</span><br><span class="line">          std::<span class="built_in">move</span>(absl::<span class="built_in">get</span>&lt;ResponseHeaderMapPtr&gt;(headers_or_trailers_)), <span class="literal">true</span>);</span><br><span class="line">      deferred_end_stream_headers_ = <span class="literal">false</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (processing_trailers_) &#123;</span><br><span class="line">      response.decoder_-&gt;<span class="built_in">decodeTrailers</span>(</span><br><span class="line">          std::<span class="built_in">move</span>(absl::<span class="built_in">get</span>&lt;ResponseTrailerMapPtr&gt;(headers_or_trailers_)));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      Buffer::OwnedImpl buffer;</span><br><span class="line">      response.decoder_-&gt;<span class="built_in">decodeData</span>(buffer, <span class="literal">true</span>); <span class="comment">//写入数据</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reset to ensure no information from one requests persists to the next.</span></span><br><span class="line">    pending_response_.<span class="built_in">reset</span>();</span><br><span class="line">    headers_or_trailers_.<span class="built_in">emplace</span>&lt;ResponseHeaderMapPtr&gt;(<span class="literal">nullptr</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在响应的过程中，调用了 <code>decodeData</code> 最终回归到 <code>ConnectionMangerImpl</code>中，然在一系列的操作中，我们来到了最终写入的地方</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConnectionImpl::write</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span> end_stream, <span class="type">bool</span> through_filter_chain)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">ASSERT</span>(!end_stream || enable_half_close_);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (write_end_stream_) &#123;</span><br><span class="line">    <span class="built_in">ASSERT</span>(data.<span class="built_in">length</span>() == <span class="number">0</span> &amp;&amp; end_stream);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (through_filter_chain) &#123;</span><br><span class="line">    current_write_buffer_ = &amp;data;</span><br><span class="line">    current_write_end_stream_ = end_stream;</span><br><span class="line">    FilterStatus status = filter_manager_.<span class="built_in">onWrite</span>(); <span class="comment">// ➀ 这里进入了写入流的 FilterChain</span></span><br><span class="line">    current_write_buffer_ = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FilterStatus::StopIteration == status) &#123; <span class="comment">// 值得注意的是这里是可以提前终结</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  write_end_stream_ = end_stream;</span><br><span class="line">  <span class="keyword">if</span> (data.<span class="built_in">length</span>() &gt; <span class="number">0</span> || end_stream) &#123;</span><br><span class="line">    <span class="built_in">ENVOY_CONN_LOG</span>(trace, <span class="string">&quot;writing &#123;&#125; bytes, end_stream &#123;&#125;&quot;</span>, *<span class="keyword">this</span>, data.<span class="built_in">length</span>(), end_stream);</span><br><span class="line">    write_buffer_-&gt;<span class="built_in">move</span>(data); <span class="comment">// ➁ 将数据流写入</span></span><br><span class="line">    <span class="keyword">if</span> (!connecting_) &#123;</span><br><span class="line">      <span class="built_in">ASSERT</span>(file_event_ != <span class="literal">nullptr</span>, <span class="string">&quot;ConnectionImpl file event was unexpectedly reset&quot;</span>);</span><br><span class="line">      file_event_-&gt;<span class="built_in">activate</span>(Event::FileReadyType::Write);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在我们的所有的数据写入完成之后，进入了最终的 <code>Cleanup</code> 的过程。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConnectionImpl::closeSocket</span><span class="params">(ConnectionEvent close_type)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">ENVOY_CONN_LOG</span>(debug, <span class="string">&quot;closing socket: &#123;&#125;&quot;</span>, *<span class="keyword">this</span>, <span class="built_in">static_cast</span>&lt;<span class="type">uint32_t</span>&gt;(close_type));</span><br><span class="line">  transport_socket_-&gt;<span class="built_in">closeSocket</span>(close_type);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Drain input and output buffers.</span></span><br><span class="line">  <span class="built_in">updateReadBufferStats</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="built_in">updateWriteBufferStats</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  write_buffer_-&gt;<span class="built_in">drain</span>(write_buffer_-&gt;<span class="built_in">length</span>());</span><br><span class="line"></span><br><span class="line">  connection_stats_.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">  file_event_.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">  socket_-&gt;<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">  <span class="built_in">raiseEvent</span>(close_type);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里算是结束了一个段落，我们将整个过程整理一下：</p>
+<div style="width:100%; overflow-y:scroll;" id="envoy-life"></div>
+<script>
+	var data =
+	[
+    'Title: Envoy处理全流程',
+    'Main->ServerSocket: 1. Main函数初始化ServerSocker，创建 Listener',
+    'Main->Workers: 2. Main函数初始化Worker，将Listenr放置所有的Worker',
+    'Workers->Worker.Accept: 3. Worker 中的任意一个接受到请求',
+    'Worker.ServerConnection.Accept->Worker.ServerConnection.Read: 4. Worker 开始读取数据',
+    'Worker.ServerConnection.Read->Worker.ServerConnection.ReadFilter: 5. Worker 进入 FilterChian 进行处理',
+    'Worker.ServerConnection.ReadFilter->Route.route: 6. Filter 中的路由过程',
+    'Worker.ServerConnection.ReadFilter->Host.createConnection: 7.创建下游的HTTP连接',
+    'Host.createConnection->DispatcherImpl.createFileEvent: 8. 在Worker中创建响应连接的Read事件，在同一个Worker中',
+    'Worker.ClentConnection.Read->Worker.ServerConnection.WriterFilter: 9. 回写数据，并且经WriteFilter处理',
+    'Worker.ServerConnection.WriterFilter->Worker.ServerConnection.close: 10. 结束流程'
+  ].join('\n');
+  	var diagram = Diagram.parse(data);
+  	diagram.drawSVG("envoy-life", {theme: 'simple', scale: 0.5});
+</script>
+<h2 id="Envoy-Extend"><a class="header-anchor" href="#Envoy-Extend">¶</a>Envoy Extend</h2>
+<p>从上文分析中，我们已经算是通读了代码的主要实现部分，剩下来，我们看Envoy给我们预留的扩展的部分。<a target="_blank" rel="noopener" href="https://www.envoyproxy.io/docs/envoy/v1.14.1/extending/extending">Extending Envoy for custom use cases</a>，从配置文件中，我们也可以获得一些灵感：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">static_resources:</span></span><br><span class="line">  <span class="attr">listeners:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">listener_0</span></span><br><span class="line">      <span class="attr">address:</span></span><br><span class="line">        <span class="attr">socket_address:</span> &#123; <span class="attr">address:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>, <span class="attr">port_value:</span> <span class="number">10000</span> &#125;</span><br><span class="line">      <span class="attr">filter_chains:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">envoy.filters.network.http_connection_manager</span></span><br><span class="line">              <span class="attr">typed_config:</span></span><br><span class="line">                <span class="string">&quot;@type&quot;</span><span class="string">:</span> <span class="string">type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager</span></span><br><span class="line">                <span class="attr">stat_prefix:</span> <span class="string">ingress_http</span></span><br><span class="line">                <span class="attr">codec_type:</span> <span class="string">AUTO</span></span><br><span class="line">                <span class="attr">route_config:</span></span><br><span class="line">                  <span class="attr">name:</span> <span class="string">local_route</span></span><br><span class="line">                  <span class="attr">virtual_hosts:</span></span><br><span class="line">                    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">local_service</span></span><br><span class="line">                      <span class="attr">domains:</span> [<span class="string">&quot;*&quot;</span>]</span><br><span class="line">                      <span class="attr">routes:</span></span><br><span class="line">                        <span class="bullet">-</span> <span class="attr">match:</span> &#123; <span class="attr">prefix:</span> <span class="string">&quot;/&quot;</span> &#125;</span><br><span class="line">                          <span class="attr">route:</span> &#123; <span class="attr">cluster:</span> <span class="string">some_service</span> &#125;</span><br><span class="line">                <span class="attr">http_filters:</span></span><br><span class="line">                  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">envoy.filters.http.router</span></span><br></pre></td></tr></table></figure>
+<p>我们可以发现，对于 Envoy 来说最为主要的部分是 FilterChains，虽然我们并没有写过CPP，但是从思想相近来看，我们应该是可以拓展 Filter 的实现，然后注册到这个 FilterChians 中，幸好对于官方来说，提供一个比较详尽的 <a target="_blank" rel="noopener" href="https://github.com/envoyproxy/envoy-filter-example">DEMO</a>。从中可以看出，我们的核心是继承已于的Fitler的Interface然后实现之：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> Envoy &#123;</span><br><span class="line"><span class="keyword">namespace</span> Filter &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Implementation of a basic echo filter.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Echo2</span> : <span class="keyword">public</span> Network::ReadFilter, Logger::Loggable&lt;Logger::Id::filter&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">// Network::ReadFilter</span></span><br><span class="line">  <span class="function">Network::FilterStatus <span class="title">onData</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span> end_stream)</span> <span class="keyword">override</span></span>;</span><br><span class="line">  <span class="function">Network::FilterStatus <span class="title">onNewConnection</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123; <span class="keyword">return</span> Network::FilterStatus::Continue; &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">initializeReadFilterCallbacks</span><span class="params">(Network::ReadFilterCallbacks&amp; callbacks)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">    read_callbacks_ = &amp;callbacks;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  Network::ReadFilterCallbacks* read_callbacks_&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace Filter</span></span><br><span class="line">&#125; <span class="comment">// namespace Envoy</span></span><br></pre></td></tr></table></figure>
+<p>使用起来也比较的简单</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">static_resources:</span></span><br><span class="line">  <span class="attr">clusters:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cluster_0</span></span><br><span class="line">    <span class="attr">connect_timeout:</span> <span class="number">0.</span><span class="string">25s</span></span><br><span class="line">    <span class="attr">load_assignment:</span></span><br><span class="line">      <span class="attr">cluster_name:</span> <span class="string">cluster_0</span></span><br><span class="line">      <span class="attr">endpoints:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">lb_endpoints:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">endpoint:</span></span><br><span class="line">                <span class="attr">address:</span></span><br><span class="line">                  <span class="attr">socket_address:</span></span><br><span class="line">                    <span class="attr">address:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">                    <span class="attr">port_value:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>但是在这背后，这工作的机制是如何的呢？我们还是需要从源码中来。现在已经有的 <code>Extensions</code> 实现可以参考此处 <a target="_blank" rel="noopener" href="https://github.com/envoyproxy/envoy/tree/v1.14.1/source/extensions">extensions</a></p>
+<p>从上文代码中，我们可以很容易的定位到初始化 <code>FilterChain</code> 的逻辑在 <code>ListenerImpl::createNetworkFilterChain</code> 处</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ListenerImpl::createNetworkFilterChain</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    Network::Connection&amp; connection,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> std::vector&lt;Network::FilterFactoryCb&gt;&amp; filter_factories)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> Configuration::FilterChainUtility::<span class="built_in">buildFilterChain</span>(connection, filter_factories);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见是一个很标准的工厂模式，根据不同的工厂我们会创建不同的Filter实例，在创建完成之后如果是 ReaderFliter 就直接加到 upsteam 的底部，如果是 WriterFliter 则会增加到 downsteam 的底部。代码也较为简单，如下图。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FilterManagerImpl::addReadFilter</span><span class="params">(ReadFilterSharedPtr filter)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">ASSERT</span>(connection_.<span class="built_in">state</span>() == Connection::State::Open);</span><br><span class="line">  <span class="function">ActiveReadFilterPtr <span class="title">new_filter</span><span class="params">(<span class="keyword">new</span> ActiveReadFilter&#123;*<span class="keyword">this</span>, filter&#125;)</span></span>;</span><br><span class="line">  filter-&gt;<span class="built_in">initializeReadFilterCallbacks</span>(*new_filter);</span><br><span class="line">  new_filter-&gt;<span class="built_in">moveIntoListBack</span>(std::<span class="built_in">move</span>(new_filter), upstream_filters_);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那问题就变成了我们的 <code>Filter_Factory</code> 从而来，我们从虚表中发现有两种实现 <code>Admin</code> &amp; <code>Impl</code>，如果度过官网文档的同学应该可以猜到<code>Admin</code>的实现是基于动态请求的。我还是重启下，从头来跟踪下流程，初始化FilterFactory 最早可以定位到 <code>ListenerManagerImpl::addOrUpdateListener</code> 和配置文件的层级类似，我们从首先创建的是Listerner，在创建  <code>Listener</code> 的过程中我们创建 <code>FilterChain</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">filter_chain_manager_.<span class="built_in">addFilterChain</span>(config.<span class="built_in">filter_chains</span>(), builder, filter_chain_manager_);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FilterChainManagerImpl::addFilterChain</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    absl::Span&lt;<span class="type">const</span> envoy::config::listener::v3::FilterChain* <span class="type">const</span>&gt; filter_chain_span,</span></span></span><br><span class="line"><span class="params"><span class="function">    FilterChainFactoryBuilder&amp; filter_chain_factory_builder,</span></span></span><br><span class="line"><span class="params"><span class="function">    FilterChainFactoryContextCreator&amp; context_creator)</span> </span>&#123;</span><br><span class="line">  <span class="function">Cleanup <span class="title">cleanup</span><span class="params">([<span class="keyword">this</span>]() &#123; origin_ = absl::<span class="literal">nullopt</span>; &#125;)</span></span>;</span><br><span class="line">  std::unordered_set&lt;envoy::config::listener::v3::FilterChainMatch, MessageUtil, MessageUtil&gt;</span><br><span class="line">      filter_chains;</span><br><span class="line">  <span class="type">uint32_t</span> new_filter_chain_size = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; filter_chain : filter_chain_span) &#123;</span><br><span class="line">    <span class="type">const</span> <span class="keyword">auto</span>&amp; filter_chain_match = filter_chain-&gt;<span class="built_in">filter_chain_match</span>();</span><br><span class="line">    <span class="keyword">if</span> (!filter_chain_match.<span class="built_in">address_suffix</span>().<span class="built_in">empty</span>() || filter_chain_match.<span class="built_in">has_suffix_len</span>()) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="built_in">EnvoyException</span>(fmt::format(<span class="string">&quot;error adding listener &#x27;&#123;&#125;&#x27;: contains filter chains with &quot;</span></span><br><span class="line">                                       <span class="string">&quot;unimplemented fields&quot;</span>,</span><br><span class="line">                                       address_-&gt;<span class="built_in">asString</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (filter_chains.<span class="built_in">find</span>(filter_chain_match) != filter_chains.<span class="built_in">end</span>()) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="built_in">EnvoyException</span>(fmt::format(<span class="string">&quot;error adding listener &#x27;&#123;&#125;&#x27;: multiple filter chains with &quot;</span></span><br><span class="line">                                       <span class="string">&quot;the same matching rules are defined&quot;</span>,</span><br><span class="line">                                       address_-&gt;<span class="built_in">asString</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">    filter_chains.<span class="built_in">insert</span>(filter_chain_match);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Validate IP addresses.</span></span><br><span class="line">    std::vector&lt;std::string&gt; destination_ips;</span><br><span class="line">    destination_ips.<span class="built_in">reserve</span>(filter_chain_match.<span class="built_in">prefix_ranges</span>().<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; destination_ip : filter_chain_match.<span class="built_in">prefix_ranges</span>()) &#123;</span><br><span class="line">      <span class="type">const</span> <span class="keyword">auto</span>&amp; cidr_range = Network::Address::CidrRange::<span class="built_in">create</span>(destination_ip);</span><br><span class="line">      destination_ips.<span class="built_in">push_back</span>(cidr_range.<span class="built_in">asString</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::vector&lt;std::string&gt; source_ips;</span><br><span class="line">    source_ips.<span class="built_in">reserve</span>(filter_chain_match.<span class="built_in">source_prefix_ranges</span>().<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; source_ip : filter_chain_match.<span class="built_in">source_prefix_ranges</span>()) &#123;</span><br><span class="line">      <span class="type">const</span> <span class="keyword">auto</span>&amp; cidr_range = Network::Address::CidrRange::<span class="built_in">create</span>(source_ip);</span><br><span class="line">      source_ips.<span class="built_in">push_back</span>(cidr_range.<span class="built_in">asString</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reject partial wildcards, we don&#x27;t match on them.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; server_name : filter_chain_match.<span class="built_in">server_names</span>()) &#123;</span><br><span class="line">      <span class="keyword">if</span> (server_name.<span class="built_in">find</span>(<span class="string">&#x27;*&#x27;</span>) != std::string::npos &amp;&amp;</span><br><span class="line">          !FilterChainManagerImpl::<span class="built_in">isWildcardServerName</span>(server_name)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">EnvoyException</span>(</span><br><span class="line">            fmt::format(<span class="string">&quot;error adding listener &#x27;&#123;&#125;&#x27;: partial wildcards are not supported in &quot;</span></span><br><span class="line">                        <span class="string">&quot;\&quot;server_names\&quot;&quot;</span>,</span><br><span class="line">                        address_-&gt;<span class="built_in">asString</span>()));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reuse created filter chain if possible.</span></span><br><span class="line">    <span class="comment">// FilterChainManager maintains the lifetime of FilterChainFactoryContext</span></span><br><span class="line">    <span class="comment">// ListenerImpl maintains the dependencies of FilterChainFactoryContext</span></span><br><span class="line">    <span class="keyword">auto</span> filter_chain_impl = <span class="built_in">findExistingFilterChain</span>(*filter_chain);</span><br><span class="line">    <span class="keyword">if</span> (filter_chain_impl == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">      filter_chain_impl =</span><br><span class="line">          filter_chain_factory_builder.<span class="built_in">buildFilterChain</span>(*filter_chain, context_creator);</span><br><span class="line">      ++new_filter_chain_size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">addFilterChainForDestinationPorts</span>(</span><br><span class="line">        destination_ports_map_,</span><br><span class="line">        <span class="built_in">PROTOBUF_GET_WRAPPED_OR_DEFAULT</span>(filter_chain_match, destination_port, <span class="number">0</span>), destination_ips,</span><br><span class="line">        filter_chain_match.<span class="built_in">server_names</span>(), filter_chain_match.<span class="built_in">transport_protocol</span>(),</span><br><span class="line">        filter_chain_match.<span class="built_in">application_protocols</span>(), filter_chain_match.<span class="built_in">source_type</span>(), source_ips,</span><br><span class="line">        filter_chain_match.<span class="built_in">source_ports</span>(), filter_chain_impl);</span><br><span class="line">    fc_contexts_[*filter_chain] = filter_chain_impl;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">convertIPsToTries</span>();</span><br><span class="line">  <span class="built_in">ENVOY_LOG</span>(debug, <span class="string">&quot;new fc_contexts has &#123;&#125; filter chains, including &#123;&#125; newly built&quot;</span>,</span><br><span class="line">            fc_contexts_.<span class="built_in">size</span>(), new_filter_chain_size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Envoy-Admin"><a class="header-anchor" href="#Envoy-Admin">¶</a>Envoy Admin</h2>
+<p>我们构建 Example 的时候，有一段内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">admin:</span></span><br><span class="line">  <span class="attr">access_log_path:</span> <span class="string">/tmp/admin_access.log</span></span><br><span class="line">  <span class="attr">address:</span></span><br><span class="line">    <span class="attr">socket_address:</span> &#123; <span class="attr">address:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>, <span class="attr">port_value:</span> <span class="number">9901</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>是 Enovy 的管理端口。主要提供了一系列的统计数据等，详见 <a target="_blank" rel="noopener" href="https://www.envoyproxy.io/docs/envoy/v1.14.1/operations/admin">Envoy-Admin</a></p>
+<h2 id="Envoy-Dynamic-Manager"><a class="header-anchor" href="#Envoy-Dynamic-Manager">¶</a>Envoy Dynamic Manager</h2>
+<p>我们分析了简单的从文件读入的过程，但是对于一个成熟的网关来说，动态载入数据的类型是不可少的，因此 Envoy 也提供了几种动态获得配置的能力，比如 <code>LDS</code> <code>XDS</code> 等。</p>
+<h3 id="LDS-v2"><a class="header-anchor" href="#LDS-v2">¶</a>LDS</h3>
+<blockquote>
+<p>The listener discovery service (LDS) is an optional API that Envoy will call to dynamically fetch listeners. Envoy will reconcile the API response and add, modify, or remove known listeners depending on what is required.</p>
+</blockquote>
+<!-------------分割线---------------->
+<div id="container" style="height: 500px"></div>
+<div id="detail" style="position: absolute; bottom: 100px; left: 0px; z-index: 9999;">
+        <div style="font-weight: bold;">相关文档</div>
+        <div id="detail_infos"></div>
+</div>
+<script type="text/javascript" src="https://app.diagrams.net/js/viewer.min.js"></script>
+<!-- <script src="https://cdn.bootcss.com/viewerjs/1.5.0/viewer.min.js"></script> -->
+<script src="https://cdn.staticaly.com/npm/echarts/dist/echarts.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.staticaly.com/npm/echarts-gl/dist/echarts-gl.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.staticaly.com/npm/echarts-stat/dist/ecStat.min.js" type="text/javascript">
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<h3 id="Gaph"><a class="header-anchor" href="#Gaph">¶</a>Gaph</h3>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+        option = {
+            title: {
+                text: "Envoy knowledge map",
+                subtext: 'Around Envoy',
+                top: 'bottom',
+                left: 'right'
+            },
+            tooltip: {},
+            legend: [],
+            animation: false,
+            series: [
+                {
+                    name: "Yanick's knowledge map",
+                    type: 'graph',
+                    layout: 'force',
+                    focusNodeAdjacency: true,
+                    data: [
+                    {
+                        "name": "Envoy",
+                        "value": 30,
+                        "symbolSize": 30,
+                        "articles": []
+                    },
+                    {
+                        "name": "Libevent",
+                        "value": 20,
+                        "symbolSize": 20,
+                        "articles": [
+                            {
+                            "name": "基于Libevent的聊天室",
+                            "url": "https://github.com/yanickxia/chatroom-libevent"
+                            }
+                        ]
+                    }],
+                    links: [
+                    {
+                        "source": "Envoy",
+                        "target": "Libevent"
+                    }],
+                    categories: [],
+                    roam: true,
+                    label: {
+                        show: true,
+                        position: 'right'
+                    },
+                    force: {
+                        repulsion: 100
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+        myChart.on('click', function (params) {
+            $("#detail_infos").empty();
+            params.data.articles.forEach(it => {
+                let newArticle = $(`<div><a href='${it.url}'>${it.name}</a></div>`);
+                $("#detail_infos").append(newArticle);
+            });
+        });
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+</script>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/API/" rel="tag"># API</a>
+              <a href="/tags/Gateway/" rel="tag"># Gateway</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/31/rethink/another-hard-way-to-die/" rel="prev" title="死亡行军与自我革命">
+                  <i class="fa fa-chevron-left"></i> 死亡行军与自我革命
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/08/rethink/different-way-for-cosumer/" rel="next" title="给客户提供的服务">
+                  给客户提供的服务 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="e4de8999a28c95249252b384a59ccba7"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

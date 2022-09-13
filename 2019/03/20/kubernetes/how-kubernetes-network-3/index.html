@@ -1,16 +1,630 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在 Kubernetes 网络原理(2) - Container &amp; Pod 中，我们已经看到了在一个 Node 内部的 Pod 和 Container 的通讯，我们今天来看看跨Node的Pod通讯。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes-Calico-网络原理(3) - Pod &amp; Node">
+<meta property="og:url" content="http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="在 Kubernetes 网络原理(2) - Container &amp; Pod 中，我们已经看到了在一个 Node 内部的 Pod 和 Container 的通讯，我们今天来看看跨Node的Pod通讯。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/21/5c92e80a5a4da.png">
+<meta property="article:published_time" content="2019-03-20T09:48:01.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.428Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="network">
+<meta property="article:tag" content="calico">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/21/5c92e80a5a4da.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/","path":"2019/03/20/kubernetes/how-kubernetes-network-3/","title":"Kubernetes-Calico-网络原理(3) - Pod & Node"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes-Calico-网络原理(3) - Pod & Node | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-Node"><span class="nav-number">1.</span> <span class="nav-text">Pod &lt;-&gt; Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%87%E6%80%BB"><span class="nav-number">2.</span> <span class="nav-text">汇总</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#New-Question"><span class="nav-number">3.</span> <span class="nav-text">New Question</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2019/03/20/kubernetes/how-kubernetes-network-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes-Calico-网络原理(3) - Pod & Node | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes-Calico-网络原理(3) - Pod & Node
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-20 17:48:01" itemprop="dateCreated datePublished" datetime="2019-03-20T17:48:01+08:00">2019-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/network/calico/" itemprop="url" rel="index"><span itemprop="name">calico</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2019/03/20/kubernetes/how-kubernetes-network-3/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes-Calico-网络原理(3) - Pod & Node" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Kubernetes-Calico-网络原理(3) - Pod & Node" href="/2019/03/20/kubernetes/how-kubernetes-network-3/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::b4f12447de250e4cd4a7df35f1e6c296" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/03/20/kubernetes/how-kubernetes-network-3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/20/kubernetes/how-kubernetes-network-3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        
+
+<script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
+<script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script src="https://lib.baomitu.com/underscore.js/1.9.0/underscore-min.js"></script>
+<script src="https://lib.baomitu.com/raphael/2.2.7/raphael.min.js"></script>
+<script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+
+
+<p>在 <a target="_blank" rel="noopener" href="http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-2/">Kubernetes 网络原理(2) - Container &amp; Pod</a> 中，我们已经看到了在一个 <code>Node</code> 内部的 <code>Pod</code> 和 <code>Container</code> 的通讯，我们今天来看看跨<code>Node</code>的<code>Pod</code>通讯。</p>
+<span id="more"></span>
+<h2 id="Pod-Node"><a class="header-anchor" href="#Pod-Node">¶</a>Pod &lt;-&gt; Node</h2>
+<p>我们首先先部署一个环境，在 <code>work-2</code> 上部署一个新的 <code>echo-server</code></p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        Pod部署Yaml文件
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">c2c-network-demo-w2</span></span><br><span class="line"><span class="attr">labels:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">c2c-network-demo-w2</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">containers:</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello-world-server</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">python:2.7</span></span><br><span class="line">  <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">  <span class="attr">command:</span> [<span class="string">&quot;/bin/bash&quot;</span>]</span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&quot;-c&quot;</span>, <span class="string">&quot;echo \&quot;&lt;p&gt;Hi from $(hostname)&lt;/p&gt;\&quot; &gt; index.html; python -m SimpleHTTPServer 8080&quot;</span>]</span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">curl-client</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">yannxia/ubuntu-with-tcpdump</span></span><br><span class="line">  <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">  <span class="attr">command:</span> [<span class="string">&quot;/bin/sh&quot;</span>]</span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&quot;-c&quot;</span>, <span class="string">&quot;while true; do sleep 10; done;&quot;</span>]</span><br><span class="line">  <span class="attr">nodeSelector:</span></span><br><span class="line">  <span class="attr">worker:</span> <span class="literal">no</span><span class="number">-2</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+    </div>
+</div>
+<p>我们可以查看到在 <code>worker-2</code> 上面有了新的服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pod -o wide</span><br><span class="line">NAME                  READY   STATUS    RESTARTS   AGE     IP             NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">c2c-network-demo      2/2     Running   0          2d2h    192.168.1.10   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">c2c-network-demo-w2   2/2     Running   0          87s     192.168.2.6    k8s-worker-2   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">echo-server           1/1     Running   0          11d     192.168.1.2    k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">test-tools            1/1     Running   0          7h45m   192.168.1.12   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到 <code>c2c-network-demo-w2</code> 分配的 IP 是 <code>192.168.2.6</code>，我们在 <code>k8s-worker-1</code> 的 <code>Node</code> 尝试访问下，毫无疑问的可以访问通。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@test-tools:/<span class="comment"># ping 192.168.2.6</span></span><br><span class="line">PING 192.168.2.6 (192.168.2.6): 56 data bytes</span><br><span class="line">64 bytes from 192.168.2.6: icmp_seq=0 ttl=62 time=0.467 ms</span><br></pre></td></tr></table></figure>
+<p>在<code>k8s-worker-1</code>的路由表查一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         10.12.0.1       0.0.0.0         UG    0      0        0 ens192</span><br><span class="line">10.12.0.0       0.0.0.0         255.255.0.0     U     0      0        0 ens192</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0</span><br><span class="line">192.168.0.0     10.12.22.1      255.255.255.0   UG    0      0        0 tunl0</span><br><span class="line">192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 *</span><br><span class="line">192.168.1.2     0.0.0.0         255.255.255.255 UH    0      0        0 cali0005aea454a</span><br><span class="line">192.168.1.10    0.0.0.0         255.255.255.255 UH    0      0        0 calid9d486e54a8</span><br><span class="line">192.168.1.12    0.0.0.0         255.255.255.255 UH    0      0        0 calied9d42cb137</span><br><span class="line">192.168.2.0     10.12.22.3      255.255.255.0   UG    0      0        0 tunl0</span><br></pre></td></tr></table></figure>
+<p>我们可以发现命中的是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.0     10.12.22.3      255.255.255.0   UG    0      0        0 tunl0</span><br></pre></td></tr></table></figure>
+<p>我们的网络包从 <code>tunl0</code> 网卡出去，目标是下一条的 <code>Gateway:10.12.22.3</code> 但是我们 <code>tunl0</code> 的另一头是一个单独的应用，此时我们同时抓包 <code>ens192</code> 和 <code>tunl0</code> 从黑盒的模式看看，这个<code>Calico</code>的应用做了什么事情。</p>
+<ul>
+<li><code>tunl0</code><div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        Tunl0
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ tcpdump -i tunl0</span><br><span class="line">01:24:59.482498 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [S], <span class="built_in">seq</span> 2194532999, win 28000, options [m</span><br><span class="line">ss 1400,sackOK,TS val 248040654 ecr 0,nop,wscale 7], length 0</span><br><span class="line">01:24:59.482918 IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [S.], <span class="built_in">seq</span> 2179183161, ack 2194533000, win</span><br><span class="line">27760, options [mss 1400,sackOK,TS val 247938639 ecr 248040654,nop,wscale 7], length 0</span><br><span class="line">01:24:59.482982 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 1, win 219, options [nop,nop,TS v</span><br><span class="line">al 248040655 ecr 247938639], length 0</span><br><span class="line">01:24:59.483073 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [P.], <span class="built_in">seq</span> 1:81, ack 1, win 219, options [n</span><br><span class="line">op,nop,TS val 248040655 ecr 247938639], length 80: HTTP: GET / HTTP/1.1</span><br><span class="line">01:24:59.483209 IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [.], ack 81, win 217, options [nop,nop,TS</span><br><span class="line">val 247938639 ecr 248040655], length 0</span><br><span class="line">01:24:59.484042 IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [P.], <span class="built_in">seq</span> 1:18, ack 81, win 217, options [</span><br><span class="line">nop,nop,TS val 247938639 ecr 248040655], length 17: HTTP: HTTP/1.0 200 OK</span><br><span class="line">01:24:59.484115 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 18, win 219, options [nop,nop,TS</span><br><span class="line">val 248040655 ecr 247938639], length 0</span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+</li>
+<li><code>ens192</code><div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        Tunl0
+    </div>
+    <div class='spoiler-content'>
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ tcpdump -i ens192 dst 10.12.22.3 and not port 6443</span><br><span class="line">01:24:59.482524 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [S], <span class="built_in">seq</span> 2</span><br><span class="line">194532999, win 28000, options [mss 1400,sackOK,TS val 248040654 ecr 0,nop,wscale 7], length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.482882 IP k8s-worker-2 &gt; k8s-worker-1: IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [S.], <span class="built_in">seq</span></span><br><span class="line">2179183161, ack 2194533000, win 27760, options [mss 1400,sackOK,TS val 247938639 ecr 248040654,nop,wscale 7],</span><br><span class="line">length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.483005 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 1</span><br><span class="line">, win 219, options [nop,nop,TS val 248040655 ecr 247938639], length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.483083 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [P.], <span class="built_in">seq</span></span><br><span class="line">1:81, ack 1, win 219, options [nop,nop,TS val 248040655 ecr 247938639], length 80: HTTP: GET / HTTP/1.1 (ipip-</span><br><span class="line">proto-4)</span><br><span class="line">01:24:59.483194 IP k8s-worker-2 &gt; k8s-worker-1: IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [.], ack 8</span><br><span class="line">1, win 217, options [nop,nop,TS val 247938639 ecr 248040655], length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.483992 IP k8s-worker-2 &gt; k8s-worker-1: IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [P.], <span class="built_in">seq</span></span><br><span class="line">1:18, ack 81, win 217, options [nop,nop,TS val 247938639 ecr 248040655], length 17: HTTP: HTTP/1.0 200 OK (ipi</span><br><span class="line">p-proto-4)</span><br><span class="line">01:24:59.484128 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 1</span><br><span class="line">8, win 219, options [nop,nop,TS val 248040655 ecr 247938639], length 0 (ipip-proto-4)</span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+</li>
+</ul>
+<p>从上面的抓包里面可以分辨出，从 <code>tun0</code> 出来的数据包，到了 <code>eth0</code> 这里被封装成了 <code>IP in IP</code> 的数据包，也就是在本来的 <code>TCP/IP</code> 的协议包之外又封装了一层物理网络的 <code>IP</code>。</p>
+<p><img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/21/5c92e80a5a4da.png" alt=""></p>
+<h2 id="汇总"><a class="header-anchor" href="#汇总">¶</a>汇总</h2>
+<p>我们从最近的一系列分析中：</p>
+<ul>
+<li>Pod -&gt; Node-A<br>
+通过 veth 设备将数据从容器的 eth0 发出</li>
+<li>Node-A -&gt; Node-B<br>
+eth 通过路由表将数据发送到 tunl0, 然后 tunl0 将报文分装成 IPinIP</li>
+<li>Node-B -&gt; Pod<br>
+eth 将 IPIP 协议包解包，使用路由表将数据从 veth 输入到 Pod 的 eth0</li>
+</ul>
+<h2 id="New-Question"><a class="header-anchor" href="#New-Question">¶</a>New Question</h2>
+<p>除了 IPIP 的模式以为，Calico 还提供了 BGP 模式，那它的工作模式又是如何呢？切看我们下章分解。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/network/" rel="tag"># network</a>
+              <a href="/tags/calico/" rel="tag"># calico</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/17/kubernetes/how-kubernetes-network-2/" rel="prev" title="Kubernetes-Calico-网络原理(2) - Container & Pod">
+                  <i class="fa fa-chevron-left"></i> Kubernetes-Calico-网络原理(2) - Container & Pod
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/21/kubernetes/how-kubernetes-network-4/" rel="next" title="Kubernetes-Calico-网络原理(4) - BGP">
+                  Kubernetes-Calico-网络原理(4) - BGP <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="b4f12447de250e4cd4a7df35f1e6c296"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

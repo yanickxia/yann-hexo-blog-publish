@@ -1,20 +1,1779 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ title }}{% if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{% endif %}{% endblock %}
 
-{% block class %}index posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {%- for post in page.posts.toArray() %}
-    {{ partial('_macro/post.njk', {post: post, is_index: true}) }}
-  {%- endfor %}
 
-  {%- include '_partials/pagination.njk' -%}
 
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Yanick&#39;s Blog">
+<meta property="og:url" content="http://blog.yanick.site/page/2/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Yanick.xia">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.yanick.site/page/2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/2/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/26/networking/envoy/how-dubbo-filter-works/" class="post-title-link" itemprop="url">How Dubbo Envoy Filter Works (For Envoy)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-26 16:04:12" itemprop="dateCreated datePublished" datetime="2021-05-26T16:04:12+08:00">2021-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/dubbo/" itemprop="url" rel="index"><span itemprop="name">dubbo</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/dubbo/envoy/" itemprop="url" rel="index"><span itemprop="name">envoy</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/05/26/networking/envoy/how-dubbo-filter-works/" class="post-meta-item leancloud_visitors" data-flag-title="How Dubbo Envoy Filter Works (For Envoy)" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="How Dubbo Envoy Filter Works (For Envoy)" href="/2021/05/26/networking/envoy/how-dubbo-filter-works/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::c65230e9c0615415825e60d9242baf07" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/05/26/networking/envoy/how-dubbo-filter-works/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/05/26/networking/envoy/how-dubbo-filter-works/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210606174353.png" alt=""></p>
+<p>今天就让我们一起来品一品，<code>Envoy</code> 中的 <code>Dubbo</code> 协议是如何实现的，基于 <code>1.18</code> 分支</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/26/networking/envoy/how-dubbo-filter-works/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/19/networking/istio/upgrade/1.10.x/" class="post-title-link" itemprop="url">Isito 1.10.x 更新解读</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-19 12:28:41" itemprop="dateCreated datePublished" datetime="2021-05-19T12:28:41+08:00">2021-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/isito/" itemprop="url" rel="index"><span itemprop="name">isito</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/05/19/networking/istio/upgrade/1.10.x/" class="post-meta-item leancloud_visitors" data-flag-title="Isito 1.10.x 更新解读" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Isito 1.10.x 更新解读" href="/2021/05/19/networking/istio/upgrade/1.10.x/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::b1f1a458a468eb1a3f37decd2019e0ff" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/05/19/networking/istio/upgrade/1.10.x/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/05/19/networking/istio/upgrade/1.10.x/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519134744.png" alt=""></p>
+<p>原文: <a target="_blank" rel="noopener" href="https://istio.io/latest/news/releases/1.10.x/announcing-1.10/">https://istio.io/latest/news/releases/1.10.x/announcing-1.10/</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/19/networking/istio/upgrade/1.10.x/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/04/30/go/go-impossible-missions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/30/go/go-impossible-missions/" class="post-title-link" itemprop="url">Go Impossible Missions</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-30 10:31:37" itemprop="dateCreated datePublished" datetime="2021-04-30T10:31:37+08:00">2021-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/go/rust/" itemprop="url" rel="index"><span itemprop="name">rust</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/04/30/go/go-impossible-missions/" class="post-meta-item leancloud_visitors" data-flag-title="Go Impossible Missions" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Go Impossible Missions" href="/2021/04/30/go/go-impossible-missions/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::35047ce913a007a06af5c457d7614935" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/04/30/go/go-impossible-missions/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/30/go/go-impossible-missions/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210430161943.png" alt=""></p>
+<p>主要就是为了吐槽 <code>GO</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/30/go/go-impossible-missions/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/04/24/java/other/java11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/24/java/other/java11/" class="post-title-link" itemprop="url">New Features in Java 9,10,11</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-24 10:29:48" itemprop="dateCreated datePublished" datetime="2021-04-24T10:29:48+08:00">2021-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/04/24/java/other/java11/" class="post-meta-item leancloud_visitors" data-flag-title="New Features in Java 9,10,11" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="New Features in Java 9,10,11" href="/2021/04/24/java/other/java11/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::b9721b1763faf757788529eaeb301947" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/04/24/java/other/java11/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/24/java/other/java11/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2021/04/24/aSn1L.png" alt="aSn1L.png"></p>
+<blockquote>
+<p>Java 11 is the first long-term support (LTS) release after Java 8. Oracle also stopped supporting Java 8 in January 2019. As a consequence, a lot of us will upgrade to Java 11.</p>
+</blockquote>
+<p>作为 <code>8</code> 之后的 <code>LTS</code> 版本，让我们来快速学习一下吧</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/24/java/other/java11/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/03/26/go/ot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/26/go/ot/" class="post-title-link" itemprop="url">Opentelemetry Collector 源码解读</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-26 13:46:07" itemprop="dateCreated datePublished" datetime="2021-03-26T13:46:07+08:00">2021-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/go/opentelemetry/" itemprop="url" rel="index"><span itemprop="name">opentelemetry</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/03/26/go/ot/" class="post-meta-item leancloud_visitors" data-flag-title="Opentelemetry Collector 源码解读" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Opentelemetry Collector 源码解读" href="/2021/03/26/go/ot/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::38d642f2008cd9d3d4f6de39f54e766e" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/26/go/ot/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/26/go/ot/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326194325.png" alt=""></p>
+<p><code>opentelemetry</code> 作为 <code>CNCF</code> 社区的全新项目，最为核心的就是 <code>Collector</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/26/go/ot/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/25/os/rt-thread/rt-thread/" class="post-title-link" itemprop="url">RT-Thread 简明阅读</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-25 13:46:07" itemprop="dateCreated datePublished" datetime="2021-03-25T13:46:07+08:00">2021-03-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/os/" itemprop="url" rel="index"><span itemprop="name">os</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/os/rt-thread/" itemprop="url" rel="index"><span itemprop="name">rt-thread</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/03/25/os/rt-thread/rt-thread/" class="post-meta-item leancloud_visitors" data-flag-title="RT-Thread 简明阅读" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="RT-Thread 简明阅读" href="/2021/03/25/os/rt-thread/rt-thread/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::fa98ce8c381a76ab23ceaf5ae4862e91" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/25/os/rt-thread/rt-thread/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/25/os/rt-thread/rt-thread/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325155834.png" alt=""></p>
+<p>对于一个<code>软件工程师</code>来说，我并不是很关心 <code>BootLoader</code> 这些东西，几乎都比较接近于硬件，<code>Linux</code> 的代码又普遍太过于工业级，因此尝试用 <code>rt-thread</code> 这样一<br>
+个比较小型的 <code>real time</code> 系统来解析操作系统的工作。</p>
+<blockquote>
+<p>For My Lovely Wife</p>
+</blockquote>
+<!-- more --->
+<h2 id="环境准备-v2"><a class="header-anchor" href="#环境准备-v2">¶</a>环境准备</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/RT-Thread/</span><br><span class="line"><span class="built_in">cd</span> rt-thread/bsp/qemu-vexpress-a9</span><br><span class="line">scons</span><br><span class="line">./run-qemu.sh</span><br></pre></td></tr></table></figure>
+<h2 id="Clock-时钟"><a class="header-anchor" href="#Clock-时钟">¶</a>Clock 时钟</h2>
+<blockquote>
+<p>建议初学者先阅读 <a target="_blank" rel="noopener" href="https://www.rt-thread.org/document/site/programming-manual/basic/basic/">内核基础</a></p>
+</blockquote>
+<p>对于操作系统来说，我们需要依赖时间，无论是显示的时间，还是说我们的进程运行了多久，这些都非常依赖于一个硬件 <a target="_blank" rel="noopener" href="http://murata.eetrend.com/article/2019-05/1002740.html"><code>晶振</code></a>，晶振的作用很简单，但是这种事比较初级的版本，后来在 CPU 中集成了 <a target="_blank" rel="noopener" href="https://en.m.wikipedia.org/wiki/Programmable_interval_timer"><code>PIT</code></a>，Whatever 我们暂时不管具体怎么实现，对于 <code>OS</code> 来说，当时间发生了变化，CPU就会触发 <code>interrupt</code></p>
+<h3 id="中断"><a class="header-anchor" href="#中断">¶</a>中断</h3>
+<p>对于不同的架构的 <code>CPU</code>，中断的设计不太一样，这里我们就拿手机上的 <code>Cortex-A53</code> 作为例子。在 <a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/libcpu/aarch64/cortex-a53/interrupt.h"><code>interrupt.h</code></a> 暴露了如何注册中端函数的方法 <code>rt_hw_interrupt_install</code></p>
+<p>相对应的 <code>BSP - qemu-vexpress-a9</code> 中，我们可以找到注册的调用处</p>
+<figure class="highlight c"><figcaption><span>rt_hw_timer_init</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/bsp/qemu-vexpress-a9/drivers/drv_timer.c#L64">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">rt_hw_timer_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 注册中断的处理函数</span></span><br><span class="line">    rt_hw_interrupt_install(IRQ_PBA8_TIMER2_3, rt_hw_timer_isr, RT_NULL, <span class="string">&quot;tick&quot;</span>);</span><br><span class="line">    rt_hw_interrupt_umask(IRQ_PBA8_TIMER2_3);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>接下来，我们就看到我们软件部分的逻辑了</p>
+<figure class="highlight c"><figcaption><span>clock.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/clock.c">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">rt_tick_increase</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">thread</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* increase the global tick */</span></span><br><span class="line"><span class="comment">// 对于多核系统需要针对此核心</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> RT_USING_SMP</span></span><br><span class="line">    rt_cpu_self()-&gt;tick ++;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    ++ rt_tick;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* check time slice */</span></span><br><span class="line">    <span class="comment">// 这里获得当前的进程</span></span><br><span class="line">    thread = rt_thread_self();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每执行一次 rt_tick_increase 函数，我们都要看看进程是否已经耗完了所有的tick，如果耗完了就需要进行调度了</span></span><br><span class="line">    -- thread-&gt;remaining_tick;</span><br><span class="line">    <span class="keyword">if</span> (thread-&gt;remaining_tick == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* change to initialized tick */</span></span><br><span class="line">        thread-&gt;remaining_tick = thread-&gt;init_tick;</span><br><span class="line"></span><br><span class="line">        thread-&gt;stat |= RT_THREAD_STAT_YIELD;</span><br><span class="line"></span><br><span class="line">        rt_schedule();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* check timer */</span></span><br><span class="line">    rt_timer_check();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>时钟函数是系统中最为简单的部分，仅仅用作计数，重新调度也仅仅是顺带而为之，那我们接下来看看进程调度。</p>
+<h2 id="进程调度"><a class="header-anchor" href="#进程调度">¶</a>进程调度</h2>
+<p><code>RT-Thread </code>线程管理的主要功能是对线程进行管理和调度，系统中总共存在两类线程，分别是系统线程和用户线程。对于进程来说，我们需要保留运行的状态进行调度。</p>
+<figure class="highlight c"><figcaption><span>rtdef.h</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L572">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="comment">/* rt 对象 */</span></span><br><span class="line">    <span class="type">char</span>        name[RT_NAME_MAX];     <span class="comment">/* 线程名称 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  type;                   <span class="comment">/* 对象类型 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  flags;                  <span class="comment">/* 标志位 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_list_t</span>   <span class="built_in">list</span>;                   <span class="comment">/* 对象列表 */</span></span><br><span class="line">    <span class="type">rt_list_t</span>   tlist;                  <span class="comment">/* 线程列表 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 栈指针与入口指针 */</span></span><br><span class="line">    <span class="type">void</span>       *sp;                      <span class="comment">/* 栈指针 */</span></span><br><span class="line">    <span class="type">void</span>       *entry;                   <span class="comment">/* 入口函数指针 */</span></span><br><span class="line">    <span class="type">void</span>       *parameter;              <span class="comment">/* 参数 */</span></span><br><span class="line">    <span class="type">void</span>       *stack_addr;             <span class="comment">/* 栈地址指针 */</span></span><br><span class="line">    <span class="type">rt_uint32_t</span> stack_size;            <span class="comment">/* 栈大小 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 错误代码 */</span></span><br><span class="line">    <span class="type">rt_err_t</span>    error;                  <span class="comment">/* 线程错误代码 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  stat;                   <span class="comment">/* 线程状态 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 优先级 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  current_priority;    <span class="comment">/* 当前优先级 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  init_priority;        <span class="comment">/* 初始优先级 */</span></span><br><span class="line">    <span class="type">rt_uint32_t</span> number_mask;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="type">rt_ubase_t</span>  init_tick;               <span class="comment">/* 线程初始化计数值 */</span></span><br><span class="line">    <span class="type">rt_ubase_t</span>  remaining_tick;         <span class="comment">/* 线程剩余计数值 */</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_timer</span> <span class="title">thread_timer</span>;</span>      <span class="comment">/* 内置线程定时器 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> (*cleanup)(<span class="keyword">struct</span> rt_thread *tid);  <span class="comment">/* 线程退出清除函数 */</span></span><br><span class="line">    <span class="type">rt_uint32_t</span> user_data;                      <span class="comment">/* 用户数据 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>对 <code>RT-Thread</code> 也包含了一组进程的状态切换。</p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325163941.png" alt=""></p>
+<h3 id="Try-it"><a class="header-anchor" href="#Try-it">¶</a>Try it</h3>
+<p>我们修改 <code>/rt-thread/bsp/qemu-vexpress-a9/applications/main.c</code></p>
+<figure class="highlight c"><figcaption><span>main.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;rtthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THREAD_STACK_SIZE   1024</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THREAD_PRIORITY     20</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THREAD_TIMESLICE    10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 线程入口 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">thread_entry</span><span class="params">(<span class="type">void</span>* parameter)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_uint32_t</span> value;</span><br><span class="line">    <span class="type">rt_uint32_t</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    value = (<span class="type">rt_uint32_t</span>)parameter;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == (count % <span class="number">5</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            rt_kprintf(<span class="string">&quot;thread %d is running ,thread %d count = %d\n&quot;</span>, value , value , count);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(count&gt; <span class="number">200</span>)</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         count++;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">timeslice_sample</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_thread_t</span> tid = RT_NULL;</span><br><span class="line">    <span class="comment">/* 创建线程 1 */</span></span><br><span class="line">    tid = rt_thread_create(<span class="string">&quot;thread1&quot;</span>,</span><br><span class="line">                            thread_entry, (<span class="type">void</span>*)<span class="number">1</span>,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY, THREAD_TIMESLICE);</span><br><span class="line">    <span class="keyword">if</span> (tid != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 创建线程 2 */</span></span><br><span class="line">    tid = rt_thread_create(<span class="string">&quot;thread2&quot;</span>,</span><br><span class="line">                            thread_entry, (<span class="type">void</span>*)<span class="number">2</span>,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY, THREAD_TIMESLICE<span class="number">-5</span>);</span><br><span class="line">    <span class="keyword">if</span> (tid != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    timeslice_sample();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><figcaption><span>execute</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ scons</span><br><span class="line">$ ./qemu-nographic.sh</span><br><span class="line"></span><br><span class="line">msh /&gt;thread 1 is running ,thread 1 count = 0</span><br><span class="line">thread 1 is running ,thread 1 count = 5</span><br><span class="line">thread 1 is running ,thread 1 count = 10</span><br><span class="line">thread 1 is running ,thread 1 count = 15</span><br><span class="line">thread 1 is running ,thread 1 count = 20</span><br><span class="line">thread 1 is running ,thread 1 count = 25</span><br><span class="line">thread 1 is running ,thread 1 count = 30</span><br><span class="line">thread 1 is running ,thread 1 count = 35</span><br><span class="line">thread 1 is running ,thread 1 count = 40</span><br><span class="line">thread 1 is running ,thread 1 count = 45</span><br><span class="line">thread 1 is running ,thread 1 count = 50</span><br><span class="line">thread 1 is running ,thread 1 count = 55</span><br><span class="line">thread 1 is running ,thread 1 count = 60</span><br><span class="line">thread 1 is running ,thread 1 count = 65</span><br><span class="line">thread 1 is running ,thread 1 count = 70</span><br><span class="line">thread 1 is running ,thread 1 count = 75</span><br><span class="line">thread 1 is running ,thread 1 count = 80</span><br><span class="line">thread 1 is running ,thread 1 count = 85</span><br><span class="line">thread 1 is running ,thread 1 count = 90</span><br><span class="line">thread 1 is running ,thread 1 count = 95</span><br><span class="line">thread 1 is running ,thread 1 count = 100</span><br><span class="line">thread 1 is running ,thread 1 count = 105</span><br><span class="line">thread 1 is running ,thread 1 count = 110</span><br><span class="line">thread 1 is running ,thread 1 count = 115</span><br><span class="line">thread 1 is running ,thread 1 count = 1thread 2 is running ,thread 2 count = 0</span><br></pre></td></tr></table></figure>
+<p>由运行的计数结果可以看出，线程 2 的运行时间是线程 1 的一半。</p>
+<hr>
+<h3 id="线程的创建"><a class="header-anchor" href="#线程的创建">¶</a>线程的创建</h3>
+<p>对于线程的创建</p>
+<figure class="highlight c"><figcaption><span>thread.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/thread.c">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">rt_err_t</span> _rt_thread_init(<span class="keyword">struct</span> rt_thread *thread,</span><br><span class="line">                                <span class="type">const</span> <span class="type">char</span>       *name,</span><br><span class="line">                                <span class="type">void</span> (*entry)(<span class="type">void</span> *parameter),</span><br><span class="line">                                <span class="type">void</span>             *parameter,</span><br><span class="line">                                <span class="type">void</span>             *stack_start,</span><br><span class="line">                                <span class="type">rt_uint32_t</span>       stack_size,</span><br><span class="line">                                <span class="type">rt_uint8_t</span>        priority,</span><br><span class="line">                                <span class="type">rt_uint32_t</span>       tick)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* init thread list */</span></span><br><span class="line">    rt_list_init(&amp;(thread-&gt;tlist)); <span class="comment">// 在此之间 rt_object_init((rt_object_t)thread, RT_Object_Class_Thread, name); 将线程对象创建在操作系统进行维护</span></span><br><span class="line"></span><br><span class="line">    thread-&gt;entry = (<span class="type">void</span> *)entry; <span class="comment">// 执行的代码部分，也就是线程的 entry</span></span><br><span class="line">    thread-&gt;parameter = parameter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* stack init 初始化栈，下同 */</span></span><br><span class="line">    thread-&gt;stack_addr = stack_start;</span><br><span class="line">    thread-&gt;stack_size = stack_size;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* init thread stack */</span></span><br><span class="line">    rt_memset(thread-&gt;stack_addr, <span class="string">&#x27;#&#x27;</span>, thread-&gt;stack_size);</span><br><span class="line">    thread-&gt;sp = (<span class="type">void</span> *)rt_hw_stack_init(thread-&gt;entry, thread-&gt;parameter,</span><br><span class="line">                                          (<span class="type">rt_uint8_t</span> *)((<span class="type">char</span> *)thread-&gt;stack_addr + thread-&gt;stack_size - <span class="keyword">sizeof</span>(<span class="type">rt_ubase_t</span>)),</span><br><span class="line">                                          (<span class="type">void</span> *)rt_thread_exit);</span><br><span class="line">    <span class="comment">/* priority init 设置线程的优先级 */</span></span><br><span class="line">    RT_ASSERT(priority &lt; RT_THREAD_PRIORITY_MAX);</span><br><span class="line">    thread-&gt;init_priority    = priority;</span><br><span class="line">    thread-&gt;current_priority = priority;</span><br><span class="line"></span><br><span class="line">    thread-&gt;number_mask = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* tick init 初始化 tick */</span></span><br><span class="line">    thread-&gt;init_tick      = tick;</span><br><span class="line">    thread-&gt;remaining_tick = tick;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* error and flags */</span></span><br><span class="line">    thread-&gt;error = RT_EOK;</span><br><span class="line">    thread-&gt;stat  = RT_THREAD_INIT;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* initialize cleanup function and user data */</span></span><br><span class="line">    thread-&gt;cleanup   = <span class="number">0</span>;</span><br><span class="line">    thread-&gt;user_data = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* initialize thread timer 这里为此线程增加了 Timer，定时器如何工作，我们下面再说，因为在特定时间进行工作，我们在下面将此线程 Hook 在我们的内核上 */</span></span><br><span class="line">    rt_timer_init(&amp;(thread-&gt;thread_timer),</span><br><span class="line">                  thread-&gt;name,</span><br><span class="line">                  rt_thread_timeout,</span><br><span class="line">                  thread,</span><br><span class="line">                  <span class="number">0</span>,</span><br><span class="line">                  RT_TIMER_FLAG_ONE_SHOT);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 就是在这里</span></span><br><span class="line">    RT_OBJECT_HOOK_CALL(rt_thread_inited_hook, (thread));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实也不用读的多么详细，大致上知道又这么多的字段需要维护。</p>
+<h3 id="线程的运行"><a class="header-anchor" href="#线程的运行">¶</a>线程的运行</h3>
+<p>使用 <code>rt_err_t rt_thread_startup(rt_thread_t thread);</code> 进行启动线程，而且启动的逻辑并不复杂。</p>
+<figure class="highlight c"><figcaption><span>thread.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/thread.c#L316">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_err_t</span> <span class="title function_">rt_thread_startup</span><span class="params">(<span class="type">rt_thread_t</span> thread)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* 设置优先级 */</span></span><br><span class="line">    thread-&gt;current_priority = thread-&gt;init_priority;</span><br><span class="line"></span><br><span class="line">    RT_DEBUG_LOG(RT_DEBUG_THREAD, (<span class="string">&quot;startup a thread:%s with priority:%d\n&quot;</span>,</span><br><span class="line">                                   thread-&gt;name, thread-&gt;init_priority));</span><br><span class="line">    <span class="comment">/* 最开始是 SUSPEND */</span></span><br><span class="line">    thread-&gt;stat = RT_THREAD_SUSPEND;</span><br><span class="line">    <span class="comment">/* 然后 RESUME */</span></span><br><span class="line">    rt_thread_resume(thread);</span><br><span class="line">    <span class="keyword">if</span> (rt_thread_self() != RT_NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 然后直接调度，为什么上面需要判断下，可能在 SMP 情况下被其他的 Thread 调度了 */</span></span><br><span class="line">        rt_schedule();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="线程的调度"><a class="header-anchor" href="#线程的调度">¶</a>线程的调度</h3>
+<figure class="highlight c"><figcaption><span>scheduler.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/scheduler.c#L289">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">rt_schedule</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_base_t</span> level;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">to_thread</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">current_thread</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_cpu</span>    *<span class="title">pcpu</span>;</span></span><br><span class="line">    <span class="type">int</span> cpu_id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 防止硬中端抢占此进程 */</span></span><br><span class="line">    level  = rt_hw_interrupt_disable();</span><br><span class="line"></span><br><span class="line">    cpu_id = rt_hw_cpu_id();</span><br><span class="line">    pcpu   = rt_cpu_index(cpu_id);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 拿到当前的线程</span></span><br><span class="line">    current_thread = pcpu-&gt;current_thread;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (current_thread-&gt;scheduler_lock_nest == <span class="number">1</span>) <span class="comment">/* whether lock scheduler 确保调度器是唯一运行的 */</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">rt_ubase_t</span> highest_ready_priority;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (rt_thread_ready_priority_group != <span class="number">0</span> || pcpu-&gt;priority_group != <span class="number">0</span>) <span class="comment">/* 有需要运行的 thread */</span></span><br><span class="line">        &#123;</span><br><span class="line">            to_thread = _get_highest_priority_thread(&amp;highest_ready_priority); <span class="comment">// 找到高优先级的 thread</span></span><br><span class="line">            current_thread-&gt;oncpu = RT_CPU_DETACHED;</span><br><span class="line">            <span class="keyword">if</span> ((current_thread-&gt;stat &amp; RT_THREAD_STAT_MASK) == RT_THREAD_RUNNING)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 如果当前线程的优先级比运行池还要高，还是运行当前线程</span></span><br><span class="line">                <span class="keyword">if</span> (current_thread-&gt;current_priority &lt; highest_ready_priority)</span><br><span class="line">                &#123;</span><br><span class="line">                    to_thread = current_thread;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (current_thread-&gt;current_priority == highest_ready_priority &amp;&amp; (current_thread-&gt;stat &amp; RT_THREAD_STAT_YIELD_MASK) == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    to_thread = current_thread;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;   <span class="comment">// 放弃运行就放入调度气中</span></span><br><span class="line">                    rt_schedule_insert_thread(current_thread);</span><br><span class="line">                &#125;</span><br><span class="line">                current_thread-&gt;stat &amp;= ~RT_THREAD_STAT_YIELD_MASK;</span><br><span class="line">            &#125;</span><br><span class="line">            to_thread-&gt;oncpu = cpu_id;</span><br><span class="line">            <span class="keyword">if</span> (to_thread != current_thread)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* if the destination thread is not the same as current thread */</span></span><br><span class="line">                pcpu-&gt;current_priority = (<span class="type">rt_uint8_t</span>)highest_ready_priority;</span><br><span class="line"></span><br><span class="line">                RT_OBJECT_HOOK_CALL(rt_scheduler_hook, (current_thread, to_thread));</span><br><span class="line"></span><br><span class="line">                rt_schedule_remove_thread(to_thread); <span class="comment">// 从调度器中删除马上要运行的线程</span></span><br><span class="line">                to_thread-&gt;stat = RT_THREAD_RUNNING | (to_thread-&gt;stat &amp; ~RT_THREAD_STAT_MASK);</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* 切换线程即可 */</span></span><br><span class="line">                rt_hw_context_switch((<span class="type">rt_ubase_t</span>)&amp;current_thread-&gt;sp,</span><br><span class="line">                        (<span class="type">rt_ubase_t</span>)&amp;to_thread-&gt;sp, to_thread);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 重新启动中端 */</span></span><br><span class="line">    rt_hw_interrupt_enable(level);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从代码分析，其实我们可以发现，<code>RT Thread</code> 如果包含高优先级的进程是不会给低优先级运行的机会的。我们修改代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">int timeslice_sample(void)</span><br><span class="line">&#123;</span><br><span class="line">    rt_thread_t tid = RT_NULL;</span><br><span class="line">    tid = rt_thread_create(&quot;thread1&quot;,</span><br><span class="line">                            thread_entry, (void*)1,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY - 1, THREAD_TIMESLICE);</span><br><span class="line">    if (tid != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    tid = rt_thread_create(&quot;thread2&quot;,</span><br><span class="line">                            thread_entry, (void*)2,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY, THREAD_TIMESLICE-5);</span><br><span class="line">    if (tid != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果如下</p>
+<figure class="highlight bash"><figcaption><span>exeute</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">thread 1 is running ,thread 1 count = msh /&gt;140</span><br><span class="line">thread 1 is running ,thread 1 count = 145</span><br><span class="line">thread 1 is running ,thread 1 count = 150</span><br><span class="line">thread 1 is running ,thread 1 count = 155</span><br><span class="line">thread 1 is running ,thread 1 count = 160</span><br><span class="line">thread 1 is running ,thread 1 count = 165</span><br><span class="line">thread 1 is running ,thread 1 count = 170</span><br><span class="line">thread 1 is running ,thread 1 count = 175</span><br><span class="line">thread 1 is running ,thread 2 counthread 2t = 0</span><br><span class="line"></span><br><span class="line">thread 1 is run is running ,thread 1 count = 18ning ,thread 2 count = 5</span><br><span class="line"></span><br><span class="line">thread 1 is running thread 1 is running ,thread 1 count ,thread 1 count = = 190</span><br><span class="line">thread 191 thread is r2 is running ,threunnad 2 count = 10</span><br><span class="line">thread 1 is trunnhreadi 1 is running ,ng ,thread 1 count = 205thread 2 countthr = 20</span><br><span class="line">ead 2 is running ,thread 2 count = 20</span><br><span class="line">thread 2 is running ,thread 2 count = 25</span><br><span class="line">thread 2 is running ,thread 2 count = 30</span><br><span class="line">thread 2 is running ,thread 2 count = 35</span><br><span class="line">thread 2 is running ,thread 2 count = 40</span><br><span class="line">thread 2 is running ,thread 2 count = 45</span><br><span class="line">thread 2 is running ,thread 2 count = 50</span><br></pre></td></tr></table></figure>
+<p>我们可以发现 <code>thread 1</code> 执行完成之后才会有 <code>thread 2</code> 进行执行。至于 <code>rt_hw_context_switch</code> 就是将线程状态恢复到 <code>寄存器</code> 中</p>
+<h3 id="线程调度触发"><a class="header-anchor" href="#线程调度触发">¶</a>线程调度触发</h3>
+<p>什么时候会触发 <code>rt_schedule</code> 进行调度呢？这个事情其实绝大多数的系统都分为两类</p>
+<ul>
+<li>主动型：调用 rt_schedule() | rt_thread_yield()，都属于线程将自己的执行放弃了</li>
+<li>被动型：当我们的线程不满足条件的时候，比如获得锁失败等等</li>
+</ul>
+<h2 id="线程间同步"><a class="header-anchor" href="#线程间同步">¶</a>线程间同步</h2>
+<p>对于OS来说，一般有 信号量（semaphore）、互斥量（mutex），RT 还提供了  <code>Event</code> 这个模式</p>
+<h3 id="信号量"><a class="header-anchor" href="#信号量">¶</a>信号量</h3>
+<p>信号量的定义非常的简单</p>
+<figure class="highlight c"><figcaption><span>rt_semaphore</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L683">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_semaphore</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_ipc_object</span> <span class="title">parent</span>;</span>                       <span class="comment">/* 继承自 ipc_object 类 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_uint16_t</span>          value;                         <span class="comment">/* 信号量的值 */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span>          reserved;                      <span class="comment">/* 保留 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>由 <code>IPC</code> 容器所管理，信号量的最大值是 <code>65535</code></p>
+<h4 id="How-it-works-v5"><a class="header-anchor" href="#How-it-works-v5">¶</a>How it works</h4>
+<p>说起来信号量本来也只是一个普通变量，因此就是分配在内核中的一个变量，在 rt_sem_create 中</p>
+<figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L294">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_sem_t</span> <span class="title function_">rt_sem_create</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">rt_uint32_t</span> value, <span class="type">rt_uint8_t</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_sem_t</span> sem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 分配对象 */</span></span><br><span class="line">    sem = (<span class="type">rt_sem_t</span>)rt_object_allocate(RT_Object_Class_Semaphore, name);</span><br><span class="line">    <span class="keyword">if</span> (sem == RT_NULL)</span><br><span class="line">        <span class="keyword">return</span> sem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化，其实就是 hook 到 内核 */</span></span><br><span class="line">    rt_ipc_object_init(&amp;(sem-&gt;parent));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始值 */</span></span><br><span class="line">    sem-&gt;value = value;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* set parent */</span></span><br><span class="line">    sem-&gt;parent.parent.flag = flag;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们创建了 信号量 之后，就可以通过 <code>rt_sem_take()</code> 和 <code>rt_sem_trytake()</code> 进行操作，我们一窥究竟</p>
+<figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L357">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_err_t</span> <span class="title function_">rt_sem_take</span><span class="params">(<span class="type">rt_sem_t</span> sem, <span class="type">rt_int32_t</span> time)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">register</span> <span class="type">rt_base_t</span> temp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">thread</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 关闭中断防止出错 */</span></span><br><span class="line">    temp = rt_hw_interrupt_disable();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当 value 还是大于 0 的时候就运行进入</span></span><br><span class="line">    <span class="keyword">if</span> (sem-&gt;value &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 减少 1 即可 */</span> </span><br><span class="line">        sem-&gt;value --;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 重开中断 */</span></span><br><span class="line">        rt_hw_interrupt_enable(temp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 如果 time == 0，就立马返回 */</span></span><br><span class="line">        <span class="keyword">if</span> (time == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            rt_hw_interrupt_enable(temp);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> -RT_ETIMEOUT;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 获得当前线程</span></span><br><span class="line">            thread = rt_thread_self();</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* 设置下错误码 */</span></span><br><span class="line">            thread-&gt;error = RT_EOK;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* 暂停这个线程，因此获取不到信号量 */</span></span><br><span class="line">            rt_ipc_list_suspend(&amp;(sem-&gt;parent.suspend_thread),</span><br><span class="line">                                thread,</span><br><span class="line">                                sem-&gt;parent.parent.flag);</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* 这里我们设定一个回调 */</span></span><br><span class="line">            <span class="keyword">if</span> (time &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 这里在特定时间后将其唤醒</span></span><br><span class="line">                rt_timer_control(&amp;(thread-&gt;thread_timer),</span><br><span class="line">                                 RT_TIMER_CTRL_SET_TIME,</span><br><span class="line">                                 &amp;time);</span><br><span class="line">                rt_timer_start(&amp;(thread-&gt;thread_timer));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* enable interrupt */</span></span><br><span class="line">            rt_hw_interrupt_enable(temp);</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* 进行调度，因为这里就是资源不足 */</span></span><br><span class="line">            rt_schedule();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (thread-&gt;error != RT_EOK)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> thread-&gt;error;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于<code>定时器</code>的部分，我们在后续再讨论。</p>
+<h3 id="互斥量"><a class="header-anchor" href="#互斥量">¶</a>互斥量</h3>
+<p>互斥量相较于信号量来说，互斥量支持递归访问且能防止线程<a target="_blank" rel="noopener" href="https://docs.rt-thread.org/#/rt-thread-version/rt-thread-standard/programming-manual/ipc1/ipc1?id=%e4%ba%92%e6%96%a5%e9%87%8f%e5%b7%a5%e4%bd%9c%e6%9c%ba%e5%88%b6">优先级翻转</a>；并且互斥量只能由持有线程释放，而信号量则可以由任何线程释放。</p>
+<figure class="highlight c"><figcaption><span>rtdef.h</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L697">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_mutex</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_ipc_object</span> <span class="title">parent</span>;</span>                        <span class="comment">/**&lt; inherit from ipc_object */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span>          value;                         <span class="comment">/**&lt; value of mutex */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>           original_priority;             <span class="comment">/**&lt; priority of last thread hold the mutex */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>           hold;                          <span class="comment">/**&lt; numbers of thread hold the mutex */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span>    *<span class="title">owner</span>;</span>                         <span class="comment">/**&lt; current owner of mutex */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="How-it-works-v6"><a class="header-anchor" href="#How-it-works-v6">¶</a>How it works</h4>
+<p>我们创建 <code>mutex</code> 如下</p>
+<figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L633">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_mutex_t</span> <span class="title function_">rt_mutex_create</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">rt_uint8_t</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_mutex</span> *<span class="title">mutex</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 在内核中分配对象 */</span></span><br><span class="line">    mutex = (<span class="type">rt_mutex_t</span>)rt_object_allocate(RT_Object_Class_Mutex, name);</span><br><span class="line">    <span class="keyword">if</span> (mutex == RT_NULL)</span><br><span class="line">        <span class="keyword">return</span> mutex;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化 */</span></span><br><span class="line">    rt_ipc_object_init(&amp;(mutex-&gt;parent));</span><br><span class="line"></span><br><span class="line">    mutex-&gt;value              = <span class="number">1</span>;</span><br><span class="line">    mutex-&gt;owner              = RT_NULL;</span><br><span class="line">    mutex-&gt;original_priority  = <span class="number">0xFF</span>;</span><br><span class="line">    mutex-&gt;hold               = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* set flag */</span></span><br><span class="line">    mutex-&gt;parent.parent.flag = flag;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mutex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们去 <code>rt_mutex_take</code> 获得一个 <code>mutex</code> 时候</p>
+<figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L697">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_err_t</span> <span class="title function_">rt_mutex_take</span><span class="params">(<span class="type">rt_mutex_t</span> mutex, <span class="type">rt_int32_t</span> time)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">register</span> <span class="type">rt_base_t</span> temp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">thread</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* get current thread */</span></span><br><span class="line">    thread = rt_thread_self();</span><br><span class="line">    temp = rt_hw_interrupt_disable();</span><br><span class="line"></span><br><span class="line">    thread-&gt;error = RT_EOK;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果mutex的获得者是自己，那就快速通过</span></span><br><span class="line">    <span class="keyword">if</span> (mutex-&gt;owner == thread)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// ....</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="comment">// 如果是 mutex &gt; 0，那就让此线程获得，Fast Path</span></span><br><span class="line">        <span class="keyword">if</span> (mutex-&gt;value &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* mutex is available */</span></span><br><span class="line">            mutex-&gt;value --;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* set mutex owner and original priority */</span></span><br><span class="line">            mutex-&gt;owner             = thread;</span><br><span class="line">            mutex-&gt;original_priority = thread-&gt;current_priority;</span><br><span class="line">            <span class="keyword">if</span>(mutex-&gt;hold &lt; RT_MUTEX_HOLD_MAX)</span><br><span class="line">            &#123;</span><br><span class="line">                mutex-&gt;hold ++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                rt_hw_interrupt_enable(temp); <span class="comment">/* enable interrupt */</span></span><br><span class="line">                <span class="keyword">return</span> -RT_EFULL; <span class="comment">/* value overflowed */</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* 其他是无法获得，当 time == 0 就快速失败了 */</span></span><br><span class="line">            <span class="keyword">if</span> (time == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* set error as timeout */</span></span><br><span class="line">                thread-&gt;error = -RT_ETIMEOUT;</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* enable interrupt */</span></span><br><span class="line">                rt_hw_interrupt_enable(temp);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> -RT_ETIMEOUT;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* 如果获取这个 thread 的优先级高 &gt; 已经获得锁的进程 */</span></span><br><span class="line">                <span class="keyword">if</span> (thread-&gt;current_priority &lt; mutex-&gt;owner-&gt;current_priority)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">/* 修改这个锁Owner的优先级 */</span></span><br><span class="line">                    rt_thread_control(mutex-&gt;owner,</span><br><span class="line">                                      RT_THREAD_CTRL_CHANGE_PRIORITY,</span><br><span class="line">                                      &amp;thread-&gt;current_priority);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* 暂停一下这个线程，下面准备重新调度 */</span></span><br><span class="line">                rt_ipc_list_suspend(&amp;(mutex-&gt;parent.suspend_thread),</span><br><span class="line">                                    thread,</span><br><span class="line">                                    mutex-&gt;parent.parent.flag);</span><br><span class="line"></span><br><span class="line">                rt_hw_interrupt_enable(temp);</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* 再调度 */</span></span><br><span class="line">                rt_schedule();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    rt_hw_interrupt_enable(temp);</span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325184809.png" alt=""></p>
+<blockquote>
+<p>RT-Thread 操作系统中，互斥量可以解决优先级翻转问题，实现的是优先级继承算法。优先级继承是通过在线程 A 尝试获取共享资源而被挂起的期间内，将线程 C 的优先级提升到线程 A 的优先级别，从而解决优先级翻转引起的问题。这样能够防止 C（间接地防止 A）被 B 抢占，如下图所示。优先级继承是指，提高某个占有某种资源的低优先级线程的优先级，使之与所有等待该资源的线程中优先级最高的那个线程的优先级相等，然后执行，而当这个低优先级线程释放该资源时，优先级重新回到初始设定。因此，继承优先级的线程避免了系统资源被任何中间优先级的线程抢占。</p>
+</blockquote>
+<p>不过值得注意的，并不是将 <code>C</code> 直接放弃执行，给 <code>A</code> 执行，而是将 <code>C</code> 提升到 <code>A</code> 的优先级，从而保证在 <code>C</code> 释放锁之后，第一个执行的就是 <code>A</code>，而不是 <code>B</code></p>
+<h2 id="线程间通讯"><a class="header-anchor" href="#线程间通讯">¶</a>线程间通讯</h2>
+<p>我们完成了线程之间的锁，之后，我们可以进行线程间的通讯。<code>RT</code> 提供了一种 <code>mailbox</code> 机制</p>
+<h3 id="Mailbox-v2"><a class="header-anchor" href="#Mailbox-v2">¶</a>Mailbox</h3>
+<figure class="highlight c"><figcaption><span>rtdef.h</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L735">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_mailbox</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_ipc_object</span> <span class="title">parent</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_uint32_t</span>* msg_pool;                <span class="comment">/* 邮箱缓冲区的开始地址 */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span> size;                     <span class="comment">/* 邮箱缓冲区的大小     */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_uint16_t</span> entry;                    <span class="comment">/* 邮箱中邮件的数目     */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span> in_offset, out_offset;    <span class="comment">/* 邮箱缓冲的进出指针   */</span></span><br><span class="line">    <span class="type">rt_list_t</span> suspend_sender_thread;      <span class="comment">/* 发送线程的挂起等待队列 */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">rt_mailbox</span>* <span class="title">rt_mailbox_t</span>;</span></span><br></pre></td></tr></table></figure>
+<p>当我们需要发送消息的时候，就可以 <code>rt_mb_send_wait()</code> 与 <code>rt_mb_send()</code></p>
+<figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L1554">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_err_t</span> <span class="title function_">rt_mb_send_wait</span><span class="params">(<span class="type">rt_mailbox_t</span> mb, <span class="type">rt_ubase_t</span> value, <span class="type">rt_int32_t</span> timeout)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">thread</span>;</span></span><br><span class="line">    <span class="keyword">register</span> <span class="type">rt_ubase_t</span> temp;</span><br><span class="line">    <span class="type">rt_uint32_t</span> tick_delta;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* initialize delta tick */</span></span><br><span class="line">    tick_delta = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/* get current thread */</span></span><br><span class="line">    thread = rt_thread_self();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* disable interrupt */</span></span><br><span class="line">    temp = rt_hw_interrupt_disable();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 如果满了 &amp; timeout 之后退出 */</span></span><br><span class="line">    <span class="keyword">if</span> (mb-&gt;entry == mb-&gt;size &amp;&amp; timeout == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        rt_hw_interrupt_enable(temp);</span><br><span class="line">        <span class="keyword">return</span> -RT_EFULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 邮箱满了 */</span></span><br><span class="line">    <span class="keyword">while</span> (mb-&gt;entry == mb-&gt;size)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//在事件没有 Timeout 的时候，我们就睡一下，等下次再重试</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 将消息放入即可 */</span></span><br><span class="line">    mb-&gt;msg_pool[mb-&gt;in_offset] = value;</span><br><span class="line">    <span class="comment">/* increase input offset */</span></span><br><span class="line">    ++ mb-&gt;in_offset;</span><br><span class="line">    <span class="keyword">if</span> (mb-&gt;in_offset &gt;= mb-&gt;size)</span><br><span class="line">        mb-&gt;in_offset = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(mb-&gt;entry &lt; RT_MB_ENTRY_MAX)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* increase message entry */</span></span><br><span class="line">        mb-&gt;entry ++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        rt_hw_interrupt_enable(temp); <span class="comment">/* enable interrupt */</span></span><br><span class="line">        <span class="keyword">return</span> -RT_EFULL; <span class="comment">/* value overflowed */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="信号"><a class="header-anchor" href="#信号">¶</a>信号</h3>
+<p>信号其实也就是软中断，在原理上，一个线程收到一个信号与处理器收到一个中断请求可以说是类似的。</p>
+<figure class="highlight c"><figcaption><span>example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 线程 1 的信号处理函数 */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">thread1_signal_handler</span><span class="params">(<span class="type">int</span> sig)</span></span><br><span class="line">&#123;</span><br><span class="line">    rt_kprintf(<span class="string">&quot;thread1 received signal %d\n&quot;</span>, sig);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 线程 1 的入口函数 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">thread1_entry</span><span class="params">(<span class="type">void</span> *parameter)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 安装信号 */</span></span><br><span class="line">    rt_signal_install(SIGUSR1, thread1_signal_handler);</span><br><span class="line">    rt_signal_unmask(SIGUSR1);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 运行 10 次 */</span></span><br><span class="line">    <span class="keyword">while</span> (cnt &lt; <span class="number">10</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 线程 1 采用低优先级运行，一直打印计数值 */</span></span><br><span class="line">        rt_kprintf(<span class="string">&quot;thread1 count : %d\n&quot;</span>, cnt);</span><br><span class="line"></span><br><span class="line">        cnt++;</span><br><span class="line">        rt_thread_mdelay(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 信号示例的初始化 */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">signal_sample</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* 创建线程 1 */</span></span><br><span class="line">    tid1 = rt_thread_create(<span class="string">&quot;thread1&quot;</span>,</span><br><span class="line">                            thread1_entry, RT_NULL,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY, THREAD_TIMESLICE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (tid1 != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid1);</span><br><span class="line"></span><br><span class="line">    rt_thread_mdelay(<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 发送信号 SIGUSR1 给线程 1 */</span></span><br><span class="line">    rt_thread_kill(tid1, SIGUSR1);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>信号就是注册了一个回调函数在线程上，我们可以直接对着线程发送指令。</p>
+<h2 id="定时器"><a class="header-anchor" href="#定时器">¶</a>定时器</h2>
+<p>我们从上面一看到了绝大多数的时候，都会非常依赖于 <code>Timer</code> 的功能。而 <code>Timer</code> 本身也是有硬件和软件两种模式，<code>RT</code> 提供的是软时钟的模式。<br>
+软件的定时器也提供了 <code>HARD_TIMER</code> <code>SOFT_TIMER</code> 两种模式，区别在于 <code>HARD_TIMER</code> 以中断的行为触发， <code>SOFT_TIMER</code> 是一个独立线程进行调度。</p>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326093513.png" alt=""></p>
+<p>默认的 <code>HARD_TIMER</code> 模式下，将定时任务按照一个 <code>Link List</code> 储存起来，当节拍器触发到相对应的时候，就可以运行这个任务了。回忆一下，我们最初的 <code>Clock</code> 章节</p>
+<figure class="highlight c"><figcaption><span>clock.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/clock.c">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">rt_tick_increase</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* check timer */</span></span><br><span class="line">    rt_timer_check();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后一步就我们的 <code>Timer</code> 检查。</p>
+<figure class="highlight c"><figcaption><span>timer.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/timer.c#L529">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">rt_timer_check</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    current_tick = rt_tick_get();</span><br><span class="line">    <span class="comment">// 如果 timer 的列表为空就没有任务，快速结束了</span></span><br><span class="line">    <span class="keyword">while</span> (!rt_list_isempty(&amp;rt_timer_list[RT_TIMER_SKIP_LIST_LEVEL - <span class="number">1</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        t = rt_list_entry(rt_timer_list[RT_TIMER_SKIP_LIST_LEVEL - <span class="number">1</span>].next,</span><br><span class="line">                          <span class="keyword">struct</span> rt_timer, row[RT_TIMER_SKIP_LIST_LEVEL - <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里因为 current_tick 和 timeout_tick 都无符号数，记得要溢出运算，这里的逻辑也就是 &lt; 0</span></span><br><span class="line">        <span class="keyword">if</span> ((current_tick - t-&gt;timeout_tick) &lt; RT_TICK_MAX / <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* add timer to temporary list  */</span></span><br><span class="line">            rt_list_insert_after(&amp;<span class="built_in">list</span>, &amp;(t-&gt;row[RT_TIMER_SKIP_LIST_LEVEL - <span class="number">1</span>]));</span><br><span class="line">            <span class="comment">/* call timeout function */</span></span><br><span class="line">            t-&gt;timeout_func(t-&gt;parameter);</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* re-get tick */</span></span><br><span class="line">            current_tick = rt_tick_get();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>到这里整个系统雏形已经完成，我们分析了整个内核的工作，下面我们去看看比较无聊但是很重要的 IO 设备。</p>
+<h2 id="网络驱动"><a class="header-anchor" href="#网络驱动">¶</a>网络驱动</h2>
+<h3 id="网卡概念"><a class="header-anchor" href="#网卡概念">¶</a>网卡概念</h3>
+<p>RT-Thread 系统中目前支持三种协议栈类型： lwIP 协议栈、AT Socket 协议栈、WIZnet TCP/IP硬件协议栈。每种协议栈对应一种协议簇类型（family），上述协议栈分别对应的协议簇类型为：AF_INET、AF_AT、AF_WIZ。</p>
+<h3 id="Net-设备"><a class="header-anchor" href="#Net-设备">¶</a>Net 设备</h3>
+<p>以网络设备为例，有如下定义</p>
+<figure class="highlight c"><figcaption><span>netdev.h</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/components/net/netdev/include/netdev.h">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 网卡结构体对象 */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">netdev</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">rt_slist_t</span> <span class="built_in">list</span>;                                   <span class="comment">/* 网卡列表 */</span></span><br><span class="line">    <span class="type">char</span> name[RT_NAME_MAX];                            <span class="comment">/* 网卡名称 */</span></span><br><span class="line">    <span class="type">ip_addr_t</span> ip_addr;                                 <span class="comment">/* IP 地址 */</span></span><br><span class="line">    <span class="type">ip_addr_t</span> netmask;                                 <span class="comment">/* 子网掩码地址 */</span></span><br><span class="line">    <span class="type">ip_addr_t</span> gw;                                      <span class="comment">/* 网关地址 */</span></span><br><span class="line">    <span class="type">ip_addr_t</span> dns_servers[NETDEV_DNS_SERVERS_NUM];     <span class="comment">/* DNS 服务器地址 */</span></span><br><span class="line">    <span class="type">uint8_t</span> hwaddr_len;                                <span class="comment">/* 硬件地址长度 */</span></span><br><span class="line">    <span class="type">uint8_t</span> hwaddr[NETDEV_HWADDR_MAX_LEN];             <span class="comment">/* 硬件地址 */</span></span><br><span class="line">    <span class="type">uint16_t</span> flags;                                    <span class="comment">/* 网卡状态位 */</span></span><br><span class="line">    <span class="type">uint16_t</span> mtu;                                      <span class="comment">/* 网卡最大传输单元 */</span></span><br><span class="line">    <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">netdev_ops</span> *<span class="title">ops</span>;</span>                      <span class="comment">/* 网卡操作回调函数 */</span></span><br><span class="line">    netdev_callback_fn status_callback;                <span class="comment">/* 网卡状态改变回调 */</span></span><br><span class="line">    netdev_callback_fn addr_callback;                  <span class="comment">/* 网卡地址改变回调 */</span></span><br><span class="line">    <span class="type">void</span> *user_data;                                   <span class="comment">/* 预留用户数据 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在系统启动完成之后，会调用 <code>netdev_register</code> 进行系统的注册，而在这个函数中，会调动 <code>device_init</code> 进行设备注册。设备注册部分的逻辑在 <code>ethernetif.c</code> 中，相对固定不做展开，我们来看看数据的读写</p>
+<h3 id="网络读写"><a class="header-anchor" href="#网络读写">¶</a>网络读写</h3>
+<p>对于 <code>RT</code> 也提供了一个 <code>Socket</code> 抽象叫 <code>SAL</code></p>
+<figure class="highlight c"><figcaption><span>sal_socket.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/components/net/sal_socket/src/sal_socket.c">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sal_socket</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">uint32_t</span> magic;                    <span class="comment">/* SAL socket magic word */</span></span><br><span class="line">    <span class="type">int</span> socket;                        <span class="comment">/* SAL socket descriptor */</span></span><br><span class="line">    <span class="type">int</span> domain;</span><br><span class="line">    <span class="type">int</span> type;</span><br><span class="line">    <span class="type">int</span> protocol;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">netdev</span> *<span class="title">netdev</span>;</span>             <span class="comment">/* SAL network interface device */</span></span><br><span class="line">    <span class="type">void</span> *user_data;                   <span class="comment">/* user-specific data */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们可以发现，比较核心的就是 <code>socket</code> 会对应着一个 <code>protocol</code> <code>type</code> <code>netdev</code> 这样我们就知道我们的数据从什么网卡出去和进来了。</p>
+<p>对于数据的读取如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sal_recvfrom</span><span class="params">(<span class="type">int</span> socket, <span class="type">void</span> *mem, <span class="type">size_t</span> len, <span class="type">int</span> flags, <span class="keyword">struct</span> sockaddr *from, <span class="type">socklen_t</span> *fromlen)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sal_socket</span> *<span class="title">sock</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sal_proto_family</span> *<span class="title">pf</span>;</span></span><br><span class="line">    <span class="keyword">return</span> pf-&gt;skt_ops-&gt;recvfrom((<span class="type">int</span>) sock-&gt;user_data, mem, len, flags, from, fromlen);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据 <code>pf</code> 协议的不同，我们用不同的方式读取。我们从参数中就可以发现读取的核心处理对象，从 <code>mem</code> 将数据拷贝到 <code>user_data</code>。一顿搜索一下，我们就自然找到了这个。</p>
+<figure class="highlight c"><figcaption><span>socket.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/13044b1e290a3aef4e57c3d443da1c571d33789d/components/net/lwip-2.0.2/src/api/sockets.c#L765">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ssize_t</span></span><br><span class="line"><span class="title function_">lwip_recvfrom</span><span class="params">(<span class="type">int</span> s, <span class="type">void</span> *mem, <span class="type">size_t</span> len, <span class="type">int</span> flags,</span></span><br><span class="line"><span class="params">              <span class="keyword">struct</span> sockaddr *from, <span class="type">socklen_t</span> *fromlen)</span></span><br><span class="line">&#123; </span><br><span class="line">  sock = get_socket(s); <span class="comment">// 这里是 lwip_sock</span></span><br><span class="line">  <span class="keyword">if</span> (!sock) &#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (NETCONNTYPE_GROUP(netconn_type(sock-&gt;conn)) == NETCONN_TCP) &#123;</span><br><span class="line">    err = netconn_recv_tcp_pbuf(sock-&gt;conn, (<span class="keyword">struct</span> pbuf **)&amp;buf);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    err = netconn_recv(sock-&gt;conn, (<span class="keyword">struct</span> netbuf **)&amp;buf);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以读取的过程是 <code>netconn_recv_tcp_pbuf</code> 进行操作的，对于 <code>LWIP</code> 的逻辑，我们后续再讨论，我们来细讨论下，网卡的数据和内核之间的交流。</p>
+<h3 id="网卡驱动"><a class="header-anchor" href="#网卡驱动">¶</a>网卡驱动</h3>
+<p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326154641.png" alt=""></p>
+<p>现在的网卡普遍已经不再使用 <code>中断</code> 来通知操作系统来获得数据了，因为中断频繁发生是很浪费上下文切换的。因此都是 <code>NAPI</code> 模式，也就是网卡自己处理数据从 TX/RX 中，不过在 <code>RT</code> 中还是使用 <code>中断</code> 来处理了。<br>
+比如在网卡读取数据时</p>
+<figure class="highlight c"><figcaption><span>drv_smc911x.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/13044b1e29/bsp/qemu-vexpress-a9/drivers/drv_smc911x.c">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> pbuf *<span class="title function_">smc911x_emac_rx</span><span class="params">(<span class="type">rt_device_t</span> dev)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pbuf</span>* <span class="title">p</span> =</span> RT_NULL;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">eth_device_smc911x</span> *<span class="title">emac</span>;</span></span><br><span class="line"></span><br><span class="line">    emac = SMC911X_EMAC_DEVICE(dev);</span><br><span class="line">    RT_ASSERT(emac != RT_NULL);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((smc911x_reg_read(emac, RX_FIFO_INF) &amp; RX_FIFO_INF_RXSUSED) &gt;&gt; <span class="number">16</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">uint32_t</span> status;</span><br><span class="line">        <span class="type">uint32_t</span> pktlen, tmplen;</span><br><span class="line"></span><br><span class="line">        status = smc911x_reg_read(emac, RX_STATUS_FIFO); <span class="comment">// 读取 FIFO 队列的状态</span></span><br><span class="line">        <span class="comment">/* get frame length */</span></span><br><span class="line">        pktlen = (status &amp; RX_STS_PKT_LEN) &gt;&gt; <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">        smc911x_reg_write(emac, RX_CFG, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        tmplen = (pktlen + <span class="number">3</span>) / <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* allocate pbuf */</span></span><br><span class="line">        p = pbuf_alloc(PBUF_RAW, tmplen * <span class="number">4</span>, PBUF_RAM);</span><br><span class="line">        <span class="keyword">if</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">uint32_t</span> *data = (<span class="type">uint32_t</span> *)p-&gt;payload;</span><br><span class="line">            <span class="keyword">while</span> (tmplen--)</span><br><span class="line">            &#123;</span><br><span class="line">                *data++ = smc911x_reg_read(emac, RX_DATA_FIFO);  <span class="comment">// 网卡的缓冲区获得数据</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>init</code> 时候</p>
+<figure class="highlight c"><figcaption><span>smc911x_emac_init</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">rt_err_t</span> <span class="title function_">smc911x_emac_init</span><span class="params">(<span class="type">rt_device_t</span> dev)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="comment">/* Turn on Tx + Rx */</span></span><br><span class="line">    smc911x_enable(emac);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Interrupt on every received packet */</span></span><br><span class="line">    smc911x_reg_write(emac, FIFO_INT, <span class="number">0x01</span> &lt;&lt; <span class="number">8</span>);</span><br><span class="line">    smc911x_reg_write(emac, INT_EN, INT_EN_RDFL_EN | INT_EN_RSFL_EN);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* enable interrupt */</span></span><br><span class="line">    smc911x_reg_write(emac, INT_CFG, INT_CFG_IRQ_EN | INT_CFG_IRQ_POL | INT_CFG_IRQ_TYPE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 我们将 IRQ 注册了中断</span></span><br><span class="line">    rt_hw_interrupt_install(emac-&gt;irqno, smc911x_isr, emac, <span class="string">&quot;smc911x&quot;</span>);</span><br><span class="line">    rt_hw_interrupt_umask(emac-&gt;irqno);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/09/proggramming/Rank-N-Types/" class="post-title-link" itemprop="url">Rank N Types</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-09 09:48:01" itemprop="dateCreated datePublished" datetime="2021-02-09T09:48:01+08:00">2021-02-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/proggramming/" itemprop="url" rel="index"><span itemprop="name">proggramming</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/02/09/proggramming/Rank-N-Types/" class="post-meta-item leancloud_visitors" data-flag-title="Rank N Types" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Rank N Types" href="/2021/02/09/proggramming/Rank-N-Types/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::78a871dfee1b9bb888e681ec6cad7c90" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/02/09/proggramming/Rank-N-Types/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/09/proggramming/Rank-N-Types/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210209163003.png" alt=""></p>
+<p>前几日在和朋友讨论一个 <code>Rust</code> 的编程问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/09/proggramming/Rank-N-Types/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/07/networking/istio/feature/dns-agent/" class="post-title-link" itemprop="url">Isito 1.8 新功能&#58 DNS Agent</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-07 12:28:41" itemprop="dateCreated datePublished" datetime="2021-02-07T12:28:41+08:00">2021-02-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/isito/" itemprop="url" rel="index"><span itemprop="name">isito</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/02/07/networking/istio/feature/dns-agent/" class="post-meta-item leancloud_visitors" data-flag-title="Isito 1.8 新功能&#58 DNS Agent" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Isito 1.8 新功能&#58 DNS Agent" href="/2021/02/07/networking/istio/feature/dns-agent/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::6f91c47dcdd300d89a4608d573b1c814" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/02/07/networking/istio/feature/dns-agent/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/07/networking/istio/feature/dns-agent/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png" alt=""></p>
+<p>在 <code>1.8</code> 的版本中，<code>istio</code> 悄悄的上了一个预览版的功能 <a target="_blank" rel="noopener" href="https://istio.io/latest/blog/2020/dns-proxy/">DNS Proxy</a>，这个功能极为的强大，让我们一起来看看吧。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/07/networking/istio/feature/dns-agent/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/01/24/game/learn-by-game/learn-by-game-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/24/game/learn-by-game/learn-by-game-01/" class="post-title-link" itemprop="url">Learn By Game&#58 01 环境准备</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-24 18:02:48" itemprop="dateCreated datePublished" datetime="2021-01-24T18:02:48+08:00">2021-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%87%AA%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">自学</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%87%AA%E5%AD%A6/Game/" itemprop="url" rel="index"><span itemprop="name">Game</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/01/24/game/learn-by-game/learn-by-game-01/" class="post-meta-item leancloud_visitors" data-flag-title="Learn By Game&#58 01 环境准备" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="Learn By Game&#58 01 环境准备" href="/2021/01/24/game/learn-by-game/learn-by-game-01/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::b243aaae2c23c5d5040176e2c937f78e" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/01/24/game/learn-by-game/learn-by-game-01/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/24/game/learn-by-game/learn-by-game-01/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124180700.png" alt=""></p>
+<p>因为女票只想使用 <code>Java</code> 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/24/game/learn-by-game/learn-by-game-01/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/13/hard-way/learn-by-self-hard-way-practices/" class="post-title-link" itemprop="url">The Hard Way Learn Computer Science [实践班]</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-13 10:49:48" itemprop="dateCreated datePublished" datetime="2021-01-13T10:49:48+08:00">2021-01-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%87%AA%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">自学</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/01/13/hard-way/learn-by-self-hard-way-practices/" class="post-meta-item leancloud_visitors" data-flag-title="The Hard Way Learn Computer Science [实践班]" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="The Hard Way Learn Computer Science [实践班]" href="/2021/01/13/hard-way/learn-by-self-hard-way-practices/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::15469d8f1caa5f54f4fb41c761822b8e" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/01/13/hard-way/learn-by-self-hard-way-practices/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/13/hard-way/learn-by-self-hard-way-practices/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113101402.png" alt=""></p>
+<p>我们在 <a href="/2020/11/17/hard-way/learn-by-self-hard-way/">The Hard Way Learn Computer Science</a> 分享了一些学习的书籍和视频，不过都理论大过实践，所以我的女朋友觉得贼难，那我们今天就实践大于理论来分享一下。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/13/hard-way/learn-by-self-hard-way-practices/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

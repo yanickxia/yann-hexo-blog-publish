@@ -1,16 +1,680 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击 面试岗位分别为:  阿里巴巴-优酷-视频分发-高级开发 哔哩哔哩-基础架构部 饿了么-基础架构部 蚂蚁金服-国际事业部 阿里云-表格储存  3-5年工作经验岗位。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018年初面试回顾">
+<meta property="og:url" content="http://blog.yanick.site/2018/04/11/life/interview-review/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击 面试岗位分别为:  阿里巴巴-优酷-视频分发-高级开发 哔哩哔哩-基础架构部 饿了么-基础架构部 蚂蚁金服-国际事业部 阿里云-表格储存  3-5年工作经验岗位。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-11T08:49:46.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.432Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2018/04/11/life/interview-review/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2018/04/11/life/interview-review/","path":"2018/04/11/life/interview-review/","title":"2018年初面试回顾"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2018年初面试回顾 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95-v2"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3"><span class="nav-number">2.</span> <span class="nav-text">数据库相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E7%9B%B8%E5%85%B3"><span class="nav-number">3.</span> <span class="nav-text">Java相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3"><span class="nav-number">4.</span> <span class="nav-text">项目相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E9%83%A8%E5%88%86"><span class="nav-number">5.</span> <span class="nav-text">算法部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%82%E9%A1%B9"><span class="nav-number">6.</span> <span class="nav-text">杂项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96-v3"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2018/04/11/life/interview-review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2018年初面试回顾 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2018年初面试回顾
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-11 16:49:46" itemprop="dateCreated datePublished" datetime="2018-04-11T16:49:46+08:00">2018-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+
+  
+    <span id="/2018/04/11/life/interview-review/" class="post-meta-item leancloud_visitors" data-flag-title="2018年初面试回顾" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="2018年初面试回顾" href="/2018/04/11/life/interview-review/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::33551ae1e710f9efd08ddf7d8dea30ef" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/04/11/life/interview-review/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/11/life/interview-review/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击<br>
+面试岗位分别为:</p>
+<ul>
+<li>阿里巴巴-优酷-视频分发-高级开发</li>
+<li>哔哩哔哩-基础架构部</li>
+<li>饿了么-基础架构部</li>
+<li>蚂蚁金服-国际事业部</li>
+<li>阿里云-表格储存</li>
+</ul>
+<p>3-5年工作经验岗位。</p>
+<span id="more"></span>
+<h2 id="目录-v2"><a class="header-anchor" href="#目录-v2">¶</a>目录</h2>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3">数据库相关</a></li>
+<li><a href="#Java%E7%9B%B8%E5%85%B3">Java相关</a></li>
+<li><a href="#%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3">项目相关</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E9%83%A8%E5%88%86">算法部分</a></li>
+<li><a href="#%E6%9D%82%E9%A1%B9">杂项</a></li>
+</ul>
+<h2 id="数据库相关"><a class="header-anchor" href="#数据库相关">¶</a>数据库相关</h2>
+<ol>
+<li>
+<p><strong>关系型数据库的特性?</strong></p>
+<p>这个问题其实问的是 <a target="_blank" rel="noopener" href="http://blog.csdn.net/u012440687/article/details/52116108">ACID</a> 这个特性。</p>
+</li>
+<li>
+<p><strong>数据库的索引是否了解？</strong><br>
+大家都听过的，之后会追问，索引如何实现的？ <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/814c1675361c">B+树的实现</a> 可以参考这篇文章<br>
+我觉得一点要注意，可能和我一样忘接了B树是多路的不是二叉树，并且B+树和B树的有个很大的不一样，B+可以通过叶子结点遍历整个一层，而B只能从根节点访问，所以B+在磁盘的上表现更好，因为数据聚合在一起。（阿里的面试官反馈最想知道的其实索引在内存, 比磁盘更快）</p>
+</li>
+<li>
+<p><strong>哪些字段适合增加索引？</strong><br>
+这个问题在网上说的也比较的空洞，这里有一个比较好的文章可以看一下 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000003072424">数据索引的选择</a><br>
+这个问题一定注意索引是有成本的，主要在于第一会大量的增加内存空间，之外每一次的插入，更新，删除都需要重新维护索引。</p>
+</li>
+<li>
+<p><strong>设计一个菜市场系统，每天有不同的供应商在系统上提供报价与库存，采购商会选择购买，每天需要打印报表，请设计。</strong><br>
+这个问题，不是很难，面试的时候紧张话可能导致思维受阻，我的回答是</p>
+<ul>
+<li>用户表(id, name, phone, type)</li>
+<li>库存表*(id, user_id, price, stock, category)</li>
+<li>需求表(id, user_id, quantity, category)</li>
+<li>交易表(id, buyer_id, seller_id, category, quantity)</li>
+</ul>
+</li>
+<li>
+<p><strong>设计一个电视剧介绍的数据库，电视剧有名称，描述等信息，考虑分多季，每季有多集？</strong></p>
+<ul>
+<li>电视剧(id, name, desc…)</li>
+<li>季数(id, no,teleplay_id, author…)</li>
+<li>集(id, season_id, url, desc)<br>
+开始回答这个问题的时候都考虑到认为是多对多的采用关联表，现在觉得其实一对多，使用外键即可。<br>
+之后会催问，如何实现针对VIP可看最新一集，或者是使用观影卷，我的设计增加一个额外的信息表。就不展开多说了。</li>
+</ul>
+</li>
+<li>
+<p><strong>Redis中的LRU是如何实现的？</strong><br>
+看过这个又忘了，我就说了一个暴力的方式，用Array实现，当然Array实现就会CopyArray的开销很慢，面试官当然会问我还有没有更好的方式？那我想了下用Tree自璇吧，面试官懂了，提醒我用 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/HarryHook/p/6654773.html">双向链表</a>，好吧，我知道自己错了，这样就很明白LRU的实现了，面试之前还得多看看数据结构相关的。</p>
+<p>**总结：**数据库相关的内容大概就是这样的，B站在面试的过程中会考关于数据库设计，这块我觉得我们小公司出身的程序员可能占优吧，因为数据库真的是自己设计的。</p>
+</li>
+<li>
+<p><strong>Redis中的zset原理</strong><br>
+跳跃表的实现方式。</p>
+</li>
+<li>
+<p><strong>联合索引</strong><br>
+联合索引的最左匹配原则。</p>
+</li>
+</ol>
+<h2 id="Java相关"><a class="header-anchor" href="#Java相关">¶</a>Java相关</h2>
+<ol>
+<li>
+<p><strong>Hashmap的实现原理？</strong><br>
+这个问题属于烂大街的问题，就不做描述了（<a target="_blank" rel="noopener" href="http://www.importnew.com/16301.html">Hashmap实现</a>），但是除此之外问了一个问题，在高并发的情况下，hashmap 会导致死循环的问题，这个笔者在工作中没有遇见，这个只是在竞争的情况下才会发生，具体的原因 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/dongguacai/p/5599100.html">多线程的情况下的扩容导致</a> ，没回答上来的难点。</p>
+</li>
+<li>
+<p><strong>Netty为什么可以提高性能？</strong><br>
+这个问题<a target="_blank" rel="noopener" href="http://www.importnew.com/15656.html">Netty实现原理浅析</a>，我觉得核心在Reactor上，采用事件的方式减少了BIO的线程等待，不过面试官好像不太满意，额我还是觉得我应该回答的没错……略尴尬</p>
+</li>
+<li>
+<p><strong>JavaComplier的实现原理？</strong><br>
+编译原理没学好，我放弃。这个问题是我说我写过JVM虚拟机因伸出来的，至于我记得部分就是抄袭 《自己动手写Java虚拟机》使用Go做了一个简陋的虚拟机。</p>
+</li>
+<li>
+<p><strong>JVM的GC？</strong><br>
+这也是一个老生常谈的问题了，但是一时间还真是记不住，推荐一篇好文 <a target="_blank" rel="noopener" href="https://www.zybuluo.com/Yano/note/321063">Java 虚拟机面试题全面解析</a>，关于GC的也推荐 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/ityouknow/p/5614961.html">GC算法 垃圾收集器</a>，实战推荐 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/feiyudemeng/p/8276911.html">从实际案例聊聊Java应用的GC优化</a> 。还是推荐大家背一背，真心会忘，实在能记得大概吧，不然就有点尴尬。补充一个CMS的<a target="_blank" rel="noopener" href="https://plumbr.io/handbook/garbage-collection-algorithms-implementations/concurrent-mark-and-sweep">细解</a></p>
+</li>
+<li>
+<p><strong>触发Long GC原因可能是？</strong><br>
+没有触发过，发个文<a target="_blank" rel="noopener" href="https://dzone.com/articles/how-to-reduce-long-gc-pause">How to Reduce Long GC Pauses</a>，简而言之有几个原因</p>
+<ol>
+<li>大量的对象创建</li>
+<li>young和old的比例失调</li>
+<li>小内存导致使用大量的交换区</li>
+<li>IO堵塞<br>
+这里的LongGC应该说的是经常发生GC而不是很长的GC</li>
+</ol>
+</li>
+<li>
+<p><strong>字节码操作会使用在哪些地方？</strong><br>
+笔者所能够想到了就是 Spring在实现动态代理的地方使用了 Cglib，这里有文 <a target="_blank" rel="noopener" href="http://www.infoq.com/cn/articles/Living-Matrix-Bytecode-Manipulation">字节码操纵技术探秘</a> 实际上我觉得使用的地方应该不是特别多。</p>
+</li>
+<li>
+<p><strong>设计模式的使用</strong>	<br>
+老生常谈 <a target="_blank" rel="noopener" href="http://blog.51cto.com/sihai/2071497">设计模式——开发常用的设计模式梳理</a></p>
+</li>
+<li>
+<p><strong>解释锁的各种特性</strong><br>
+推荐一个文章 <a target="_blank" rel="noopener" href="https://my.oschina.net/u/1170450/blog/1679424">java 中的锁 – 偏向锁、轻量级锁、自旋锁、重量级锁</a></p>
+</li>
+</ol>
+<h2 id="项目相关"><a class="header-anchor" href="#项目相关">¶</a>项目相关</h2>
+<ol>
+<li><strong>某项目强依赖Redis，如果Redis挂掉怎么处理？Redis连接变的高延迟怎么处理？</strong></li>
+<li><strong>设计一个日志收集系统，2K终端会上传日志压缩包200KB以Gzip的方式上传，架构如何设计，最终能够做数据可视化。</strong></li>
+</ol>
+<h2 id="算法部分"><a class="header-anchor" href="#算法部分">¶</a>算法部分</h2>
+<p>只有在阿里云的一面的时候考验了写代码的能力。</p>
+<ol>
+<li><strong>3Sum</strong><br>
+这是Leetcode很经典的一道题目了，<a target="_blank" rel="noopener" href="https://leetcode.com/problems/3sum/description/">leetcode-3sum</a> 关键是会引导你去想出最优解。</li>
+<li><strong>最长递增子串</strong><br>
+动态规划的经典问题，<a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-increasing-subsequence/description/">longest-increasing-subsequence</a> 写出转移方程还会再问你是否有更优解。</li>
+</ol>
+<p>整体看来还是DP问题可能因为代码量少，思维强度大，这个应该是面试中最值得注意的题目了。可以同学学习<a target="_blank" rel="noopener" href="https://github.com/tianyicui/pack/blob/master/V2.pdf">背包九讲</a></p>
+<h2 id="杂项"><a class="header-anchor" href="#杂项">¶</a>杂项</h2>
+<ol>
+<li>
+<p><strong>你认为好代码的代码应该是怎么样的？</strong><br>
+关于这个问题，我觉得代码的<em><strong>一致性</strong></em>，我在这四年来的代码经验中，就像是代码大全开篇所言的（隐喻性），就像是一个房子在构建，如果有标准化的工程，那我们在参观每一个房间的时候就会很省心省力，代码如果都是一致的，那阅读的过程中就会很轻松。</p>
+</li>
+<li>
+<p>**你有什么想问我的？  **<br>
+这个经久不衰的问题（:-D），我每次都还是喜欢问面试官他工作的难点是什么，和自己的预期进行一个匹配。</p>
+</li>
+</ol>
+<h2 id="其他-v3"><a class="header-anchor" href="#其他-v3">¶</a>其他</h2>
+<p>大部分的架构部门都会考虑Go，所以都会问下Go学的怎么样，大家如果立志于架构组还需要学习现在更流行的Go语言了。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/28/java/java-lock-by-code/" rel="prev" title="通过代码学习 - Java中的Synchronized">
+                  <i class="fa fa-chevron-left"></i> 通过代码学习 - Java中的Synchronized
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/16/rethink/think-in-occupation/" rel="next" title="关于职业规划的思考">
+                  关于职业规划的思考 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="33551ae1e710f9efd08ddf7d8dea30ef"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

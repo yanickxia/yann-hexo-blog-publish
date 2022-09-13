@@ -1,16 +1,645 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MMU是Memory Management Unit的缩写，中文名是内存管理单元，有时称作分页内存管理单元（英语：paged memory management unit，缩写为PMMU）。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟内存杂谈">
+<meta property="og:url" content="http://blog.yanick.site/2020/09/22/os/mmu/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="MMU是Memory Management Unit的缩写，中文名是内存管理单元，有时称作分页内存管理单元（英语：paged memory management unit，缩写为PMMU）。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0y9L.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0aSU.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0i2O.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0DPw.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0Mu8.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H0O4i.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H2Cqt.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H2KHR.png">
+<meta property="og:image" content="https://s3.jpg.cm/2020/09/22/H3php.png">
+<meta property="article:published_time" content="2020-09-22T02:59:35.000Z">
+<meta property="article:modified_time" content="2021-10-21T03:11:29.436Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="os">
+<meta property="article:tag" content="mmu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.jpg.cm/2020/09/22/H0y9L.png">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2020/09/22/os/mmu/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2020/09/22/os/mmu/","path":"2020/09/22/os/mmu/","title":"虚拟内存杂谈"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>虚拟内存杂谈 | Yanick's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-专栏"><a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a></li><li class="menu-item menu-item-百科"><a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a></li><li class="menu-item menu-item-随想"><a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU-%E5%AF%BB%E5%9D%80"><span class="nav-number">2.</span> <span class="nav-text">CPU 寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E8%A1%A8-PTE"><span class="nav-number">2.1.</span> <span class="nav-text">页表 (PTE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E9%9B%86%E9%A1%B5%E8%A1%A8"><span class="nav-number">2.2.</span> <span class="nav-text">多集页表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E9%A1%B5"><span class="nav-number">3.</span> <span class="nav-text">物理页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E7%BF%BB%E8%AF%91"><span class="nav-number">4.</span> <span class="nav-text">地址翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Page-allocator"><span class="nav-number">4.1.</span> <span class="nav-text">Page allocator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%82%E9%A1%B9-v2"><span class="nav-number">5.</span> <span class="nav-text">杂项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-v9"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">87</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2020/09/22/os/mmu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="虚拟内存杂谈 | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          虚拟内存杂谈
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-22 10:59:35" itemprop="dateCreated datePublished" datetime="2020-09-22T10:59:35+08:00">2020-09-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-10-21 11:11:29" itemprop="dateModified" datetime="2021-10-21T11:11:29+08:00">2021-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/os/" itemprop="url" rel="index"><span itemprop="name">os</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/os/mmu/" itemprop="url" rel="index"><span itemprop="name">mmu</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2020/09/22/os/mmu/" class="post-meta-item leancloud_visitors" data-flag-title="虚拟内存杂谈" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="虚拟内存杂谈" href="/2020/09/22/os/mmu/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::21c94986db66ffd342ceb22fefa9f098" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/09/22/os/mmu/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/22/os/mmu/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0y9L.png" alt="H0y9L.png"></p>
+<blockquote>
+<p>MMU是Memory Management Unit的缩写，中文名是内存管理单元，有时称作分页内存管理单元（英语：paged memory management unit，缩写为PMMU）。它是一种负责处理中央处理器（CPU）的内存访问请求的计算机硬件。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="引言"><a class="header-anchor" href="#引言">¶</a>引言</h2>
+<p><code>MMU</code> 对于软件工程师来说并不容易理解，至少笔者在学完了 <code>OS</code> 之后的很长一段时间内都搞不清楚这个玩意到底怎么和操作系统配合使用的，趁着有空将其彻底的梳理清楚。对于操作系统来说 <code>Virtual Memory</code> 并不是一个必要的概念，在学习计算机原理的时候，我们采用 <code>C51</code> <code>Stm32</code> 入门都是可以的，对于常见的 <code>real-time operating system (RTOS)</code> 来说，没有 <code>MMU</code> 的硬件支持，我们依然可以实现 <code>OS</code> 的进程调度等工作，而引入 <code>MMU</code> 硬件和 <code>Virtual Memory</code> 内存的概念我认为是一次软硬件工程师的共同协助，<code>Virtual Memory</code> 的收益很多：定义了一个连续的虚拟地址空间，使得程序的编写难度降低，对于进程也可以进行硬件级别的隔离。</p>
+<blockquote>
+<p>代码分析选择是 Linux 0.12 的版本，简单简短直接展示出最基础的实现</p>
+</blockquote>
+<div>
+    <label class="author-mark-label">小声比比</label>
+    <p class="author-mark">学习进程调度的时候基于 RTOS 学习会更为的简单且高效。</p>
+</div>
+<h2 id="CPU-寻址"><a class="header-anchor" href="#CPU-寻址">¶</a>CPU 寻址</h2>
+<p>对于 <code>16</code> 位时代都是 <code>实模式</code>，我们访问的都是真实的物理地址。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0aSU.png" alt="H0aSU.png"></p>
+<p>对于 <code>8086</code> 型号的 <code>CPU</code> 来说，我们采用了<code>偏移地址</code>技术。<code>段地址</code> * <code>16</code> + <code>偏移地址</code> = <code>实际的物理地址</code>，总之我们可以直接访问到物理内存，这样对于所有的程序来说我们共享了一份真实内存。而对于之后时代，进入了 <code>保护模式</code> 我们访问的都是虚拟地址。处理方式有所变化：</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0i2O.png" alt="H0i2O.png"></p>
+<p>现代处理器使用的是一种称为虚拟寻址（Virtual Addressing）的寻址方式。使用虚拟寻址，CPU需要将虚拟地址翻译成物理地址，这样才能访问到真实的物理内存。虚拟寻址需要硬件与操作系统之间互相合作。CPU中含有一个被称为内存管理单元（Memory Management Unit, MMU）的硬件，它的功能是将虚拟地址转换为物理地址。MMU需要借助存放在内存中的页表来动态翻译虚拟地址，该页表由操作系统管理。</p>
+<blockquote>
+<p>ℹ️ : <strong>重点</strong>: 转换的工作是由 MMU 进行控制，而页表是由 OS 控制的，这是软硬件的一次配合。</p>
+</blockquote>
+<h3 id="页表-PTE"><a class="header-anchor" href="#页表-PTE">¶</a>页表 (PTE)</h3>
+<p>首先真实的物理内存资源是有限的，比如 <code>4G</code> <code>10G</code> 决计不是无限的，虚拟内存对于所有进程都是从 <code>0</code> 开始到 <code>2 ^ N</code> N是常见的 32/64 位，那涉及到虚拟内存和真实内存的映射关系。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0DPw.png" alt="H0DPw.png"></p>
+<blockquote>
+<p>虚拟内存：下称 VM， 真实内存：下称 PM</p>
+</blockquote>
+<p>首先，VM 和 PM 对应并非是整块的，操作系统通过将虚拟内存分割为大小固定的块来作为硬盘和内存之间的传输单位，这个块被称为虚拟页（Virtual Page, VP），每个虚拟页的大小为P=2^p字节。物理内存也会按照这种方法分割为物理页（Physical Page, PP），大小也为P字节。</p>
+<p>也就是说对于 <code>VM</code> 是由许多个 <code>VP</code> 构成的，<code>PM</code> 也是由许多个 <code>PP</code> 构成的。 将 <code>PP</code> 和 <code>VP</code> 关联来一起的是就是 <code>页表(PET)</code></p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0Mu8.png" alt="H0Mu8.png"></p>
+<p>由于 <code>CPU</code> 每次进行寻址时候都需要使用 <code>PTE</code>，所以如果想控制内存系统的访问，可以在 <code>PTE</code> 上添加一些额外的许可位（例如读写权限、内核权限等），这样只要有指令违反了这些许可条件，<code>CPU</code> 就会触发一个一般保护故障，将控制权传递给内核中的异常处理程序。一般这种异常被称 <code>段错误（Segmentation Fault）</code>。</p>
+<p>因涉及到转换，就会出现两种情况：</p>
+<ul>
+<li>页命中: MMU根据虚拟地址在页表中寻址到了地址，就返回物理地址了</li>
+<li>缺页: 对应的就是没有找到相对于的物理地址，会触发一个缺页异常，缺页异常将控制权转向操作系统内核，然后调用内核中的缺页异常处理程序</li>
+</ul>
+<p>对于一个 <code>32</code> 位的操作系统，大概我们可以访问到 2^32 = 4GB 的空间，一个 PET 为 <code>4bytes</code>，那我们 4MB 个 <code>PTE</code>才能满足所有的寻址需求，那这样 PTE 实在太大，因此真实的环境下，我们会采用 <code>多级页表</code> 技术。</p>
+<h3 id="多集页表"><a class="header-anchor" href="#多集页表">¶</a>多集页表</h3>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H0O4i.png" alt="H0O4i.png"></p>
+<p>采用多级页表最明显的有2个好处</p>
+<ul>
+<li>如果一个一级页表的一个PTE是空的，那么相应的二级页表也不会存在。这代表一种巨大的潜在节约（对于一个普通的程序来说，虚拟地址空间的大部分都会是未分配的）。</li>
+<li>只有一级页表才总是需要缓存在内存中的，这样虚拟内存系统就可以在需要时创建、页面调入或调出二级页表（只有经常使用的二级页表才会被缓存在内存中），这就减少了内存的压力。</li>
+</ul>
+<h2 id="物理页"><a class="header-anchor" href="#物理页">¶</a>物理页</h2>
+<p><code>PET</code> 是我们的映射关系，因此对于物理地址的管理，早期的内核中直接用一个数组 <code>mem_map</code> 来表示，这是我们物理页的集合。在内核中的定义为</p>
+<figure class="highlight c"><figcaption><span>mm/memory.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">char</span> mem_map [ PAGING_PAGES ] = &#123;<span class="number">0</span>,&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们在启动的时候时候进行初始化</p>
+<figure class="highlight c"><figcaption><span>mm/memory.c:mem_init</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">mem_init</span><span class="params">(<span class="type">long</span> start_mem, <span class="type">long</span> end_mem)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line"></span><br><span class="line">	HIGH_MEMORY = end_mem;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span> ; i&lt;PAGING_PAGES ; i++)</span><br><span class="line">		mem_map[i] = USED;</span><br><span class="line">	i = MAP_NR(start_mem);</span><br><span class="line">	end_mem -= start_mem;</span><br><span class="line">	end_mem &gt;&gt;= <span class="number">12</span>;</span><br><span class="line">	<span class="keyword">while</span> (end_mem--&gt;<span class="number">0</span>)</span><br><span class="line">		mem_map[i++]=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照下标的方式将系统划分成 <code>PAGING_PAGES</code> 段，其中为 0 值的下标对象即是可用的区域。</p>
+<h2 id="地址翻译"><a class="header-anchor" href="#地址翻译">¶</a>地址翻译</h2>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H2Cqt.png" alt="H2Cqt.png"></p>
+<p>地址翻译这个事情，就是如何从 <code>线性地址</code> 翻译成 <code>物理地址</code>，这个事情还是比较直观的。 将虚拟地址的 前 N 位作为页表目录， (N+1) ~ (2N) 作为页表1，以此类推我们就可以结合在 <code>PET</code> 的数据得到我们真实的地址。</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H2KHR.png" alt="H2KHR.png"></p>
+<h3 id="Page-allocator"><a class="header-anchor" href="#Page-allocator">¶</a>Page allocator</h3>
+<p>每一个进程的 <code>PET</code> 都是独立的，还记得 <code>CR3</code> 寄存器吗？</p>
+<p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/22/H3php.png" alt="H3php.png"></p>
+<p>对于 <code>Linux</code> 来说，我么对于任务的定义包含了很多数据，如下定义</p>
+<figure class="highlight c"><figcaption><span>task_struct</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line">	<span class="type">long</span> state;	<span class="comment">/* -1 unrunnable, 0 runnable, &gt;0 stopped */</span></span><br><span class="line">	<span class="type">long</span> counter;</span><br><span class="line">	<span class="type">long</span> priority;</span><br><span class="line">	<span class="type">long</span> signal;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">sigaction</span>[32];</span></span><br><span class="line">	<span class="type">long</span> blocked;	<span class="comment">/* bitmap of masked signals */</span></span><br><span class="line"><span class="comment">/* tss for this task */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">tss_struct</span> <span class="title">tss</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在 <code>tss</code> 的数据结构中就保存了我们的  <code>cr3</code> 的寄存器的值，在我们调度进程的时候，就可以将 <code>cr3</code>的寄存器恢复即可。在后续的版本中单独使用 <code>pdg</code> 指向我们一级页表的基址。<br>
+对于所有的进程在创建之后，我们都要为其开辟一个单独的页表空间，都是通过 <code>copy_page_tables</code> 函数进行创建对象的 <code>page_tables</code> 空间。因此开辟一个任务并非是 <code>Free</code> 的，我们至少要付出一些代价。而这仅仅是我们开辟了存储空间，想象一下 <code>malloc</code> 函数的场景：</p>
+<figure class="highlight c"><figcaption><span>malloc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="type">char</span> *str;</span><br><span class="line">   str = (<span class="type">char</span> *) <span class="built_in">malloc</span>(<span class="number">15</span>);</span><br><span class="line">   <span class="built_in">strcpy</span>(str, <span class="string">&quot;runoob&quot;</span>);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;String = %s,  Address = %u\n&quot;</span>, str, str);</span><br><span class="line">   <span class="keyword">return</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要开辟一个新的内存空间这是实实在在的对于物理空间的占用，因此我们要在我们的 <code>PET</code> 中增加一个对于 <code>User</code> 的虚拟内存地址，也增加一个对于 <code>PET</code> 和真实空间的映射关系，因此会发生如下故事。</p>
+<figure class="highlight c"><figcaption><span>get_free_page</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 循环的找到一个可用的物理页，然后标记成已用。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> <span class="title function_">get_free_page</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">register</span> <span class="type">unsigned</span> <span class="type">long</span> __res <span class="title function_">asm</span><span class="params">(<span class="string">&quot;ax&quot;</span>)</span>;</span><br><span class="line"></span><br><span class="line">repeat:</span><br><span class="line">	__asm__(<span class="string">&quot;std ; repne ; scasb\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;jne 1f\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;movb $1,1(%%edi)\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;sall $12,%%ecx\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;addl %2,%%ecx\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;movl %%ecx,%%edx\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;movl $1024,%%ecx\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;leal 4092(%%edx),%%edi\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;rep ; stosl\n\t&quot;</span></span><br><span class="line">		<span class="string">&quot;movl %%edx,%%eax\n&quot;</span></span><br><span class="line">		<span class="string">&quot;1:&quot;</span></span><br><span class="line">		:<span class="string">&quot;=a&quot;</span> (__res)</span><br><span class="line">		:<span class="string">&quot;0&quot;</span> (<span class="number">0</span>),<span class="string">&quot;i&quot;</span> (LOW_MEM),<span class="string">&quot;c&quot;</span> (PAGING_PAGES),</span><br><span class="line">		<span class="string">&quot;D&quot;</span> (mem_map+PAGING_PAGES<span class="number">-1</span>)</span><br><span class="line">		:<span class="string">&quot;di&quot;</span>,<span class="string">&quot;cx&quot;</span>,<span class="string">&quot;dx&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (__res &gt;= HIGH_MEMORY)</span><br><span class="line">		<span class="keyword">goto</span> repeat;</span><br><span class="line">	<span class="keyword">if</span> (!__res &amp;&amp; swap_out())</span><br><span class="line">		<span class="keyword">goto</span> repeat;</span><br><span class="line">	<span class="keyword">return</span> __res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="杂项-v2"><a class="header-anchor" href="#杂项-v2">¶</a>杂项</h2>
+<p>很多初学者会被 <code>GDT</code> 和 <code>LDT</code> 卡住，其实对于 <code>Linux</code> 来说这两部分完全只是白色，所有的段都使用了全部内存，因此对于 <code>Linux</code> 并没有太多的价值。在 Linux Programming Interface那本书里就谈到</p>
+<blockquote>
+<p>Linux uses segmentation in a very limited way. In fact, segmentation and paging are somewhat redundant, because both can be used to separate the physical address spaces of processes: segmentation can assign a different linear address space to each process, while paging can map the same linear address space into different physical address spaces.</p>
+</blockquote>
+<p>通过将 cs (代码段) 和 ds (数据段) 寄存器的值设为0，Linux实际没有使用分段而只使用了分页。因为这样内存管理会更加简单，并且由于像RISC架构的处理器只对分段提供了非常有限的支持，不使用分段会提高Linux操作系统在不同CPU架构上的可移植性。</p>
+<h2 id="参考-v9"><a class="header-anchor" href="#参考-v9">¶</a>参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://sylvanassun.github.io/2017/10/29/2017-10-29-virtual_memory/">虚拟内存的那点事儿</a></li>
+<li><a target="_blank" rel="noopener" href="https://courses.engr.illinois.edu/cs241/sp2014/lecture/09-VirtualMemory_II_sol.pdf">Virtual Memory and Paging</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.kernel.org/doc/gorman/html/understand/understand009.html">Physical Page Allocation</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/os/" rel="tag"># os</a>
+              <a href="/tags/mmu/" rel="tag"># mmu</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/12/rust/actix/" rel="prev" title="Actix &#58 Rust 中 Actor 模型的实现">
+                  <i class="fa fa-chevron-left"></i> Actix &#58 Rust 中 Actor 模型的实现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/23/apm/apm/" rel="next" title="APM 杂谈">
+                  APM 杂谈 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="21c94986db66ffd342ceb22fefa9f098"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":29715,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.14.2/algoliasearch-lite.umd.js" integrity="sha256-dImjLPUsG/6p3+i7gVKBiDM8EemJAhQ0VvkRK2pVsQY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.45.0/instantsearch.production.min.js" integrity="sha256-356MuKn0s/KnBeNjzWGP1048qENU5M4IiAWc7q9GErU=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","server_url":"https://kphj3vsv.lc-cn-n1-shared.com","security":false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470"}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

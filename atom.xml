@@ -25,8 +25,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209091301871.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -46,7 +46,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208061311334.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208061311334.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;今天我们来聊聊程序员中最讨论的一个部分，单元测试&lt;/p&gt;
     
     </summary>
@@ -71,7 +71,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220723234135.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220723234135.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;今天我们聊聊 《Isito 虚拟机健康检查》&lt;/p&gt;
     
     </summary>
@@ -96,7 +96,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202204271957129.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202204271957129.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;今天我们来聊聊，Envoy 中最重要的抽象 &lt;code&gt;Filter&lt;/code&gt;&lt;/p&gt;
     
     </summary>
@@ -123,7 +123,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过 &lt;code&gt;iptables&lt;/code&gt; 拦截流量，对于这个 &lt;code&gt;iptables&lt;/code&gt; 的规则，我们仔细的分析下。&lt;/p&gt;
     
     </summary>
@@ -144,8 +144,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
     
     </summary>
     
@@ -165,7 +165,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210910154051.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210910154051.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -185,7 +185,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210830103734.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210830103734.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;众所周知，Istio 有一个很核心的功能是将Kube的资源对象翻译成Envoy的Xds协议。因此对于这部分来说，Istio 涉及到大致上三个部分&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Kube 资源的监听&lt;/li&gt;
@@ -211,7 +211,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210620173801.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210620173801.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -239,7 +239,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210606174353.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210606174353.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;今天就让我们一起来品一品，&lt;code&gt;Envoy&lt;/code&gt; 中的 &lt;code&gt;Dubbo&lt;/code&gt; 协议是如何实现的，基于 &lt;code&gt;1.18&lt;/code&gt; 分支&lt;/p&gt;
     
     </summary>
@@ -264,8 +264,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519134744.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;原文: &lt;a href=&quot;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519134744.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;原文: &lt;a href=&quot;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&quot;&gt;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -285,7 +285,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210430161943.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210430161943.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;主要就是为了吐槽 &lt;code&gt;GO&lt;/code&gt;&lt;/p&gt;
     
     </summary>
@@ -306,7 +306,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://s3.jpg.cm/2021/04/24/aSn1L.png&quot; alt=&quot;aSn1L.png&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2021/04/24/aSn1L.png&quot; alt=&quot;aSn1L.png&quot;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Java 11 is the first long-term support (LTS) release after Java 8. Oracle also stopped supporting Java 8 in January 2019. As a consequence, a lot of us will upgrade to Java 11.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -330,7 +330,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326194325.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326194325.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;opentelemetry&lt;/code&gt; 作为 &lt;code&gt;CNCF&lt;/code&gt; 社区的全新项目，最为核心的就是 &lt;code&gt;Collector&lt;/code&gt;&lt;/p&gt;
     
     </summary>
@@ -355,12 +355,14 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325155834.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;对于一个&lt;code&gt;软件工程师&lt;/code&gt;来说，我并不是很关心 &lt;code&gt;BootLoader&lt;/code&gt; 这些东西，几乎都比较接近于硬件，&lt;code&gt;Linux&lt;/code&gt; 的代码又普遍太过于工业级，因此尝试用 &lt;code&gt;rt-thread&lt;/code&gt; 这样一&lt;br&gt;
-个比较小型的 &lt;code&gt;real time&lt;/code&gt; 系统来解析操作系统的工作。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;For My Lovely Wife&lt;/p&gt;
-&lt;/blockquote&gt;
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325155834.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;对于一个&lt;code&gt;软件工程师&lt;/code&gt;来说，我并不是很关心
+        
+      
     
     </summary>
     
@@ -384,7 +386,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210209163003.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210209163003.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;前几日在和朋友讨论一个 &lt;code&gt;Rust&lt;/code&gt; 的编程问题。&lt;/p&gt;
     
     </summary>
@@ -405,8 +407,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在 &lt;code&gt;1.8&lt;/code&gt; 的版本中，&lt;code&gt;istio&lt;/code&gt; 悄悄的上了一个预览版的功能 &lt;a href=&quot;https://istio.io/latest/blog/2020/dns-proxy/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;DNS Proxy&lt;/a&gt;，这个功能极为的强大，让我们一起来看看吧。&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;1.8&lt;/code&gt; 的版本中，&lt;code&gt;istio&lt;/code&gt; 悄悄的上了一个预览版的功能 &lt;a href=&quot;https://istio.io/latest/blog/2020/dns-proxy/&quot;&gt;DNS Proxy&lt;/a&gt;，这个功能极为的强大，让我们一起来看看吧。&lt;/p&gt;
     
     </summary>
     
@@ -426,7 +428,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124180700.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124180700.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;因为女票只想使用 &lt;code&gt;Java&lt;/code&gt; 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。&lt;/p&gt;
     
     </summary>
@@ -451,7 +453,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113101402.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113101402.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;我们在 &lt;a href=&quot;/2020/11/17/hard-way/learn-by-self-hard-way/&quot;&gt;The Hard Way Learn Computer Science&lt;/a&gt; 分享了一些学习的书籍和视频，不过都理论大过实践，所以我的女朋友觉得贼难，那我们今天就实践大于理论来分享一下。&lt;/p&gt;
     
     </summary>
@@ -472,7 +474,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/images/loading.gif&quot; data-original=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201228145412.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201228145412.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方面的细节。&lt;/p&gt;
 &lt;/blockquote&gt;
