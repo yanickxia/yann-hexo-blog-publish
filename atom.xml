@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-09-13T10:04:21.914Z</updated>
+  <updated>2022-09-14T06:19:16.514Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>博客建站日常备忘录</title>
+    <link href="http://blog.yanick.site/2022/09/14/site/site/"/>
+    <id>http://blog.yanick.site/2022/09/14/site/site/</id>
+    <published>2022-09-14T06:29:03.000Z</published>
+    <updated>2022-09-14T06:19:16.514Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209141410061.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;记录下博客建站的一些日常事务。&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+      <category term="site" scheme="http://blog.yanick.site/categories/site/"/>
+    
+      <category term="blog" scheme="http://blog.yanick.site/categories/site/blog/"/>
+    
+    
+      <category term="site" scheme="http://blog.yanick.site/tags/site/"/>
+    
+      <category term="blog" scheme="http://blog.yanick.site/tags/blog/"/>
+    
+  </entry>
   
   <entry>
     <title>Ambient Mesh Works</title>
@@ -462,29 +494,6 @@
     
     
       <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>年轻的程序员请尽量减少抽象</title>
-    <link href="http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/"/>
-    <id>http://blog.yanick.site/2020/12/25/rethink/not-more-abstraction/</id>
-    <published>2020-12-25T10:00:48.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201228145412.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方面的细节。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="rethink" scheme="http://blog.yanick.site/categories/rethink/"/>
-    
-    
-      <category term="rethink" scheme="http://blog.yanick.site/tags/rethink/"/>
     
   </entry>
   

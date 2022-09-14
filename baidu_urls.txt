@@ -1,5 +1,5 @@
+http://blog.yanick.site/2022/09/14/site/site/
 http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/
 http://blog.yanick.site/2022/08/06/other/unittest/
 http://blog.yanick.site/2022/07/23/networking/istio/how-it-works/vm-health-check/
 http://blog.yanick.site/2022/04/27/networking/envoy/filters/
-http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/
