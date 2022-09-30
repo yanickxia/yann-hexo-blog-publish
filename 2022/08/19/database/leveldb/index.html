@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/5.15.3/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LevelDB 自学指南">
+<meta property="og:url" content="http://blog.yanick.site/2022/08/19/database/leveldb/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220819165427.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220823174409.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220828152704.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220828154813.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220824152226.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220825171342.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220825174346.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208311731014.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208311938767.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202209011722512.png">
+<meta property="article:published_time" content="2022-08-19T08:43:48.000Z">
+<meta property="article:modified_time" content="2022-09-30T06:14:15.217Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="leveldb">
+<meta property="article:tag" content="kv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220819165427.png">
+
+<link rel="canonical" href="http://blog.yanick.site/2022/08/19/database/leveldb/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>LevelDB 自学指南 | Yanick's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c033617f45ecdaad648e08ab6a03ae3a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Yanick's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-专栏">
+
+    <a href="https://article.yanick.site/" rel="noopener" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏</a>
+
+  </li>
+        <li class="menu-item menu-item-百科">
+
+    <a href="https://wiki.yanick.site/" rel="noopener" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科</a>
+
+  </li>
+        <li class="menu-item menu-item-随想">
+
+    <a href="https://misc.yanick.site/" rel="noopener" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想</a>
+
+  </li>
+        <li class="menu-item menu-item-计划">
+
+    <a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-推荐">
+
+    <a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a>
+
+  </li>
+        <li class="menu-item menu-item-地图">
+
+    <a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-分享">
+
+    <a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a>
+
+  </li>
+        <li class="menu-item menu-item-专题">
+
+    <a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2022/08/19/database/leveldb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LevelDB 自学指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-19 16:43:48" itemprop="dateCreated datePublished" datetime="2022-08-19T16:43:48+08:00">2022-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-30 14:14:15" itemprop="dateModified" datetime="2022-09-30T14:14:15+08:00">2022-09-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index"><span itemprop="name">database</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/leveldb/" itemprop="url" rel="index"><span itemprop="name">leveldb</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/leveldb/kv/" itemprop="url" rel="index"><span itemprop="name">kv</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/08/19/database/leveldb/" class="post-meta-item leancloud_visitors" data-flag-title="LevelDB 自学指南" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220819165427.png" alt=""></p>
+<p>LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。</p>
+<span id="more"></span>
+<h2 id="准备环境"><a class="header-anchor" href="#准备环境">¶</a>准备环境</h2>
+<p>首先我们先下载代码，编译试试。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://github.com/google/leveldb.git</span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=Release .. &amp;&amp; cmake --build .</span><br></pre></td></tr></table></figure>
+<p>然后我们增加我们自己的测试代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// example.simple.cc</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;leveldb/db.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Set up database connection information and open database</span></span><br><span class="line">  leveldb::DB* db;</span><br><span class="line">  leveldb::Options options;</span><br><span class="line">  options.create_if_missing = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  leveldb::Status status = leveldb::DB::<span class="built_in">Open</span>(options, <span class="string">&quot;./testdb&quot;</span>, &amp;db);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">false</span> == status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    cerr &lt;&lt; <span class="string">&quot;Unable to open/create test database &#x27;./testdb&#x27;&quot;</span> &lt;&lt; endl;</span><br><span class="line">    cerr &lt;&lt; status.<span class="built_in">ToString</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Add 256 values to the database</span></span><br><span class="line">  leveldb::WriteOptions writeOptions;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">256</span>; ++i) &#123;</span><br><span class="line">    ostringstream keyStream;</span><br><span class="line">    keyStream &lt;&lt; <span class="string">&quot;Key&quot;</span> &lt;&lt; i;</span><br><span class="line"></span><br><span class="line">    ostringstream valueStream;</span><br><span class="line">    valueStream &lt;&lt; <span class="string">&quot;Test data value: &quot;</span> &lt;&lt; i;</span><br><span class="line"></span><br><span class="line">    db-&gt;<span class="built_in">Put</span>(writeOptions, keyStream.<span class="built_in">str</span>(), valueStream.<span class="built_in">str</span>());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Iterate over each item in the database and print them</span></span><br><span class="line">  leveldb::Iterator* it = db-&gt;<span class="built_in">NewIterator</span>(leveldb::<span class="built_in">ReadOptions</span>());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (it-&gt;<span class="built_in">SeekToFirst</span>(); it-&gt;<span class="built_in">Valid</span>(); it-&gt;<span class="built_in">Next</span>()) &#123;</span><br><span class="line">    cout &lt;&lt; it-&gt;<span class="built_in">key</span>().<span class="built_in">ToString</span>() &lt;&lt; <span class="string">&quot; : &quot;</span> &lt;&lt; it-&gt;<span class="built_in">value</span>().<span class="built_in">ToString</span>() &lt;&lt; endl;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">false</span> == it-&gt;<span class="built_in">status</span>().<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    cerr &lt;&lt; <span class="string">&quot;An error was found during the scan&quot;</span> &lt;&lt; endl;</span><br><span class="line">    cerr &lt;&lt; it-&gt;<span class="built_in">status</span>().<span class="built_in">ToString</span>() &lt;&lt; endl;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">delete</span> it;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Close the database</span></span><br><span class="line">  <span class="keyword">delete</span> db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在我们的 <code>Makefile</code> 中增加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  leveldb_test(&quot;db/c_test.c&quot;)</span><br><span class="line">++leveldb_test(&quot;example/simple.cc&quot;)</span><br></pre></td></tr></table></figure>
+<p>然后就可以执行我们的测试逻辑了。</p>
+<h2 id="基础知识"><a class="header-anchor" href="#基础知识">¶</a>基础知识</h2>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220823174409.png" alt=""></p>
+<p>对于 <code>LevelDB</code> 的基础知识就不做展开了，鉴于有很多全面的资料，非常推荐阅读 &lt;LevelDB源码剖析&gt;<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> 。</p>
+<p>LevelDB的存储引擎主要分为三个部件：</p>
+<ul>
+<li><code>SSTable</code>，就是Sorted String Table，是一个持久化的、有序的 <code>SortedMap</code>，存储在磁盘上；</li>
+<li><code>WAL</code>，Write Ahead Log，数据库里面经常用的技术，要写数据时，不直接写数据文件，而是先写一条日志，这样可以把对磁盘的随机写转换成顺序写</li>
+<li><code>MemTable</code>，保存了最近写入的键值对，数据写入 <code>WAL</code> 后，会同时写入 <code>MemTable</code>，这样便于查询。</li>
+</ul>
+<p>SSTable是数据最终落盘的地方，而 <code>WAL</code> 保存了最近写入的数据，持久化到磁盘上，<code>MemTable</code> 则是 <code>WAL</code> 里数据的内存表示，因为日志的格式不便于查询，在内存中才便于快速查询。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── 000018.ldb  &lt;----- SSTable</span><br><span class="line">├── 000020.ldb  &lt;----- SSTable</span><br><span class="line">├── 000023.ldb  &lt;----- SSTable</span><br><span class="line">├── 000026.ldb  &lt;----- SSTable</span><br><span class="line">├── 000028.ldb  &lt;----- SSTable</span><br><span class="line">├── 000031.<span class="built_in">log</span>  &lt;----- WAL <span class="built_in">log</span></span><br><span class="line">├── 000032.ldb  &lt;----- SSTable</span><br><span class="line">├── 000033.ldb</span><br><span class="line">├── CURRENT     &lt;----- 当前版本</span><br><span class="line">├── LOCK</span><br><span class="line">├── LOG         &lt;----- 运行日志</span><br><span class="line">├── LOG.old</span><br><span class="line">└── MANIFEST-000030</span><br></pre></td></tr></table></figure>
+<h3 id="SST"><a class="header-anchor" href="#SST">¶</a>SST</h3>
+<p><code>SSTable</code> 最早来自于 Google 的 Bigtable 论文</p>
+<blockquote>
+<p>An SSTable provides a persistent, ordered immutable map from keys to values, where both keys and values are arbitrary byte strings. Operations are provided to look up the value associated with a specified key, and to iterate over all key/value pairs in a specified key range. Internally, each SSTable contains a sequence of blocks (typically each block is 64KB in size, but this is configurable). A block index (stored at the end of the SSTable) is used to locate blocks; the index is loaded into memory when the SSTable is opened. A lookup can be performed with a single disk seek: we first find the appropriate block by performing a binary search in the in-memory index, and then reading the appropriate block from disk. Optionally, an SSTable can be completely mapped into memory, which allows us to perform lookups and scans without touching disk.</p>
+</blockquote>
+<p>在 <code>Leveldb</code> 中的具体实现参考 <a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/main/doc/table_format.md">leveldb File format</a></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;beginning_of_file&gt;</span><br><span class="line">[data block 1]</span><br><span class="line">[data block 2]</span><br><span class="line">...</span><br><span class="line">[data block N]</span><br><span class="line">[filter block 1]  &lt;--- 仅仅 FilterPolicy 开启的时候</span><br><span class="line">...</span><br><span class="line">[filter block K]</span><br><span class="line">[meta block 1]</span><br><span class="line">...</span><br><span class="line">[meta block K]</span><br><span class="line">[metaindex block]</span><br><span class="line">[index block]</span><br><span class="line">[Footer]        (fixed size; starts at file_size - sizeof(Footer))</span><br><span class="line">&lt;end_of_file&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Data Block</code>存储数据，按照键的顺序进行排序；</li>
+<li>在<code>Data Block</code>后是<code>Filter Block</code>，也设计成为多个，存储了布隆过滤器的二进制数据；</li>
+<li><code>Meta Index Block</code>存储了指向<code>Filter Block</code>的指针，根据这个指针可以找到某个<code>Filter Block</code>开始的位置</li>
+<li><code>Index Block</code>存储了指向每一个<code>Data Block</code>的指针的数组；</li>
+<li>最后有一个大小固定的<code>Footer</code>，保存两个<code>BlockHandler</code>，分别指向<code>Meta Index Block</code>和<code>Index Block</code>。</li>
+</ul>
+<h4 id="Footer"><a class="header-anchor" href="#Footer">¶</a>Footer</h4>
+<p><code>Footer</code> 一共是 <code>48</code> 字节</p>
+<figure class="highlight cpp"><figcaption><span>EncodeTo</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/297e66afc1dda3f3d7a7cc2022030164c302cb7a/table/format.cc#L31-L40">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Footer::EncodeTo</span><span class="params">(std::string* dst)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">  <span class="type">const</span> <span class="type">size_t</span> original_size = dst-&gt;<span class="built_in">size</span>();</span><br><span class="line">  metaindex_handle_.<span class="built_in">EncodeTo</span>(dst);</span><br><span class="line">  index_handle_.<span class="built_in">EncodeTo</span>(dst);</span><br><span class="line">  dst-&gt;<span class="built_in">resize</span>(<span class="number">2</span> * BlockHandle::kMaxEncodedLength);  <span class="comment">// Padding</span></span><br><span class="line">  <span class="built_in">PutFixed32</span>(dst, <span class="built_in">static_cast</span>&lt;<span class="type">uint32_t</span>&gt;(kTableMagicNumber &amp; <span class="number">0xffffffff</span>u));</span><br><span class="line">  <span class="built_in">PutFixed32</span>(dst, <span class="built_in">static_cast</span>&lt;<span class="type">uint32_t</span>&gt;(kTableMagicNumber &gt;&gt; <span class="number">32</span>));</span><br><span class="line">  <span class="built_in">assert</span>(dst-&gt;<span class="built_in">size</span>() == original_size + kEncodedLength);</span><br><span class="line">  (<span class="type">void</span>)original_size;  <span class="comment">// Disable unused variable warning.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>换做定义的话就是</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Footer</span> &#123;</span><br><span class="line">    BlockHandler meta_index_block;  <span class="comment">// 定位Meta Index Block</span></span><br><span class="line">    BlockHandler index_block;       <span class="comment">// 定位Index Block</span></span><br><span class="line">    byte[n] padding;                <span class="comment">// 补齐到48字节</span></span><br><span class="line">    int64 magic;                    <span class="comment">// 魔数 echo http://code.google.com/p/leveldb/ | sha1sum</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Block"><a class="header-anchor" href="#Block">¶</a>Block</h4>
+<p>其他的区域都是 <code>Block</code> 类型的数据， 换做定义的是 （并没有实际的定义）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Block</span> &#123;</span><br><span class="line">    byte[] data;</span><br><span class="line">    byte compress_type;</span><br><span class="line">    int32 crc;  &lt;---- 可选的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要参考 <a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/297e66afc1dda3f3d7a7cc2022030164c302cb7a/table/format.cc#L64-L139">ReadBlock</a> 推导出来。</p>
+<h5 id="Data-Block"><a class="header-anchor" href="#Data-Block">¶</a>Data Block</h5>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220828152704.png" alt=""></p>
+<p><code>DataBlock</code> 用了一种压缩的手段来储存数据，我们知道 Data 中其实是 KV 的结构，这里用了 Key 压缩的手段。</p>
+<p>用结构定义的话，是这样的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Kv</span> &#123;</span><br><span class="line">    varint32 shared_key_length;       <span class="comment">// 和前一个键相同的前缀长度</span></span><br><span class="line">    varint32 non_shared_key_length;   <span class="comment">// 不相同的键长度</span></span><br><span class="line">    varint32 value_length;            <span class="comment">// 值的长度</span></span><br><span class="line">    byte[] non_shared_key_content;    <span class="comment">// 不相同的键的内容</span></span><br><span class="line">    byte[] value;                     <span class="comment">// 值的内容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过这种方式将多个<code>Kv</code>连续存放在<code>Data Block</code>里，可以进行键的前缀压缩。然而这样会有一个问题，不管得到哪一个键的值，都需要从Block的第一个键开始依次构造，搜索一个键的时候，也需要遍历整个Block，如果一个Block里有大量的键的话，效率会比较低。<br>
+针对这个问题，LevelDB设置了restart point，每16个Kv里第一个Kv是一个restart point，这个Kv的shared_key_length始终为0，也就是这个Kv不采用前缀编码，non_shared_key_content里的内容就是整个键的内容。这样就不需要从每一个Data Block的开头开始构造键了，只需要从每一个restart point开始构造。另外在每个Data Block的末尾存储了一个restart point数组，指向了每一个restart point所在Kv的在块中的偏移，这样便可以支持二分搜索，搜索出键属于哪一个restart point的组里，然后去搜索这个组里面的16个Kv就可以找到这个键。restart point数组就像是一个Data Block的稀疏索引，可以加快键的查找。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">DataBlock</span> &#123;</span><br><span class="line">    Kv[] kv;                        <span class="comment">// Kv数组</span></span><br><span class="line">    int32[] restart_point_offsets;  <span class="comment">// restart point偏移数组，指向每一个restart point</span></span><br><span class="line">    int32 restart_point_count;      <span class="comment">// restart point数量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>读取的逻辑如下</p>
+<figure class="highlight cpp"><figcaption><span>DecodeEntry</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8cce47e450b365347769959c53b8836ef0216df9/table/block.cc#L55-L75">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从 P 的位置开始读取</span></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">const</span> <span class="type">char</span>* <span class="title">DecodeEntry</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* p, <span class="type">const</span> <span class="type">char</span>* limit,</span></span></span><br><span class="line"><span class="params"><span class="function">                                      <span class="type">uint32_t</span>* shared, <span class="type">uint32_t</span>* non_shared,</span></span></span><br><span class="line"><span class="params"><span class="function">                                      <span class="type">uint32_t</span>* value_length)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (limit - p &lt; <span class="number">3</span>) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  <span class="comment">// shared_key 长度</span></span><br><span class="line">  *shared = <span class="built_in">reinterpret_cast</span>&lt;<span class="type">const</span> <span class="type">uint8_t</span>*&gt;(p)[<span class="number">0</span>];</span><br><span class="line">  <span class="comment">// non_shared_key 长度</span></span><br><span class="line">  *non_shared = <span class="built_in">reinterpret_cast</span>&lt;<span class="type">const</span> <span class="type">uint8_t</span>*&gt;(p)[<span class="number">1</span>];</span><br><span class="line">  <span class="comment">// value 长度</span></span><br><span class="line">  *value_length = <span class="built_in">reinterpret_cast</span>&lt;<span class="type">const</span> <span class="type">uint8_t</span>*&gt;(p)[<span class="number">2</span>];</span><br><span class="line">  <span class="keyword">if</span> ((*shared | *non_shared | *value_length) &lt; <span class="number">128</span>) &#123;</span><br><span class="line">    <span class="comment">// Fast path: all three values are encoded in one byte each</span></span><br><span class="line">    p += <span class="number">3</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> ((p = <span class="built_in">GetVarint32Ptr</span>(p, limit, shared)) == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">if</span> ((p = <span class="built_in">GetVarint32Ptr</span>(p, limit, non_shared)) == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">if</span> ((p = <span class="built_in">GetVarint32Ptr</span>(p, limit, value_length)) == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">static_cast</span>&lt;<span class="type">uint32_t</span>&gt;(limit - p) &lt; (*non_shared + *value_length)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="Index-Block"><a class="header-anchor" href="#Index-Block">¶</a>Index Block</h5>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220828154813.png" alt=""></p>
+<p><code>Index Block</code>就非常简单了，它其实就是存储了一个Kv数组，每一个Kv对应一个<code>Data Block</code>，其中键大于等于对应的<code>Data Block</code>中最后一个键，值为一个<code>BlockHandler</code>，可以定位到一个<code>Data Block</code>。<code>Index Block</code>就是<code>Data Block</code>的索引，搜索时可以对<code>Index Block</code>二分搜索，找到键对应的<code>Data Block</code>。</p>
+<blockquote>
+<p>作者注：这里不去讨论 Bloom 过滤器，主要侧重在 LSM 和 LevelDB 的本地逻辑。</p>
+</blockquote>
+<hr>
+<p>有了上面这两部分的基础知识，我们就可以知道是如何从磁盘中读取一个值了。</p>
+<ol>
+<li>读取 <code>Footer</code>，根据里面的读取 <code>Meta Index Block</code> 和 <code>Index Block</code> ，将 <code>Index Block</code> 的内容缓存到内存中</li>
+<li>根据键对 <code>Index Block</code> 的 <code>restart point</code> 进行二分搜索，找到这个键对应的 <code>Data Block</code> 的 <code>BlockHandler</code></li>
+<li>读取对应的 <code>Data Block</code></li>
+<li>对<code> Data Block</code> 里的 <code>restart point</code> 进行二分搜索，找到搜索键对应的 <code>restart point</code>;</li>
+</ol>
+<p>那我们来看看读取的全流程，我们从 <code>Table::InternalGet</code> 开始</p>
+<figure class="highlight cpp"><figcaption><span>InternalGet</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/10bc0f2595b8672c0c1756f22051ec420036fdf2/table/table.cc#L214-L242">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">Table::InternalGet</span><span class="params">(<span class="type">const</span> ReadOptions&amp; options, <span class="type">const</span> Slice&amp; k, <span class="type">void</span>* arg,</span></span></span><br><span class="line"><span class="params"><span class="function">                          <span class="type">void</span> (*handle_result)(<span class="type">void</span>*, <span class="type">const</span> Slice&amp;,</span></span></span><br><span class="line"><span class="params"><span class="function">                                                <span class="type">const</span> Slice&amp;))</span> </span>&#123;</span><br><span class="line">  Status s;</span><br><span class="line">  <span class="comment">// 找到 index block</span></span><br><span class="line">  Iterator* iiter = rep_-&gt;index_block-&gt;<span class="built_in">NewIterator</span>(rep_-&gt;options.comparator);</span><br><span class="line">  <span class="comment">// 定位到对应的 Data block 索引</span></span><br><span class="line">  iiter-&gt;<span class="built_in">Seek</span>(k);</span><br><span class="line">  <span class="keyword">if</span> (iiter-&gt;<span class="built_in">Valid</span>()) &#123;</span><br><span class="line">    Slice handle_value = iiter-&gt;<span class="built_in">value</span>();</span><br><span class="line">    FilterBlockReader* filter = rep_-&gt;filter;</span><br><span class="line">    BlockHandle handle;</span><br><span class="line">    <span class="comment">// Bloom 过滤 SKIP </span></span><br><span class="line">    <span class="keyword">if</span> (filter != <span class="literal">nullptr</span> &amp;&amp; handle.<span class="built_in">DecodeFrom</span>(&amp;handle_value).<span class="built_in">ok</span>() &amp;&amp;</span><br><span class="line">        !filter-&gt;<span class="built_in">KeyMayMatch</span>(handle.<span class="built_in">offset</span>(), k)) &#123;</span><br><span class="line">      <span class="comment">// Not found</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 读取 Data Block</span></span><br><span class="line">      Iterator* block_iter = <span class="built_in">BlockReader</span>(<span class="keyword">this</span>, options, iiter-&gt;<span class="built_in">value</span>());</span><br><span class="line">      <span class="comment">// 二分查找 Data Block</span></span><br><span class="line">      block_iter-&gt;<span class="built_in">Seek</span>(k);</span><br><span class="line">      <span class="keyword">if</span> (block_iter-&gt;<span class="built_in">Valid</span>()) &#123;</span><br><span class="line">        (*handle_result)(arg, block_iter-&gt;<span class="built_in">key</span>(), block_iter-&gt;<span class="built_in">value</span>());</span><br><span class="line">      &#125;</span><br><span class="line">      s = block_iter-&gt;<span class="built_in">status</span>();</span><br><span class="line">      <span class="keyword">delete</span> block_iter;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    s = iiter-&gt;<span class="built_in">status</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">delete</span> iiter;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Iterator</code> 的 <code>Seek</code> 是一致的，因为数据结构我们分析是一样的，不过 <code>IndexBlock</code> 中的一个 <code>Restart</code> 对应了一个 <code>KV</code>，而 <code>DataBlock</code> 中会对应多个，最后一段的 <code>Linear Search</code> 对于两者也是一样的。</p>
+<figure class="highlight cpp"><figcaption><span>Seek</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8cce47e450b365347769959c53b8836ef0216df9/table/block.cc#L164-L227">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Seek</span><span class="params">(<span class="type">const</span> Slice&amp; target)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">    <span class="comment">// left -&gt; 0 , right -&gt; restart pointer</span></span><br><span class="line">    <span class="type">uint32_t</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="type">uint32_t</span> right = num_restarts_ - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> current_key_compare = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 二分查找 </span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">      <span class="type">uint32_t</span> mid = (left + right + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">      <span class="type">uint32_t</span> region_offset = <span class="built_in">GetRestartPoint</span>(mid);</span><br><span class="line">      <span class="type">uint32_t</span> shared, non_shared, value_length;</span><br><span class="line">      <span class="type">const</span> <span class="type">char</span>* key_ptr =</span><br><span class="line">          <span class="built_in">DecodeEntry</span>(data_ + region_offset, data_ + restarts_, &amp;shared,</span><br><span class="line">                      &amp;non_shared, &amp;value_length);</span><br><span class="line">      <span class="keyword">if</span> (key_ptr == <span class="literal">nullptr</span> || (shared != <span class="number">0</span>)) &#123;</span><br><span class="line">        <span class="built_in">CorruptionError</span>();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function">Slice <span class="title">mid_key</span><span class="params">(key_ptr, non_shared)</span></span>;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">Compare</span>(mid_key, target) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// Key at &quot;mid&quot; is smaller than &quot;target&quot;.  Therefore all</span></span><br><span class="line">        <span class="comment">// blocks before &quot;mid&quot; are uninteresting.</span></span><br><span class="line">        left = mid;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Key at &quot;mid&quot; is &gt;= &quot;target&quot;.  Therefore all blocks at or</span></span><br><span class="line">        <span class="comment">// after &quot;mid&quot; are uninteresting.</span></span><br><span class="line">        right = mid - <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Linear search (within restart block) for first key &gt;= target</span></span><br><span class="line">    <span class="comment">// 最终的线性查找，在某个 restart block 区间内</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!<span class="built_in">ParseNextKey</span>()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">Compare</span>(key_, target) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="New-DB"><a class="header-anchor" href="#New-DB">¶</a>New DB</h2>
+<figure class="highlight cpp"><figcaption><span>open</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8f1861462b27727dfc5b2c4687112108e6ba88eb/db/db_impl.cc#L1483">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DB::Open</span><span class="params">(<span class="type">const</span> Options&amp; options, <span class="type">const</span> std::string&amp; dbname, DB** dbptr)</span> </span>&#123;</span><br><span class="line">  *dbptr = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">  DBImpl* impl = <span class="keyword">new</span> <span class="built_in">DBImpl</span>(options, dbname);</span><br><span class="line">  impl-&gt;mutex_.<span class="built_in">Lock</span>();</span><br><span class="line">  VersionEdit edit;</span><br><span class="line">  <span class="comment">// Recover handles create_if_missing, error_if_exists</span></span><br><span class="line">  <span class="type">bool</span> save_manifest = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 首先第一步就是先 Recover</span></span><br><span class="line">  Status s = impl-&gt;<span class="built_in">Recover</span>(&amp;edit, &amp;save_manifest);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 下略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Read-Write"><a class="header-anchor" href="#Read-Write">¶</a>Read &amp; Write</h2>
+<p>我们先看读写，再看其他的边缘 Case</p>
+<h3 id="Write"><a class="header-anchor" href="#Write">¶</a>Write</h3>
+<p>我们知道 <code>Leveldb</code> 收到消息第一步就是写 <code>WAL</code></p>
+<figure class="highlight cpp"><figcaption><span>Put</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8f1861462b27727dfc5b2c4687112108e6ba88eb/db/db_impl.cc#L1469-L1473">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DB::Put</span><span class="params">(<span class="type">const</span> WriteOptions&amp; opt, <span class="type">const</span> Slice&amp; key, <span class="type">const</span> Slice&amp; value)</span> </span>&#123;</span><br><span class="line">  WriteBatch batch;</span><br><span class="line">  batch.<span class="built_in">Put</span>(key, value);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Write</span>(opt, &amp;batch);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>WriteBatch</code> 看名字就知道是一个批量操作，用于将多个写入一起写入。 不过这个 <code>WriteBatch</code> 还是挺抽象的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LEVELDB_EXPORT</span> WriteBatch &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">WriteBatch</span>();</span><br><span class="line">  ~<span class="built_in">WriteBatch</span>();</span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">friend</span> <span class="keyword">class</span> <span class="title class_">WriteBatchInternal</span>;</span><br><span class="line"></span><br><span class="line">  std::string rep_;  <span class="comment">// See comment in write_batch.cc for the format of rep_</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Intentionally copyable</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>leveldb</code> 里面只有一个 <code>rep_</code> 来储存真正的内存，其他的内容都在按照一些特殊的方式进行处理的。</p>
+<p>这里参考下 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/275699183">[LevelDB] 数据库3：循序渐进 —— 操作接口</a> 中的拿过来，大概是这样的结构<br>
+<img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220824152226.png" alt=""></p>
+<p>所以看下面的操作的时候，比如生成序列号。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">WriteBatchInternal::SetSequence</span><span class="params">(WriteBatch* b, SequenceNumber seq)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">EncodeFixed64</span>(&amp;b-&gt;rep_[<span class="number">0</span>], seq);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Write</code> 就是真实写入的函数了，将一个 <code>WriteBatch</code> 的内容写入到数据库，写入分为两步：</p>
+<ul>
+<li>写入数据到日志；</li>
+<li>写入数据到MemTable。</li>
+</ul>
+<figure class="highlight cpp"><figcaption><span>Write</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8f1861462b27727dfc5b2c4687112108e6ba88eb/db/db_impl.cc#L1200">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::Write</span><span class="params">(<span class="type">const</span> WriteOptions&amp; options, WriteBatch* updates)</span> </span>&#123;</span><br><span class="line">  <span class="function">Writer <span class="title">w</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  w.batch = updates;</span><br><span class="line">  w.sync = options.sync;</span><br><span class="line">  <span class="comment">// 默认非 DONE</span></span><br><span class="line">  w.done = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function">MutexLock <span class="title">l</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  writers_.<span class="built_in">push_back</span>(&amp;w);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里有可能别的线程帮助写入了，就是 DONE了，所以下面有个 Return，并且自己是 Head就真的开始写入，不然就是等</span></span><br><span class="line">  <span class="keyword">while</span> (!w.done &amp;&amp; &amp;w != writers_.<span class="built_in">front</span>()) &#123;</span><br><span class="line">    w.cv.<span class="built_in">Wait</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (w.done) &#123;</span><br><span class="line">    <span class="keyword">return</span> w.status;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// May temporarily unlock and wait.</span></span><br><span class="line">  <span class="comment">// MakeRoomForWrite 的主要逻辑是将 MemTable 变成 ImmuateMemTable, 然后创建一个新的 MemTable</span></span><br><span class="line">  Status status = <span class="built_in">MakeRoomForWrite</span>(updates == <span class="literal">nullptr</span>);</span><br><span class="line">  <span class="type">uint64_t</span> last_sequence = versions_-&gt;<span class="built_in">LastSequence</span>();</span><br><span class="line">  <span class="comment">// 这里的 last_writer 现在就是 Head</span></span><br><span class="line">  Writer* last_writer = &amp;w;</span><br><span class="line">  <span class="keyword">if</span> (status.<span class="built_in">ok</span>() &amp;&amp; updates != <span class="literal">nullptr</span>) &#123;  <span class="comment">// nullptr batch is for compactions</span></span><br><span class="line">    <span class="comment">// BuildBatchGroup 会根据队列里面的值尽量的多一次性取出来去 Write</span></span><br><span class="line">    <span class="comment">// 在这里会更新 last_writer，也就是合并写入的最后一个</span></span><br><span class="line">    WriteBatch* write_batch = <span class="built_in">BuildBatchGroup</span>(&amp;last_writer);</span><br><span class="line">    WriteBatchInternal::<span class="built_in">SetSequence</span>(write_batch, last_sequence + <span class="number">1</span>);</span><br><span class="line">    last_sequence += WriteBatchInternal::<span class="built_in">Count</span>(write_batch);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add to log and apply to memtable.  We can release the lock</span></span><br><span class="line">    <span class="comment">// during this phase since &amp;w is currently responsible for logging</span></span><br><span class="line">    <span class="comment">// and protects against concurrent loggers and concurrent writes</span></span><br><span class="line">    <span class="comment">// into mem_.</span></span><br><span class="line">    <span class="comment">// 注意这一步解锁，很关键，因为接下来的写入可能是一个费时的过程，解锁后，其它线程可以Get，其它线程也可以继续将writer</span></span><br><span class="line">    <span class="comment">// 插入到writers_里面，但是插入后，因为不是头元素，会等待，所以不会冲突</span></span><br><span class="line">    &#123;</span><br><span class="line">      mutex_.<span class="built_in">Unlock</span>();</span><br><span class="line">      <span class="comment">// 写入log</span></span><br><span class="line">      status = log_-&gt;<span class="built_in">AddRecord</span>(WriteBatchInternal::<span class="built_in">Contents</span>(write_batch));</span><br><span class="line">      <span class="type">bool</span> sync_error = <span class="literal">false</span>;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 根据选项sync,不开就可以会丢数据</span></span><br><span class="line">      <span class="keyword">if</span> (status.<span class="built_in">ok</span>() &amp;&amp; options.sync) &#123;</span><br><span class="line">        status = logfile_-&gt;<span class="built_in">Sync</span>();</span><br><span class="line">        <span class="keyword">if</span> (!status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">          sync_error = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">        status = WriteBatchInternal::<span class="built_in">InsertInto</span>(write_batch, mem_);</span><br><span class="line">      &#125;</span><br><span class="line">      mutex_.<span class="built_in">Lock</span>();</span><br><span class="line">      <span class="keyword">if</span> (sync_error) &#123;</span><br><span class="line">        <span class="comment">// The state of the log file is indeterminate: the log record we</span></span><br><span class="line">        <span class="comment">// just added may or may not show up when the DB is re-opened.</span></span><br><span class="line">        <span class="comment">// So we force the DB into a mode where all future writes fail.</span></span><br><span class="line">        <span class="built_in">RecordBackgroundError</span>(status);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (write_batch == tmp_batch_) tmp_batch_-&gt;<span class="built_in">Clear</span>();</span><br><span class="line"></span><br><span class="line">    versions_-&gt;<span class="built_in">SetLastSequence</span>(last_sequence);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//更新 SEQ，到这里就写完了。</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 通知下个等待的 Write 过来写。</span></span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    Writer* ready = writers_.<span class="built_in">front</span>();</span><br><span class="line">    writers_.<span class="built_in">pop_front</span>();</span><br><span class="line">    <span class="keyword">if</span> (ready != &amp;w) &#123;</span><br><span class="line">      ready-&gt;status = status;</span><br><span class="line">      ready-&gt;done = <span class="literal">true</span>;</span><br><span class="line">      ready-&gt;cv.<span class="built_in">Signal</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ready == last_writer) <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Notify new head of write queue</span></span><br><span class="line">  <span class="keyword">if</span> (!writers_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    writers_.<span class="built_in">front</span>()-&gt;cv.<span class="built_in">Signal</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于写来说，流程还是比较简单的。</p>
+<ol>
+<li>创建一个批量的 Writebatch</li>
+<li>确保有足够的内存空间</li>
+<li>写 Log &amp; 写 内存</li>
+</ol>
+<h3 id="Read"><a class="header-anchor" href="#Read">¶</a>Read</h3>
+<p>通过各种网络小知识，我们知道 <code>Leveldb</code> 是一层层的读的，因此我们来看看 <code>Get</code> 是怎么工作的。</p>
+<figure class="highlight cpp"><figcaption><span>Get</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8f1861462b27727dfc5b2c4687112108e6ba88eb/db/db_impl.cc#L1115-L1160">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::Get</span><span class="params">(<span class="type">const</span> ReadOptions&amp; options, <span class="type">const</span> Slice&amp; key,</span></span></span><br><span class="line"><span class="params"><span class="function">                   std::string* value)</span> </span>&#123;</span><br><span class="line">  Status s;</span><br><span class="line">  <span class="function">MutexLock <span class="title">l</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  SequenceNumber snapshot;</span><br><span class="line">  <span class="comment">// 读取快照版本，这个后面再解释</span></span><br><span class="line">  <span class="keyword">if</span> (options.snapshot != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    snapshot =</span><br><span class="line">        <span class="built_in">static_cast</span>&lt;<span class="type">const</span> SnapshotImpl*&gt;(options.snapshot)-&gt;<span class="built_in">sequence_number</span>();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    snapshot = versions_-&gt;<span class="built_in">LastSequence</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获取当前的 mem/imm 挨个去读</span></span><br><span class="line">  MemTable* mem = mem_;</span><br><span class="line">  MemTable* imm = imm_;</span><br><span class="line">  Version* current = versions_-&gt;<span class="built_in">current</span>();</span><br><span class="line">  <span class="comment">// mem ref +1 代表这个正在被使用，下同</span></span><br><span class="line">  mem-&gt;<span class="built_in">Ref</span>();</span><br><span class="line">  <span class="keyword">if</span> (imm != <span class="literal">nullptr</span>) imm-&gt;<span class="built_in">Ref</span>();</span><br><span class="line">  current-&gt;<span class="built_in">Ref</span>();</span><br><span class="line"></span><br><span class="line">  <span class="type">bool</span> have_stat_update = <span class="literal">false</span>;</span><br><span class="line">  Version::GetStats stats;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Unlock while reading from files and memtables</span></span><br><span class="line">  &#123;</span><br><span class="line">    mutex_.<span class="built_in">Unlock</span>();</span><br><span class="line">    <span class="comment">// First look in the memtable, then in the immutable memtable (if any).</span></span><br><span class="line">    <span class="comment">// 读 Memtable -&gt; IMM -&gt; DISK</span></span><br><span class="line">    <span class="function">LookupKey <span class="title">lkey</span><span class="params">(key, snapshot)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (mem-&gt;<span class="built_in">Get</span>(lkey, value, &amp;s)) &#123;</span><br><span class="line">      <span class="comment">// Done</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (imm != <span class="literal">nullptr</span> &amp;&amp; imm-&gt;<span class="built_in">Get</span>(lkey, value, &amp;s)) &#123;</span><br><span class="line">      <span class="comment">// Done</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      s = current-&gt;<span class="built_in">Get</span>(options, lkey, value, &amp;stats);</span><br><span class="line">      have_stat_update = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mutex_.<span class="built_in">Lock</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (have_stat_update &amp;&amp; current-&gt;<span class="built_in">UpdateStats</span>(stats)) &#123;</span><br><span class="line">    <span class="built_in">MaybeScheduleCompaction</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  mem-&gt;<span class="built_in">Unref</span>();</span><br><span class="line">  <span class="keyword">if</span> (imm != <span class="literal">nullptr</span>) imm-&gt;<span class="built_in">Unref</span>();</span><br><span class="line">  current-&gt;<span class="built_in">Unref</span>();</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主逻辑非常的清晰，比较复杂的是读取硬盘上的 <code>SST</code><br>
+<img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220825171342.png" alt=""></p>
+<p><code>SST</code> 在代码中的表示是</p>
+<figure class="highlight cpp"><figcaption><span>FileMeta</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/a0191e5563b7a6c24b39edcbdbff29e602e0acfc/db/version_edit.h#L18-L27">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">FileMetaData</span> &#123;</span><br><span class="line">  <span class="built_in">FileMetaData</span>() : <span class="built_in">refs</span>(<span class="number">0</span>), <span class="built_in">allowed_seeks</span>(<span class="number">1</span> &lt;&lt; <span class="number">30</span>), <span class="built_in">file_size</span>(<span class="number">0</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> refs;</span><br><span class="line">  <span class="type">int</span> allowed_seeks;  <span class="comment">// Seeks allowed until compaction</span></span><br><span class="line">  <span class="type">uint64_t</span> number;</span><br><span class="line">  <span class="type">uint64_t</span> file_size;    <span class="comment">// File size in bytes</span></span><br><span class="line">  InternalKey smallest;  <span class="comment">// Smallest internal key served by table</span></span><br><span class="line">  InternalKey largest;   <span class="comment">// Largest internal key served by table</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// List of files per level</span></span><br><span class="line">std::vector&lt;FileMetaData*&gt; files_[config::kNumLevels];</span><br></pre></td></tr></table></figure>
+<p>因此我们只要根据 <code>smallest</code> 和 <code>larget</code> 就可以定位到对应的 <code>SST</code> 然后读进内存就好了，找到那个 <code>Key</code> 就好了。分层读取的逻辑在 <a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L282-L323">ForEachOverlapping</a> 就不展开了。</p>
+<h2 id="版本管理"><a class="header-anchor" href="#版本管理">¶</a>版本管理</h2>
+<p>在上面的 <code>Read</code> 中，我们看到了 <code>Version</code> 但是我们并没有深究。</p>
+<blockquote>
+<p>那么为什么要版本管理呢？ 在数据不断写入后，MemTable写满了，这时候就会转换为Level 0的一个SSTable，或者Level n的一个文件和Level n + 1的多个文件进行Compaction，会转换成Level n + 1的多个文件。这会使SSTable文件数量改变，文件内容改变，也就是版本信息改变了，所以需要管理版本。</p>
+</blockquote>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220825174346.png" alt=""></p>
+<ul>
+<li>Version标识了一个版本，主要信息是这个版本包含的 SSTable 信息</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;FileMetaData*&gt; files_[config::kNumLevels];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>VersionSet是一个版本集，里面保存了Version的一个双链表，其中有一个Version是当前版本，因为只有一个实例，还保存了其它的一些全局的元数据， Dummy Version是链表头</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VersionSet* vset_;  <span class="comment">// VersionSet to which this Version belongs</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>VersionEdit保存了要对Version做的修改，在一个Version上应用一个VersionEdit，可以生成一个新的Version；</li>
+<li>Builder是一个帮助类，帮助Version上应用VersionEdit，生成新版本。</li>
+</ul>
+<p>运行流程</p>
+<ul>
+<li><code>VersionSet</code> 里保存着当前版本，以及被引用的历史版本；</li>
+<li>当有 <code>Compaction</code> 发生时，会将更改的内容写入到一个 <code>VersionEdit</code> 中；</li>
+<li>利用 <code>Builder</code> 将 <code>VersionEdit</code> 应用到当前版本上面生成一个新的版本；</li>
+<li>将新版本链接到 <code>VersionSet</code> 的双链表上面；</li>
+<li>将新的版本设置为当前版本；</li>
+<li>将旧的当前版本 <code>Unref</code> ，就是引用计数减 1。</li>
+</ul>
+<h3 id="VersionSet"><a class="header-anchor" href="#VersionSet">¶</a>VersionSet</h3>
+<p>那么我们看起来首先，对于某个版本的查询，核心的就是要一直读取对应时间的 <code>IMM</code> <code>MMT</code> <code>SSTABLE</code> ，这个做法就是就是在 <code>VersionSet</code> 中</p>
+<figure class="highlight cpp"><figcaption><span>VersionSet</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/54340b4a1020737e17ae4efacc31afeb53022be9/db/version_set.h#L291-L315">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">VersionSet</span> &#123;</span><br><span class="line">    Env* <span class="type">const</span> env_;                      <span class="comment">// 封装部分操作系统调用，包括文件、线程操作等</span></span><br><span class="line">    <span class="type">const</span> std::string dbname_;            <span class="comment">// 数据库名称，Open时传入</span></span><br><span class="line">    <span class="type">const</span> Options* <span class="type">const</span> options_;        <span class="comment">// 数据库选项，Open时传入</span></span><br><span class="line">    TableCache* <span class="type">const</span> table_cache_;       <span class="comment">// 打开的SSTable的缓存，Open时创建</span></span><br><span class="line">    <span class="type">const</span> InternalKeyComparator icmp_;    <span class="comment">// 根据User Key生成的Internal Key的Comparator</span></span><br><span class="line">    <span class="type">uint64_t</span> next_file_number_;           <span class="comment">// ldb、log和MANIFEST生成新文件时都有一个序号单调递增</span></span><br><span class="line">    <span class="type">uint64_t</span> manifest_file_number_;       <span class="comment">// 当前的MANIFEST的编号 [重点]</span></span><br><span class="line">    <span class="type">uint64_t</span> last_sequence_;              <span class="comment">// 上一个使用的SequenceNumber</span></span><br><span class="line">    <span class="type">uint64_t</span> log_number_;                 <span class="comment">// 当前的日志的编号</span></span><br><span class="line"></span><br><span class="line">    WritableFile* descriptor_file_;       <span class="comment">// MANIFEST打开的文件描述符</span></span><br><span class="line">    log::Writer* descriptor_log_;         <span class="comment">// MANIFEST实际存储的格式是WAL日志的格式，所以这里用来写入数据</span></span><br><span class="line">    Version dummy_versions_;              <span class="comment">// Version链表的头结点</span></span><br><span class="line">    Version* current_;                    <span class="comment">// 当前的Version</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这是用来记录Compact的进度，Compact总是从某一Level的最小的键开始到某个键结束，</span></span><br><span class="line">    <span class="comment">// 下次再从下一个键开始，所以这个就是下一次这个Level从哪个键开始Compact</span></span><br><span class="line">    std::string compact_pointer_[config::kNumLevels];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要是通过 <code>MANIFEST</code> 来维护，也就是为什么我们的 <code>MANIFEST</code> 会有那么多的后缀了。</p>
+<h3 id="VersionEdit"><a class="header-anchor" href="#VersionEdit">¶</a>VersionEdit</h3>
+<p><code>VersionEdit</code> 中记录了一次变更的内容。</p>
+<figure class="highlight cpp"><figcaption><span>VersionEdit</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/a0191e5563b7a6c24b39edcbdbff29e602e0acfc/db/version_edit.h#L88-L101">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">VersionEdit</span> &#123;</span><br><span class="line">    <span class="keyword">typedef</span> std::set&lt;std::pair&lt;<span class="type">int</span>, <span class="type">uint64_t</span>&gt;&gt; DeletedFileSet;</span><br><span class="line"></span><br><span class="line">    std::string comparator_;             <span class="comment">// 比较器的名称，持久化后，下次打开时需要对比一致</span></span><br><span class="line">    <span class="type">uint64_t</span> log_number_;                <span class="comment">// 日志文件的编号</span></span><br><span class="line">    <span class="type">uint64_t</span> next_file_number_;          <span class="comment">// ldb、log和MANIFEST下一个文件的编号</span></span><br><span class="line">    SequenceNumber last_sequence_;       <span class="comment">// 上一个使用的SequenceNumber</span></span><br><span class="line">    <span class="type">bool</span> has_comparator_;                <span class="comment">// 记录上面4个字段是否存在，存在才会持久化的MANIFEST中</span></span><br><span class="line">    <span class="type">bool</span> has_log_number_;</span><br><span class="line">    <span class="type">bool</span> has_next_file_number_;</span><br><span class="line">    <span class="type">bool</span> has_last_sequence_</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 和VersionSet里面的compact_pointers_相同</span></span><br><span class="line">    std::vector&lt;std::pair&lt;<span class="type">int</span>, InternalKey&gt;&gt; compact_pointers_;</span><br><span class="line">    <span class="comment">// 有哪些文件被删除，就是Version里哪些SSTable被删除</span></span><br><span class="line">    DeletedFileSet deleted_files_;</span><br><span class="line">    <span class="comment">// 有哪些文件被增加，pair的第一个参数是Level，第二个参数是文件的元信息</span></span><br><span class="line">    std::vector&lt;std::pair&lt;<span class="type">int</span>, FileMetaData&gt;&gt; new_files_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>VersionEdit + Version = NextVersion</p>
+<p>在 <code>VersionEdit</code> 包含集中类型数据</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Tag</span> &#123;</span><br><span class="line">  kComparator = <span class="number">1</span>,            <span class="comment">// 记录Comparator的名字</span></span><br><span class="line">  kLogNumber = <span class="number">2</span>,             <span class="comment">// 记录当前时刻的log_number</span></span><br><span class="line">  kNextFileNumber = <span class="number">3</span>,        <span class="comment">// 记录当前时刻的next_file_number_</span></span><br><span class="line">  kLastSequence = <span class="number">4</span>,          <span class="comment">// 记录当前时刻的last_sequence</span></span><br><span class="line">  kCompactPointer = <span class="number">5</span>,        <span class="comment">// 记录compact_pointer</span></span><br><span class="line">  kDeletedFile = <span class="number">6</span>,           <span class="comment">// 记录删除的文件信息</span></span><br><span class="line">  kNewFile = <span class="number">7</span>                <span class="comment">// 记录新增的文件信息</span></span><br><span class="line">  <span class="comment">// 8 was used for large value refs</span></span><br><span class="line">  kPrevLogNumber = <span class="number">9</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>而这些内容都会写到 <code>MANIFEST</code> 之中，在最初的启动逻辑中(以已有的 MANIFEST，恢复需要创建一个新的)，我们从下面的代码就会看到 edit 会负责把记录写到 <code>MANIFEST</code> 中</p>
+<figure class="highlight cpp"><figcaption><span>WriteSnapshot</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L1070-L1098">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">VersionSet::WriteSnapshot</span><span class="params">(log::Writer* log)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> Break up into multiple records to reduce memory usage on recovery?</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Save metadata</span></span><br><span class="line">  VersionEdit edit;</span><br><span class="line">  edit.<span class="built_in">SetComparatorName</span>(icmp_.<span class="built_in">user_comparator</span>()-&gt;<span class="built_in">Name</span>());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Save compaction pointers</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> level = <span class="number">0</span>; level &lt; config::kNumLevels; level++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!compact_pointer_[level].<span class="built_in">empty</span>()) &#123;</span><br><span class="line">      InternalKey key;</span><br><span class="line">      key.<span class="built_in">DecodeFrom</span>(compact_pointer_[level]);</span><br><span class="line">      edit.<span class="built_in">SetCompactPointer</span>(level, key);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Save files</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> level = <span class="number">0</span>; level &lt; config::kNumLevels; level++) &#123;</span><br><span class="line">    <span class="type">const</span> std::vector&lt;FileMetaData*&gt;&amp; files = current_-&gt;files_[level];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; files.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">      <span class="type">const</span> FileMetaData* f = files[i];</span><br><span class="line">      edit.<span class="built_in">AddFile</span>(level, f-&gt;number, f-&gt;file_size, f-&gt;smallest, f-&gt;largest);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  std::string record;</span><br><span class="line">  edit.<span class="built_in">EncodeTo</span>(&amp;record);</span><br><span class="line">  <span class="keyword">return</span> log-&gt;<span class="built_in">AddRecord</span>(record);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208311731014.png" alt=""></p>
+<h3 id="Builder"><a class="header-anchor" href="#Builder">¶</a>Builder</h3>
+<p>为了完成更新任务，还需要一个辅助类 <code>Builder</code></p>
+<p>对于 <code>Builder</code> 最重要的工作就是 下面的 <code>Apply</code></p>
+<figure class="highlight cpp"><figcaption><span>Apply</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L630-L670">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Apply</span><span class="params">(<span class="type">const</span> VersionEdit* edit)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 更新 压缩指针</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; edit-&gt;compact_pointers_.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> level = edit-&gt;compact_pointers_[i].first;</span><br><span class="line">    vset_-&gt;compact_pointer_[level] =</span><br><span class="line">        edit-&gt;compact_pointers_[i].second.<span class="built_in">Encode</span>().<span class="built_in">ToString</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 删除不存在的文件</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; deleted_file_set_kvp : edit-&gt;deleted_files_) &#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> level = deleted_file_set_kvp.first;</span><br><span class="line">    <span class="type">const</span> <span class="type">uint64_t</span> number = deleted_file_set_kvp.second;</span><br><span class="line">    levels_[level].deleted_files.<span class="built_in">insert</span>(number);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 增加新增的文件</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; edit-&gt;new_files_.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> level = edit-&gt;new_files_[i].first;</span><br><span class="line">    FileMetaData* f = <span class="keyword">new</span> <span class="built_in">FileMetaData</span>(edit-&gt;new_files_[i].second);</span><br><span class="line">    f-&gt;refs = <span class="number">1</span>;</span><br><span class="line">    f-&gt;allowed_seeks = <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;((f-&gt;file_size / <span class="number">16384U</span>));</span><br><span class="line">    <span class="keyword">if</span> (f-&gt;allowed_seeks &lt; <span class="number">100</span>) f-&gt;allowed_seeks = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">    levels_[level].deleted_files.<span class="built_in">erase</span>(f-&gt;number);</span><br><span class="line">    levels_[level].added_files-&gt;<span class="built_in">insert</span>(f);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>SaveTo</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L673-L698">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Builder::SaveTo</span><span class="params">(Version* v)</span> </span>&#123;</span><br><span class="line">    BySmallestKey cmp;</span><br><span class="line">    cmp.internal_comparator = &amp;vset_-&gt;icmp_;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> level = <span class="number">0</span>; level &lt; config::kNumLevels; level++) &#123;</span><br><span class="line">        <span class="comment">// 拿出原本Version里的文件，以及Builder里累积的，添加的文件</span></span><br><span class="line">        <span class="type">const</span> std::vector&lt;FileMetaData*&gt;&amp; base_files = base_-&gt;files_[level];</span><br><span class="line">        std::vector&lt;FileMetaData*&gt;::const_iterator base_iter = base_files.<span class="built_in">begin</span>();</span><br><span class="line">        std::vector&lt;FileMetaData*&gt;::const_iterator base_end = base_files.<span class="built_in">end</span>();</span><br><span class="line">        <span class="type">const</span> FileSet* added_files = levels_[level].added_files;</span><br><span class="line">        v-&gt;files_[level].<span class="built_in">reserve</span>(base_files.<span class="built_in">size</span>() + added_files-&gt;<span class="built_in">size</span>());</span><br><span class="line">        <span class="comment">// 按顺序进行合并</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; added_file : *added_files) &#123;</span><br><span class="line">            <span class="comment">// 找到base里面比added_file小的文件，添加到新的Version里</span></span><br><span class="line">            <span class="comment">// 采用MaybeAddFile，让被删除的文件无法添加</span></span><br><span class="line">            <span class="keyword">for</span> (std::vector&lt;FileMetaData*&gt;::const_iterator bpos =</span><br><span class="line">                    std::<span class="built_in">upper_bound</span>(base_iter, base_end, added_file, cmp);</span><br><span class="line">                base_iter != bpos; ++base_iter) &#123;</span><br><span class="line">                <span class="built_in">MaybeAddFile</span>(v, level, *base_iter);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">MaybeAddFile</span>(v, level, added_file);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加剩下的文件</span></span><br><span class="line">        <span class="keyword">for</span> (; base_iter != base_end; ++base_iter) &#123;</span><br><span class="line">            <span class="built_in">MaybeAddFile</span>(v, level, *base_iter);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里显然有一个问题，随着系统的长时间运行，我们的 <code>MANIFEST</code> 显然会越来越大，随着时间的流逝，早期的版本是没有意义的，我们没必要还原所有的版本的情况，我们只需要还原还活着的版本的信息。MANIFEST只有一个机会变小，抛弃早期过时的VersionEdit，给当前的VersionSet来个快照，然后从新的起点开始累加VerisonEdit。这个机会就是重新开启DB。在后续的 <code>Recover</code> 里面再聊聊</p>
+<h3 id="流程-v2"><a class="header-anchor" href="#流程-v2">¶</a>流程</h3>
+<p>版本变迁的逻辑主要是在 <code>VersionSet::LogAndApply</code> 中</p>
+<figure class="highlight cpp"><figcaption><span>LogAndApply</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L778-L860">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">VersionSet::LogAndApply</span><span class="params">(VersionEdit* edit, port::Mutex* mu)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 设定当前的log number</span></span><br><span class="line">  <span class="keyword">if</span> (edit-&gt;has_log_number_) &#123;</span><br><span class="line">    <span class="built_in">assert</span>(edit-&gt;log_number_ &gt;= log_number_);</span><br><span class="line">    <span class="built_in">assert</span>(edit-&gt;log_number_ &lt; next_file_number_);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    edit-&gt;<span class="built_in">SetLogNumber</span>(log_number_);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!edit-&gt;has_prev_log_number_) &#123;</span><br><span class="line">    edit-&gt;<span class="built_in">SetPrevLogNumber</span>(prev_log_number_);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设定当前的next_file_number和last_sequence，这些都会被持久化到MANIFEST</span></span><br><span class="line">  edit-&gt;<span class="built_in">SetNextFile</span>(next_file_number_);</span><br><span class="line">  edit-&gt;<span class="built_in">SetLastSequence</span>(last_sequence_);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建一个新版本，新版本是current_和edit的结合</span></span><br><span class="line">  Version* v = <span class="keyword">new</span> <span class="built_in">Version</span>(<span class="keyword">this</span>);</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">Builder <span class="title">builder</span><span class="params">(<span class="keyword">this</span>, current_)</span></span>;</span><br><span class="line">    builder.<span class="built_in">Apply</span>(edit);</span><br><span class="line">    builder.<span class="built_in">SaveTo</span>(v);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Finalize</span>(v);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 写入比较吃 磁盘的 MANIFEST 日志</span></span><br><span class="line">  &#123;</span><br><span class="line">    mu-&gt;<span class="built_in">Unlock</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Write new record to MANIFEST log</span></span><br><span class="line">    <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">      std::string record;</span><br><span class="line">      <span class="comment">// 在这里写入文件</span></span><br><span class="line">      edit-&gt;<span class="built_in">EncodeTo</span>(&amp;record);</span><br><span class="line">      s = descriptor_log_-&gt;<span class="built_in">AddRecord</span>(record);</span><br><span class="line">      <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">        s = descriptor_file_-&gt;<span class="built_in">Sync</span>();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">        <span class="built_in">Log</span>(options_-&gt;info_log, <span class="string">&quot;MANIFEST write: %s\n&quot;</span>, s.<span class="built_in">ToString</span>().<span class="built_in">c_str</span>());</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里更新了 Current 文件，指向对应的 MANIFEST</span></span><br><span class="line">    <span class="keyword">if</span> (s.<span class="built_in">ok</span>() &amp;&amp; !new_manifest_file.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">      s = <span class="built_in">SetCurrentFile</span>(env_, dbname_, manifest_file_number_);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mu-&gt;<span class="built_in">Lock</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 安装新版本，会把v放到VersionSet的链表中，然后将当前Version指向v</span></span><br><span class="line">  <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="built_in">AppendVersion</span>(v);</span><br><span class="line">    log_number_ = edit-&gt;log_number_;</span><br><span class="line">    prev_log_number_ = edit-&gt;prev_log_number_;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">delete</span> v;</span><br><span class="line">    <span class="keyword">if</span> (!new_manifest_file.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">      <span class="keyword">delete</span> descriptor_log_;</span><br><span class="line">      <span class="keyword">delete</span> descriptor_file_;</span><br><span class="line">      descriptor_log_ = <span class="literal">nullptr</span>;</span><br><span class="line">      descriptor_file_ = <span class="literal">nullptr</span>;</span><br><span class="line">      env_-&gt;<span class="built_in">RemoveFile</span>(new_manifest_file);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实从流程看还是比较的清晰的，在当前的 <code>VersionSet</code> 上，通过 <code>VersionEdit</code> 和 <code>Builder</code> 创建一个新的 <code>Version</code> 并且更新 <code>MANIFEST</code> 就是更新的事情，那问题又随之到来，那 <code>VersionEdit</code> 是怎么创建出来的呢？这里就涉及到我们下面的那个知识点了。</p>
+<h2 id="Compaction"><a class="header-anchor" href="#Compaction">¶</a>Compaction</h2>
+<ol>
+<li>当 <code>MemTable</code> 写满后，需要将 <code>MemTable</code> 的数据写入磁盘，生成一个 <code>Level 0</code> 的 <code>SSTable</code></li>
+<li><code>Level 0</code> 的 <code>SSTable</code> 的键范围可能有重叠</li>
+<li><code>Compaction</code> 将 <code>Level 0</code> 的 <code>SSTable</code> 推向 <code>Level 1</code>，使得 <code>Level 0</code> 的 <code>SSTable</code> 数量保持在一个较低的水平；</li>
+<li><code>Level 1</code> 的文件数量可能太多，导致一次 <code>Compaction</code> 消耗太多磁盘 <code>IO</code> ，所以需要将 <code>Level 1</code> 的文件继续 <code>Compaction</code> 到更高 <code>Level</code> 去。</li>
+</ol>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202208311938767.png" alt=""></p>
+<ul>
+<li>Level0 -&gt; Level1: 因为 Key 可能重叠，采用多路归并，最终 <code>Level 1</code> 的文件依然是有序并且无重叠的</li>
+<li>Level n -&gt; Level n + 1： 选择一个文件进行Compaction时，不可能有其它同层的文件有重叠，所以只需要一个文件即可，然后选择Level n + 1和Level n有重叠的文件，后面的步骤都是一样的。</li>
+</ul>
+<h3 id="Compaction-触发条件"><a class="header-anchor" href="#Compaction-触发条件">¶</a>Compaction 触发条件</h3>
+<h4 id="Size-Compaction"><a class="header-anchor" href="#Size-Compaction">¶</a>Size Compaction</h4>
+<p>按照 <code>Size</code> 计算每一 <code>Level</code> 实际大小相对于最大大小的比率，优先 <code>Compaction</code> 比率最大的Level。</p>
+<figure class="highlight cpp"><figcaption><span>Finalize</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L1032-L1068">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">VersionSet::Finalize</span><span class="params">(Version* v)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Precomputed best level for next compaction</span></span><br><span class="line">  <span class="type">int</span> best_level = <span class="number">-1</span>;    <span class="comment">// 最大的比率的Level</span></span><br><span class="line">  <span class="type">double</span> best_score = <span class="number">-1</span>; <span class="comment">// 最大的比率</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> level = <span class="number">0</span>; level &lt; config::kNumLevels - <span class="number">1</span>; level++) &#123;</span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="keyword">if</span> (level == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// Level 0特殊处理，使用文件的个数，而不是大小来确定比率，因为对于大的writer-buffer</span></span><br><span class="line">      <span class="comment">// Level 0的文件会更大，这时候如果限定总大小，Compaction会偏多</span></span><br><span class="line">      <span class="comment">// 对于小的Level 0文件，数量会太多，影响读取的速度</span></span><br><span class="line">      score = v-&gt;files_[level].<span class="built_in">size</span>() /</span><br><span class="line">              <span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(config::kL0_CompactionTrigger);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 计算文件总大小相对于最大大小的比率 </span></span><br><span class="line">      <span class="type">const</span> <span class="type">uint64_t</span> level_bytes = <span class="built_in">TotalFileSize</span>(v-&gt;files_[level]);</span><br><span class="line">      score =</span><br><span class="line">          <span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(level_bytes) / <span class="built_in">MaxBytesForLevel</span>(options_, level);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (score &gt; best_score) &#123;</span><br><span class="line">      best_level = level;</span><br><span class="line">      best_score = score;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将计算得到的最大的score和level赋值，后台线程看到赋值后会开始Compaction</span></span><br><span class="line">  v-&gt;compaction_level_ = best_level;</span><br><span class="line">  v-&gt;compaction_score_ = best_score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Seek-Compaction"><a class="header-anchor" href="#Seek-Compaction">¶</a>Seek Compaction</h4>
+<p>TODO</p>
+<h4 id="Compaction实现"><a class="header-anchor" href="#Compaction实现">¶</a>Compaction实现</h4>
+<figure class="highlight cpp"><figcaption><span>Compaction</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/54340b4a1020737e17ae4efacc31afeb53022be9/db/version_set.h#L319-L391">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Compaction</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="type">int</span> level_;                      <span class="comment">// Compaction文件所在的Level</span></span><br><span class="line">    <span class="type">uint64_t</span> max_output_file_size_;  <span class="comment">// 生成的文件的最大值</span></span><br><span class="line">    Version* input_version_;         <span class="comment">// Compaction发生时的Version</span></span><br><span class="line">    VersionEdit edit_;               <span class="comment">// Compaction结果保存的VersionEdit</span></span><br><span class="line"></span><br><span class="line">    std::vector&lt;FileMetaData*&gt; inputs_[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然 inputs 最多涉及到 <code>level</code> 和 <code>level+1</code>，具体的逻辑在  <code>DoCompactionWork</code> 中</p>
+<figure class="highlight cpp"><figcaption><span>DoCompactionWork</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8f1861462b27727dfc5b2c4687112108e6ba88eb/db/db_impl.cc#L892-L1051">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::DoCompactionWork</span><span class="params">(CompactionState* compact)</span> </span>&#123;</span><br><span class="line">  <span class="type">const</span> <span class="type">uint64_t</span> start_micros = env_-&gt;<span class="built_in">NowMicros</span>();</span><br><span class="line">  <span class="type">int64_t</span> imm_micros = <span class="number">0</span>;  <span class="comment">// Micros spent doing imm_ compactions</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 取当前最小的使用中的SequenceNumber</span></span><br><span class="line">  <span class="keyword">if</span> (snapshots_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    compact-&gt;smallest_snapshot = versions_-&gt;<span class="built_in">LastSequence</span>();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    compact-&gt;smallest_snapshot = snapshots_.<span class="built_in">oldest</span>()-&gt;<span class="built_in">sequence_number</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 参与Compaction的SSTable组成一个迭代器</span></span><br><span class="line">  <span class="comment">// MakeInputIterator 代码比较简单就不看了, 这里值得主要的就是 如果 Level0 就得把所有的 Level0 文件都带上···</span></span><br><span class="line">  Iterator* input = versions_-&gt;<span class="built_in">MakeInputIterator</span>(compact-&gt;compaction);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Release mutex while we&#x27;re actually doing the compaction work</span></span><br><span class="line">  mutex_.<span class="built_in">Unlock</span>();</span><br><span class="line"></span><br><span class="line">  input-&gt;<span class="built_in">SeekToFirst</span>();</span><br><span class="line">  Status status;</span><br><span class="line">  ParsedInternalKey ikey;</span><br><span class="line">  std::string current_user_key;  <span class="comment">// 记录当前的User Key</span></span><br><span class="line">  <span class="type">bool</span> has_current_user_key = <span class="literal">false</span>;  <span class="comment">// 记录是否碰到过一个同样的User Key</span></span><br><span class="line">  SequenceNumber last_sequence_for_key = kMaxSequenceNumber;</span><br><span class="line">  <span class="keyword">while</span> (input-&gt;<span class="built_in">Valid</span>() &amp;&amp; !shutting_down_.<span class="built_in">load</span>(std::memory_order_acquire)) &#123;</span><br><span class="line">    <span class="comment">// Prioritize immutable compaction work</span></span><br><span class="line">    <span class="keyword">if</span> (has_imm_.<span class="built_in">load</span>(std::memory_order_relaxed)) &#123;</span><br><span class="line">      <span class="type">const</span> <span class="type">uint64_t</span> imm_start = env_-&gt;<span class="built_in">NowMicros</span>();</span><br><span class="line">      mutex_.<span class="built_in">Lock</span>();</span><br><span class="line">      <span class="keyword">if</span> (imm_ != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果还有 imm 的存在，先处理 imm 到 sstable</span></span><br><span class="line">        <span class="built_in">CompactMemTable</span>();</span><br><span class="line">        background_work_finished_signal_.<span class="built_in">SignalAll</span>();</span><br><span class="line">      &#125;</span><br><span class="line">      mutex_.<span class="built_in">Unlock</span>();</span><br><span class="line">      imm_micros += (env_-&gt;<span class="built_in">NowMicros</span>() - imm_start);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Slice key = input-&gt;<span class="built_in">key</span>();</span><br><span class="line">    <span class="comment">// 当前输出文件的构建是否应该在指定key之前停下，若到达指定key时当前输出文件与level+2层的文件重合的内容数量超出阈值，则新起一个输出文件。</span></span><br><span class="line">    <span class="keyword">if</span> (compact-&gt;compaction-&gt;<span class="built_in">ShouldStopBefore</span>(key) &amp;&amp;</span><br><span class="line">        compact-&gt;builder != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">      <span class="comment">// 创建一个新的SSTable，写入文件</span></span><br><span class="line">      status = <span class="built_in">FinishCompactionOutputFile</span>(compact, input);</span><br><span class="line">      <span class="keyword">if</span> (!status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里要判断这个 Key 是不是要处理，用 drop 来标记</span></span><br><span class="line">    <span class="type">bool</span> drop = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">ParseInternalKey</span>(key, &amp;ikey)) &#123;</span><br><span class="line">      <span class="comment">// Do not hide error keys</span></span><br><span class="line">      current_user_key.<span class="built_in">clear</span>();</span><br><span class="line">      has_current_user_key = <span class="literal">false</span>;</span><br><span class="line">      last_sequence_for_key = kMaxSequenceNumber;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!has_current_user_key ||</span><br><span class="line">          <span class="built_in">user_comparator</span>()-&gt;<span class="built_in">Compare</span>(ikey.user_key, <span class="built_in">Slice</span>(current_user_key)) !=</span><br><span class="line">              <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 第一次遇见 user key。标记了下当前处理的一些状态</span></span><br><span class="line">        current_user_key.<span class="built_in">assign</span>(ikey.user_key.<span class="built_in">data</span>(), ikey.user_key.<span class="built_in">size</span>());</span><br><span class="line">        has_current_user_key = <span class="literal">true</span>;</span><br><span class="line">        last_sequence_for_key = kMaxSequenceNumber;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 如果上一个Key的SequenceNumber &lt;= 最小的存活的Snapshot，这个Key就不会被任何线程看到了，可以被丢弃</span></span><br><span class="line">      <span class="keyword">if</span> (last_sequence_for_key &lt;= compact-&gt;smallest_snapshot) &#123;</span><br><span class="line">        <span class="comment">// Hidden by an newer entry for same user key</span></span><br><span class="line">        drop = <span class="literal">true</span>;  <span class="comment">// (A)</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ikey.type == kTypeDeletion &amp;&amp;</span><br><span class="line">                 ikey.sequence &lt;= compact-&gt;smallest_snapshot &amp;&amp;</span><br><span class="line">                 compact-&gt;compaction-&gt;<span class="built_in">IsBaseLevelForKey</span>(ikey.user_key)) &#123;</span><br><span class="line">        <span class="comment">// 如果碰到了一个删除操作，并且SequenceNumber &lt;= 最小的Snapshot，</span></span><br><span class="line">        <span class="comment">// 通过IsBaseLevelForKey判断更高Level不会有这个User Key存在，那么这个Key就被丢弃</span></span><br><span class="line">        drop = <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      last_sequence_for_key = ikey.sequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!drop) &#123;</span><br><span class="line">      <span class="comment">// Open output file if necessary</span></span><br><span class="line">      <span class="keyword">if</span> (compact-&gt;builder == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        status = <span class="built_in">OpenCompactionOutputFile</span>(compact);</span><br><span class="line">        <span class="keyword">if</span> (!status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (compact-&gt;builder-&gt;<span class="built_in">NumEntries</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">        compact-&gt;<span class="built_in">current_output</span>()-&gt;smallest.<span class="built_in">DecodeFrom</span>(key);</span><br><span class="line">      &#125;</span><br><span class="line">      compact-&gt;<span class="built_in">current_output</span>()-&gt;largest.<span class="built_in">DecodeFrom</span>(key);</span><br><span class="line">      compact-&gt;builder-&gt;<span class="built_in">Add</span>(key, input-&gt;<span class="built_in">value</span>());</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 达到文件大小，就写入文件，生成新文件</span></span><br><span class="line">      <span class="keyword">if</span> (compact-&gt;builder-&gt;<span class="built_in">FileSize</span>() &gt;=</span><br><span class="line">          compact-&gt;compaction-&gt;<span class="built_in">MaxOutputFileSize</span>()) &#123;</span><br><span class="line">        status = <span class="built_in">FinishCompactionOutputFile</span>(compact, input);</span><br><span class="line">        <span class="keyword">if</span> (!status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    input-&gt;<span class="built_in">Next</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (status.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="comment">// 创建压缩的结果对象，下解释</span></span><br><span class="line">    status = <span class="built_in">InstallCompactionResults</span>(compact);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将变更的记录都放到 edit 里面，然后触发 LogAndApply</span></span><br><span class="line"><span class="function">Status <span class="title">DBImpl::InstallCompactionResults</span><span class="params">(CompactionState* compact)</span> </span>&#123;</span><br><span class="line">  mutex_.<span class="built_in">AssertHeld</span>();</span><br><span class="line">  <span class="comment">// Add compaction outputs</span></span><br><span class="line">  compact-&gt;compaction-&gt;<span class="built_in">AddInputDeletions</span>(compact-&gt;compaction-&gt;<span class="built_in">edit</span>());</span><br><span class="line">  <span class="type">const</span> <span class="type">int</span> level = compact-&gt;compaction-&gt;<span class="built_in">level</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; compact-&gt;outputs.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="type">const</span> CompactionState::Output&amp; out = compact-&gt;outputs[i];</span><br><span class="line">    compact-&gt;compaction-&gt;<span class="built_in">edit</span>()-&gt;<span class="built_in">AddFile</span>(level + <span class="number">1</span>, out.number, out.file_size,</span><br><span class="line">                                         out.smallest, out.largest);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> versions_-&gt;<span class="built_in">LogAndApply</span>(compact-&gt;compaction-&gt;<span class="built_in">edit</span>(), &amp;mutex_);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Recover"><a class="header-anchor" href="#Recover">¶</a>Recover</h2>
+<p><img src="/images/loading.gif" data-original="https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/2022/202209011722512.png" alt=""></p>
+<ul>
+<li>如果数据库目录不存在，创建目录；</li>
+<li>加文件锁，锁住整个数据库；</li>
+<li>读取 <code>MANIFEST</code> 文件，恢复系统关闭时的元数据，也就是版本信息，或者新建MAINFEST文件；</li>
+<li>如果上一次关闭时，<code>MemTable</code> 里有数据，或者 <code>Immutable</code> <code>MemTable</code> 写入到 <code>SSTable</code> 未完成，那么需要做数据恢复，从 <code>WAL</code> 恢复数据；</li>
+<li>创建数据库相关的内存数据结构，如 <code>Version</code>、<code>VersionSet</code> 等。</li>
+</ul>
+<figure class="highlight cpp"><figcaption><span>Recover</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/8f1861462b27727dfc5b2c4687112108e6ba88eb/db/db_impl.cc#L292-L383">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">DBImpl::Recover</span><span class="params">(VersionEdit* edit, <span class="type">bool</span>* save_manifest)</span> </span>&#123;</span><br><span class="line">  mutex_.<span class="built_in">AssertHeld</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建数据库目录</span></span><br><span class="line">  env_-&gt;<span class="built_in">CreateDir</span>(dbname_);</span><br><span class="line">  <span class="built_in">assert</span>(db_lock_ == <span class="literal">nullptr</span>);</span><br><span class="line">  <span class="comment">// 文件锁，禁止多进程的操作</span></span><br><span class="line">  Status s = env_-&gt;<span class="built_in">LockFile</span>(<span class="built_in">LockFileName</span>(dbname_), &amp;db_lock_);</span><br><span class="line">  <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 干净的就创建一个单独的 DB，不然就 恢复</span></span><br><span class="line">  <span class="keyword">if</span> (!env_-&gt;<span class="built_in">FileExists</span>(<span class="built_in">CurrentFileName</span>(dbname_))) &#123;</span><br><span class="line">    <span class="keyword">if</span> (options_.create_if_missing) &#123;</span><br><span class="line">      <span class="built_in">Log</span>(options_.info_log, <span class="string">&quot;Creating DB %s since it was missing.&quot;</span>,</span><br><span class="line">          dbname_.<span class="built_in">c_str</span>());</span><br><span class="line">      s = <span class="built_in">NewDB</span>();</span><br><span class="line">      <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> Status::<span class="built_in">InvalidArgument</span>(</span><br><span class="line">          dbname_, <span class="string">&quot;does not exist (create_if_missing is false)&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (options_.error_if_exists) &#123;</span><br><span class="line">      <span class="keyword">return</span> Status::<span class="built_in">InvalidArgument</span>(dbname_,</span><br><span class="line">                                     <span class="string">&quot;exists (error_if_exists is true)&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//  从 Manifest 恢复最后的版本</span></span><br><span class="line">  s = versions_-&gt;<span class="built_in">Recover</span>(save_manifest);</span><br><span class="line">  <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">SequenceNumber <span class="title">max_sequence</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 之前的MANIFEST恢复，会得到版本信息，里面包含了之前的log number</span></span><br><span class="line">  <span class="comment">// 搜索文件系统里的log，如果这些日志的编号 &gt;= 这个log number，那么这些</span></span><br><span class="line">  <span class="comment">// 日志都是关闭时丢失的数据，需要恢复，这里将日志按顺序存储在logs里面</span></span><br><span class="line">  <span class="type">const</span> <span class="type">uint64_t</span> min_log = versions_-&gt;<span class="built_in">LogNumber</span>();</span><br><span class="line">  <span class="type">const</span> <span class="type">uint64_t</span> prev_log = versions_-&gt;<span class="built_in">PrevLogNumber</span>();</span><br><span class="line">  std::vector&lt;std::string&gt; filenames;</span><br><span class="line">  s = env_-&gt;<span class="built_in">GetChildren</span>(dbname_, &amp;filenames);</span><br><span class="line">  <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;</span><br><span class="line">  std::set&lt;<span class="type">uint64_t</span>&gt; expected;</span><br><span class="line">  versions_-&gt;<span class="built_in">AddLiveFiles</span>(&amp;expected);</span><br><span class="line">  <span class="type">uint64_t</span> number;</span><br><span class="line">  FileType type;</span><br><span class="line">  std::vector&lt;<span class="type">uint64_t</span>&gt; logs;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; filenames.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">ParseFileName</span>(filenames[i], &amp;number, &amp;type)) &#123;</span><br><span class="line">      expected.<span class="built_in">erase</span>(number);</span><br><span class="line">      <span class="keyword">if</span> (type == kLogFile &amp;&amp; ((number &gt;= min_log) || (number == prev_log)))</span><br><span class="line">        logs.<span class="built_in">push_back</span>(number);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!expected.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="type">char</span> buf[<span class="number">50</span>];</span><br><span class="line">    std::<span class="built_in">snprintf</span>(buf, <span class="built_in">sizeof</span>(buf), <span class="string">&quot;%d missing files; e.g.&quot;</span>,</span><br><span class="line">                  <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(expected.<span class="built_in">size</span>()));</span><br><span class="line">    <span class="keyword">return</span> Status::<span class="built_in">Corruption</span>(buf, <span class="built_in">TableFileName</span>(dbname_, *(expected.<span class="built_in">begin</span>())));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Recover in the order in which the logs were generated</span></span><br><span class="line">  std::<span class="built_in">sort</span>(logs.<span class="built_in">begin</span>(), logs.<span class="built_in">end</span>());</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; logs.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    s = <span class="built_in">RecoverLogFile</span>(logs[i], (i == logs.<span class="built_in">size</span>() - <span class="number">1</span>), save_manifest, edit,</span><br><span class="line">                       &amp;max_sequence);</span><br><span class="line">    <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">      <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The previous incarnation may not have written any MANIFEST</span></span><br><span class="line">    <span class="comment">// records after allocating this log number.  So we manually</span></span><br><span class="line">    <span class="comment">// update the file number allocation counter in VersionSet.</span></span><br><span class="line">    versions_-&gt;<span class="built_in">MarkFileNumberUsed</span>(logs[i]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (versions_-&gt;<span class="built_in">LastSequence</span>() &lt; max_sequence) &#123;</span><br><span class="line">    versions_-&gt;<span class="built_in">SetLastSequence</span>(max_sequence);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Status::<span class="built_in">OK</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对于系统来说比较重要的恢复显然是 <code>Recover</code> 的逻辑</p>
+<figure class="highlight cpp"><figcaption><span>Recover</span><a target="_blank" rel="noopener" href="https://github.com/google/leveldb/blob/068a0f12148d38204d8231ad2cd03d9cfd5eb3dc/db/version_set.cc#L862-L993">github</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Status <span class="title">VersionSet::Recover</span><span class="params">(<span class="type">bool</span>* save_manifest)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">LogReporter</span> : <span class="keyword">public</span> log::Reader::Reporter &#123;</span><br><span class="line">    Status* status;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Corruption</span><span class="params">(<span class="type">size_t</span> bytes, <span class="type">const</span> Status&amp; s)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;status-&gt;<span class="built_in">ok</span>()) *<span class="keyword">this</span>-&gt;status = s;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 读取CURRENT文件的内容，获取当前使用的MANIFEST文件</span></span><br><span class="line">  <span class="comment">// 读取MANIFEST文件，将里面的VersionEdit读取应用到一个builder里</span></span><br><span class="line">  std::string current;</span><br><span class="line">  Status s = <span class="built_in">ReadFileToString</span>(env_, <span class="built_in">CurrentFileName</span>(dbname_), &amp;current);</span><br><span class="line">  <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (current.<span class="built_in">empty</span>() || current[current.<span class="built_in">size</span>() - <span class="number">1</span>] != <span class="string">&#x27;\n&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> Status::<span class="built_in">Corruption</span>(<span class="string">&quot;CURRENT file does not end with newline&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  current.<span class="built_in">resize</span>(current.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  std::string dscname = dbname_ + <span class="string">&quot;/&quot;</span> + current;</span><br><span class="line">  SequentialFile* file;</span><br><span class="line">  s = env_-&gt;<span class="built_in">NewSequentialFile</span>(dscname, &amp;file);</span><br><span class="line">  <span class="keyword">if</span> (!s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (s.<span class="built_in">IsNotFound</span>()) &#123;</span><br><span class="line">      <span class="keyword">return</span> Status::<span class="built_in">Corruption</span>(<span class="string">&quot;CURRENT points to a non-existent file&quot;</span>,</span><br><span class="line">                                s.<span class="built_in">ToString</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="type">bool</span> have_log_number = <span class="literal">false</span>;</span><br><span class="line">  <span class="type">bool</span> have_prev_log_number = <span class="literal">false</span>;</span><br><span class="line">  <span class="type">bool</span> have_next_file = <span class="literal">false</span>;</span><br><span class="line">  <span class="type">bool</span> have_last_sequence = <span class="literal">false</span>;</span><br><span class="line">  <span class="type">uint64_t</span> next_file = <span class="number">0</span>;</span><br><span class="line">  <span class="type">uint64_t</span> last_sequence = <span class="number">0</span>;</span><br><span class="line">  <span class="type">uint64_t</span> log_number = <span class="number">0</span>;</span><br><span class="line">  <span class="type">uint64_t</span> prev_log_number = <span class="number">0</span>;</span><br><span class="line">  <span class="function">Builder <span class="title">builder</span><span class="params">(<span class="keyword">this</span>, current_)</span></span>;</span><br><span class="line">  <span class="type">int</span> read_records = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// Record 挨个的读取</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">delete</span> file;</span><br><span class="line">  file = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!have_next_file) &#123;</span><br><span class="line">      s = Status::<span class="built_in">Corruption</span>(<span class="string">&quot;no meta-nextfile entry in descriptor&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!have_log_number) &#123;</span><br><span class="line">      s = Status::<span class="built_in">Corruption</span>(<span class="string">&quot;no meta-lognumber entry in descriptor&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!have_last_sequence) &#123;</span><br><span class="line">      s = Status::<span class="built_in">Corruption</span>(<span class="string">&quot;no last-sequence-number entry in descriptor&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!have_prev_log_number) &#123;</span><br><span class="line">      prev_log_number = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">MarkFileNumberUsed</span>(prev_log_number);</span><br><span class="line">    <span class="built_in">MarkFileNumberUsed</span>(log_number);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) &#123;</span><br><span class="line">    Version* v = <span class="keyword">new</span> <span class="built_in">Version</span>(<span class="keyword">this</span>);</span><br><span class="line">    builder.<span class="built_in">SaveTo</span>(v);</span><br><span class="line">    <span class="comment">// Install recovered version</span></span><br><span class="line">    <span class="built_in">Finalize</span>(v);</span><br><span class="line">    <span class="built_in">AppendVersion</span>(v);</span><br><span class="line">    manifest_file_number_ = next_file;</span><br><span class="line">    next_file_number_ = next_file + <span class="number">1</span>;</span><br><span class="line">    last_sequence_ = last_sequence;</span><br><span class="line">    log_number_ = log_number;</span><br><span class="line">    prev_log_number_ = prev_log_number;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// See if we can reuse the existing MANIFEST file.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">ReuseManifest</span>(dscname, current)) &#123;</span><br><span class="line">      <span class="comment">// No need to save new manifest</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      *save_manifest = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    std::string error = s.<span class="built_in">ToString</span>();</span><br><span class="line">    <span class="built_in">Log</span>(options_-&gt;info_log, <span class="string">&quot;Error recovering version set with %d records: %s&quot;</span>,</span><br><span class="line">        read_records, error.<span class="built_in">c_str</span>());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考-推荐阅读"><a class="header-anchor" href="#参考-推荐阅读">¶</a>参考 &amp; 推荐阅读</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://wiesen.github.io/post/leveldb-introduction/">Leveldb: Introduction</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1282795241104465920">LevelDB源码剖析</a></li>
+<li><a target="_blank" rel="noopener" href="https://leveldb-handbook.readthedocs.io/zh/latest/index.html">leveldb-handbook</a></li>
+<li><a target="_blank" rel="noopener" href="https://bean-li.github.io/leveldb-manifest/">leveldb之MANIFEST</a></li>
+</ul>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1282795241104465920">LevelDB源码剖析</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+      
+
+        <div class="reward-container">
+  <div>来杯奶茶, 嗝~~~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/wxpay.jpg" alt="Yanick.xia 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/loading.gif" data-original="/images/alipay-2.jpg" alt="Yanick.xia 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/database/" rel="tag"># database</a>
+              <a href="/tags/leveldb/" rel="tag"># leveldb</a>
+              <a href="/tags/kv/" rel="tag"># kv</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/06/other/unittest/" rel="prev" title="程序员的自我修养： 如何写好单元测试">
+      <i class="fa fa-chevron-left"></i> 程序员的自我修养： 如何写好单元测试
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/" rel="next" title="Ambient Mesh Works">
+      Ambient Mesh Works <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane changyan" id="comment-changyan">
+              
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+  </div>
+  
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">准备环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">2.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SST"><span class="nav-number">2.1.</span> <span class="nav-text">SST</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Footer"><span class="nav-number">2.1.1.</span> <span class="nav-text">Footer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Block"><span class="nav-number">2.1.2.</span> <span class="nav-text">Block</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Block"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">Data Block</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Index-Block"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">Index Block</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#New-DB"><span class="nav-number">3.</span> <span class="nav-text">New DB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-Write"><span class="nav-number">4.</span> <span class="nav-text">Read &amp; Write</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write"><span class="nav-number">4.1.</span> <span class="nav-text">Write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read"><span class="nav-number">4.2.</span> <span class="nav-text">Read</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">版本管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VersionSet"><span class="nav-number">5.1.</span> <span class="nav-text">VersionSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VersionEdit"><span class="nav-number">5.2.</span> <span class="nav-text">VersionEdit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Builder"><span class="nav-number">5.3.</span> <span class="nav-text">Builder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B-v2"><span class="nav-number">5.4.</span> <span class="nav-text">流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compaction"><span class="nav-number">6.</span> <span class="nav-text">Compaction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Compaction-%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text">Compaction 触发条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Size-Compaction"><span class="nav-number">6.1.1.</span> <span class="nav-text">Size Compaction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Seek-Compaction"><span class="nav-number">6.1.2.</span> <span class="nav-text">Seek Compaction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Compaction%E5%AE%9E%E7%8E%B0"><span class="nav-number">6.1.3.</span> <span class="nav-text">Compaction实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recover"><span class="nav-number">7.</span> <span class="nav-text">Recover</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB"><span class="nav-number">8.</span> <span class="nav-text">参考 &amp; 推荐阅读</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+          <span class="site-state-item-count">137</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element">
+    <a onclick="Chatra('openChat', true);"><i class="comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:yanick.xia@qq.com" title="Mail → mailto:yanick.xia@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+        </li>
+    </ul>
+  </div>
+<div class="sidebar-inner">
+    
+    <div id="hitokoto">:D 获取中...</div>
+    <i id="hitofrom">:D 获取中...</i>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bluebird/3.7.2/bluebird.core.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/fetch/3.6.2/fetch.min.js"></script>
+    <script>
+    fetch('https://v1.hitokoto.cn/?c=k&c=i&c=d&c=l')
+        .then(function (res){
+            return res.json();
+        })
+        .then(function (data) {
+            var hitokoto = document.getElementById('hitokoto');
+            hitokoto.innerText = '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + data.hitokoto;
+            var hitofrom = document.getElementById('hitofrom');
+            hitofrom.innerText = "——" + data.from + '\xa0'; 
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
+    </script>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="yanick"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"KPHj3vsvOqeV377r9yw1DdLl-gzGzoHsz","app_key":"wGzWlWVU3AFfxa6TgF2BadlD","security":false,"server_url":"https://kphj3vsv.lc-cn-n1-shared.com"};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="https://lib.baomitu.com/velocity/1.2.1/velocity.min.js"></script>
+  <script src="https://lib.baomitu.com/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 29715,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="https://lib.baomitu.com/algoliasearch/4.3.0/algoliasearch-lite.umd.js"></script>
+<script src="https://lib.baomitu.com/instantsearch.js/4.45.0/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'ZPdnXR7os9z2MNTzG';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cysL8VSAs';
+    var conf = '500d337f521f3d63f3031f16746e9470';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.yanick.site/2022/08/19/database/leveldb/";
+    this.page.identifier = "2022/08/19/database/leveldb/";
+    this.page.title = "LevelDB 自学指南";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://yann-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(e){e.imageLazyLoadSetting.processImages=t;var n=e.imageLazyLoadSetting.isSPA,i=e.imageLazyLoadSetting.preloadRatio||1,r=o();function o(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){n&&(r=o());for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(e.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];e=function(){r=r.filter(function(t){return o!==t})},(t=o).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,t.removeAttribute("data-original"),e&&e()},t.src!==i&&(n.src=i))}()}function a(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",a),e.addEventListener("resize",a),e.addEventListener("orientationchange",a)}(this);</script></body>
+</html>

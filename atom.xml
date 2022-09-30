@@ -63,6 +63,35 @@
   </entry>
   
   <entry>
+    <title>LevelDB 自学指南</title>
+    <link href="http://blog.yanick.site/2022/08/19/database/leveldb/"/>
+    <id>http://blog.yanick.site/2022/08/19/database/leveldb/</id>
+    <published>2022-08-19T08:43:48.000Z</published>
+    <updated>2022-09-30T06:14:15.217Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://fastly.jsdelivr.net/gh/yanickxia/picture-bed@master/20220819165427.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="database" scheme="http://blog.yanick.site/categories/database/"/>
+    
+      <category term="leveldb" scheme="http://blog.yanick.site/categories/database/leveldb/"/>
+    
+      <category term="kv" scheme="http://blog.yanick.site/categories/database/leveldb/kv/"/>
+    
+    
+      <category term="database" scheme="http://blog.yanick.site/tags/database/"/>
+    
+      <category term="leveldb" scheme="http://blog.yanick.site/tags/leveldb/"/>
+    
+      <category term="kv" scheme="http://blog.yanick.site/tags/kv/"/>
+    
+  </entry>
+  
+  <entry>
     <title>程序员的自我修养： 如何写好单元测试</title>
     <link href="http://blog.yanick.site/2022/08/06/other/unittest/"/>
     <id>http://blog.yanick.site/2022/08/06/other/unittest/</id>
@@ -464,27 +493,6 @@
     
     
       <category term="Game" scheme="http://blog.yanick.site/tags/Game/"/>
-    
-      <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>The Hard Way Learn Computer Science [实践班]</title>
-    <link href="http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/"/>
-    <id>http://blog.yanick.site/2021/01/13/hard-way/learn-by-self-hard-way-practices/</id>
-    <published>2021-01-13T02:49:48.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113101402.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;我们在 &lt;a href=&quot;/2020/11/17/hard-way/learn-by-self-hard-way/&quot;&gt;The Hard Way Learn Computer Science&lt;/a&gt; 分享了一些学习的书籍和视频，不过都理论大过实践，所以我的女朋友觉得贼难，那我们今天就实践大于理论来分享一下。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="自学" scheme="http://blog.yanick.site/categories/%E8%87%AA%E5%AD%A6/"/>
-    
     
       <category term="自学" scheme="http://blog.yanick.site/tags/%E8%87%AA%E5%AD%A6/"/>
     
