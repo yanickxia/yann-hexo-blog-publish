@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/</loc>
+    
+    <lastmod>2022-10-21T06:09:19.309Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2022/08/19/database/leveldb/</loc>
     
     <lastmod>2022-09-30T06:14:15.217Z</lastmod>
@@ -534,14 +541,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-3-udp/</loc>
+    <loc>http://blog.yanick.site/2018/06/05/networking/tcp-ip/tcp-ip-review-4-tcp/</loc>
     
     <lastmod>2021-10-21T03:11:29.436Z</lastmod>
     
