@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="article">
@@ -359,7 +359,7 @@
 <p>因此我们很容易整理出来这张图<br>
 <img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/17/HU9f4.png" alt="HU9f4.png"></p>
 <p>因此对于 <code>Rust</code> 来说，编译器会帮我在每一个 <code>.await</code> 处进行上下文的捕获，生成一个状态 <code>Struct</code>，因此我们申明的 <code>async fn</code> 在编译完成之后就变成一个 <code>state machine</code>，因此此阶段并不是通过 <code>OS</code> 保存 <code>Thread</code> 信息来完成了，而所有的信息都在我们的 <code>Future</code> 已经全部包含了，直接拿出来继续执行即可了，不需要传统的上保存下状态。</p>
-<h2 id="参考-v14"><a class="header-anchor" href="#参考-v14">¶</a>参考</h2>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/async-book">async-book</a></li>
 <li><a target="_blank" rel="noopener" href="https://os.phil-opp.com/async-await/">async-await</a></li>
@@ -525,7 +525,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Future"><span class="nav-number">1.</span> <span class="nav-text">Future</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wakeup"><span class="nav-number">2.</span> <span class="nav-text">Wakeup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executor"><span class="nav-number">3.</span> <span class="nav-text">Executor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-it-Work"><span class="nav-number">4.</span> <span class="nav-text">How it Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wake-in-real-world"><span class="nav-number">5.</span> <span class="nav-text">Wake in real world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wake%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%9F%E6%AD%A3%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">Wake是如何真正工作的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E7%8A%B6%E6%80%81"><span class="nav-number">6.1.</span> <span class="nav-text">保存状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="nav-number">6.2.</span> <span class="nav-text">状态转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-v14"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Future"><span class="nav-number">1.</span> <span class="nav-text">Future</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wakeup"><span class="nav-number">2.</span> <span class="nav-text">Wakeup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executor"><span class="nav-number">3.</span> <span class="nav-text">Executor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-it-Work"><span class="nav-number">4.</span> <span class="nav-text">How it Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wake-in-real-world"><span class="nav-number">5.</span> <span class="nav-text">Wake in real world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wake%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%9F%E6%AD%A3%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">Wake是如何真正工作的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E7%8A%B6%E6%80%81"><span class="nav-number">6.1.</span> <span class="nav-text">保存状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="nav-number">6.2.</span> <span class="nav-text">状态转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -538,7 +538,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

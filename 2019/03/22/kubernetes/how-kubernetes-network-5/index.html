@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="我们看完的了简单的网络通讯，在Kubernetes中还有一个很重要的ClusterIP的概念。如下图所示，这个是K8s实现服务负载均衡的核心基础。">
@@ -352,7 +352,7 @@
 </ol>
 <p><img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/24/5c97319c45b83.png" alt="all-in-one"></p>
 <p class="image-footer">cluster ip: all in one</p>
-<h2 id="附录-v2"><a class="header-anchor" href="#附录-v2">¶</a>附录</h2>
+<h2 id="附录"><a class="header-anchor" href="#附录">¶</a>附录</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment">creating a deployment</a></li>
 <li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/">service</a></li>
@@ -518,7 +518,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">部署环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E7%B4%A2"><span class="nav-number">2.</span> <span class="nav-text">探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClusterIP-%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">ClusterIP 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-Iptable"><span class="nav-number">4.</span> <span class="nav-text">Debug Iptable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95-v2"><span class="nav-number">5.</span> <span class="nav-text">附录</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">部署环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E7%B4%A2"><span class="nav-number">2.</span> <span class="nav-text">探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClusterIP-%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">ClusterIP 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-Iptable"><span class="nav-number">4.</span> <span class="nav-text">Debug Iptable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">5.</span> <span class="nav-text">附录</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -531,7 +531,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

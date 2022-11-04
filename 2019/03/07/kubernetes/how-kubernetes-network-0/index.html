@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="Docker 是“新瓶装旧酒”的产物，依赖于 Linux 内核技术 chroot 、namespace 和 cgroup。本篇先来看 namespace 技术。 Docker 和虚拟机技术一样，从操作系统级上实现了资源的隔离，它本质上是宿主机上的进程（容器进程），所以资源隔离主要就是指进程资源的隔离。实现资源隔离的核心技术就是 Linux namespace。这技术和很多语言的命名空间的设计思想是">
@@ -352,7 +352,7 @@
 <p>对于 <code>Docker</code> 来说，我们的 <code>Veth</code> 默认还会挂载到 <code>Bridge</code> 上<br>
 <img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/17/uUUkO.png" alt="uUUkO.png"></p>
 <p>对于 IPTABLES 工作在 IPV4 和 IPV6 收到包，而收到包是在网卡接收到之后，所以在配置 <code>Iptables</code> 的时候，我们基于 <code>interface</code> 进行配置。</p>
-<h2 id="参考-v7"><a class="header-anchor" href="#参考-v7">¶</a>参考</h2>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.scottlowe.org/2013/09/04/introducing-linux-network-namespaces/">introducing-linux-network-namespaces</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.tecmint.com/12-tcpdump-commands-a-network-sniffer-tool/">Tcpdump Commands</a></li>
@@ -557,7 +557,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NAMESPACE"><span class="nav-number">1.</span> <span class="nav-text">NAMESPACE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">网络抓包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%87%86%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">镜像准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-Network-Namespace-Work"><span class="nav-number">4.</span> <span class="nav-text">How Network Namespace Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-v7"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="nav-number">6.</span> <span class="nav-text">TCP 标志位</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NAMESPACE"><span class="nav-number">1.</span> <span class="nav-text">NAMESPACE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">网络抓包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%87%86%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">镜像准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-Network-Namespace-Work"><span class="nav-number">4.</span> <span class="nav-text">How Network Namespace Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="nav-number">6.</span> <span class="nav-text">TCP 标志位</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -570,7 +570,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="前几日在和朋友讨论一个 Rust 的编程问题。">
@@ -322,7 +322,7 @@
 而正确的处理姿势是</p>
 <figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">foo</span> :: (<span class="keyword">forall</span> a. a -&gt; a) -&gt; (<span class="type">Char</span>,<span class="type">Bool</span>)</span><br><span class="line"><span class="title">foo</span> f = (f &#x27;c&#x27;, f <span class="type">True</span>)</span><br></pre></td></tr></table></figure>
 <p>我们把这里的 <code>bar</code> 称之为 <code>rank-1 type</code>，<code>foo</code> 称为 <code>rank-2 type</code>，那么就好理解对于 <code>rank-N type</code>了，可以支持任意类型的即可。</p>
-<h2 id="参考-v10"><a class="header-anchor" href="#参考-v10">¶</a>参考</h2>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.stephanboyer.com/post/115/higher-rank-and-higher-kinded-types">Higher-rank and higher-kinded types</a></li>
 <li><a target="_blank" rel="noopener" href="https://ocharles.org.uk/guest-posts/2014-12-18-rank-n-types.html">24 Days of GHC Extensions: Rank N Types</a></li>
@@ -470,7 +470,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">泛型函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Higher-rank-types"><span class="nav-number">2.</span> <span class="nav-text">Higher-rank types</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rank-1-polymorphism"><span class="nav-number">2.1.</span> <span class="nav-text">Rank-1 polymorphism</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rank-2-polymorphism"><span class="nav-number">2.2.</span> <span class="nav-text">Rank-2 polymorphism</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-v10"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">泛型函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Higher-rank-types"><span class="nav-number">2.</span> <span class="nav-text">Higher-rank types</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rank-1-polymorphism"><span class="nav-number">2.1.</span> <span class="nav-text">Rank-1 polymorphism</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rank-2-polymorphism"><span class="nav-number">2.2.</span> <span class="nav-text">Rank-2 polymorphism</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -483,7 +483,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -217,6 +217,99 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2022/03/17/go/generic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/17/go/generic/" class="post-title-link" itemprop="url">Go Generic</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-17 20:31:37" itemprop="dateCreated datePublished" datetime="2022-03-17T20:31:37+08:00">2022-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/generic/" itemprop="url" rel="index"><span itemprop="name">generic</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/03/17/go/generic/" class="post-meta-item leancloud_visitors" data-flag-title="Go Generic" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202203161135891.png" alt=""></p>
+<p>在最近发布的 <code>go 1.18</code> 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。<code>go</code> 的 <a target="_blank" rel="noopener" href="https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md">泛型提案</a> 本文大部分翻译从此。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/17/go/generic/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1031,7 +1124,7 @@
 <p>For My Lovely Wife</p>
 </blockquote>
 <!-- more --->
-<h2 id="环境准备-v2"><a class="header-anchor" href="#环境准备-v2">¶</a>环境准备</h2>
+<h2 id="环境准备"><a class="header-anchor" href="#环境准备">¶</a>环境准备</h2>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/RT-Thread/</span><br><span class="line"><span class="built_in">cd</span> rt-thread/bsp/qemu-vexpress-a9</span><br><span class="line">scons</span><br><span class="line">./run-qemu.sh</span><br></pre></td></tr></table></figure>
 <h2 id="Clock-时钟"><a class="header-anchor" href="#Clock-时钟">¶</a>Clock 时钟</h2>
 <blockquote>
@@ -1083,7 +1176,7 @@
 <p>信号量的定义非常的简单</p>
 <figure class="highlight c"><figcaption><span>rt_semaphore</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L683">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_semaphore</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_ipc_object</span> <span class="title">parent</span>;</span>                       <span class="comment">/* 继承自 ipc_object 类 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_uint16_t</span>          value;                         <span class="comment">/* 信号量的值 */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span>          reserved;                      <span class="comment">/* 保留 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>由 <code>IPC</code> 容器所管理，信号量的最大值是 <code>65535</code></p>
-<h4 id="How-it-works-v5"><a class="header-anchor" href="#How-it-works-v5">¶</a>How it works</h4>
+<h4 id="How-it-works"><a class="header-anchor" href="#How-it-works">¶</a>How it works</h4>
 <p>说起来信号量本来也只是一个普通变量，因此就是分配在内核中的一个变量，在 rt_sem_create 中</p>
 <figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L294">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_sem_t</span> <span class="title function_">rt_sem_create</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">rt_uint32_t</span> value, <span class="type">rt_uint8_t</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_sem_t</span> sem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 分配对象 */</span></span><br><span class="line">    sem = (<span class="type">rt_sem_t</span>)rt_object_allocate(RT_Object_Class_Semaphore, name);</span><br><span class="line">    <span class="keyword">if</span> (sem == RT_NULL)</span><br><span class="line">        <span class="keyword">return</span> sem;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化，其实就是 hook 到 内核 */</span></span><br><span class="line">    rt_ipc_object_init(&amp;(sem-&gt;parent));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始值 */</span></span><br><span class="line">    sem-&gt;value = value;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* set parent */</span></span><br><span class="line">    sem-&gt;parent.parent.flag = flag;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当我们创建了 信号量 之后，就可以通过 <code>rt_sem_take()</code> 和 <code>rt_sem_trytake()</code> 进行操作，我们一窥究竟</p>
@@ -1092,7 +1185,7 @@
 <h3 id="互斥量"><a class="header-anchor" href="#互斥量">¶</a>互斥量</h3>
 <p>互斥量相较于信号量来说，互斥量支持递归访问且能防止线程<a target="_blank" rel="noopener" href="https://docs.rt-thread.org/#/rt-thread-version/rt-thread-standard/programming-manual/ipc1/ipc1?id=%e4%ba%92%e6%96%a5%e9%87%8f%e5%b7%a5%e4%bd%9c%e6%9c%ba%e5%88%b6">优先级翻转</a>；并且互斥量只能由持有线程释放，而信号量则可以由任何线程释放。</p>
 <figure class="highlight c"><figcaption><span>rtdef.h</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L697">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_mutex</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_ipc_object</span> <span class="title">parent</span>;</span>                        <span class="comment">/**&lt; inherit from ipc_object */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span>          value;                         <span class="comment">/**&lt; value of mutex */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>           original_priority;             <span class="comment">/**&lt; priority of last thread hold the mutex */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>           hold;                          <span class="comment">/**&lt; numbers of thread hold the mutex */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span>    *<span class="title">owner</span>;</span>                         <span class="comment">/**&lt; current owner of mutex */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h4 id="How-it-works-v6"><a class="header-anchor" href="#How-it-works-v6">¶</a>How it works</h4>
+<h4 id="How-it-works-v2"><a class="header-anchor" href="#How-it-works-v2">¶</a>How it works</h4>
 <p>我们创建 <code>mutex</code> 如下</p>
 <figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L633">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_mutex_t</span> <span class="title function_">rt_mutex_create</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">rt_uint8_t</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_mutex</span> *<span class="title">mutex</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 在内核中分配对象 */</span></span><br><span class="line">    mutex = (<span class="type">rt_mutex_t</span>)rt_object_allocate(RT_Object_Class_Mutex, name);</span><br><span class="line">    <span class="keyword">if</span> (mutex == RT_NULL)</span><br><span class="line">        <span class="keyword">return</span> mutex;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化 */</span></span><br><span class="line">    rt_ipc_object_init(&amp;(mutex-&gt;parent));</span><br><span class="line"></span><br><span class="line">    mutex-&gt;value              = <span class="number">1</span>;</span><br><span class="line">    mutex-&gt;owner              = RT_NULL;</span><br><span class="line">    mutex-&gt;original_priority  = <span class="number">0xFF</span>;</span><br><span class="line">    mutex-&gt;hold               = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* set flag */</span></span><br><span class="line">    mutex-&gt;parent.parent.flag = flag;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mutex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当我们去 <code>rt_mutex_take</code> 获得一个 <code>mutex</code> 时候</p>
@@ -1104,7 +1197,7 @@
 <p>不过值得注意的，并不是将 <code>C</code> 直接放弃执行，给 <code>A</code> 执行，而是将 <code>C</code> 提升到 <code>A</code> 的优先级，从而保证在 <code>C</code> 释放锁之后，第一个执行的就是 <code>A</code>，而不是 <code>B</code></p>
 <h2 id="线程间通讯"><a class="header-anchor" href="#线程间通讯">¶</a>线程间通讯</h2>
 <p>我们完成了线程之间的锁，之后，我们可以进行线程间的通讯。<code>RT</code> 提供了一种 <code>mailbox</code> 机制</p>
-<h3 id="Mailbox-v2"><a class="header-anchor" href="#Mailbox-v2">¶</a>Mailbox</h3>
+<h3 id="Mailbox"><a class="header-anchor" href="#Mailbox">¶</a>Mailbox</h3>
 <figure class="highlight c"><figcaption><span>rtdef.h</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L735">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_mailbox</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_ipc_object</span> <span class="title">parent</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_uint32_t</span>* msg_pool;                <span class="comment">/* 邮箱缓冲区的开始地址 */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span> size;                     <span class="comment">/* 邮箱缓冲区的大小     */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_uint16_t</span> entry;                    <span class="comment">/* 邮箱中邮件的数目     */</span></span><br><span class="line">    <span class="type">rt_uint16_t</span> in_offset, out_offset;    <span class="comment">/* 邮箱缓冲的进出指针   */</span></span><br><span class="line">    <span class="type">rt_list_t</span> suspend_sender_thread;      <span class="comment">/* 发送线程的挂起等待队列 */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">rt_mailbox</span>* <span class="title">rt_mailbox_t</span>;</span></span><br></pre></td></tr></table></figure>
 <p>当我们需要发送消息的时候，就可以 <code>rt_mb_send_wait()</code> 与 <code>rt_mb_send()</code></p>
 <figure class="highlight c"><figcaption><span>ipc.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L1554">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">rt_err_t</span> <span class="title function_">rt_mb_send_wait</span><span class="params">(<span class="type">rt_mailbox_t</span> mb, <span class="type">rt_ubase_t</span> value, <span class="type">rt_int32_t</span> timeout)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">thread</span>;</span></span><br><span class="line">    <span class="keyword">register</span> <span class="type">rt_ubase_t</span> temp;</span><br><span class="line">    <span class="type">rt_uint32_t</span> tick_delta;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* initialize delta tick */</span></span><br><span class="line">    tick_delta = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/* get current thread */</span></span><br><span class="line">    thread = rt_thread_self();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* disable interrupt */</span></span><br><span class="line">    temp = rt_hw_interrupt_disable();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 如果满了 &amp; timeout 之后退出 */</span></span><br><span class="line">    <span class="keyword">if</span> (mb-&gt;entry == mb-&gt;size &amp;&amp; timeout == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        rt_hw_interrupt_enable(temp);</span><br><span class="line">        <span class="keyword">return</span> -RT_EFULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 邮箱满了 */</span></span><br><span class="line">    <span class="keyword">while</span> (mb-&gt;entry == mb-&gt;size)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//在事件没有 Timeout 的时候，我们就睡一下，等下次再重试</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 将消息放入即可 */</span></span><br><span class="line">    mb-&gt;msg_pool[mb-&gt;in_offset] = value;</span><br><span class="line">    <span class="comment">/* increase input offset */</span></span><br><span class="line">    ++ mb-&gt;in_offset;</span><br><span class="line">    <span class="keyword">if</span> (mb-&gt;in_offset &gt;= mb-&gt;size)</span><br><span class="line">        mb-&gt;in_offset = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(mb-&gt;entry &lt; RT_MB_ENTRY_MAX)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* increase message entry */</span></span><br><span class="line">        mb-&gt;entry ++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        rt_hw_interrupt_enable(temp); <span class="comment">/* enable interrupt */</span></span><br><span class="line">        <span class="keyword">return</span> -RT_EFULL; <span class="comment">/* value overflowed */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1145,95 +1238,6 @@
 <figure class="highlight c"><figcaption><span>drv_smc911x.c</span><a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/blob/13044b1e29/bsp/qemu-vexpress-a9/drivers/drv_smc911x.c">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> pbuf *<span class="title function_">smc911x_emac_rx</span><span class="params">(<span class="type">rt_device_t</span> dev)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pbuf</span>* <span class="title">p</span> =</span> RT_NULL;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">eth_device_smc911x</span> *<span class="title">emac</span>;</span></span><br><span class="line"></span><br><span class="line">    emac = SMC911X_EMAC_DEVICE(dev);</span><br><span class="line">    RT_ASSERT(emac != RT_NULL);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((smc911x_reg_read(emac, RX_FIFO_INF) &amp; RX_FIFO_INF_RXSUSED) &gt;&gt; <span class="number">16</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">uint32_t</span> status;</span><br><span class="line">        <span class="type">uint32_t</span> pktlen, tmplen;</span><br><span class="line"></span><br><span class="line">        status = smc911x_reg_read(emac, RX_STATUS_FIFO); <span class="comment">// 读取 FIFO 队列的状态</span></span><br><span class="line">        <span class="comment">/* get frame length */</span></span><br><span class="line">        pktlen = (status &amp; RX_STS_PKT_LEN) &gt;&gt; <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">        smc911x_reg_write(emac, RX_CFG, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        tmplen = (pktlen + <span class="number">3</span>) / <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* allocate pbuf */</span></span><br><span class="line">        p = pbuf_alloc(PBUF_RAW, tmplen * <span class="number">4</span>, PBUF_RAM);</span><br><span class="line">        <span class="keyword">if</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">uint32_t</span> *data = (<span class="type">uint32_t</span> *)p-&gt;payload;</span><br><span class="line">            <span class="keyword">while</span> (tmplen--)</span><br><span class="line">            &#123;</span><br><span class="line">                *data++ = smc911x_reg_read(emac, RX_DATA_FIFO);  <span class="comment">// 网卡的缓冲区获得数据</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 <code>init</code> 时候</p>
 <figure class="highlight c"><figcaption><span>smc911x_emac_init</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">rt_err_t</span> <span class="title function_">smc911x_emac_init</span><span class="params">(<span class="type">rt_device_t</span> dev)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="comment">/* Turn on Tx + Rx */</span></span><br><span class="line">    smc911x_enable(emac);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Interrupt on every received packet */</span></span><br><span class="line">    smc911x_reg_write(emac, FIFO_INT, <span class="number">0x01</span> &lt;&lt; <span class="number">8</span>);</span><br><span class="line">    smc911x_reg_write(emac, INT_EN, INT_EN_RDFL_EN | INT_EN_RSFL_EN);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* enable interrupt */</span></span><br><span class="line">    smc911x_reg_write(emac, INT_CFG, INT_CFG_IRQ_EN | INT_CFG_IRQ_POL | INT_CFG_IRQ_TYPE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 我们将 IRQ 注册了中断</span></span><br><span class="line">    rt_hw_interrupt_install(emac-&gt;irqno, smc911x_isr, emac, <span class="string">&quot;smc911x&quot;</span>);</span><br><span class="line">    rt_hw_interrupt_umask(emac-&gt;irqno);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yanick.xia">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yanick's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/09/proggramming/Rank-N-Types/" class="post-title-link" itemprop="url">Rank N Types</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-09 09:48:01" itemprop="dateCreated datePublished" datetime="2021-02-09T09:48:01+08:00">2021-02-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-11 21:34:21" itemprop="dateModified" datetime="2022-09-11T21:34:21+08:00">2022-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/proggramming/" itemprop="url" rel="index"><span itemprop="name">proggramming</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/02/09/proggramming/Rank-N-Types/" class="post-meta-item leancloud_visitors" data-flag-title="Rank N Types" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210209163003.png" alt=""></p>
-<p>前几日在和朋友讨论一个 <code>Rust</code> 的编程问题。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/09/proggramming/Rank-N-Types/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1316,7 +1320,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
