@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2022/11/07/networking/higress/higress/</loc>
+    
+    <lastmod>2022-11-07T04:04:20.640Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2022/10/31/networking/envoy/read-code/</loc>
     
     <lastmod>2022-11-02T13:24:21.273Z</lastmod>

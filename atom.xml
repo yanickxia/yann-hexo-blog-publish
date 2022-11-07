@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-11-02T13:24:21.273Z</updated>
+  <updated>2022-11-07T04:04:20.640Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How Higress Works</title>
+    <link href="http://blog.yanick.site/2022/11/07/networking/higress/higress/"/>
+    <id>http://blog.yanick.site/2022/11/07/networking/higress/higress/</id>
+    <published>2022-11-07T02:00:00.000Z</published>
+    <updated>2022-11-07T04:04:20.640Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211071002609.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;a href=&quot;https://mp.weixin.qq.com/s/vUkA4SeMVtG-genfP2b0ww&quot;&gt;阿里巴巴开源下一代云原生网关Higress：基于Envoy，支持Nginx Ingress零成本快速迁移&lt;/a&gt;中，介绍了阿里开源的云原生网关。&lt;br&gt;
+我们今天就来探索下，这个项目是做了什么，他又是怎么工作的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
+    
+      <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    
+    
+      <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
+    
+      <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
+    
+  </entry>
   
   <entry>
     <title>探索性阅读 Envoy</title>
@@ -486,27 +514,6 @@
       <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
     
       <category term="rt-thread" scheme="http://blog.yanick.site/tags/rt-thread/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rank N Types</title>
-    <link href="http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/"/>
-    <id>http://blog.yanick.site/2021/02/09/proggramming/Rank-N-Types/</id>
-    <published>2021-02-09T01:48:01.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210209163003.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;前几日在和朋友讨论一个 &lt;code&gt;Rust&lt;/code&gt; 的编程问题。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="proggramming" scheme="http://blog.yanick.site/categories/proggramming/"/>
-    
-    
-      <category term="proggramming" scheme="http://blog.yanick.site/tags/proggramming/"/>
     
   </entry>
   
