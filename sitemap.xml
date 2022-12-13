@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/</loc>
+    
+    <lastmod>2022-12-13T02:26:37.890Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2022/11/07/networking/higress/higress/</loc>
     
     <lastmod>2022-11-07T06:14:20.985Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>http://blog.yanick.site/2022/10/31/networking/envoy/read-code/</loc>
     
     <lastmod>2022-11-02T13:24:21.273Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/</loc>
-    
-    <lastmod>2022-10-21T06:09:19.309Z</lastmod>
     
   </url>
   
@@ -989,14 +989,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/07/29/go/interview/</loc>
+    <loc>http://blog.yanick.site/2017/01/20/game/how-to-code-gobang-in-c/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2017/01/20/game/how-to-code-gobang-in-c/</loc>
+    <loc>http://blog.yanick.site/2020/07/29/go/interview/</loc>
     
     <lastmod>2021-10-21T03:11:29.420Z</lastmod>
     

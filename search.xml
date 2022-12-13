@@ -429,6 +429,65 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
       </tags>
   </entry>
   <entry>
+    <title>如何用C语言写一个五子棋</title>
+    <url>/2017/01/20/game/how-to-code-gobang-in-c/</url>
+    <content><![CDATA[<p>为什么突然想起来写这么个东西，大概是有一天，突然想测试下自己的C语言到底还记得多少。<br>
+就找了年末没什么事情的时候，花了大概2个小时撸了一个这么个东西。<br>
+<a href="https://github.com/yannxia-self/renju-c">renju-c 源码下载</a></p>
+<span id="more"></span>
+<h2 id="我们需要怎么个东西"><a class="header-anchor" href="#我们需要怎么个东西">¶</a>我们需要怎么个东西</h2>
+<p>大概是我们需要一个黑框框里面能过下五子棋的东西。</p>
+<h2 id="完善需求"><a class="header-anchor" href="#完善需求">¶</a>完善需求</h2>
+<p>我们需要的是 能够双人进行五子棋游戏的一个小程序。</p>
+<h2 id="我的计划是"><a class="header-anchor" href="#我的计划是">¶</a>我的计划是</h2>
+<p>我需要这么几个函数</p>
+<ul>
+<li>显示棋盘</li>
+<li>下棋</li>
+<li>判断胜负</li>
+</ul>
+<h2 id="如何实现我的计划"><a class="header-anchor" href="#如何实现我的计划">¶</a>如何实现我的计划</h2>
+<p>简单的画了一个图</p>
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="border:1px solid #000;display:block;width:430px; height:400px;" src="https://www.processon.com/embed/5881d2bbe4b098bf4cee4a2a"></iframe>
+<h3 id="1-绘图的逻辑"><a class="header-anchor" href="#1-绘图的逻辑">¶</a>1. 绘图的逻辑</h3>
+<p>标准的五子棋是 19 x 19，那我们很直觉的使用一个二维数组.初始化都是 *，绘图直接打印出这个棋盘就好了。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> CHESSBOARD_SIZE 19 <span class="comment">//19 * 19 size</span></span></span><br><span class="line"><span class="type">char</span> chessboard[CHESSBOARD_SIZE][CHESSBOARD_SIZE]; <span class="comment">//整个棋盘</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; CHESSBOARD_SIZE; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; CHESSBOARD_SIZE; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            chessboard[i][j] = <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-判断的逻辑"><a class="header-anchor" href="#2-判断的逻辑">¶</a>2. 判断的逻辑</h3>
+<p>这个项目最复杂的就是判断如何成立了，我的逻辑是这样的。</p>
+<p>蓝色的在中间，就是我们需要判断的棋子，我们可以从 竖横的方向 和 斜的方向去判断是否有五个字。</p>
+<p>比如图示中，我们假设 蓝色点是 (a,b) 点，我们先从左侧找，最长的同色我们发现是2个，我们再向后找最长同色，我们发现是0个，那我们只有 2+1[自身] = 3 就是3个。</p>
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="border:1px solid #000;display:block;width:800px; height:400px;" src="https://www.processon.com/embed/5881d5bae4b049e795be4834"></iframe>
+<p>具体的参见代码</p>
+<h3 id="3-下棋的逻辑"><a class="header-anchor" href="#3-下棋的逻辑">¶</a>3. 下棋的逻辑</h3>
+<p>这个逻辑就不是很复杂，就是分为检测，不允许下在同一个位置，并且在棋盘内，就是一个Scanf的问题。</p>
+<h2 id="一些细枝末节"><a class="header-anchor" href="#一些细枝末节">¶</a>一些细枝末节</h2>
+<h3 id="1-关于清屏幕"><a class="header-anchor" href="#1-关于清屏幕">¶</a>1. 关于清屏幕</h3>
+<p>因为清屏幕是必须的··保证游戏的可玩性，一开始我调用了 system(“clear”) ,不过这里的问题有了，如果是在windows上，这个时候，我们唯一能做的就是是否能够在运行时判断操作性，不过好像做不到，<br>
+只能找到一个基于编译器的判断编译器的方式</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">clearscr</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _WIN32</span></span><br><span class="line">    system(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> defined(unix) || defined(__unix__) || defined(__unix) || (defined(__APPLE__) &amp;&amp; defined(__MACH__))</span></span><br><span class="line">    system(<span class="string">&quot;clear&quot;</span>);</span><br><span class="line"><span class="comment">//add some other OSes here if needed</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">error</span> <span class="string">&quot;OS not supported.&quot;</span></span></span><br><span class="line"><span class="comment">//you can also throw an exception indicating the function can&#x27;t be used</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-如何处理-0，0-点"><a class="header-anchor" href="#2-如何处理-0，0-点">¶</a>2. 如何处理 0，0 点</h3>
+<p>这个时候遇见的问题就是 左边偏移量是越界的怎么办，两个办法。</p>
+<ul>
+<li>把棋盘变成 30 * 30 ,我们只有中间 19*19</li>
+<li>处理越界下标都处理为 棋盘属性</li>
+</ul>
+<p>最后选择了第二种</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> <span class="title function_">get_piece</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (BETWEEN_IN_SIZE(x + <span class="number">1</span>) &amp;&amp; BETWEEN_IN_SIZE(y + <span class="number">1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> chessboard[x][y];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>算了完成了自己多年之前想做了一个东西，实际上的确不是很复杂。给C初学者了一点小小的启示。如果有问题可以在下面提或者在Github，我会尽量回答的。</p>
+<h2 id="Next"><a class="header-anchor" href="#Next">¶</a>Next</h2>
+<p>准备下次做一个自动下棋的AI，大家期待一下吧。撒花完结。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>C</category>
+        <category>Game</category>
+      </categories>
+      <tags>
+        <tag>C</tag>
+        <tag>Game</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go Generic</title>
     <url>/2022/03/17/go/generic/</url>
     <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202203161135891.png" alt=""></p>
@@ -1540,65 +1599,6 @@ convert() -&gt; getConverter() -&gt; this.converters.find(sourceType, targetType
       <tags>
         <tag>Java</tag>
         <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何用C语言写一个五子棋</title>
-    <url>/2017/01/20/game/how-to-code-gobang-in-c/</url>
-    <content><![CDATA[<p>为什么突然想起来写这么个东西，大概是有一天，突然想测试下自己的C语言到底还记得多少。<br>
-就找了年末没什么事情的时候，花了大概2个小时撸了一个这么个东西。<br>
-<a href="https://github.com/yannxia-self/renju-c">renju-c 源码下载</a></p>
-<span id="more"></span>
-<h2 id="我们需要怎么个东西"><a class="header-anchor" href="#我们需要怎么个东西">¶</a>我们需要怎么个东西</h2>
-<p>大概是我们需要一个黑框框里面能过下五子棋的东西。</p>
-<h2 id="完善需求"><a class="header-anchor" href="#完善需求">¶</a>完善需求</h2>
-<p>我们需要的是 能够双人进行五子棋游戏的一个小程序。</p>
-<h2 id="我的计划是"><a class="header-anchor" href="#我的计划是">¶</a>我的计划是</h2>
-<p>我需要这么几个函数</p>
-<ul>
-<li>显示棋盘</li>
-<li>下棋</li>
-<li>判断胜负</li>
-</ul>
-<h2 id="如何实现我的计划"><a class="header-anchor" href="#如何实现我的计划">¶</a>如何实现我的计划</h2>
-<p>简单的画了一个图</p>
-<iframe id="embed_dom" name="embed_dom" frameborder="0" style="border:1px solid #000;display:block;width:430px; height:400px;" src="https://www.processon.com/embed/5881d2bbe4b098bf4cee4a2a"></iframe>
-<h3 id="1-绘图的逻辑"><a class="header-anchor" href="#1-绘图的逻辑">¶</a>1. 绘图的逻辑</h3>
-<p>标准的五子棋是 19 x 19，那我们很直觉的使用一个二维数组.初始化都是 *，绘图直接打印出这个棋盘就好了。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> CHESSBOARD_SIZE 19 <span class="comment">//19 * 19 size</span></span></span><br><span class="line"><span class="type">char</span> chessboard[CHESSBOARD_SIZE][CHESSBOARD_SIZE]; <span class="comment">//整个棋盘</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; CHESSBOARD_SIZE; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; CHESSBOARD_SIZE; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            chessboard[i][j] = <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-判断的逻辑"><a class="header-anchor" href="#2-判断的逻辑">¶</a>2. 判断的逻辑</h3>
-<p>这个项目最复杂的就是判断如何成立了，我的逻辑是这样的。</p>
-<p>蓝色的在中间，就是我们需要判断的棋子，我们可以从 竖横的方向 和 斜的方向去判断是否有五个字。</p>
-<p>比如图示中，我们假设 蓝色点是 (a,b) 点，我们先从左侧找，最长的同色我们发现是2个，我们再向后找最长同色，我们发现是0个，那我们只有 2+1[自身] = 3 就是3个。</p>
-<iframe id="embed_dom" name="embed_dom" frameborder="0" style="border:1px solid #000;display:block;width:800px; height:400px;" src="https://www.processon.com/embed/5881d5bae4b049e795be4834"></iframe>
-<p>具体的参见代码</p>
-<h3 id="3-下棋的逻辑"><a class="header-anchor" href="#3-下棋的逻辑">¶</a>3. 下棋的逻辑</h3>
-<p>这个逻辑就不是很复杂，就是分为检测，不允许下在同一个位置，并且在棋盘内，就是一个Scanf的问题。</p>
-<h2 id="一些细枝末节"><a class="header-anchor" href="#一些细枝末节">¶</a>一些细枝末节</h2>
-<h3 id="1-关于清屏幕"><a class="header-anchor" href="#1-关于清屏幕">¶</a>1. 关于清屏幕</h3>
-<p>因为清屏幕是必须的··保证游戏的可玩性，一开始我调用了 system(“clear”) ,不过这里的问题有了，如果是在windows上，这个时候，我们唯一能做的就是是否能够在运行时判断操作性，不过好像做不到，<br>
-只能找到一个基于编译器的判断编译器的方式</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">clearscr</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _WIN32</span></span><br><span class="line">    system(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> defined(unix) || defined(__unix__) || defined(__unix) || (defined(__APPLE__) &amp;&amp; defined(__MACH__))</span></span><br><span class="line">    system(<span class="string">&quot;clear&quot;</span>);</span><br><span class="line"><span class="comment">//add some other OSes here if needed</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">error</span> <span class="string">&quot;OS not supported.&quot;</span></span></span><br><span class="line"><span class="comment">//you can also throw an exception indicating the function can&#x27;t be used</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-如何处理-0，0-点"><a class="header-anchor" href="#2-如何处理-0，0-点">¶</a>2. 如何处理 0，0 点</h3>
-<p>这个时候遇见的问题就是 左边偏移量是越界的怎么办，两个办法。</p>
-<ul>
-<li>把棋盘变成 30 * 30 ,我们只有中间 19*19</li>
-<li>处理越界下标都处理为 棋盘属性</li>
-</ul>
-<p>最后选择了第二种</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> <span class="title function_">get_piece</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (BETWEEN_IN_SIZE(x + <span class="number">1</span>) &amp;&amp; BETWEEN_IN_SIZE(y + <span class="number">1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> chessboard[x][y];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
-<p>算了完成了自己多年之前想做了一个东西，实际上的确不是很复杂。给C初学者了一点小小的启示。如果有问题可以在下面提或者在Github，我会尽量回答的。</p>
-<h2 id="Next"><a class="header-anchor" href="#Next">¶</a>Next</h2>
-<p>准备下次做一个自动下棋的AI，大家期待一下吧。撒花完结。</p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>C</category>
-        <category>Game</category>
-      </categories>
-      <tags>
-        <tag>C</tag>
-        <tag>Game</tag>
       </tags>
   </entry>
   <entry>
@@ -4660,6 +4660,36 @@ The designers were primarily motivated by their shareddislike of C++.</li>
       </categories>
   </entry>
   <entry>
+    <title>Learn By Game&amp;#58 01 环境准备</title>
+    <url>/2021/01/24/game/learn-by-game/learn-by-game-01/</url>
+    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124180700.png" alt=""></p>
+<p>因为女票只想使用 <code>Java</code> 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。</p>
+<span id="more"></span>
+<h2 id="环境准备"><a class="header-anchor" href="#环境准备">¶</a>环境准备</h2>
+<p><code>Java</code> 届最出名的游戏框架显然是 <a href="https://libgdx.badlogicgames.com/download.html">libGDX</a>，我们从 <a href="https://libgdx.badlogicgames.com/download.html">download</a> 下载 <a href="https://libgdx.badlogicgames.com/nightlies/dist/gdx-setup.jar">Setup App</a></p>
+<p>在下载完成之后</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar gdx-setup.jar</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124181306.png" alt=""></p>
+<h2 id="创建项目模板"><a class="header-anchor" href="#创建项目模板">¶</a>创建项目模板</h2>
+<p>使用如下参数创建</p>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124181845.png" alt=""></p>
+<h2 id="导入项目-运行"><a class="header-anchor" href="#导入项目-运行">¶</a>导入项目 &amp; 运行</h2>
+<p>我们导入项目，然后使用 <code>Main</code> 执行运行，见到如下图所示，作为我们项目的基础</p>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124182136.png" alt=""></p>
+<h2 id="目标"><a class="header-anchor" href="#目标">¶</a>目标</h2>
+<p>我们做一个打飞机的小游戏</p>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124182544.png" alt=""></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>自学</category>
+        <category>Game</category>
+      </categories>
+      <tags>
+        <tag>Game</tag>
+        <tag>自学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>微服务框架 - 2020</title>
     <url>/2020/07/19/java/microservice/new-mircoservice-framework/</url>
     <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
@@ -6384,36 +6414,6 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
         <category>kotlin</category>
         <category>easy-way-to-kotlin-for-java-programer</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Learn By Game&amp;#58 01 环境准备</title>
-    <url>/2021/01/24/game/learn-by-game/learn-by-game-01/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124180700.png" alt=""></p>
-<p>因为女票只想使用 <code>Java</code> 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。</p>
-<span id="more"></span>
-<h2 id="环境准备"><a class="header-anchor" href="#环境准备">¶</a>环境准备</h2>
-<p><code>Java</code> 届最出名的游戏框架显然是 <a href="https://libgdx.badlogicgames.com/download.html">libGDX</a>，我们从 <a href="https://libgdx.badlogicgames.com/download.html">download</a> 下载 <a href="https://libgdx.badlogicgames.com/nightlies/dist/gdx-setup.jar">Setup App</a></p>
-<p>在下载完成之后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar gdx-setup.jar</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124181306.png" alt=""></p>
-<h2 id="创建项目模板"><a class="header-anchor" href="#创建项目模板">¶</a>创建项目模板</h2>
-<p>使用如下参数创建</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124181845.png" alt=""></p>
-<h2 id="导入项目-运行"><a class="header-anchor" href="#导入项目-运行">¶</a>导入项目 &amp; 运行</h2>
-<p>我们导入项目，然后使用 <code>Main</code> 执行运行，见到如下图所示，作为我们项目的基础</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124182136.png" alt=""></p>
-<h2 id="目标"><a class="header-anchor" href="#目标">¶</a>目标</h2>
-<p>我们做一个打飞机的小游戏</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124182544.png" alt=""></p>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>自学</category>
-        <category>Game</category>
-      </categories>
-      <tags>
-        <tag>自学</tag>
-        <tag>Game</tag>
-      </tags>
   </entry>
   <entry>
     <title>使用 Rust 为 Envoy 构建插件</title>
@@ -12236,6 +12236,14 @@ NIO模型基于Reactor模型</p>
 <p>对于不同的资源产生的方式采用了不同的方式实现。<br>
 比如 NDS 就是用来处理 DNS 的规则</p>
 <figure class="highlight go"><figcaption><span>NDS</span><a href="https://github.com/istio/istio/blob/202e88863858342eeb0206944e9d277a545eb194/pilot/pkg/xds/nds.go#L31-L31">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> NdsGenerator <span class="keyword">struct</span> &#123;</span><br><span class="line">   Server *DiscoveryServer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n NdsGenerator)</span></span> Generate(proxy *model.Proxy, push *model.PushContext, w *model.WatchedResource,</span><br><span class="line">   req *model.PushRequest) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">if</span> !ndsNeedsPush(req) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">   &#125;</span><br><span class="line">   nt := n.Server.ConfigGenerator.BuildNameTable(proxy, push)</span><br><span class="line">   <span class="keyword">if</span> nt == <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">   &#125;</span><br><span class="line">   resources := model.Resources&#123;&amp;discovery.Resource&#123;Resource: util.MessageToAny(nt)&#125;&#125;</span><br><span class="line">   <span class="keyword">return</span> resources, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211111042177.png" alt=""></p>
+<h3 id="Proxyelss-ConfigGenerator"><a class="header-anchor" href="#Proxyelss-ConfigGenerator">¶</a>Proxyelss ConfigGenerator</h3>
+<p>在充满私货的 <a href="https://cloud.google.com/traffic-director/docs/proxyless-overview">无代理 gRPC 服务的 Traffic Director</a>  中，谷歌为 <code>istiod</code> 增加了对 <code>Proxyless</code> 的支持，我们来看看这是如何实现的。</p>
+<p>我们既然知道了 istio 提供了生成的抽象，我们自然可以从 <code>XdsResourceGenerator</code> 入手，快速的定位 grpc 的配置生成的地方。</p>
+<figure class="highlight go"><figcaption><span>Generate</span><a href="https://github.com/istio/istio/blob/1dbd193cf990ce42810b2627d2251f0ad67d496a/pilot/pkg/networking/grpcgen/grpcgen.go#L56-L69">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *GrpcConfigGenerator)</span></span> Generate(proxy *model.Proxy, push *model.PushContext,</span><br><span class="line">	w *model.WatchedResource, updates *model.PushRequest) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildListeners(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildClusters(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.RouteType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildHTTPRoutes(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然在 <code>LDS</code> <code>CDS</code> 之外新增了一种新的 <code>XDS</code> 类型。</p>
+<figure class="highlight go"><figcaption><span>InitGenerators</span><a href="https://github.com/istio/istio/blob/1dbd193cf990ce42810b2627d2251f0ad67d496a/pilot/pkg/xds/discovery.go#L590-L595">github</a></figcaption><table><tr><td class="code"><pre><span class="line">s.Generators[<span class="string">&quot;grpc&quot;</span>] = &amp;grpcgen.GrpcConfigGenerator&#123;&#125;</span><br><span class="line">s.Generators[<span class="string">&quot;grpc/&quot;</span>+v3.EndpointType] = edsGen</span><br><span class="line">s.Generators[<span class="string">&quot;grpc/&quot;</span>+v3.ListenerType] = s.Generators[<span class="string">&quot;grpc&quot;</span>]</span><br><span class="line">s.Generators[<span class="string">&quot;grpc/&quot;</span>+v3.RouteType] = s.Generators[<span class="string">&quot;grpc&quot;</span>]</span><br><span class="line">s.Generators[<span class="string">&quot;grpc/&quot;</span>+v3.ClusterType] = s.Generators[<span class="string">&quot;grpc&quot;</span>]</span><br></pre></td></tr></table></figure>
+<p>根据子类型，我们显然知道了，<code>Proxyless GRPC</code> 会关注 <code>Listener</code> <code>Route</code> 和 <code>Cluster</code> <code>Endopint</code> 这四个类型。</p>
 <h2 id="XDS"><a class="header-anchor" href="#XDS">¶</a>XDS</h2>
 <p>从上面的 数据源 和 XdsResourceGenerator  中我们已经得知了系统是如何从 各种配置+数据变化为 XDS 资源的。<br>
 那下步就是如何将数据推送到各个实例上，这里就涉及到 PushContext</p>
