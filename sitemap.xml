@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/</loc>
+    
+    <lastmod>2023-01-20T01:19:15.876Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/</loc>
     
     <lastmod>2022-12-13T02:26:37.890Z</lastmod>

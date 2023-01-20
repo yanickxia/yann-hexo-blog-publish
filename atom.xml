@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2022-11-07T06:14:20.985Z</updated>
+  <updated>2023-01-20T01:19:15.876Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>istio locality load balancing not working</title>
+    <link href="http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/"/>
+    <id>http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/</id>
+    <published>2023-01-20T04:28:41.000Z</published>
+    <updated>2023-01-20T01:19:15.876Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202301200907733.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;首先我们知道 isito 是支持 地域路由的，比较同地域优先。&lt;a href=&quot;https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/&quot;&gt;istio locality-load-balancing&lt;/a&gt; 但是此文档缺失验证，本篇意在从 Inside 来看看是是怎么工作的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+  </entry>
   
   <entry>
     <title>How Higress Works</title>
@@ -483,37 +504,6 @@
       <category term="go" scheme="http://blog.yanick.site/tags/go/"/>
     
       <category term="opentelemetry" scheme="http://blog.yanick.site/tags/opentelemetry/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RT-Thread 简明阅读</title>
-    <link href="http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/"/>
-    <id>http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/</id>
-    <published>2021-03-25T05:46:07.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325155834.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;对于一个&lt;code&gt;软件工程师&lt;/code&gt;来说，我并不是很关心
-        
-      
-    
-    </summary>
-    
-      <category term="os" scheme="http://blog.yanick.site/categories/os/"/>
-    
-      <category term="rt-thread" scheme="http://blog.yanick.site/categories/os/rt-thread/"/>
-    
-    
-      <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
-    
-      <category term="rt-thread" scheme="http://blog.yanick.site/tags/rt-thread/"/>
     
   </entry>
   
