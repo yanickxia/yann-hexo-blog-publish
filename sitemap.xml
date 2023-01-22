@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2023/01/22/os/run-linux-in-qemu/</loc>
+    
+    <lastmod>2023-01-22T12:59:17.160Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/</loc>
     
     <lastmod>2023-01-20T01:19:15.876Z</lastmod>

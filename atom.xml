@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2023-01-20T01:19:15.876Z</updated>
+  <updated>2023-01-22T12:59:17.160Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 QEMU 运行 Linux kernel</title>
+    <link href="http://blog.yanick.site/2023/01/22/os/run-linux-in-qemu/"/>
+    <id>http://blog.yanick.site/2023/01/22/os/run-linux-in-qemu/</id>
+    <published>2023-01-22T02:09:07.000Z</published>
+    <updated>2023-01-22T12:59:17.160Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://images.upyun.yanick.site/2022/202301222056140.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;让我们使用 qemu 来运行 Linux 吧。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
+    
+      <category term="os" scheme="http://blog.yanick.site/categories/linux/os/"/>
+    
+      <category term="qemu" scheme="http://blog.yanick.site/categories/linux/os/qemu/"/>
+    
+    
+      <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
+    
+      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
+    
+      <category term="qemu" scheme="http://blog.yanick.site/tags/qemu/"/>
+    
+  </entry>
   
   <entry>
     <title>istio locality load balancing not working</title>
@@ -479,31 +508,6 @@
     
     
       <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Opentelemetry Collector 源码解读</title>
-    <link href="http://blog.yanick.site/2021/03/26/go/ot/"/>
-    <id>http://blog.yanick.site/2021/03/26/go/ot/</id>
-    <published>2021-03-26T05:46:07.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326194325.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;opentelemetry&lt;/code&gt; 作为 &lt;code&gt;CNCF&lt;/code&gt; 社区的全新项目，最为核心的就是 &lt;code&gt;Collector&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
-    
-      <category term="opentelemetry" scheme="http://blog.yanick.site/categories/go/opentelemetry/"/>
-    
-    
-      <category term="go" scheme="http://blog.yanick.site/tags/go/"/>
-    
-      <category term="opentelemetry" scheme="http://blog.yanick.site/tags/opentelemetry/"/>
     
   </entry>
   

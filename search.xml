@@ -2525,6 +2525,56 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
       </tags>
   </entry>
   <entry>
+    <title>使用 QEMU 运行 Linux kernel</title>
+    <url>/2023/01/22/os/run-linux-in-qemu/</url>
+    <content><![CDATA[<p><img src="https://images.upyun.yanick.site/2022/202301222056140.png" alt=""></p>
+<p>让我们使用 qemu 来运行 Linux 吧。</p>
+<span id="more"></span>
+<h2 id="安装-QEMU"><a class="header-anchor" href="#安装-QEMU">¶</a>安装 QEMU</h2>
+<p>首选安装 QEMU，如果不是 x86 就改成自己的架构。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install gqemu-system-x86</span><br></pre></td></tr></table></figure>
+<h2 id="下载-Linux-Kernel-和编译"><a class="header-anchor" href="#下载-Linux-Kernel-和编译">¶</a>下载 Linux Kernel 和编译</h2>
+<ol>
+<li>先下载 Linux，这里选择一个自己的版本</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.54.tar.xz</span><br><span class="line">tar xvf linux-5.10.54.tar.xz</span><br><span class="line"><span class="built_in">cd</span> linux-5.10.54</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>构建linux</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make defconfig <span class="comment"># 创建默认配置</span></span><br><span class="line">make kvmconfig <span class="comment"># 设置 QEMU 相关的编译配置</span></span><br><span class="line">make olddefconfig</span><br><span class="line"></span><br><span class="line">make -j`<span class="built_in">nproc</span>` <span class="comment"># nproc 使用的编译线程</span></span><br></pre></td></tr></table></figure>
+<p>最终执行完成之后，就会有一个内核镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ls</span> <span class="built_in">arch</span>/x86_64/boot/bzImage</span><br></pre></td></tr></table></figure>
+<h2 id="RootFS"><a class="header-anchor" href="#RootFS">¶</a>RootFS</h2>
+<p>这有一个 <a href="https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md">https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md</a> 构建博客指导。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install debootstrap</span><br><span class="line"><span class="built_in">mkdir</span> image &amp;&amp; <span class="built_in">cd</span> image</span><br><span class="line">wget https://raw.githubusercontent.com/google/syzkaller/master/tools/create-image.sh -O create-image.sh</span><br><span class="line"><span class="built_in">chmod</span> +x create-image.sh</span><br><span class="line">./create-image.sh</span><br></pre></td></tr></table></figure>
+<p>这里默认去默认的源下载，这里如果在国内，修改 <a href="http://create-image.sh">create-image.sh</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># riscv64 is hosted in the debian-ports repository</span></span><br><span class="line"><span class="comment"># debian-ports doesn&#x27;t include non-free, so we exclude firmware-atheros</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$DEBARCH</span> == <span class="string">&quot;riscv64&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    DEBOOTSTRAP_PARAMS=<span class="string">&quot;--keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg --exclude firmware-atheros <span class="variable">$DEBOOTSTRAP_PARAMS</span> http://deb.debian.org/debian-ports&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">sudo debootstrap <span class="variable">$DEBOOTSTRAP_PARAMS</span> &lt;这里填入相对应的Mirrors地址&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo debootstrap <span class="variable">$DEBOOTSTRAP_PARAMS</span> https://mirrors.ustc.edu.cn/debian/</span><br></pre></td></tr></table></figure>
+<h2 id="运行-Kenerl"><a class="header-anchor" href="#运行-Kenerl">¶</a>运行 Kenerl</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">        -m 2G \</span><br><span class="line">        -smp 2 \</span><br><span class="line">        -kernel <span class="variable">$1</span>/arch/x86/boot/bzImage \</span><br><span class="line">        -append <span class="string">&quot;console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0 nokaslr&quot;</span> \</span><br><span class="line">        -drive file=<span class="variable">$2</span>/stretch.img,format=raw \</span><br><span class="line">        -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \</span><br><span class="line">        -net nic,model=e1000 \</span><br><span class="line">        -enable-kvm \</span><br><span class="line">        -nographic \</span><br><span class="line">        -pidfile vm.pid </span><br></pre></td></tr></table></figure>
+<p>如果在虚拟机中执行，去除 <code>-enable-kvm</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x run.sh</span><br><span class="line">./run.sh . image/</span><br></pre></td></tr></table></figure>
+<h2 id="从外部访问"><a class="header-anchor" href="#从外部访问">¶</a>从外部访问</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在QEMU 内</span></span><br><span class="line">service ssh restart</span><br></pre></td></tr></table></figure>
+<p>然后在本机执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -i image/stretch.id_rsa -p 10021 -o <span class="string">&quot;StrictHostKeyChecking no&quot;</span> root@localhost</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
+<ul>
+<li><a href="https://vccolombo.github.io/cybersecurity/linux-kernel-qemu-setup/">Linux kernel QEMU setup</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>os</category>
+        <category>qemu</category>
+      </categories>
+      <tags>
+        <tag>os</tag>
+        <tag>linux</tag>
+        <tag>qemu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>chameleon项目安利</title>
     <url>/2016/12/07/other/about-chameleon/</url>
     <content><![CDATA[<p>chameleon(变色龙) 是一个Java的Bean Converter轮子，实现注解化类型转换。</p>
@@ -6416,6 +6466,28 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
       </categories>
   </entry>
   <entry>
+    <title>Envoy Filters</title>
+    <url>/2022/04/27/networking/envoy/filters/</url>
+    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202204271957129.png" alt=""></p>
+<p>今天我们来聊聊，Envoy 中最重要的抽象 <code>Filter</code></p>
+<span id="more"></span>
+<h2 id="FilterChainManager"><a class="header-anchor" href="#FilterChainManager">¶</a>FilterChainManager</h2>
+<p>书接上文 <a href="/2020/04/21/networking/around-envoy/">Around Envoy</a> 我们已知 <code>Envoy</code> 是一个基于 <code>FilterChain</code> 的系统。</p>
+<p><code>Envoy</code> 做了简单的抽象，把 <code>Filter</code> 相关的逻辑都至于 <a href="https://github.com/envoyproxy/envoy/blob/release%2Fv1.21/include/envoy/network/filter.h#L13">filter.h</a> 中，在这个简单的抽象中，我们可以发现</p>
+<figure class="highlight cpp"><figcaption><span>Filter</span><a href="https://github.com/envoyproxy/envoy/blob/main/envoy/network/filter.h#L209">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Filter</span> : <span class="keyword">public</span> WriteFilter, <span class="keyword">public</span> ReadFilter &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>Filter</code> 这层抽象就是由 <code>WriteFilter</code> 和 <code>ReadFilter</code> 组合而来</p>
+<figure class="highlight cpp"><figcaption><span>ReadFilter</span><a href="https://github.com/envoyproxy/envoy/blob/release%2Fv1.21/envoy/network/filter.h#L168-L201">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ReadFilter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">ReadFilter</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 流式处理数据读取</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> FilterStatus <span class="title">onData</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span> end_stream)</span> PURE</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 建立链接时触发一次</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> FilterStatus <span class="title">onNewConnection</span><span class="params">()</span> PURE</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化 Callback，这个主要是给 Filter manager 来处理</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">initializeReadFilterCallbacks</span><span class="params">(ReadFilterCallbacks&amp; callbacks)</span> PURE</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WriteFilter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">WriteFilter</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 流式处理数据写入</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> FilterStatus <span class="title">onWrite</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span> end_stream)</span> PURE</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化 Callback</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">initializeWriteFilterCallbacks</span><span class="params">(WriteFilterCallbacks&amp;)</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>网络编程</category>
+        <category>API</category>
+        <category>Gateway</category>
+      </categories>
+      <tags>
+        <tag>API</tag>
+        <tag>Gateway</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用 Rust 为 Envoy 构建插件</title>
     <url>/2020/10/30/networking/envoy/build-plugin-for-envoy-by-rust/</url>
     <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/10/30/NaNFT.png" alt="NaNFT.png"></p>
@@ -6511,28 +6583,6 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
       <tags>
         <tag>rust</tag>
         <tag>envoy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Envoy Filters</title>
-    <url>/2022/04/27/networking/envoy/filters/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202204271957129.png" alt=""></p>
-<p>今天我们来聊聊，Envoy 中最重要的抽象 <code>Filter</code></p>
-<span id="more"></span>
-<h2 id="FilterChainManager"><a class="header-anchor" href="#FilterChainManager">¶</a>FilterChainManager</h2>
-<p>书接上文 <a href="/2020/04/21/networking/around-envoy/">Around Envoy</a> 我们已知 <code>Envoy</code> 是一个基于 <code>FilterChain</code> 的系统。</p>
-<p><code>Envoy</code> 做了简单的抽象，把 <code>Filter</code> 相关的逻辑都至于 <a href="https://github.com/envoyproxy/envoy/blob/release%2Fv1.21/include/envoy/network/filter.h#L13">filter.h</a> 中，在这个简单的抽象中，我们可以发现</p>
-<figure class="highlight cpp"><figcaption><span>Filter</span><a href="https://github.com/envoyproxy/envoy/blob/main/envoy/network/filter.h#L209">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Filter</span> : <span class="keyword">public</span> WriteFilter, <span class="keyword">public</span> ReadFilter &#123;&#125;;</span><br></pre></td></tr></table></figure>
-<p><code>Filter</code> 这层抽象就是由 <code>WriteFilter</code> 和 <code>ReadFilter</code> 组合而来</p>
-<figure class="highlight cpp"><figcaption><span>ReadFilter</span><a href="https://github.com/envoyproxy/envoy/blob/release%2Fv1.21/envoy/network/filter.h#L168-L201">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ReadFilter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">ReadFilter</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 流式处理数据读取</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> FilterStatus <span class="title">onData</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span> end_stream)</span> PURE</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 建立链接时触发一次</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> FilterStatus <span class="title">onNewConnection</span><span class="params">()</span> PURE</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化 Callback，这个主要是给 Filter manager 来处理</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">initializeReadFilterCallbacks</span><span class="params">(ReadFilterCallbacks&amp; callbacks)</span> PURE</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WriteFilter</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">WriteFilter</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 流式处理数据写入</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> FilterStatus <span class="title">onWrite</span><span class="params">(Buffer::Instance&amp; data, <span class="type">bool</span> end_stream)</span> PURE</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化 Callback</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">initializeWriteFilterCallbacks</span><span class="params">(WriteFilterCallbacks&amp;)</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>网络编程</category>
-        <category>API</category>
-        <category>Gateway</category>
-      </categories>
-      <tags>
-        <tag>API</tag>
-        <tag>Gateway</tag>
       </tags>
   </entry>
   <entry>
