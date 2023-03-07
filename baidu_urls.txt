@@ -1,5 +1,5 @@
+http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/
 http://blog.yanick.site/2023/01/22/os/run-linux-in-qemu/
 http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/
 http://blog.yanick.site/2022/11/07/networking/higress/higress/
 http://blog.yanick.site/2022/10/31/networking/envoy/read-code/
-http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/

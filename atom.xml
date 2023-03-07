@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2023-01-22T12:59:17.160Z</updated>
+  <updated>2023-03-07T09:39:17.883Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Rust Ztunnel 源码分析</title>
+    <link href="http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/"/>
+    <id>http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/</id>
+    <published>2023-03-07T09:38:10.000Z</published>
+    <updated>2023-03-07T09:39:17.883Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202303071736740.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;推荐在阅读前，先阅读下&lt;a href=&quot;https://istio.io/latest/blog/2023/rust-based-ztunnel/&quot;&gt;Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+      <category term="ambient" scheme="http://blog.yanick.site/categories/istio/ambient/"/>
+    
+    
+      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+      <category term="ambient" scheme="http://blog.yanick.site/tags/ambient/"/>
+    
+  </entry>
   
   <entry>
     <title>使用 QEMU 运行 Linux kernel</title>
@@ -484,30 +509,6 @@
     
       <category term="rust" scheme="http://blog.yanick.site/categories/go/rust/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>New Features in Java 9,10,11</title>
-    <link href="http://blog.yanick.site/2021/04/24/java/other/java11/"/>
-    <id>http://blog.yanick.site/2021/04/24/java/other/java11/</id>
-    <published>2021-04-24T02:29:48.000Z</published>
-    <updated>2021-10-21T03:11:29.424Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://s3.jpg.cm/2021/04/24/aSn1L.png&quot; alt=&quot;aSn1L.png&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Java 11 is the first long-term support (LTS) release after Java 8. Oracle also stopped supporting Java 8 in January 2019. As a consequence, a lot of us will upgrade to Java 11.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;作为 &lt;code&gt;8&lt;/code&gt; 之后的 &lt;code&gt;LTS&lt;/code&gt; 版本，让我们来快速学习一下吧&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://blog.yanick.site/categories/java/"/>
-    
-    
-      <category term="java" scheme="http://blog.yanick.site/tags/java/"/>
     
   </entry>
   
