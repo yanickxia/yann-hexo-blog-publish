@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2023-03-07T09:39:17.883Z</updated>
+  <updated>2023-05-17T06:14:17.018Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How Merbridge Works</title>
+    <link href="http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/"/>
+    <id>http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/</id>
+    <published>2023-05-17T02:38:10.000Z</published>
+    <updated>2023-05-17T06:14:17.018Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在 &lt;a href=&quot;https://mp.weixin.qq.com/s/Ht1HuLxQ2RngrVD92TBl4Q&quot;&gt;服务网格加速器 Merbridge 正式进入 CNCF 沙箱&lt;/a&gt; 中提及使用 Cillum 来提速
+        
+      
+    
+    </summary>
+    
+      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+      <category term="merbridge" scheme="http://blog.yanick.site/categories/istio/merbridge/"/>
+    
+    
+      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+      <category term="merbridge" scheme="http://blog.yanick.site/tags/merbridge/"/>
+    
+  </entry>
   
   <entry>
     <title>Rust Ztunnel 源码分析</title>
@@ -488,27 +518,6 @@
     
     
       <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go Impossible Missions</title>
-    <link href="http://blog.yanick.site/2021/04/30/go/go-impossible-missions/"/>
-    <id>http://blog.yanick.site/2021/04/30/go/go-impossible-missions/</id>
-    <published>2021-04-30T02:31:37.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210430161943.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;主要就是为了吐槽 &lt;code&gt;GO&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/go/rust/"/>
-    
     
   </entry>
   

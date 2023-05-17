@@ -4740,184 +4740,6 @@ The designers were primarily motivated by their shareddislike of C++.</li>
       </tags>
   </entry>
   <entry>
-    <title>微服务框架 - 2020</title>
-    <url>/2020/07/19/java/microservice/new-mircoservice-framework/</url>
-    <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
-<p>在 <a href="2020/06/20/java/other/2020-new-direction/">Java社区的新方向</a> 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。</p>
-<span id="more"></span>
-<h1>Spring Boot/Cloud</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
-<p><code>Spring Boot</code> 和 <code>Spring Cloud</code> 现阶段仍是最大的微服务框架。大多数读者对其都很熟悉，我们就以 <code>Spring Boot</code> 为标杆，来和其他的框架进行对比。</p>
-<p>在最终的 <code>雷达图</code> 中，我们会对比这几种框架的 <code>制品大小</code> <code>启动速度</code> <code>功能性</code> <code>性能</code> 这几个指标。在每个新框架内尽可能举一些比较生动的 DEMO 给大家进行参考。</p>
-<h1>Eclipse Vert.X</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
-<p><a href="https://vertx.io/"><code>Vert.X</code></a> 如果说起来可能比微服务还略早一些，笔者也曾经为其中文社区翻译过文档，<code>Vert.X</code> 社区因为觉得 <code>Spring</code> 还是太重量级了，对于现在的软件开发来说，我们可能需要的仅仅是一组工具，因此推出了此框架：</p>
-<blockquote>
-<p>Eclipse Vert.x is a <code>tool-kit</code> for building <code>reactive</code> applications on the JVM.</p>
-</blockquote>
-<p>重点也给大家标红了 <code>tool-kit</code> 和 <code>reactive</code> 是他的最为重要的特征，除此之外</p>
-<ul>
-<li>轻量级：Core部分代码只有 700kb 左右</li>
-<li>快速：<a href="https://www.techempower.com/benchmarks/">techempower benchmarks</a> java 社区少数能打的、</li>
-<li>模块化： Vertx的模块化做的非常好，不像 SpringCloud属于拼凑式的模块化</li>
-</ul>
-<h2 id="Verticles"><a class="header-anchor" href="#Verticles">¶</a>Verticles</h2>
-<p><code>Vert.X</code> 比较有趣的基于一种名为 <code>Verticle</code> 的对象进行编程，我们编写函数入口/对象 都是一种 <code>Verticle</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyVerticle</span> <span class="keyword">extends</span> <span class="title class_">AbstractVerticle</span> &#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Called when verticle is deployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">start</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Optional - called when verticle is undeployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stop</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>因此在设计之处，<code>Vertx</code> 已经考虑到 <code>Hotrestart</code>，对于开发者更容易理解。<code>Verticle</code> 之间的通讯又有点类似于 <code>Actor</code> 的通讯机制，不过值得注意的，<code>Core</code> 部分是不提供跨主机调研的，只能在同一个 <code>Verticle Deployment</code> 进行通讯，因此并不是可以直接等价于 <code>Akka</code>。</p>
-<h2 id="Web-Server"><a class="header-anchor" href="#Web-Server">¶</a>Web Server</h2>
-<p><code>Vert.X</code> 更喜欢将控制权返给开发者，<code>框架</code>封装使用，<code>工具</code>展示本质。因此对于我们来说，如果需要构建一个 <code>web server</code>，我们应该使用如下方式。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">HttpServer</span> <span class="variable">server</span> <span class="operator">=</span> vertx.createHttpServer();</span><br><span class="line"></span><br><span class="line"><span class="type">Router</span> <span class="variable">router</span> <span class="operator">=</span> Router.router(vertx);</span><br><span class="line"></span><br><span class="line">router.route().handler(routingContext -&gt; &#123;</span><br><span class="line">  <span class="type">HttpServerResponse</span> <span class="variable">response</span> <span class="operator">=</span> routingContext.response();</span><br><span class="line">  response.putHeader(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>);</span><br><span class="line">  response.end(<span class="string">&quot;Hello World from Vert.x-Web!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.requestHandler(router).listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
-<p>从短短的几行里面，我们可以发现 <code>Vert.x</code> 正如宣传的提供的是一系列的 <code>Tookit</code> 在构建的过程中推荐开发者自己亲手搭建一个系统。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
-<hr>
-<p>不过 <code>Vert.x</code> 这个工具箱很强大，提供了 <code>Web</code> <code>Data Access</code> <code>Reactive</code> <code>IoT</code> <code>Authentication and Authorisation</code> <code>Messaging</code> <code>Integration</code> <code>Event Bus Bridge</code> <code>DevOps</code> <code>Testing</code> <code>Clustering</code> <code>Services</code> <code>Standards</code> 这么多系列的工具，总有一款适合你。</p>
-<div>
-    <label class="author-mark-label">作者语</label>
-    <p class="author-mark">个人还是比较喜欢 Vert.X， 像 GoLanguage 也证明这种基于小工具的组合其实也是可以满足需求的，并且因为足够简单在使用的过程中也比较好去排查问题。</p>
-</div>
-<h1>Quarkus</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
-<p>说起 <code>quarkus</code> 就有点厉害了， <code>quarkus</code> 主打的是 <code>GraalVM</code>，在之前的文章中和大家讨论过在 <code>云原生</code> 时代内的 <code>JVM</code> 太过于笨重，从 <code>JVM</code> 尝试解决这个问题的就是 <code>GraalVM</code>，但是 <code>GraalVM</code> 并非是一个无痛的，比如反射就不能使用(需要转化)，因此 <code>GraalVM</code> 就好比新能源汽车，我们已经不需要汽油发动机，因此也需要配套的设施来发挥，因此 <code>Redhat</code> 就发起了 <code>Quarkus</code> 项目。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
-<blockquote>
-<p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and <code>GraalVM</code>, crafted from the best of breed Java libraries and standards.</p>
-</blockquote>
-<p><code>云原生</code> 是其主打特征。</p>
-<h2 id="Web-Server-v2"><a class="header-anchor" href="#Web-Server-v2">¶</a>Web Server</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;fruits&quot;)</span></span><br><span class="line"><span class="meta">@Produces(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="meta">@Consumes(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FruitResource</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@ConfigProperty(name = &quot;myapp.schema.create&quot;, defaultValue = &quot;true&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> schemaCreate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    PgPool client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="keyword">public</span> Multi&lt;Fruit&gt; <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findAll(client);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Path(&quot;&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">getSingle</span><span class="params">(<span class="meta">@PathParam</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findById(client, id)</span><br><span class="line">                .onItem().apply(fruit -&gt; fruit != <span class="literal">null</span> ? Response.ok(fruit) : Response.status(Status.NOT_FOUND))</span><br><span class="line">                .onItem().apply(ResponseBuilder::build);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@POST</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">create</span><span class="params">(Fruit fruit)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fruit.save(client)</span><br><span class="line">                .onItem().apply(id -&gt; URI.create(<span class="string">&quot;/fruits/&quot;</span> + id))</span><br><span class="line">                .onItem().apply(uri -&gt; Response.created(uri).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>整体的使用上，<code>Quarkus</code> 是非常接近 <code>Spring</code> 的体验，不过整体上因为 <code>Quarkus</code>  更加的拥抱云原生，因此并没有在 <code>Cloud</code> 侧的组件做更多的时期，希望用户基于 <code>CNCF</code> 所提供的能力进行工作，这点可能会让开发者很不舒服。悄悄的告诉你(Quarkus底层也会依赖Vertx)</p>
-<blockquote>
-<p>Quarkus is based on Vert.x, and almost all network-related features rely on Vert.x. While lots of reactive features from Quarkus don’t show Vert.x, it’s used underneath.</p>
-</blockquote>
-<p>面向微服务、云原生，编译到 native 以获得超快启动时间、超低内存占用，统一命令式与反应式编程范式，这几点其实新的框架都差不多，Quarkus 更重视“把问题提前到编译期解决”。不过这件事情对于开发者来讲可能就没有什么体感了。</p>
-<div>
-    <label class="author-mark-label">作者语</label>
-    <p class="author-mark">其实也可以理解 Quarkus 基于 Vertx 提供了更好开箱即用的体验，并且和周边生态集成的更加紧密了。</p>
-</div>
-<h1>Helidon</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
-<p>刚刚也讲了，其实大部分的框架都比较类似了，<code>Helidon</code> 也是如此。提供了</p>
-<ul>
-<li>Reactive non-blocking database client</li>
-<li>Supports existing blocking JDBC drivers</li>
-<li>Relational and non-relational databases</li>
-<li>Metrics, tracing, health checks</li>
-<li>Portability</li>
-<li>Extensibility</li>
-</ul>
-<p>值得一说的是对 <code>GraalVM</code> 也是积极支持的。<code>Helidon</code> 将项目分为了 <code>SE</code> <code>MP</code>，对于 <code>SE</code> 作为功能组件存在，<code>MP</code> 则是为了实现 <a href="https://projects.eclipse.org/proposals/eclipse-microprofile"><code>MicroProfile</code></a></p>
-<p><code>MicroProfile</code> 说起来就比较厉害了，拉了 <code>IBM</code> <code>RedHat</code> <code>Payara</code> <code>Tomitribe</code> <code>SouJava</code> 下水，准备重新搞标准了 ， 天下还苦 <code>Spring</code> 久已， <code>Spring</code> 的确现在看起来有些笨重。</p>
-<h2 id="Web-Server-v3"><a class="header-anchor" href="#Web-Server-v3">¶</a>Web Server</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">WebServer</span> <span class="variable">webServer</span> <span class="operator">=</span> WebServer</span><br><span class="line">            .create(Routing.builder()</span><br><span class="line">                            .any((req, res) -&gt; res.send(<span class="string">&quot;It works!&quot;</span>))) </span><br><span class="line">            .start() </span><br><span class="line">            .await(<span class="number">10</span>, TimeUnit.SECONDS); </span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;Server started at: http://localhost:&quot;</span> + webServer.port()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<div>
-    <label class="author-mark-label">作者语</label>
-    <p class="author-mark">Helidon 应该还算是最不完善的，文档毕竟稀少，代码的话以封装 JDK & Netty 为主。</p>
-</div>
-<h1>Micronaut</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
-<p><code>micronaut</code> 和 <code>grails</code> 实属亲戚关系，而 <code>grails</code> 和 <code>spring</code> 又经常 PY。因此我觉得 <code>Micronaut</code> 和  <code>Spring</code> 总有不可告人的秘密。</p>
-<blockquote>
-<p>Micronaut is a modern, JVM-based, full stack Java framework designed for building modular, easily testable JVM applications with support for Java, Kotlin and the Groovy language.</p>
-</blockquote>
-<p>Micronaut 还是有一些有趣的东西，不过和其他家也类似，<code>IOC</code> 是通过 <code>annotation Processor</code> 处理的，也就是所谓的了静态处理。</p>
-<h2 id="Web-server"><a class="header-anchor" href="#Web-server">¶</a>Web server</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Micronaut.run(Application.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@MicronautTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloControllerSpec</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    EmbeddedServer server; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@Client(&quot;/&quot;)</span></span><br><span class="line">    HttpClient client; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">testHelloWorldResponse</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> client.toBlocking() </span><br><span class="line">                .retrieve(HttpRequest.GET(<span class="string">&quot;/hello&quot;</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;Hello World&quot;</span>, response); <span class="comment">//) </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从 <code>Hello World</code> 看其实和 <code>Spring</code> 没啥却别（更多地方看起来都没啥区别），我还倾向于 <code>Micronaut</code> 仅仅是 <code>Spring</code> 体系的一个马甲。</p>
-<h1>Lagom</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
-<p>Lagom 就一直属于万年老二的状态，以前和 <code>Spring</code> 竞争的 <a href="https://www.playframework.com/"><code>Play Framework</code></a>，现在用 <code>Lagom</code> 和 <code>Spring</code> 竞争，因为 <code>Lagom</code> 的内部通讯基于 <code>Akka Remoting</code> <code>Steam Driver</code> 的机制，可是说是完全独立的一套体系。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
-<p>说到 <code>Lagom</code> 就一定要说到 <code>Akka</code>，<code>Actor</code> 这个模型说起都说好，但是实际上都没啥人用 <a href="https://www.zhihu.com/question/279512440">为什么Akka(Actor模型)在中国不温不火？</a>。绝大多数的开发者没有意识到布道师的眼中只有优点是没有缺点的。</p>
-<p>对于 <code>Akka</code> 也不深入了解，这个就权当给大家一点开拓视野的资料。</p>
-<h1>体系之争</h1>
-<p>现在开源早就过了单兵作战的时代，每一个开源项目的背后企业也是我们应该考虑的。</p>
-<ul>
-<li>Spring → Pivotal → VMware</li>
-<li>Quarkus/Vert.x → Eclipse 基金会 → Red Hat 支持</li>
-<li>Helidon → Oracle</li>
-<li>Micronaut → Object Computing（Grails、OpenDDS） → Spring 有 PY</li>
-<li>Lagom → Lightbend（Akka）</li>
-</ul>
-<p>前三家都算是家大业大也不怕跑路， <code>Micronaut</code> 就略为弱一点， <code>Lightbend</code> 和其他家有所区别 <code>Lightbend</code> 面向 <code>EE</code> 因此也是为数几家可以提供 <code>企业化</code> 服务的体系。</p>
-<h1>雷达</h1>
-<div id="spring-vertx" style="height: 400px"></div>
-<script crossorigin="anonymous" integrity="sha384-et+fqdf7kslHL5Ip8rXSJPUPODLa7eMfpFTBaCfnlMzrcAz/wxI5Xm/mNTZwd+7H" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script>
-<script type="text/javascript">
-var dom = document.getElementById("spring-vertx");
-var myChart = echarts.init(dom);
-var app = {};
-option = null;
-option = {
-    title: {
-        text: '技术雷达图'
-    },
-    tooltip: {},
-    legend: {
-        data: ['Spring', 'Vertx', 'Quarkus', 'Helidon', 'Micronaut', 'Lagom']
-    },
-    radar: {
-        // shape: 'circle',
-        name: {
-            textStyle: {
-                color: '#fff',
-                backgroundColor: '#999',
-                borderRadius: 3,
-                padding: [3, 5]
-            }
-        },
-        indicator: [
-            { name: '制品大小', max: 100},
-            { name: '功能性', max: 100},
-            { name : '启动速度（越小越好）', max: 100 },
-            { name: '性能', max: 100 },
-            { name: '生态建设', max: 100},
-        ],
-        radius: '65%'
-    },
-    series: [{
-        name: '大比拼',
-        type: 'radar',
-        // areaStyle: {normal: {}},
-        data: [
-            {
-                value: [100, 90, 100, 50, 100],
-                name: 'Spring'
-            },
-            {
-                value: [60, 70, 50, 90, 80],
-                name: 'Vertx'
-            },
-            {
-                value: [70, 70, 45, 80, 80],
-                name: 'Quarkus'
-            },
-            {
-                value: [70, 70, 50, 80, 70],
-                name: 'Helidon'
-            },
-            {
-                value: [80, 70, 60, 70, 60],
-                name: 'Micronaut'
-            },
-            {
-                value: [80, 70, 70, 70, 60],
-                name: 'Lagom'
-            }
-        ]
-    }]
-};;
-
-myChart.setOption(option, true);
-
-</script><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>java</category>
-        <category>微服务</category>
-        <category>框架</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Netty源码分析-(0)-预备知识</title>
     <url>/2018/06/12/java/netty/netty-0-prepare/</url>
     <content><![CDATA[<h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
@@ -5562,6 +5384,184 @@ for rapid development of maintainable high performance protocol servers &amp; cl
       <tags>
         <tag>java</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>微服务框架 - 2020</title>
+    <url>/2020/07/19/java/microservice/new-mircoservice-framework/</url>
+    <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
+<p>在 <a href="2020/06/20/java/other/2020-new-direction/">Java社区的新方向</a> 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。</p>
+<span id="more"></span>
+<h1>Spring Boot/Cloud</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
+<p><code>Spring Boot</code> 和 <code>Spring Cloud</code> 现阶段仍是最大的微服务框架。大多数读者对其都很熟悉，我们就以 <code>Spring Boot</code> 为标杆，来和其他的框架进行对比。</p>
+<p>在最终的 <code>雷达图</code> 中，我们会对比这几种框架的 <code>制品大小</code> <code>启动速度</code> <code>功能性</code> <code>性能</code> 这几个指标。在每个新框架内尽可能举一些比较生动的 DEMO 给大家进行参考。</p>
+<h1>Eclipse Vert.X</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
+<p><a href="https://vertx.io/"><code>Vert.X</code></a> 如果说起来可能比微服务还略早一些，笔者也曾经为其中文社区翻译过文档，<code>Vert.X</code> 社区因为觉得 <code>Spring</code> 还是太重量级了，对于现在的软件开发来说，我们可能需要的仅仅是一组工具，因此推出了此框架：</p>
+<blockquote>
+<p>Eclipse Vert.x is a <code>tool-kit</code> for building <code>reactive</code> applications on the JVM.</p>
+</blockquote>
+<p>重点也给大家标红了 <code>tool-kit</code> 和 <code>reactive</code> 是他的最为重要的特征，除此之外</p>
+<ul>
+<li>轻量级：Core部分代码只有 700kb 左右</li>
+<li>快速：<a href="https://www.techempower.com/benchmarks/">techempower benchmarks</a> java 社区少数能打的、</li>
+<li>模块化： Vertx的模块化做的非常好，不像 SpringCloud属于拼凑式的模块化</li>
+</ul>
+<h2 id="Verticles"><a class="header-anchor" href="#Verticles">¶</a>Verticles</h2>
+<p><code>Vert.X</code> 比较有趣的基于一种名为 <code>Verticle</code> 的对象进行编程，我们编写函数入口/对象 都是一种 <code>Verticle</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyVerticle</span> <span class="keyword">extends</span> <span class="title class_">AbstractVerticle</span> &#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Called when verticle is deployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">start</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Optional - called when verticle is undeployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stop</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此在设计之处，<code>Vertx</code> 已经考虑到 <code>Hotrestart</code>，对于开发者更容易理解。<code>Verticle</code> 之间的通讯又有点类似于 <code>Actor</code> 的通讯机制，不过值得注意的，<code>Core</code> 部分是不提供跨主机调研的，只能在同一个 <code>Verticle Deployment</code> 进行通讯，因此并不是可以直接等价于 <code>Akka</code>。</p>
+<h2 id="Web-Server"><a class="header-anchor" href="#Web-Server">¶</a>Web Server</h2>
+<p><code>Vert.X</code> 更喜欢将控制权返给开发者，<code>框架</code>封装使用，<code>工具</code>展示本质。因此对于我们来说，如果需要构建一个 <code>web server</code>，我们应该使用如下方式。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">HttpServer</span> <span class="variable">server</span> <span class="operator">=</span> vertx.createHttpServer();</span><br><span class="line"></span><br><span class="line"><span class="type">Router</span> <span class="variable">router</span> <span class="operator">=</span> Router.router(vertx);</span><br><span class="line"></span><br><span class="line">router.route().handler(routingContext -&gt; &#123;</span><br><span class="line">  <span class="type">HttpServerResponse</span> <span class="variable">response</span> <span class="operator">=</span> routingContext.response();</span><br><span class="line">  response.putHeader(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>);</span><br><span class="line">  response.end(<span class="string">&quot;Hello World from Vert.x-Web!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.requestHandler(router).listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
+<p>从短短的几行里面，我们可以发现 <code>Vert.x</code> 正如宣传的提供的是一系列的 <code>Tookit</code> 在构建的过程中推荐开发者自己亲手搭建一个系统。</p>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
+<hr>
+<p>不过 <code>Vert.x</code> 这个工具箱很强大，提供了 <code>Web</code> <code>Data Access</code> <code>Reactive</code> <code>IoT</code> <code>Authentication and Authorisation</code> <code>Messaging</code> <code>Integration</code> <code>Event Bus Bridge</code> <code>DevOps</code> <code>Testing</code> <code>Clustering</code> <code>Services</code> <code>Standards</code> 这么多系列的工具，总有一款适合你。</p>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">个人还是比较喜欢 Vert.X， 像 GoLanguage 也证明这种基于小工具的组合其实也是可以满足需求的，并且因为足够简单在使用的过程中也比较好去排查问题。</p>
+</div>
+<h1>Quarkus</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
+<p>说起 <code>quarkus</code> 就有点厉害了， <code>quarkus</code> 主打的是 <code>GraalVM</code>，在之前的文章中和大家讨论过在 <code>云原生</code> 时代内的 <code>JVM</code> 太过于笨重，从 <code>JVM</code> 尝试解决这个问题的就是 <code>GraalVM</code>，但是 <code>GraalVM</code> 并非是一个无痛的，比如反射就不能使用(需要转化)，因此 <code>GraalVM</code> 就好比新能源汽车，我们已经不需要汽油发动机，因此也需要配套的设施来发挥，因此 <code>Redhat</code> 就发起了 <code>Quarkus</code> 项目。</p>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
+<blockquote>
+<p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and <code>GraalVM</code>, crafted from the best of breed Java libraries and standards.</p>
+</blockquote>
+<p><code>云原生</code> 是其主打特征。</p>
+<h2 id="Web-Server-v2"><a class="header-anchor" href="#Web-Server-v2">¶</a>Web Server</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;fruits&quot;)</span></span><br><span class="line"><span class="meta">@Produces(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="meta">@Consumes(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FruitResource</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@ConfigProperty(name = &quot;myapp.schema.create&quot;, defaultValue = &quot;true&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> schemaCreate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    PgPool client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="keyword">public</span> Multi&lt;Fruit&gt; <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findAll(client);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Path(&quot;&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">getSingle</span><span class="params">(<span class="meta">@PathParam</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findById(client, id)</span><br><span class="line">                .onItem().apply(fruit -&gt; fruit != <span class="literal">null</span> ? Response.ok(fruit) : Response.status(Status.NOT_FOUND))</span><br><span class="line">                .onItem().apply(ResponseBuilder::build);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@POST</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">create</span><span class="params">(Fruit fruit)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fruit.save(client)</span><br><span class="line">                .onItem().apply(id -&gt; URI.create(<span class="string">&quot;/fruits/&quot;</span> + id))</span><br><span class="line">                .onItem().apply(uri -&gt; Response.created(uri).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整体的使用上，<code>Quarkus</code> 是非常接近 <code>Spring</code> 的体验，不过整体上因为 <code>Quarkus</code>  更加的拥抱云原生，因此并没有在 <code>Cloud</code> 侧的组件做更多的时期，希望用户基于 <code>CNCF</code> 所提供的能力进行工作，这点可能会让开发者很不舒服。悄悄的告诉你(Quarkus底层也会依赖Vertx)</p>
+<blockquote>
+<p>Quarkus is based on Vert.x, and almost all network-related features rely on Vert.x. While lots of reactive features from Quarkus don’t show Vert.x, it’s used underneath.</p>
+</blockquote>
+<p>面向微服务、云原生，编译到 native 以获得超快启动时间、超低内存占用，统一命令式与反应式编程范式，这几点其实新的框架都差不多，Quarkus 更重视“把问题提前到编译期解决”。不过这件事情对于开发者来讲可能就没有什么体感了。</p>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">其实也可以理解 Quarkus 基于 Vertx 提供了更好开箱即用的体验，并且和周边生态集成的更加紧密了。</p>
+</div>
+<h1>Helidon</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
+<p>刚刚也讲了，其实大部分的框架都比较类似了，<code>Helidon</code> 也是如此。提供了</p>
+<ul>
+<li>Reactive non-blocking database client</li>
+<li>Supports existing blocking JDBC drivers</li>
+<li>Relational and non-relational databases</li>
+<li>Metrics, tracing, health checks</li>
+<li>Portability</li>
+<li>Extensibility</li>
+</ul>
+<p>值得一说的是对 <code>GraalVM</code> 也是积极支持的。<code>Helidon</code> 将项目分为了 <code>SE</code> <code>MP</code>，对于 <code>SE</code> 作为功能组件存在，<code>MP</code> 则是为了实现 <a href="https://projects.eclipse.org/proposals/eclipse-microprofile"><code>MicroProfile</code></a></p>
+<p><code>MicroProfile</code> 说起来就比较厉害了，拉了 <code>IBM</code> <code>RedHat</code> <code>Payara</code> <code>Tomitribe</code> <code>SouJava</code> 下水，准备重新搞标准了 ， 天下还苦 <code>Spring</code> 久已， <code>Spring</code> 的确现在看起来有些笨重。</p>
+<h2 id="Web-Server-v3"><a class="header-anchor" href="#Web-Server-v3">¶</a>Web Server</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">WebServer</span> <span class="variable">webServer</span> <span class="operator">=</span> WebServer</span><br><span class="line">            .create(Routing.builder()</span><br><span class="line">                            .any((req, res) -&gt; res.send(<span class="string">&quot;It works!&quot;</span>))) </span><br><span class="line">            .start() </span><br><span class="line">            .await(<span class="number">10</span>, TimeUnit.SECONDS); </span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;Server started at: http://localhost:&quot;</span> + webServer.port()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">Helidon 应该还算是最不完善的，文档毕竟稀少，代码的话以封装 JDK & Netty 为主。</p>
+</div>
+<h1>Micronaut</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
+<p><code>micronaut</code> 和 <code>grails</code> 实属亲戚关系，而 <code>grails</code> 和 <code>spring</code> 又经常 PY。因此我觉得 <code>Micronaut</code> 和  <code>Spring</code> 总有不可告人的秘密。</p>
+<blockquote>
+<p>Micronaut is a modern, JVM-based, full stack Java framework designed for building modular, easily testable JVM applications with support for Java, Kotlin and the Groovy language.</p>
+</blockquote>
+<p>Micronaut 还是有一些有趣的东西，不过和其他家也类似，<code>IOC</code> 是通过 <code>annotation Processor</code> 处理的，也就是所谓的了静态处理。</p>
+<h2 id="Web-server"><a class="header-anchor" href="#Web-server">¶</a>Web server</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Micronaut.run(Application.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@MicronautTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloControllerSpec</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    EmbeddedServer server; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@Client(&quot;/&quot;)</span></span><br><span class="line">    HttpClient client; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">testHelloWorldResponse</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> client.toBlocking() </span><br><span class="line">                .retrieve(HttpRequest.GET(<span class="string">&quot;/hello&quot;</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;Hello World&quot;</span>, response); <span class="comment">//) </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从 <code>Hello World</code> 看其实和 <code>Spring</code> 没啥却别（更多地方看起来都没啥区别），我还倾向于 <code>Micronaut</code> 仅仅是 <code>Spring</code> 体系的一个马甲。</p>
+<h1>Lagom</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
+<p>Lagom 就一直属于万年老二的状态，以前和 <code>Spring</code> 竞争的 <a href="https://www.playframework.com/"><code>Play Framework</code></a>，现在用 <code>Lagom</code> 和 <code>Spring</code> 竞争，因为 <code>Lagom</code> 的内部通讯基于 <code>Akka Remoting</code> <code>Steam Driver</code> 的机制，可是说是完全独立的一套体系。</p>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
+<p>说到 <code>Lagom</code> 就一定要说到 <code>Akka</code>，<code>Actor</code> 这个模型说起都说好，但是实际上都没啥人用 <a href="https://www.zhihu.com/question/279512440">为什么Akka(Actor模型)在中国不温不火？</a>。绝大多数的开发者没有意识到布道师的眼中只有优点是没有缺点的。</p>
+<p>对于 <code>Akka</code> 也不深入了解，这个就权当给大家一点开拓视野的资料。</p>
+<h1>体系之争</h1>
+<p>现在开源早就过了单兵作战的时代，每一个开源项目的背后企业也是我们应该考虑的。</p>
+<ul>
+<li>Spring → Pivotal → VMware</li>
+<li>Quarkus/Vert.x → Eclipse 基金会 → Red Hat 支持</li>
+<li>Helidon → Oracle</li>
+<li>Micronaut → Object Computing（Grails、OpenDDS） → Spring 有 PY</li>
+<li>Lagom → Lightbend（Akka）</li>
+</ul>
+<p>前三家都算是家大业大也不怕跑路， <code>Micronaut</code> 就略为弱一点， <code>Lightbend</code> 和其他家有所区别 <code>Lightbend</code> 面向 <code>EE</code> 因此也是为数几家可以提供 <code>企业化</code> 服务的体系。</p>
+<h1>雷达</h1>
+<div id="spring-vertx" style="height: 400px"></div>
+<script crossorigin="anonymous" integrity="sha384-et+fqdf7kslHL5Ip8rXSJPUPODLa7eMfpFTBaCfnlMzrcAz/wxI5Xm/mNTZwd+7H" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script>
+<script type="text/javascript">
+var dom = document.getElementById("spring-vertx");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+option = {
+    title: {
+        text: '技术雷达图'
+    },
+    tooltip: {},
+    legend: {
+        data: ['Spring', 'Vertx', 'Quarkus', 'Helidon', 'Micronaut', 'Lagom']
+    },
+    radar: {
+        // shape: 'circle',
+        name: {
+            textStyle: {
+                color: '#fff',
+                backgroundColor: '#999',
+                borderRadius: 3,
+                padding: [3, 5]
+            }
+        },
+        indicator: [
+            { name: '制品大小', max: 100},
+            { name: '功能性', max: 100},
+            { name : '启动速度（越小越好）', max: 100 },
+            { name: '性能', max: 100 },
+            { name: '生态建设', max: 100},
+        ],
+        radius: '65%'
+    },
+    series: [{
+        name: '大比拼',
+        type: 'radar',
+        // areaStyle: {normal: {}},
+        data: [
+            {
+                value: [100, 90, 100, 50, 100],
+                name: 'Spring'
+            },
+            {
+                value: [60, 70, 50, 90, 80],
+                name: 'Vertx'
+            },
+            {
+                value: [70, 70, 45, 80, 80],
+                name: 'Quarkus'
+            },
+            {
+                value: [70, 70, 50, 80, 70],
+                name: 'Helidon'
+            },
+            {
+                value: [80, 70, 60, 70, 60],
+                name: 'Micronaut'
+            },
+            {
+                value: [80, 70, 70, 70, 60],
+                name: 'Lagom'
+            }
+        ]
+    }]
+};;
+
+myChart.setOption(option, true);
+
+</script><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+        <category>微服务</category>
+        <category>框架</category>
+      </categories>
   </entry>
   <entry>
     <title>写给 Java 开发者的 Kotlin 教程 (2) - 基础语法</title>
@@ -9849,6 +9849,116 @@ Filter 是 Motan 很重要的一个实现接口</p>
       </categories>
   </entry>
   <entry>
+    <title>Spring的优雅停机</title>
+    <url>/2020/05/31/java/spring/gracefully-shutdown/</url>
+    <content><![CDATA[<p>优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。</p>
+<span id="more"></span>
+<p>一般来说，优雅停机主要处理</p>
+<ul>
+<li>池化资源的释放：数据库连接池，HTTP 连接池</li>
+<li>在处理线程的释放：已经被连接的HTTP请求</li>
+<li>隐形受影响的资源的处理：Eureka实例下线等</li>
+</ul>
+<h1>JVM 中的实现</h1>
+<p>编程语言都会提供监听当前线程终结的函数，比如在Java中，我们可以通过如下操作监听我们的退出事件：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> <span class="title class_">ExitHook</span>());</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Do something, will exit&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ExitHook</span> <span class="keyword">extends</span> <span class="title class_">Thread</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;exiting. clear resources...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们会得到如下的结果：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Do something, will <span class="built_in">exit</span></span><br><span class="line">exiting. clear resources...</span><br></pre></td></tr></table></figure>
+<p>聪明的你一定发现了，我们可以在 <code>ExitHook</code> 去处理那些资源的释放。那么，在实际应用中是如何体现优雅停机呢？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">kill</span> -15 pid </span><br></pre></td></tr></table></figure>
+<p>通过该命令发送一个关闭信号给到jvm, 然后就开始执行 Shutdown Hook 了，但是值得注意的是不能够使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 pid</span><br></pre></td></tr></table></figure>
+<p>如果这么干的话，相当于从OS方面直接将其所有的资源回收，类比一下好比强行断电，就没有任何进行优雅停机的机会了。不过这里是最简单的实现，在实际的工作中，我们会遇见各种情况：在清理退出的时候出现异常怎么处理？清理的时间过程怎么处理？等等问题。因此在Spring中，为了简化这样的操作已经帮助我们封装了一些。</p>
+<h1>Spring 的模式</h1>
+<p>让我们想想，Spring一个IOC容器，他能够管理的是收到其托管的对象，因此我们也可以很合理的想到我们需要定义托管对象的解构函数才能够被Spring在退出时释放，我们将问题简单化点，有三个事情是Spring需要解决的：</p>
+<ul>
+<li>Spring 需要值得 Runtime 在退出</li>
+<li>Spring 知道需要释放哪些资源</li>
+<li>Spring 需要知道如何释放资源</li>
+</ul>
+<p>因为 Spring 版本繁杂，以 <code>org.springframework.boot:2.1.14.RELEASE</code> 版本分析为例。</p>
+<h2 id="Spring-的-Runtime-Hook"><a class="header-anchor" href="#Spring-的-Runtime-Hook">¶</a>Spring 的 Runtime Hook</h2>
+<p>毕竟 Spring 也是 JVM 上的实现，这一切势必也依赖于 JVM 的 Shuthook，秘密就在 <code>org.springframework.context.support.AbstractApplicationContext#registerShutdownHook</code> 处</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">registerShutdownHook</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.shutdownHook == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// No shutdown hook registered yet.</span></span><br><span class="line">        <span class="built_in">this</span>.shutdownHook = <span class="keyword">new</span> <span class="title class_">Thread</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (startupShutdownMonitor) &#123;</span><br><span class="line">                    doClose();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="built_in">this</span>.shutdownHook);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring-知道需要释放哪些资源"><a class="header-anchor" href="#Spring-知道需要释放哪些资源">¶</a>Spring 知道需要释放哪些资源</h2>
+<p>回忆一下 <code>Spring Bean Lifecycle</code><br>
+<img src="https://s1.ax1x.com/2020/05/31/t1Pm8S.png" alt="t1Pm8S.png"></p>
+<p>没错，当 Spring Context 销毁的时候，会调用 <code>destroy()</code> 函数，实际上这行函数也非常的简单也就是</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// org.springframework.context.support.AbstractApplicationContext#destroy</span></span><br><span class="line"><span class="meta">@Deprecated</span> <span class="comment">//Spring 5 即将废弃</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line">    close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="built_in">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">        doClose();</span><br><span class="line">        <span class="comment">// If we registered a JVM shutdown hook, we don&#x27;t need it anymore now:</span></span><br><span class="line">        <span class="comment">// We&#x27;ve already explicitly closed the context.</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.shutdownHook != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Runtime.getRuntime().removeShutdownHook(<span class="built_in">this</span>.shutdownHook);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (IllegalStateException ex) &#123;</span><br><span class="line">                <span class="comment">// ignore - VM is already shutting down</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实则我们定位到最终的释放资源处就是 <code>org.springframework.context.support.AbstractApplicationContext#doClose</code> 函数，我们在尽情的分析一下。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doClose</span><span class="params">()</span> &#123;</span><br><span class="line">    LiveBeansView.unregisterApplicationContext(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Publish shutdown event.</span></span><br><span class="line">        publishEvent(<span class="keyword">new</span> <span class="title class_">ContextClosedEvent</span>(<span class="built_in">this</span>)); ➀</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Stop all Lifecycle beans, to avoid delays during individual destruction.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.lifecycleProcessor != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.lifecycleProcessor.onClose(); ➁</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">            logger.warn(<span class="string">&quot;Exception thrown from LifecycleProcessor on context close&quot;</span>, ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Destroy all cached singletons in the context&#x27;s BeanFactory.</span></span><br><span class="line">    destroyBeans(); ➂</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Close the state of this context itself.</span></span><br><span class="line">    closeBeanFactory(); ➃</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Let subclasses do some final clean-up if they wish...</span></span><br><span class="line">    onClose(); ➄</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reset local application listeners to pre-refresh state.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.earlyApplicationListeners != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.applicationListeners.clear();</span><br><span class="line">        <span class="built_in">this</span>.applicationListeners.addAll(<span class="built_in">this</span>.earlyApplicationListeners);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Switch to inactive.</span></span><br><span class="line">    <span class="built_in">this</span>.active.set(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>剪去那些无影响的代码部分，我们可以发现对于 Spring 来说，真正关闭的顺序是</p>
+<ol>
+<li>发布一个关闭事件</li>
+<li>调用生命周期处理器</li>
+<li>销毁所有的Bean</li>
+<li>关闭Bean工厂</li>
+<li>调用子类的Close函数</li>
+</ol>
+<p>对于 ➀➁ 是回调机制，不涉及到对象的销毁，➄ 是对于继承类的调用，所有的销毁都在 ➂ 中。受到 Spring 托管的对象繁多，不一定所有的对象都需要销毁行为。进一步定位一下，我们就发现了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroySingleton</span><span class="params">(String beanName)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.removeSingleton(beanName);</span><br><span class="line">    DisposableBean disposableBean;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="built_in">this</span>.disposableBeans) &#123;</span><br><span class="line">        disposableBean = (DisposableBean)<span class="built_in">this</span>.disposableBeans.remove(beanName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.destroyBean(beanName, disposableBean);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上那些需要销毁的对象都应该是 <code>DisposableBean</code> 对象。</p>
+<p>那我们对于第二个问题也知道了，Spring会销毁那些 <code>DisposableBean</code> 类型的 Bean对象。</p>
+<h2 id="Spring-需要知道如何释放资源"><a class="header-anchor" href="#Spring-需要知道如何释放资源">¶</a>Spring 需要知道如何释放资源</h2>
+<p>其实这是一个不是问题的问题，对于 <code>DisposableBean</code> 来说仅仅需要实现一个接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DisposableBean</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> <span class="keyword">throws</span> Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于需要实现释放资源的对象需要自行实现此接口。</p>
+<h2 id="组合在一起"><a class="header-anchor" href="#组合在一起">¶</a>组合在一起</h2>
+<p>我们已经知道我们最开始提出的 3 个问题，让我们试着用这3个问题的答案拼凑处一个 Spring Web Server 是如何优雅的停机的。那我们需要证实一件事情： Web Server内部的资源都是 DisposableBean，并且受 Spring 托管。</p>
+<p>通过反向定位的办法，可以快速的定位到比如 数据库的资源 <code>org.springframework.orm.jpa.AbstractEntityManagerFactoryBean#destroy</code> 在销毁的阶段会将 Entity 对象进行销毁。对于收到 Spring 托管的对象的优雅停机的路径是：</p>
+<p><code>Runtine Shutdown Hook</code> -&gt; <code>Context:destory()</code> -&gt; <code>DisposableBean:destroy()</code>， 对于大部分的资源比如数据库，服务发现，等等都是这样的销毁方式。</p>
+<h2 id="进阶：-Web-容器"><a class="header-anchor" href="#进阶：-Web-容器">¶</a>进阶： Web 容器</h2>
+<h3 id="一个疑问"><a class="header-anchor" href="#一个疑问">¶</a>一个疑问</h3>
+<p>对于普通的 Bean 的销毁我们已经完全了解，但是对于动手做实验的不知道有没有发现，其实 <code>Web Server</code> 并不是在 <code>destroySingleton</code> 阶段进行销毁的，那他是在哪里销毁的呢？回忆一下，我们除了销毁Beans 之外，是不是还有最后一个 <code>close()</code> 函数可以调用，没有错！对于 <code>Tomcat ...</code> 这些web容器来说，本身就是 <code>ApplicationContext</code> 的一个子类并非是 <code>Bean</code> 一部分，因此他们的 <code>close()</code> 函数在 <code>org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext</code>处</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onClose</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onClose();</span><br><span class="line">    <span class="built_in">this</span>.stopAndReleaseWebServer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的函数是直接调用底层代码就不做展开，但是隐约有些觉得不对？ <strong>如果</strong>我们在接收到一个远程访问的时候，触发了 <code>Shutdown</code> 事件，我们实际上是无法获得正确的返回的。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">+------------------+          +---------------------------+         +--------------------------------------+</span><br><span class="line">|   controller     |          |       services            |         |               dao                    |</span><br><span class="line">|                  +---------&gt;+                           +---------&gt;                                      |</span><br><span class="line">|                  |          |                           | 2. Query DB                          Entitymanger</span><br><span class="line">+------------------+          +---------------------------+         +---------------------------------^----+</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                 +--------------------------------------+                             |1. destory()</span><br><span class="line">                                 |                                      |                             |</span><br><span class="line">                                 |    Destory                           +-----------------------------+</span><br><span class="line">                                 |                                      |</span><br><span class="line">                                 +--------------------------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如上图所示，因为我们知道 <code>stop webserver</code> 是在 <code>destory context</code> 之后的，那我们岂不是会出现一边在接受请求但是这些请求都是会失败的吗？如果是是这样的，可真是太愚蠢的设计了。</p>
+<h3 id="另辟蹊径"><a class="header-anchor" href="#另辟蹊径">¶</a>另辟蹊径</h3>
+<p>对于这样的情况，我们在 shutdown 之前让 Web server 停止接受任何的请求，但可惜的是在此版本的 <code>tomcat</code> 不支持此特效，需要待 <code>9.0.33+</code> <a href="https://spring.io/blog/2020/05/15/spring-boot-2-3-0-available-now">spring-boot-2-3-0-available-now</a>。</p>
+<p>在早期的版本中，我们依然可以通过一些额外的方式将这件事情做到：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Gh4657Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(Gh4657Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/pause&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">pause</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Pause complete&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> GracefulShutdown <span class="title function_">gracefulShutdown</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">GracefulShutdown</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> EmbeddedServletContainerCustomizer <span class="title function_">tomcatCustomizer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">EmbeddedServletContainerCustomizer</span>() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">customize</span><span class="params">(ConfigurableEmbeddedServletContainer container)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (container <span class="keyword">instanceof</span> TomcatEmbeddedServletContainerFactory) &#123;</span><br><span class="line">                    ((TomcatEmbeddedServletContainerFactory) container)</span><br><span class="line">                            .addConnectorCustomizers(gracefulShutdown());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">GracefulShutdown</span> <span class="keyword">implements</span> <span class="title class_">TomcatConnectorCustomizer</span>,</span><br><span class="line">            ApplicationListener&lt;ContextClosedEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(GracefulShutdown.class);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">volatile</span> Connector connector;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">customize</span><span class="params">(Connector connector)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.connector = connector;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onApplicationEvent</span><span class="params">(ContextClosedEvent event)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.connector.pause();</span><br><span class="line">            <span class="type">Executor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="built_in">this</span>.connector.getProtocolHandler().getExecutor();</span><br><span class="line">            <span class="keyword">if</span> (executor <span class="keyword">instanceof</span> ThreadPoolExecutor) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="type">ThreadPoolExecutor</span> <span class="variable">threadPoolExecutor</span> <span class="operator">=</span> (ThreadPoolExecutor) executor;</span><br><span class="line">                    threadPoolExecutor.shutdown();</span><br><span class="line">                    <span class="keyword">if</span> (!threadPoolExecutor.awaitTermination(<span class="number">30</span>, TimeUnit.SECONDS)) &#123;</span><br><span class="line">                        log.warn(<span class="string">&quot;Tomcat thread pool did not shut down gracefully within &quot;</span></span><br><span class="line">                                + <span class="string">&quot;30 seconds. Proceeding with forceful shutdown&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">                    Thread.currentThread().interrupt();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以自定义自己的 <code>ContextClosedEvent</code> 事件，然后将 <code>Tomcat</code> 的处理线程先暂停。</p>
+<h3 id="又一个疑问？"><a class="header-anchor" href="#又一个疑问？">¶</a>又一个疑问？</h3>
+<p>在 <code>Spring-Boot-2.3.0</code> 之前我们都需要这么处理吗？我的天，很多写了 Spring 已经超过十年了，难道 <code>Spring</code> 一直没有解决这个问题吗？答案也是否定的。</p>
+<p>还记得我们在 Spring 的早期阶段，我们通过 XML 来构造一个Spring项目的时候吗？那时候的方案是将我们的Web 程序作为一个 War 提供给 <code>Tomcat</code> 的 webapps中，此时tomcat会尝试构造我们的 <code>DispatcherServlet</code> 将整个系统运作起来，而在 Shutdown 阶段，这样的逻辑也是由 <code>Tomcat</code> 进行处理的。也就是说，对于 <code>Embeded Web Server</code> 的 <code>Spring Boot</code> 和 传统的 <code>Web Server</code> 在 <code>Destory Spring Applicaion Context</code> 这一步的时间是不一样的，<code>Spring Boot with Embeded Web Server</code> 在 <code>2.3.0</code> 之前的版本都是先关闭 <code>Context</code> 上下文再关闭 Web容器，而传统的 <code>Web Server</code> 是先关闭 <code>Web容器</code> 再去关闭 <code>Context</code> 上下文。</p>
+<p>对于 传统的 <code>Web Server</code>:</p>
+<p><code>Runtime Shutdwon Hook</code> -&gt; <code>org.apache.catalina.util.LifecycleBase#stop</code> -&gt; <code>Spring Context Stop</code></p>
+<p>因此出现优雅停机问题的集中在 <code>Spring Boot &lt; 2.3.0</code> 的版本内。</p>
+<h1>优雅停机 in action</h1>
+<h2 id="传统的-Tomcat-容器"><a class="header-anchor" href="#传统的-Tomcat-容器">¶</a>传统的 Tomcat 容器</h2>
+<p>我们执行 <code>catalina.sh stop &lt;WAITING SECONDS&gt;</code> 就可以执行 Tomcat 的优雅停机</p>
+<h2 id="Spring-Boot-2-3-0：内置容器"><a class="header-anchor" href="#Spring-Boot-2-3-0：内置容器">¶</a>Spring Boot &gt; 2.3.0：内置容器</h2>
+<p>默认完成了优雅停机</p>
+<h2 id="Spring-Boot-内置容器"><a class="header-anchor" href="#Spring-Boot-内置容器">¶</a>Spring Boot 内置容器</h2>
+<h3 id="Way-1-自己实现优雅停机"><a class="header-anchor" href="#Way-1-自己实现优雅停机">¶</a>Way 1: 自己实现优雅停机</h3>
+<p>请查阅参考部分，或者是上文处代码自行实现</p>
+<h3 id="Way-2：基于平台实现"><a class="header-anchor" href="#Way-2：基于平台实现">¶</a>Way 2：基于平台实现</h3>
+<p>现在的很多应用都跑在 <code>kubernetes</code> 这样的容器平台上，此时我们 POD 在进行 terminated 操作的时候，会首先向运行的进程发送一个 <code>SIGTERM</code> 指令，然后等待 30秒， 在30后没有终结的话，会再次发送一个 <code>SIGKILL</code> 进行强制终结，因此对于容器平台，我们要注意的这一个等待时间是否足够进行资源的回收。</p>
+<p>但是我们还有一个问题，就是正在请求的流量问题，对于这个问题我们需要进行组合拳，还记得 <code>kubernetes</code> 中有 <code>readinessProbe</code> 的概念吗？当我们的Pod启动的时候，如果 <code>Readiness</code> 未就绪， <code>kubernetes</code> 也不会将我们的 POD 作为 <code>SVC</code> 的可选地址（采用SVC负债均衡的情况下）。因此我们的应用在接受到 <code>SIGTERM</code> 的第一时刻就将<br>
+<code>Readiness</code> 的地址进行失败行为，并且等待一定时间之后再进行 <code>Spring Context Shutdown</code> 操作。但是对于超长时间的请求依然会有失败的可能，不过对于大部分的应用来说，优雅停机本身也只是等待固定时间，因此对于超长持续的请求让其失败也是可选的方案。</p>
+<h2 id="Spring-Cloud-下的复杂场景"><a class="header-anchor" href="#Spring-Cloud-下的复杂场景">¶</a>Spring Cloud 下的复杂场景</h2>
+<p>我们来看下更加复杂的 Spring Cloud 下的场景，对于 Spring Cloud 体系内有一个特殊的点： <code>Eureka Server</code> 和 <code>Eureka Client</code> 的关系，我们来看下当接入时候的 <code>destory()</code> 行为。</p>
+<h3 id="Eureka-主动下线"><a class="header-anchor" href="#Eureka-主动下线">¶</a>Eureka 主动下线</h3>
+<p>当 <code>Context:destory()</code> 的时候，Spring会关闭一个名为 <code>org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry</code> 对象，此对象在 <code>org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration#eurekaAutoServiceRegistration</code> 进行初始化的。因此在 <code>destory()</code> 阶段，实例就会自动从 <code>Eureka</code> 下线。</p>
+<p><img src="https://s1.ax1x.com/2020/05/31/t1OxRs.png" alt="t1OxRs.png"></p>
+<h3 id="Eureka-Client-侧"><a class="header-anchor" href="#Eureka-Client-侧">¶</a>Eureka Client 侧</h3>
+<p>因为 <code>Eureka</code> 的服务发现机制并没有通知客户端更新的机制，因此，此时的 <code>Eureka Client</code> 侧的实例依然会去尝试访问已经下线的 <code>Instance</code>，这是由于Eureka是AP系统导致的缺陷并没有解决之道。</p>
+<p>此时当其他的服务访问到此服务的此实例的时候，会导致服务<strong>访问错误</strong>。为了避免这样的错误发生，一般来说有几种解决之道：1.我们可以为客户端制定重试机制（参考 <a href="https://medium.com/@ruhshan_ahmed/customize-feigns-retry-mechanism-f015036a33a">How To Customize Feign’s Retry Mechanism</a>）， 2. 手动提前离线：我们使用 Spring Boot Admin 手动在停机之前让实例先下线，这样等到一段时间之后我们就可以将实例进行真正的销毁，<a href="https://codecentric.github.io/spring-boot-admin/current/">Spring Boot Admin</a>，3. 不再使用 Eureka 这样的客户端负债均衡策略，使用类似 <code>K8s 的 SVC</code> 机制可以将这个时间缩短。</p>
+<h1>参考</h1>
+<ul>
+<li><a href="https://github.com/spring-projects/spring-boot/issues/4657">Allow the embedded web server to be shut down gracefully</a></li>
+<li><a href="https://dzone.com/articles/spring-bean-lifecycle">spring bean lifecycle</a></li>
+<li><a href="https://github.com/SchweizerischeBundesbahnen/springboot-graceful-shutdown">springboot-graceful-shutdown</a></li>
+<li><a href="https://medium.com/@ruhshan_ahmed/customize-feigns-retry-mechanism-f015036a33a">How To Customize Feign’s Retry Mechanism</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+      </categories>
+  </entry>
+  <entry>
     <title>由表及里学 ProjectReactor</title>
     <url>/2018/06/26/java/spring/projectreactor/</url>
     <content><![CDATA[<p>我们都知道 ProjectReactor 是借鉴 Rxjava 的，这个在Android开发中一个极为重要的库，现在因为后端服务采用Netty，又在Reactive的东风之下，后端也选择采用 <a href="https://en.wikipedia.org/wiki/Reactive_programming"><code>响应式编程模式</code></a> 进行开发，响应式编程不是一个新概念，响应式编程就是用异步数据流进行编程，在传统的GUI应用中因为不能阻塞 <code>绘图IO</code> 所以有很多基于事件的编程模式，响应式编程提高了代码的抽象水平，因此能专注于那些定义业务逻辑的事件的依存关系，而无需摆弄大量的线程相关实现细节。<br>
@@ -10088,116 +10198,6 @@ Filter 是 Motan 很重要的一个实现接口</p>
         <category>java</category>
         <category>spring</category>
         <category>projectreactor</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Spring的优雅停机</title>
-    <url>/2020/05/31/java/spring/gracefully-shutdown/</url>
-    <content><![CDATA[<p>优雅停机是指在停止应用时，执行的一系列保证应用正常关闭的操作。这些操作往往包括等待已有请求执行完成、关闭线程、关闭连接和释放资源等，优雅停机可以避免非正常关闭程序可能造成数据异常或丢失，应用异常等问题。优雅停机本质上是JVM即将关闭前执行的一些额外的处理代码。</p>
-<span id="more"></span>
-<p>一般来说，优雅停机主要处理</p>
-<ul>
-<li>池化资源的释放：数据库连接池，HTTP 连接池</li>
-<li>在处理线程的释放：已经被连接的HTTP请求</li>
-<li>隐形受影响的资源的处理：Eureka实例下线等</li>
-</ul>
-<h1>JVM 中的实现</h1>
-<p>编程语言都会提供监听当前线程终结的函数，比如在Java中，我们可以通过如下操作监听我们的退出事件：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> <span class="title class_">ExitHook</span>());</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Do something, will exit&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ExitHook</span> <span class="keyword">extends</span> <span class="title class_">Thread</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;exiting. clear resources...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们会得到如下的结果：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Do something, will <span class="built_in">exit</span></span><br><span class="line">exiting. clear resources...</span><br></pre></td></tr></table></figure>
-<p>聪明的你一定发现了，我们可以在 <code>ExitHook</code> 去处理那些资源的释放。那么，在实际应用中是如何体现优雅停机呢？</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">kill</span> -15 pid </span><br></pre></td></tr></table></figure>
-<p>通过该命令发送一个关闭信号给到jvm, 然后就开始执行 Shutdown Hook 了，但是值得注意的是不能够使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 pid</span><br></pre></td></tr></table></figure>
-<p>如果这么干的话，相当于从OS方面直接将其所有的资源回收，类比一下好比强行断电，就没有任何进行优雅停机的机会了。不过这里是最简单的实现，在实际的工作中，我们会遇见各种情况：在清理退出的时候出现异常怎么处理？清理的时间过程怎么处理？等等问题。因此在Spring中，为了简化这样的操作已经帮助我们封装了一些。</p>
-<h1>Spring 的模式</h1>
-<p>让我们想想，Spring一个IOC容器，他能够管理的是收到其托管的对象，因此我们也可以很合理的想到我们需要定义托管对象的解构函数才能够被Spring在退出时释放，我们将问题简单化点，有三个事情是Spring需要解决的：</p>
-<ul>
-<li>Spring 需要值得 Runtime 在退出</li>
-<li>Spring 知道需要释放哪些资源</li>
-<li>Spring 需要知道如何释放资源</li>
-</ul>
-<p>因为 Spring 版本繁杂，以 <code>org.springframework.boot:2.1.14.RELEASE</code> 版本分析为例。</p>
-<h2 id="Spring-的-Runtime-Hook"><a class="header-anchor" href="#Spring-的-Runtime-Hook">¶</a>Spring 的 Runtime Hook</h2>
-<p>毕竟 Spring 也是 JVM 上的实现，这一切势必也依赖于 JVM 的 Shuthook，秘密就在 <code>org.springframework.context.support.AbstractApplicationContext#registerShutdownHook</code> 处</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">registerShutdownHook</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.shutdownHook == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// No shutdown hook registered yet.</span></span><br><span class="line">        <span class="built_in">this</span>.shutdownHook = <span class="keyword">new</span> <span class="title class_">Thread</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (startupShutdownMonitor) &#123;</span><br><span class="line">                    doClose();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="built_in">this</span>.shutdownHook);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Spring-知道需要释放哪些资源"><a class="header-anchor" href="#Spring-知道需要释放哪些资源">¶</a>Spring 知道需要释放哪些资源</h2>
-<p>回忆一下 <code>Spring Bean Lifecycle</code><br>
-<img src="https://s1.ax1x.com/2020/05/31/t1Pm8S.png" alt="t1Pm8S.png"></p>
-<p>没错，当 Spring Context 销毁的时候，会调用 <code>destroy()</code> 函数，实际上这行函数也非常的简单也就是</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// org.springframework.context.support.AbstractApplicationContext#destroy</span></span><br><span class="line"><span class="meta">@Deprecated</span> <span class="comment">//Spring 5 即将废弃</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line">    close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="built_in">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">        doClose();</span><br><span class="line">        <span class="comment">// If we registered a JVM shutdown hook, we don&#x27;t need it anymore now:</span></span><br><span class="line">        <span class="comment">// We&#x27;ve already explicitly closed the context.</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.shutdownHook != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Runtime.getRuntime().removeShutdownHook(<span class="built_in">this</span>.shutdownHook);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (IllegalStateException ex) &#123;</span><br><span class="line">                <span class="comment">// ignore - VM is already shutting down</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实则我们定位到最终的释放资源处就是 <code>org.springframework.context.support.AbstractApplicationContext#doClose</code> 函数，我们在尽情的分析一下。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doClose</span><span class="params">()</span> &#123;</span><br><span class="line">    LiveBeansView.unregisterApplicationContext(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Publish shutdown event.</span></span><br><span class="line">        publishEvent(<span class="keyword">new</span> <span class="title class_">ContextClosedEvent</span>(<span class="built_in">this</span>)); ➀</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Stop all Lifecycle beans, to avoid delays during individual destruction.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.lifecycleProcessor != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.lifecycleProcessor.onClose(); ➁</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">            logger.warn(<span class="string">&quot;Exception thrown from LifecycleProcessor on context close&quot;</span>, ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Destroy all cached singletons in the context&#x27;s BeanFactory.</span></span><br><span class="line">    destroyBeans(); ➂</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Close the state of this context itself.</span></span><br><span class="line">    closeBeanFactory(); ➃</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Let subclasses do some final clean-up if they wish...</span></span><br><span class="line">    onClose(); ➄</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reset local application listeners to pre-refresh state.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.earlyApplicationListeners != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.applicationListeners.clear();</span><br><span class="line">        <span class="built_in">this</span>.applicationListeners.addAll(<span class="built_in">this</span>.earlyApplicationListeners);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Switch to inactive.</span></span><br><span class="line">    <span class="built_in">this</span>.active.set(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>剪去那些无影响的代码部分，我们可以发现对于 Spring 来说，真正关闭的顺序是</p>
-<ol>
-<li>发布一个关闭事件</li>
-<li>调用生命周期处理器</li>
-<li>销毁所有的Bean</li>
-<li>关闭Bean工厂</li>
-<li>调用子类的Close函数</li>
-</ol>
-<p>对于 ➀➁ 是回调机制，不涉及到对象的销毁，➄ 是对于继承类的调用，所有的销毁都在 ➂ 中。受到 Spring 托管的对象繁多，不一定所有的对象都需要销毁行为。进一步定位一下，我们就发现了</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroySingleton</span><span class="params">(String beanName)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.removeSingleton(beanName);</span><br><span class="line">    DisposableBean disposableBean;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="built_in">this</span>.disposableBeans) &#123;</span><br><span class="line">        disposableBean = (DisposableBean)<span class="built_in">this</span>.disposableBeans.remove(beanName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.destroyBean(beanName, disposableBean);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实际上那些需要销毁的对象都应该是 <code>DisposableBean</code> 对象。</p>
-<p>那我们对于第二个问题也知道了，Spring会销毁那些 <code>DisposableBean</code> 类型的 Bean对象。</p>
-<h2 id="Spring-需要知道如何释放资源"><a class="header-anchor" href="#Spring-需要知道如何释放资源">¶</a>Spring 需要知道如何释放资源</h2>
-<p>其实这是一个不是问题的问题，对于 <code>DisposableBean</code> 来说仅仅需要实现一个接口</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DisposableBean</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> <span class="keyword">throws</span> Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于需要实现释放资源的对象需要自行实现此接口。</p>
-<h2 id="组合在一起"><a class="header-anchor" href="#组合在一起">¶</a>组合在一起</h2>
-<p>我们已经知道我们最开始提出的 3 个问题，让我们试着用这3个问题的答案拼凑处一个 Spring Web Server 是如何优雅的停机的。那我们需要证实一件事情： Web Server内部的资源都是 DisposableBean，并且受 Spring 托管。</p>
-<p>通过反向定位的办法，可以快速的定位到比如 数据库的资源 <code>org.springframework.orm.jpa.AbstractEntityManagerFactoryBean#destroy</code> 在销毁的阶段会将 Entity 对象进行销毁。对于收到 Spring 托管的对象的优雅停机的路径是：</p>
-<p><code>Runtine Shutdown Hook</code> -&gt; <code>Context:destory()</code> -&gt; <code>DisposableBean:destroy()</code>， 对于大部分的资源比如数据库，服务发现，等等都是这样的销毁方式。</p>
-<h2 id="进阶：-Web-容器"><a class="header-anchor" href="#进阶：-Web-容器">¶</a>进阶： Web 容器</h2>
-<h3 id="一个疑问"><a class="header-anchor" href="#一个疑问">¶</a>一个疑问</h3>
-<p>对于普通的 Bean 的销毁我们已经完全了解，但是对于动手做实验的不知道有没有发现，其实 <code>Web Server</code> 并不是在 <code>destroySingleton</code> 阶段进行销毁的，那他是在哪里销毁的呢？回忆一下，我们除了销毁Beans 之外，是不是还有最后一个 <code>close()</code> 函数可以调用，没有错！对于 <code>Tomcat ...</code> 这些web容器来说，本身就是 <code>ApplicationContext</code> 的一个子类并非是 <code>Bean</code> 一部分，因此他们的 <code>close()</code> 函数在 <code>org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext</code>处</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onClose</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onClose();</span><br><span class="line">    <span class="built_in">this</span>.stopAndReleaseWebServer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的函数是直接调用底层代码就不做展开，但是隐约有些觉得不对？ <strong>如果</strong>我们在接收到一个远程访问的时候，触发了 <code>Shutdown</code> 事件，我们实际上是无法获得正确的返回的。</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">+------------------+          +---------------------------+         +--------------------------------------+</span><br><span class="line">|   controller     |          |       services            |         |               dao                    |</span><br><span class="line">|                  +---------&gt;+                           +---------&gt;                                      |</span><br><span class="line">|                  |          |                           | 2. Query DB                          Entitymanger</span><br><span class="line">+------------------+          +---------------------------+         +---------------------------------^----+</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                                                                                      |</span><br><span class="line">                                 +--------------------------------------+                             |1. destory()</span><br><span class="line">                                 |                                      |                             |</span><br><span class="line">                                 |    Destory                           +-----------------------------+</span><br><span class="line">                                 |                                      |</span><br><span class="line">                                 +--------------------------------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>如上图所示，因为我们知道 <code>stop webserver</code> 是在 <code>destory context</code> 之后的，那我们岂不是会出现一边在接受请求但是这些请求都是会失败的吗？如果是是这样的，可真是太愚蠢的设计了。</p>
-<h3 id="另辟蹊径"><a class="header-anchor" href="#另辟蹊径">¶</a>另辟蹊径</h3>
-<p>对于这样的情况，我们在 shutdown 之前让 Web server 停止接受任何的请求，但可惜的是在此版本的 <code>tomcat</code> 不支持此特效，需要待 <code>9.0.33+</code> <a href="https://spring.io/blog/2020/05/15/spring-boot-2-3-0-available-now">spring-boot-2-3-0-available-now</a>。</p>
-<p>在早期的版本中，我们依然可以通过一些额外的方式将这件事情做到：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Gh4657Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(Gh4657Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/pause&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">pause</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Pause complete&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> GracefulShutdown <span class="title function_">gracefulShutdown</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">GracefulShutdown</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> EmbeddedServletContainerCustomizer <span class="title function_">tomcatCustomizer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">EmbeddedServletContainerCustomizer</span>() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">customize</span><span class="params">(ConfigurableEmbeddedServletContainer container)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (container <span class="keyword">instanceof</span> TomcatEmbeddedServletContainerFactory) &#123;</span><br><span class="line">                    ((TomcatEmbeddedServletContainerFactory) container)</span><br><span class="line">                            .addConnectorCustomizers(gracefulShutdown());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">GracefulShutdown</span> <span class="keyword">implements</span> <span class="title class_">TomcatConnectorCustomizer</span>,</span><br><span class="line">            ApplicationListener&lt;ContextClosedEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(GracefulShutdown.class);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">volatile</span> Connector connector;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">customize</span><span class="params">(Connector connector)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.connector = connector;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onApplicationEvent</span><span class="params">(ContextClosedEvent event)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.connector.pause();</span><br><span class="line">            <span class="type">Executor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="built_in">this</span>.connector.getProtocolHandler().getExecutor();</span><br><span class="line">            <span class="keyword">if</span> (executor <span class="keyword">instanceof</span> ThreadPoolExecutor) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="type">ThreadPoolExecutor</span> <span class="variable">threadPoolExecutor</span> <span class="operator">=</span> (ThreadPoolExecutor) executor;</span><br><span class="line">                    threadPoolExecutor.shutdown();</span><br><span class="line">                    <span class="keyword">if</span> (!threadPoolExecutor.awaitTermination(<span class="number">30</span>, TimeUnit.SECONDS)) &#123;</span><br><span class="line">                        log.warn(<span class="string">&quot;Tomcat thread pool did not shut down gracefully within &quot;</span></span><br><span class="line">                                + <span class="string">&quot;30 seconds. Proceeding with forceful shutdown&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">                    Thread.currentThread().interrupt();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以自定义自己的 <code>ContextClosedEvent</code> 事件，然后将 <code>Tomcat</code> 的处理线程先暂停。</p>
-<h3 id="又一个疑问？"><a class="header-anchor" href="#又一个疑问？">¶</a>又一个疑问？</h3>
-<p>在 <code>Spring-Boot-2.3.0</code> 之前我们都需要这么处理吗？我的天，很多写了 Spring 已经超过十年了，难道 <code>Spring</code> 一直没有解决这个问题吗？答案也是否定的。</p>
-<p>还记得我们在 Spring 的早期阶段，我们通过 XML 来构造一个Spring项目的时候吗？那时候的方案是将我们的Web 程序作为一个 War 提供给 <code>Tomcat</code> 的 webapps中，此时tomcat会尝试构造我们的 <code>DispatcherServlet</code> 将整个系统运作起来，而在 Shutdown 阶段，这样的逻辑也是由 <code>Tomcat</code> 进行处理的。也就是说，对于 <code>Embeded Web Server</code> 的 <code>Spring Boot</code> 和 传统的 <code>Web Server</code> 在 <code>Destory Spring Applicaion Context</code> 这一步的时间是不一样的，<code>Spring Boot with Embeded Web Server</code> 在 <code>2.3.0</code> 之前的版本都是先关闭 <code>Context</code> 上下文再关闭 Web容器，而传统的 <code>Web Server</code> 是先关闭 <code>Web容器</code> 再去关闭 <code>Context</code> 上下文。</p>
-<p>对于 传统的 <code>Web Server</code>:</p>
-<p><code>Runtime Shutdwon Hook</code> -&gt; <code>org.apache.catalina.util.LifecycleBase#stop</code> -&gt; <code>Spring Context Stop</code></p>
-<p>因此出现优雅停机问题的集中在 <code>Spring Boot &lt; 2.3.0</code> 的版本内。</p>
-<h1>优雅停机 in action</h1>
-<h2 id="传统的-Tomcat-容器"><a class="header-anchor" href="#传统的-Tomcat-容器">¶</a>传统的 Tomcat 容器</h2>
-<p>我们执行 <code>catalina.sh stop &lt;WAITING SECONDS&gt;</code> 就可以执行 Tomcat 的优雅停机</p>
-<h2 id="Spring-Boot-2-3-0：内置容器"><a class="header-anchor" href="#Spring-Boot-2-3-0：内置容器">¶</a>Spring Boot &gt; 2.3.0：内置容器</h2>
-<p>默认完成了优雅停机</p>
-<h2 id="Spring-Boot-内置容器"><a class="header-anchor" href="#Spring-Boot-内置容器">¶</a>Spring Boot 内置容器</h2>
-<h3 id="Way-1-自己实现优雅停机"><a class="header-anchor" href="#Way-1-自己实现优雅停机">¶</a>Way 1: 自己实现优雅停机</h3>
-<p>请查阅参考部分，或者是上文处代码自行实现</p>
-<h3 id="Way-2：基于平台实现"><a class="header-anchor" href="#Way-2：基于平台实现">¶</a>Way 2：基于平台实现</h3>
-<p>现在的很多应用都跑在 <code>kubernetes</code> 这样的容器平台上，此时我们 POD 在进行 terminated 操作的时候，会首先向运行的进程发送一个 <code>SIGTERM</code> 指令，然后等待 30秒， 在30后没有终结的话，会再次发送一个 <code>SIGKILL</code> 进行强制终结，因此对于容器平台，我们要注意的这一个等待时间是否足够进行资源的回收。</p>
-<p>但是我们还有一个问题，就是正在请求的流量问题，对于这个问题我们需要进行组合拳，还记得 <code>kubernetes</code> 中有 <code>readinessProbe</code> 的概念吗？当我们的Pod启动的时候，如果 <code>Readiness</code> 未就绪， <code>kubernetes</code> 也不会将我们的 POD 作为 <code>SVC</code> 的可选地址（采用SVC负债均衡的情况下）。因此我们的应用在接受到 <code>SIGTERM</code> 的第一时刻就将<br>
-<code>Readiness</code> 的地址进行失败行为，并且等待一定时间之后再进行 <code>Spring Context Shutdown</code> 操作。但是对于超长时间的请求依然会有失败的可能，不过对于大部分的应用来说，优雅停机本身也只是等待固定时间，因此对于超长持续的请求让其失败也是可选的方案。</p>
-<h2 id="Spring-Cloud-下的复杂场景"><a class="header-anchor" href="#Spring-Cloud-下的复杂场景">¶</a>Spring Cloud 下的复杂场景</h2>
-<p>我们来看下更加复杂的 Spring Cloud 下的场景，对于 Spring Cloud 体系内有一个特殊的点： <code>Eureka Server</code> 和 <code>Eureka Client</code> 的关系，我们来看下当接入时候的 <code>destory()</code> 行为。</p>
-<h3 id="Eureka-主动下线"><a class="header-anchor" href="#Eureka-主动下线">¶</a>Eureka 主动下线</h3>
-<p>当 <code>Context:destory()</code> 的时候，Spring会关闭一个名为 <code>org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry</code> 对象，此对象在 <code>org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration#eurekaAutoServiceRegistration</code> 进行初始化的。因此在 <code>destory()</code> 阶段，实例就会自动从 <code>Eureka</code> 下线。</p>
-<p><img src="https://s1.ax1x.com/2020/05/31/t1OxRs.png" alt="t1OxRs.png"></p>
-<h3 id="Eureka-Client-侧"><a class="header-anchor" href="#Eureka-Client-侧">¶</a>Eureka Client 侧</h3>
-<p>因为 <code>Eureka</code> 的服务发现机制并没有通知客户端更新的机制，因此，此时的 <code>Eureka Client</code> 侧的实例依然会去尝试访问已经下线的 <code>Instance</code>，这是由于Eureka是AP系统导致的缺陷并没有解决之道。</p>
-<p>此时当其他的服务访问到此服务的此实例的时候，会导致服务<strong>访问错误</strong>。为了避免这样的错误发生，一般来说有几种解决之道：1.我们可以为客户端制定重试机制（参考 <a href="https://medium.com/@ruhshan_ahmed/customize-feigns-retry-mechanism-f015036a33a">How To Customize Feign’s Retry Mechanism</a>）， 2. 手动提前离线：我们使用 Spring Boot Admin 手动在停机之前让实例先下线，这样等到一段时间之后我们就可以将实例进行真正的销毁，<a href="https://codecentric.github.io/spring-boot-admin/current/">Spring Boot Admin</a>，3. 不再使用 Eureka 这样的客户端负债均衡策略，使用类似 <code>K8s 的 SVC</code> 机制可以将这个时间缩短。</p>
-<h1>参考</h1>
-<ul>
-<li><a href="https://github.com/spring-projects/spring-boot/issues/4657">Allow the embedded web server to be shut down gracefully</a></li>
-<li><a href="https://dzone.com/articles/spring-bean-lifecycle">spring bean lifecycle</a></li>
-<li><a href="https://github.com/SchweizerischeBundesbahnen/springboot-graceful-shutdown">springboot-graceful-shutdown</a></li>
-<li><a href="https://medium.com/@ruhshan_ahmed/customize-feigns-retry-mechanism-f015036a33a">How To Customize Feign’s Retry Mechanism</a></li>
-</ul>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
       </categories>
   </entry>
   <entry>
@@ -10768,6 +10768,126 @@ Filter 是 Motan 很重要的一个实现接口</p>
       </categories>
       <tags>
         <tag>istio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How Merbridge Works</title>
+    <url>/2023/05/17/networking/istio/how-merbridge-works/</url>
+    <content><![CDATA[<p>在 <a href="https://mp.weixin.qq.com/s/Ht1HuLxQ2RngrVD92TBl4Q">服务网格加速器 Merbridge 正式进入 CNCF 沙箱</a> 中提及使用 Cillum 来提速 Istio，我们来瞧瞧这个原理是如何的。</p>
+<div>
+    <label class="author-mark-label">注意</label>
+    <p class="author-mark">本文基于 0.8.1 版本</p>
+</div>
+<h2 id="Istio-iptable-流量路径"><a class="header-anchor" href="#Istio-iptable-流量路径">¶</a>Istio iptable 流量路径</h2>
+<p>在传统的 Istio 流量路径中，outbound 流量由 APP 出来被 iptables 劫持，然后通过内核转发给 Envoy，Envoy 再出去。Inbound 类似，因此实际上数据包在内核中倒腾了好几次</p>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171028862.png" alt=""></p>
+<h2 id="优化手段"><a class="header-anchor" href="#优化手段">¶</a>优化手段</h2>
+<p>既然是 ebpf 的手段，那肯定是 <a href="https://arthurchiao.art/blog/socket-acceleration-with-ebpf-zh/">[译] 利用 ebpf sockmap/redirection 提升 socket 性能（2020）</a><br>
+目标是绕过内核的 <code>TCP/IP</code> 协议栈</p>
+<h2 id="How-Merbridge-Works"><a class="header-anchor" href="#How-Merbridge-Works">¶</a>How Merbridge Works</h2>
+<p><code>iptables</code> 本身使用 <code>DNAT</code> 功能做流量转发<br>
+这里主要有两个要点：</p>
+<ol>
+<li>修改连接发起时的目的地址，让流量能够发送到新的接口；</li>
+<li>让 Envoy 能识别原始的目的地址，以能够识别流量。</li>
+</ol>
+<p>想要用 <code>eBPF</code> 模拟 <code>iptables</code> 的能力，就需要使用 <code>eBPF</code> 实现类似 <code>iptables</code> <code>DNAT</code> 的能力。</p>
+<ol>
+<li>使用 eBPF 的 connect 程序修改 user_ip 和 user_port 实现。</li>
+<li>需要用到 ORIGINAL_DST 的概念，这在 Linux 内核中是 netfilter 模块专属的。</li>
+</ol>
+<blockquote>
+<p>其原理为：应用程序在收到连接之后调用 get_sockopts 函数，获取 ORIGINAL_DST。如果经过了 iptables 的 DNAT，那么 iptables 就会给当前的 socket 设置 ORIGINAL_DST 这个值，并把原有的 IP + 端口写入这个值，应用程序就可以根据连接拿到原有的目的地址。</p>
+</blockquote>
+<blockquote>
+<p>PS: 值得注意的 eBPF 运行在内核态，因此不能想象其运行在 cgroup 的限制的虚拟空间中</p>
+</blockquote>
+<h3 id="Outbound-流量"><a class="header-anchor" href="#Outbound-流量">¶</a>Outbound 流量</h3>
+<h4 id="早期版本"><a class="header-anchor" href="#早期版本">¶</a>早期版本</h4>
+<p>在早期的版本中，采用了一个比较巧妙的方式来做</p>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171045615.png" alt=""></p>
+<ol>
+<li>在应用向外发起连接时，connect 程序会将目标地址修改为 127.x.y.z:15001，并用 cookie_original_dst 保存原始目的地址。</li>
+<li>在 sockops 程序中，将当前 sock 和四元组保存在 sock_pair_map 中。同时，将四元组信息和对应的原始目的地址写入 pair_original_dst 中 (之所以不用 cookie，是因为 get_sockopt 函数无法获取当前 cookie)。</li>
+<li>Envoy 收到连接之后会调用 getsockopt 获取当前连接的目的地址，get_sockopt 函数会根据四元组信息从 pair_original_dst 取出原始目的地址并返回，由此完全建立连接。</li>
+<li>在发送数据阶段，redir 程序会根据四元组信息，从 sock_pair_map 中读取 sock，然后通过 bpf_msg_redirect_hash 进行直接转发，加速请求。</li>
+</ol>
+<p>其中，之所以在 connect 时，修改目的地址为 127.x.y.z 而不是 127.0.0.1，是因为在不同的 Pod 中，可能产生冲突的四元组，使用此方式即可巧妙地避开冲突 (每个 Pod 间的目的 IP 不同，不会出现冲突的情况)。</p>
+<p><a href="https://github.com/merbridge/merbridge/blob/cc805614079c74dfc87dae9cc3b935ed63a0b176/bpf/mb_connect.c#L180-L191">source code</a></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">__u64 uid = bpf_get_current_uid_gid() &amp; <span class="number">0xffffffff</span>;</span><br><span class="line">__u32 dst_ip = ctx-&gt;user_ip4;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里的 outip 就是一个自增变量，来区分在同一个宿主机上不同命名空间内的来自相同 localhost 的请求</span></span><br><span class="line">ctx-&gt;user_ip4 = bpf_htonl(<span class="number">0x7f800000</span> | (outip++));</span><br><span class="line"><span class="keyword">if</span> (outip &gt;&gt; <span class="number">20</span>) &#123;</span><br><span class="line">    outip = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">ctx-&gt;user_port = bpf_htons(OUT_REDIRECT_PORT);</span><br></pre></td></tr></table></figure>
+<h4 id="当前版本-0-7-2"><a class="header-anchor" href="#当前版本-0-7-2">¶</a>当前版本 (&gt;0.7.2)</h4>
+<p>当前版本采用了 CNI 模式，较为复杂，但是会更加全面。</p>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171100535.png" alt=""></p>
+<p>大部分 CNI 就是在节点上运行一个 <code>daemonsets</code> 的 <code>POD</code> 基于 <code>Network NS</code> 做一些工作，这里也一样，当我们安装完成 <code>merbridge</code>，我们就能看到对应的节点 POD，</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ kubectl get pod -n istio-system</span><br><span class="line">NAME                                    READY   STATUS    RESTARTS   AGE</span><br><span class="line">istio-ingressgateway-676d4bf8b7-24257   1/1     Running   0          57d</span><br><span class="line">istiod-5fb4fb7f6b-5pzbs                 1/1     Running   0          57d</span><br><span class="line">merbridge-c4jj9                         1/1     Running   0          14h</span><br><span class="line">merbridge-jldmx                         1/1     Running   0          14h</span><br><span class="line">merbridge-x65x6                         1/1     Running   0          14h</span><br></pre></td></tr></table></figure>
+<p>当然还有 CLI 命令，代码在<a href="https://github.com/merbridge/merbridge/blob/3db9b4462a0d4e61791a57dcbe5728607eb35e3d/internal/cni-server/cni-plugin.go#L63-L111">这里</a></p>
+<p>启动逻辑在 <a href="https://github.com/merbridge/merbridge/blob/554cf33d429fad8b29252ae0776fb8fec8d7aecc/controller/pod.go#L40-L71">RunLocalPodController</a> 这里不做展开，<br>
+这里主要的工作就是维护当前 <code>NODE</code> 节点上的 <code>POD IP</code> 列表。</p>
+<p>下面就一个新增 POD 的流程来看看。</p>
+<h5 id="POD-初始化"><a class="header-anchor" href="#POD-初始化">¶</a>POD 初始化</h5>
+<ol>
+<li>节点上的 membrige 会更新本Node节点的 IP 清单</li>
+</ol>
+<figure class="highlight go"><figcaption><span>新建 POD</span><a href="https://github.com/merbridge/merbridge/blob/554cf33d429fad8b29252ae0776fb8fec8d7aecc/controller/pod.go#L106-L139">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addFunc</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	pod, ok := obj.(*v1.Pod)</span><br><span class="line">	log.Debugf(<span class="string">&quot;got pod updated %s/%s&quot;</span>, pod.Namespace, pod.Name)</span><br><span class="line"></span><br><span class="line">	_ip, _ := linux.IP2Linux(pod.Status.PodIP)</span><br><span class="line">	log.Infof(<span class="string">&quot;update local_pod_ips with ip: %s&quot;</span>, pod.Status.PodIP)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新 ebpf 中的 localIPMAP 对象</span></span><br><span class="line">	err := ebpfs.GetLocalIPMap().Update(_ip, &amp;p, ebpf.UpdateAny)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Errorf(<span class="string">&quot;update local_pod_ips %s error: %v&quot;</span>, pod.Status.PodIP, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>CNI 会将当前 POD IP 植入命令空间</li>
+</ol>
+<figure class="highlight go"><figcaption><span>CNI-CMDADD</span><a href="https://github.com/merbridge/merbridge/blob/3db9b4462a0d4e61791a57dcbe5728607eb35e3d/internal/cni-server/cni-plugin.go#L208-L241">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *server)</span></span> listenConfig(addr net.Addr, netns <span class="type">string</span>) net.ListenConfig &#123;</span><br><span class="line">	<span class="keyword">return</span> net.ListenConfig&#123;</span><br><span class="line">		Control: <span class="function"><span class="keyword">func</span><span class="params">(network, address <span class="type">string</span>, conn syscall.RawConn)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">			<span class="keyword">var</span> operr <span class="type">error</span></span><br><span class="line">			<span class="keyword">if</span> err := conn.Control(<span class="function"><span class="keyword">func</span><span class="params">(fd <span class="type">uintptr</span>)</span></span> &#123;</span><br><span class="line">                <span class="comment">// 创建一个 mark_pod_ips_map 在 epbf 中</span></span><br><span class="line">				m, err := ebpf.LoadPinnedMap(path.Join(s.bpfMountPath, <span class="string">&quot;mark_pod_ips_map&quot;</span>), &amp;ebpf.LoadPinOptions&#123;&#125;)</span><br><span class="line">				<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">					operr = err</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">var</span> ip unsafe.Pointer</span><br><span class="line">				<span class="keyword">switch</span> v := addr.(<span class="keyword">type</span>) &#123; <span class="comment">// todo instead of hash</span></span><br><span class="line">				<span class="keyword">case</span> *net.IPNet: <span class="comment">// nolint: typecheck</span></span><br><span class="line">					ip, err = linux.IP2Linux(v.IP.String())</span><br><span class="line">				<span class="keyword">case</span> *net.IPAddr: <span class="comment">// nolint: typecheck</span></span><br><span class="line">					ip, err = linux.IP2Linux(v.String())</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">					operr = err</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				key := getMarkKeyOfNetns(netns)</span><br><span class="line">                <span class="comment">// 将 IP 更换新到其中</span></span><br><span class="line">				operr = m.Update(key, ip, ebpf.UpdateAny)</span><br><span class="line">				<span class="keyword">if</span> operr != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				operr = syscall.SetsockoptInt(<span class="type">int</span>(fd), unix.SOL_SOCKET, ns.SoMark, <span class="type">int</span>(key))</span><br><span class="line">			&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> operr</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Outbound-处理"><a class="header-anchor" href="#Outbound-处理">¶</a>Outbound 处理</h5>
+<h6 id="Connect-阶段"><a class="header-anchor" href="#Connect-阶段">¶</a>Connect 阶段</h6>
+<ol>
+<li>在应用向外发起连接时，connect 程序会先去读取下 cgroup_info，在 <code>CNI</code> 模式中，会获取当前的 <code>POD IP</code>，<a href="https://github.com/merbridge/merbridge/blob/f88730f95eb808d25f181473c75f2c4748b943b1/bpf/headers/cgroup.h#L47-L71">源码地址</a></li>
+<li>通过 cookie 保存 cookie_original_dst 信息，这个在后续 Envoy 中的 get_sockopt 函数需要使用到。</li>
+<li>然后将 bpf_bind 把  ctx 和这个 cgroup 内的 socket 绑定，后续可以获取 ctx 在后续的执行</li>
+</ol>
+<figure class="highlight c"><figcaption><span>tcp4connect</span><a href="https://github.com/merbridge/merbridge/blob/cc805614079c74dfc87dae9cc3b935ed63a0b176/bpf/mb_connect.c#L61-L86">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">int</span> <span class="title function_">tcp_connect4</span><span class="params">(<span class="keyword">struct</span> bpf_sock_addr *ctx)</span></span><br><span class="line">&#123;   </span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cgroup_info</span> <span class="title">cg_info</span>;</span></span><br><span class="line">    <span class="keyword">if</span> (!get_current_cgroup_info(ctx, &amp;cg_info)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    __u32 curr_pod_ip;</span><br><span class="line">    __u32 _curr_pod_ip[<span class="number">4</span>];</span><br><span class="line">    set_ipv6(_curr_pod_ip, cg_info.cgroup_ip);</span><br><span class="line">    curr_pod_ip = get_ipv4(_curr_pod_ip);</span><br><span class="line"></span><br><span class="line">    __u64 uid = bpf_get_current_uid_gid() &amp; <span class="number">0xffffffff</span>;</span><br><span class="line">    __u32 dst_ip = ctx-&gt;user_ip4;</span><br><span class="line">    <span class="keyword">if</span> (uid != SIDECAR_USER_ID) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((dst_ip &amp; <span class="number">0xff</span>) == <span class="number">0x7f</span>) &#123;</span><br><span class="line">            <span class="comment">// app call local, bypass.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        __u64 cookie = bpf_get_socket_cookie_addr(ctx);</span><br><span class="line">        <span class="comment">// app call others</span></span><br><span class="line">        debugf(<span class="string">&quot;call from user container: cookie: %d, ip: %pI4, port: %d&quot;</span>,</span><br><span class="line">               cookie, &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// we need redirect it to envoy.</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">origin_info</span> <span class="title">origin</span>;</span></span><br><span class="line">        <span class="built_in">memset</span>(&amp;origin, <span class="number">0</span>, <span class="keyword">sizeof</span>(origin));</span><br><span class="line">        set_ipv4(origin.ip, dst_ip);</span><br><span class="line">        origin.port = ctx-&gt;user_port;</span><br><span class="line">        origin.flags = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (bpf_map_update_elem(&amp;cookie_original_dst, &amp;cookie, &amp;origin,</span><br><span class="line">                                BPF_ANY)) &#123;</span><br><span class="line">            printk(<span class="string">&quot;write cookie_original_dst failed&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (curr_pod_ip) &#123;</span><br><span class="line">            <span class="comment">// 一些检查 SKIP </span></span><br><span class="line">            <span class="comment">// 把这个 ctx 和 socket 绑定</span></span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span> =</span> &#123;</span><br><span class="line">                .sin_addr =</span><br><span class="line">                    &#123;</span><br><span class="line">                        .s_addr = curr_pod_ip,</span><br><span class="line">                    &#125;,</span><br><span class="line">                .sin_port = <span class="number">0</span>,</span><br><span class="line">                .sin_family = <span class="number">2</span>,</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">if</span> (bpf_bind(ctx, &amp;addr, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in))) &#123;</span><br><span class="line">                debugf(<span class="string">&quot;bind %pI4 error&quot;</span>, &amp;curr_pod_ip);</span><br><span class="line">            &#125;</span><br><span class="line">            ctx-&gt;user_ip4 = localhost;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 旧版本兼容</span></span><br><span class="line">            ctx-&gt;user_ip4 = bpf_htonl(<span class="number">0x7f800000</span> | (outip++));</span><br><span class="line">            <span class="keyword">if</span> (outip &gt;&gt; <span class="number">20</span>) &#123;</span><br><span class="line">                outip = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ctx-&gt;user_port = bpf_htons(OUT_REDIRECT_PORT);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// outbound 流量</span></span><br><span class="line">        <span class="comment">// from envoy to others</span></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>做完这些的时候，我们已经完成了第一部分：修改连接发起时的目的地址，让流量能够发送到新的接口。</p>
+<h6 id="SetOps-GetOps-阶段"><a class="header-anchor" href="#SetOps-GetOps-阶段">¶</a>SetOps/GetOps 阶段</h6>
+<ol>
+<li>在请求建立成功的时候，会将这个对象保存起来，这里刚好用到我们上面的 <code>cookie</code> 中储存的值。</li>
+</ol>
+<figure class="highlight c"><figcaption><span>sockops_ipv4</span><a href="https://github.com/merbridge/merbridge/blob/7fd1fddb7e3f64f125dafb9bb75059ed5341408d/bpf/mb_sockops.c#L23-L70">github</a></figcaption><table><tr><td class="code"><pre><span class="line">__section(<span class="string">&quot;sockops&quot;</span>) <span class="type">int</span> <span class="title function_">mb_sockops</span><span class="params">(<span class="keyword">struct</span> bpf_sock_ops *skops)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">switch</span> (skops-&gt;op) &#123;</span><br><span class="line">    <span class="keyword">case</span> BPF_SOCK_OPS_PASSIVE_ESTABLISHED_CB:</span><br><span class="line">    <span class="keyword">case</span> BPF_SOCK_OPS_ACTIVE_ESTABLISHED_CB:</span><br><span class="line">        <span class="keyword">switch</span> (skops-&gt;family) &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> ENABLE_IPV4</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            <span class="comment">// AF_INET, we don&#x27;t include socket.h, because it may</span></span><br><span class="line">            <span class="comment">// cause an import error.</span></span><br><span class="line">            <span class="keyword">return</span> sockops_ipv4(skops);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">int</span> <span class="title function_">sockops_ipv4</span><span class="params">(<span class="keyword">struct</span> bpf_sock_ops *skops)</span></span><br><span class="line">&#123;</span><br><span class="line">    __u64 cookie = bpf_get_socket_cookie_ops(skops);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pair</span> <span class="title">p</span>;</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;p, <span class="number">0</span>, <span class="keyword">sizeof</span>(p));</span><br><span class="line">    set_ipv4(p.sip, skops-&gt;local_ip4);</span><br><span class="line">    p.sport = bpf_htons(skops-&gt;local_port);</span><br><span class="line">    set_ipv4(p.dip, skops-&gt;remote_ip4);</span><br><span class="line">    p.dport = skops-&gt;remote_port &gt;&gt; <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">origin_info</span> *<span class="title">dst</span> =</span></span><br><span class="line">        bpf_map_lookup_elem(&amp;cookie_original_dst, &amp;cookie);</span><br><span class="line">    <span class="keyword">if</span> (dst) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">origin_info</span> <span class="title">dd</span> =</span> *dst;</span><br><span class="line">        <span class="comment">// 在 Istio 中，Envoy 用的方式是使用当前 PodIP 加服务端口。经过上述入口流量处理后，我们会发现由于 PodIP 也存在于 local_pod_ips 中，那么这个请求会被转发到 PodIP + 15006 端口，这显然是不行的，会造成无限递归。</span></span><br><span class="line">        <span class="comment">// 即在 Envoy 尝试建立连接时，还是会走重定向到 15006 端口，但是在 sockops 阶段会判断源 IP 和目的地址 IP 是否一致。如果一致，代表发送了错误的请求，那么我们会在 sockops 丢弃这个连接，并将当前的 ProcessID 和 </span></span><br><span class="line">        <span class="comment">// IP 地址信息写入 process_ip 这个 map，让 eBPF 支持进程与 IP 的对应关系。当下次发送请求时，直接从 process_ip 表检查目的地址是否与当前 IP 地址一致。</span></span><br><span class="line">        <span class="keyword">if</span> (!(dd.flags &amp; <span class="number">1</span>)) &#123;</span><br><span class="line">            __u32 pid = dd.pid;</span><br><span class="line">            <span class="comment">// process ip not detected</span></span><br><span class="line">            <span class="keyword">if</span> (skops-&gt;local_ip4 == envoy_ip ||</span><br><span class="line">                skops-&gt;local_ip4 == skops-&gt;remote_ip4) &#123;</span><br><span class="line">                <span class="comment">// envoy to local</span></span><br><span class="line">                __u32 ip = skops-&gt;remote_ip4;</span><br><span class="line">                debugf(<span class="string">&quot;detected process %d&#x27;s ip is %pI4&quot;</span>, pid, &amp;ip);</span><br><span class="line">                bpf_map_update_elem(&amp;process_ip, &amp;pid, &amp;ip, BPF_ANY);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// envoy to envoy</span></span><br><span class="line">                __u32 ip = skops-&gt;local_ip4;</span><br><span class="line">                bpf_map_update_elem(&amp;process_ip, &amp;pid, &amp;ip, BPF_ANY);</span><br><span class="line">                debugf(<span class="string">&quot;detected process %d&#x27;s ip is %pI4&quot;</span>, pid, &amp;ip);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// get_sockopts can read pid and cookie,</span></span><br><span class="line">        <span class="comment">// we should write a new map named pair_original_dst</span></span><br><span class="line">        bpf_map_update_elem(&amp;pair_original_dst, &amp;p, &amp;dd, BPF_ANY);</span><br><span class="line">        bpf_sock_hash_update(skops, &amp;sock_pair_map, &amp;p, BPF_NOEXIST);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (skops-&gt;local_port == OUT_REDIRECT_PORT ||</span><br><span class="line">               skops-&gt;local_port == IN_REDIRECT_PORT ||</span><br><span class="line">               skops-&gt;remote_ip4 == envoy_ip) &#123;</span><br><span class="line">        bpf_sock_hash_update(skops, &amp;sock_pair_map, &amp;p, BPF_NOEXIST);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>读取这部分比较简单在 <code>mb_get_sockopt</code> 返回相对应的即可</li>
+</ol>
+<figure class="highlight c"><figcaption><span>mb_get_sockopt</span><a href="https://github.com/merbridge/merbridge/blob/7fd1fddb7e3f64f125dafb9bb75059ed5341408d/bpf/mb_get_sockopts.c#L24-L66">github</a></figcaption><table><tr><td class="code"><pre><span class="line">__section(<span class="string">&quot;cgroup/getsockopt&quot;</span>) <span class="type">int</span> <span class="title function_">mb_get_sockopt</span><span class="params">(<span class="keyword">struct</span> bpf_sockopt *ctx)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// envoy will call getsockopt with SO_ORIGINAL_DST, we should rewrite it to</span></span><br><span class="line">    <span class="comment">// return original dst info.</span></span><br><span class="line">    <span class="keyword">if</span> (ctx-&gt;optname != SO_ORIGINAL_DST) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pair</span> <span class="title">p</span>;</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;p, <span class="number">0</span>, <span class="keyword">sizeof</span>(p));</span><br><span class="line">    p.dport = bpf_htons(ctx-&gt;sk-&gt;src_port);</span><br><span class="line">    p.sport = ctx-&gt;sk-&gt;dst_port;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">origin_info</span> *<span class="title">origin</span>;</span></span><br><span class="line">    <span class="keyword">switch</span> (ctx-&gt;sk-&gt;family) &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> ENABLE_IPV4</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>: <span class="comment">// ipv4</span></span><br><span class="line">        set_ipv4(p.dip, ctx-&gt;sk-&gt;src_ip4);</span><br><span class="line">        set_ipv4(p.sip, ctx-&gt;sk-&gt;dst_ip4);</span><br><span class="line">        origin = bpf_map_lookup_elem(&amp;pair_original_dst, &amp;p);</span><br><span class="line">        <span class="keyword">if</span> (origin) &#123;</span><br><span class="line">            <span class="comment">// rewrite original_dst</span></span><br><span class="line">            ctx-&gt;optlen = (__s32)<span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in);</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">void</span> *)((<span class="keyword">struct</span> sockaddr_in *)ctx-&gt;optval + <span class="number">1</span>) &gt;</span><br><span class="line">                ctx-&gt;optval_end) &#123;</span><br><span class="line">                printk(<span class="string">&quot;optname: %d: invalid getsockopt optval&quot;</span>, ctx-&gt;optname);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            ctx-&gt;retval = <span class="number">0</span>;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sa</span> =</span> &#123;</span><br><span class="line">                .sin_family = ctx-&gt;sk-&gt;family,</span><br><span class="line">                .sin_addr.s_addr = get_ipv4(origin-&gt;ip),</span><br><span class="line">                .sin_port = origin-&gt;port,</span><br><span class="line">            &#125;;</span><br><span class="line">            *(<span class="keyword">struct</span> sockaddr_in *)ctx-&gt;optval = sa;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="Redirect-阶段"><a class="header-anchor" href="#Redirect-阶段">¶</a>Redirect 阶段</h6>
+<p>通过标准的 socketmap 就好了，修改地址即可完成重定向</p>
+<figure class="highlight c"><figcaption><span>sk_msg</span><a href="https://github.com/merbridge/merbridge/blob/7fd1fddb7e3f64f125dafb9bb75059ed5341408d/bpf/mb_redir.c#L21-L49">github</a></figcaption><table><tr><td class="code"><pre><span class="line">__section(<span class="string">&quot;sk_msg&quot;</span>) <span class="type">int</span> <span class="title function_">mb_msg_redir</span><span class="params">(<span class="keyword">struct</span> sk_msg_md *msg)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pair</span> <span class="title">p</span>;</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;p, <span class="number">0</span>, <span class="keyword">sizeof</span>(p));</span><br><span class="line">    p.dport = bpf_htons(msg-&gt;local_port);</span><br><span class="line">    p.sport = msg-&gt;remote_port &gt;&gt; <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (msg-&gt;family) &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> ENABLE_IPV4</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="comment">// ipv4</span></span><br><span class="line">        set_ipv4(p.dip, msg-&gt;local_ip4);</span><br><span class="line">        set_ipv4(p.sip, msg-&gt;remote_ip4);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">long</span> ret = bpf_msg_redirect_hash(msg, &amp;sock_pair_map, &amp;p, BPF_F_INGRESS);</span><br><span class="line">    <span class="keyword">if</span> (ret)</span><br><span class="line">        debugf(<span class="string">&quot;redirect %d bytes with eBPF successfully&quot;</span>, msg-&gt;size);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Inbound-流量"><a class="header-anchor" href="#Inbound-流量">¶</a>Inbound 流量</h3>
+<p>和 <code>Outbound</code> 类似，不做多阐述，可以参考<a href="https://blog.daocloud.io/7949.html">官博</a></p>
+<h3 id="同节点加速"><a class="header-anchor" href="#同节点加速">¶</a>同节点加速</h3>
+<p>同集群加速的大部分逻辑也在之前 <code>Connect</code> 中，<a href="https://github.com/merbridge/merbridge/blob/cc805614079c74dfc87dae9cc3b935ed63a0b176/bpf/mb_connect.c#L193-L276">源码</a></p>
+<ol>
+<li>因为在宿主机上有 CNI POD，来维护当前 Node POD IPS，并且维护在 <code>local_pod_ips</code> 中</li>
+<li>根据 <code>dst_ip</code> 查询 <code>local_pod_ips</code> 是否包含，不包含直接 ret，走外部流量路径</li>
+<li>如果有的话，经过一些检查，将转发端口修改 <code>IN_REDIRECT_PORT</code> （inbound端口）即可（没有这个端口的话，就不是 sidecar 的目标地址，使用用户的端口即可）</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// from envoy to others</span></span><br><span class="line">__u32 _dst_ip[<span class="number">4</span>];</span><br><span class="line">set_ipv4(_dst_ip, dst_ip);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pod_config</span> *<span class="title">pod</span> =</span> bpf_map_lookup_elem(&amp;local_pod_ips, _dst_ip);</span><br><span class="line"><span class="keyword">if</span> (!pod) &#123;</span><br><span class="line">    <span class="comment">// dst ip is not in this node, bypass</span></span><br><span class="line">    debugf(<span class="string">&quot;dest ip: %pI4 not in this node, bypass&quot;</span>, &amp;dst_ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (curr_pod_ip) &#123;</span><br><span class="line">    <span class="keyword">if</span> (curr_pod_ip != dst_ip) &#123;</span><br><span class="line">        <span class="comment">// call other pod, need redirect port.</span></span><br><span class="line">        <span class="type">int</span> exclude = <span class="number">0</span>;</span><br><span class="line">        IS_EXCLUDE_PORT(pod-&gt;exclude_in_ports, ctx-&gt;user_port,</span><br><span class="line">                        &amp;exclude);</span><br><span class="line">        <span class="keyword">if</span> (exclude) &#123;</span><br><span class="line">            debugf(<span class="string">&quot;ignored dest port by exclude_in_ports, ip: %pI4, &quot;</span></span><br><span class="line">                   <span class="string">&quot;port: %d&quot;</span>,</span><br><span class="line">                   &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> include = <span class="number">0</span>;</span><br><span class="line">        IS_INCLUDE_PORT(pod-&gt;include_in_ports, ctx-&gt;user_port,</span><br><span class="line">                        &amp;include);</span><br><span class="line">        <span class="keyword">if</span> (!include) &#123;</span><br><span class="line">            debugf(<span class="string">&quot;ignored dest port by include_in_ports, ip: %pI4, &quot;</span></span><br><span class="line">                   <span class="string">&quot;port: %d&quot;</span>,</span><br><span class="line">                   &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ctx-&gt;user_port = bpf_htons(IN_REDIRECT_PORT);</span><br><span class="line">    &#125;</span><br><span class="line">    origin.flags |= <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 兼容老模式</span></span><br><span class="line">&#125;</span><br><span class="line">__u64 cookie = bpf_get_socket_cookie_addr(ctx);</span><br><span class="line">debugf(<span class="string">&quot;call from sidecar container: cookie: %d, ip: %pI4, port: %d&quot;</span>,</span><br><span class="line">       cookie, &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line"><span class="keyword">if</span> (bpf_map_update_elem(&amp;cookie_original_dst, &amp;cookie, &amp;origin,</span><br><span class="line">                        BPF_NOEXIST)) &#123;</span><br><span class="line">    printk(<span class="string">&quot;update cookie origin failed&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最终效果"><a class="header-anchor" href="#最终效果">¶</a>最终效果</h3>
+<h4 id="IPtables-模型"><a class="header-anchor" href="#IPtables-模型">¶</a>IPtables 模型</h4>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171140364.png" alt=""></p>
+<h4 id="eBPF-模式-跨集群"><a class="header-anchor" href="#eBPF-模式-跨集群">¶</a>eBPF 模式(跨集群)</h4>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171141222.png" alt=""></p>
+<h4 id="eBPF-模式-同集群"><a class="header-anchor" href="#eBPF-模式-同集群">¶</a>eBPF 模式(同集群)</h4>
+<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171141016.png" alt=""></p>
+<h2 id="Next"><a class="header-anchor" href="#Next">¶</a>Next</h2>
+<p>基于 eBPF 的扩展性，社区也在积极的探索新的功能，比如 TC (流量控制)</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">err = netns.Do(<span class="function"><span class="keyword">func</span><span class="params">(_ ns.NetNS)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">    <span class="comment">// listen on 39807</span></span><br><span class="line">    <span class="keyword">if</span> err := s.buildListener(netns.Path()); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// attach tc to the device</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(args.IfName) != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> s.attachTC(netns.Path(), args.IfName)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// interface not specified, should not happen?</span></span><br><span class="line">    ifaces, _ := net.Interfaces()</span><br><span class="line">    <span class="keyword">for</span> _, iface := <span class="keyword">range</span> ifaces &#123;</span><br><span class="line">        <span class="keyword">if</span> (iface.Flags&amp;net.FlagLoopback) == <span class="number">0</span> &amp;&amp; (iface.Flags&amp;net.FlagUp) != <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> s.attachTC(netns.Path(), iface.Name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;device not found for %s&quot;</span>, args.Netns)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
+<ul>
+<li><a href="http://blog.daocloud.io/7949.html">使用一行代码：开启eBPF，代替iptables，加速Istio</a></li>
+<li><a href="https://arthurchiao.art/blog/socket-acceleration-with-ebpf-zh/">[译] 利用 ebpf sockmap/redirection 提升 socket 性能（2020）</a></li>
+<li><a href="https://www.techtarget.com/searchitoperations/tip/Explore-network-plugins-for-Kubernetes-CNI-explained">https://www.techtarget.com/searchitoperations/tip/Explore-network-plugins-for-Kubernetes-CNI-explained</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>istio</category>
+        <category>merbridge</category>
+      </categories>
+      <tags>
+        <tag>istio</tag>
+        <tag>merbridge</tag>
       </tags>
   </entry>
   <entry>
