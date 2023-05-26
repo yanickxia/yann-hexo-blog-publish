@@ -4740,6 +4740,184 @@ The designers were primarily motivated by their shareddislike of C++.</li>
       </tags>
   </entry>
   <entry>
+    <title>微服务框架 - 2020</title>
+    <url>/2020/07/19/java/microservice/new-mircoservice-framework/</url>
+    <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
+<p>在 <a href="2020/06/20/java/other/2020-new-direction/">Java社区的新方向</a> 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。</p>
+<span id="more"></span>
+<h1>Spring Boot/Cloud</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
+<p><code>Spring Boot</code> 和 <code>Spring Cloud</code> 现阶段仍是最大的微服务框架。大多数读者对其都很熟悉，我们就以 <code>Spring Boot</code> 为标杆，来和其他的框架进行对比。</p>
+<p>在最终的 <code>雷达图</code> 中，我们会对比这几种框架的 <code>制品大小</code> <code>启动速度</code> <code>功能性</code> <code>性能</code> 这几个指标。在每个新框架内尽可能举一些比较生动的 DEMO 给大家进行参考。</p>
+<h1>Eclipse Vert.X</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
+<p><a href="https://vertx.io/"><code>Vert.X</code></a> 如果说起来可能比微服务还略早一些，笔者也曾经为其中文社区翻译过文档，<code>Vert.X</code> 社区因为觉得 <code>Spring</code> 还是太重量级了，对于现在的软件开发来说，我们可能需要的仅仅是一组工具，因此推出了此框架：</p>
+<blockquote>
+<p>Eclipse Vert.x is a <code>tool-kit</code> for building <code>reactive</code> applications on the JVM.</p>
+</blockquote>
+<p>重点也给大家标红了 <code>tool-kit</code> 和 <code>reactive</code> 是他的最为重要的特征，除此之外</p>
+<ul>
+<li>轻量级：Core部分代码只有 700kb 左右</li>
+<li>快速：<a href="https://www.techempower.com/benchmarks/">techempower benchmarks</a> java 社区少数能打的、</li>
+<li>模块化： Vertx的模块化做的非常好，不像 SpringCloud属于拼凑式的模块化</li>
+</ul>
+<h2 id="Verticles"><a class="header-anchor" href="#Verticles">¶</a>Verticles</h2>
+<p><code>Vert.X</code> 比较有趣的基于一种名为 <code>Verticle</code> 的对象进行编程，我们编写函数入口/对象 都是一种 <code>Verticle</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyVerticle</span> <span class="keyword">extends</span> <span class="title class_">AbstractVerticle</span> &#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Called when verticle is deployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">start</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Optional - called when verticle is undeployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stop</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此在设计之处，<code>Vertx</code> 已经考虑到 <code>Hotrestart</code>，对于开发者更容易理解。<code>Verticle</code> 之间的通讯又有点类似于 <code>Actor</code> 的通讯机制，不过值得注意的，<code>Core</code> 部分是不提供跨主机调研的，只能在同一个 <code>Verticle Deployment</code> 进行通讯，因此并不是可以直接等价于 <code>Akka</code>。</p>
+<h2 id="Web-Server"><a class="header-anchor" href="#Web-Server">¶</a>Web Server</h2>
+<p><code>Vert.X</code> 更喜欢将控制权返给开发者，<code>框架</code>封装使用，<code>工具</code>展示本质。因此对于我们来说，如果需要构建一个 <code>web server</code>，我们应该使用如下方式。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">HttpServer</span> <span class="variable">server</span> <span class="operator">=</span> vertx.createHttpServer();</span><br><span class="line"></span><br><span class="line"><span class="type">Router</span> <span class="variable">router</span> <span class="operator">=</span> Router.router(vertx);</span><br><span class="line"></span><br><span class="line">router.route().handler(routingContext -&gt; &#123;</span><br><span class="line">  <span class="type">HttpServerResponse</span> <span class="variable">response</span> <span class="operator">=</span> routingContext.response();</span><br><span class="line">  response.putHeader(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>);</span><br><span class="line">  response.end(<span class="string">&quot;Hello World from Vert.x-Web!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.requestHandler(router).listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
+<p>从短短的几行里面，我们可以发现 <code>Vert.x</code> 正如宣传的提供的是一系列的 <code>Tookit</code> 在构建的过程中推荐开发者自己亲手搭建一个系统。</p>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
+<hr>
+<p>不过 <code>Vert.x</code> 这个工具箱很强大，提供了 <code>Web</code> <code>Data Access</code> <code>Reactive</code> <code>IoT</code> <code>Authentication and Authorisation</code> <code>Messaging</code> <code>Integration</code> <code>Event Bus Bridge</code> <code>DevOps</code> <code>Testing</code> <code>Clustering</code> <code>Services</code> <code>Standards</code> 这么多系列的工具，总有一款适合你。</p>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">个人还是比较喜欢 Vert.X， 像 GoLanguage 也证明这种基于小工具的组合其实也是可以满足需求的，并且因为足够简单在使用的过程中也比较好去排查问题。</p>
+</div>
+<h1>Quarkus</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
+<p>说起 <code>quarkus</code> 就有点厉害了， <code>quarkus</code> 主打的是 <code>GraalVM</code>，在之前的文章中和大家讨论过在 <code>云原生</code> 时代内的 <code>JVM</code> 太过于笨重，从 <code>JVM</code> 尝试解决这个问题的就是 <code>GraalVM</code>，但是 <code>GraalVM</code> 并非是一个无痛的，比如反射就不能使用(需要转化)，因此 <code>GraalVM</code> 就好比新能源汽车，我们已经不需要汽油发动机，因此也需要配套的设施来发挥，因此 <code>Redhat</code> 就发起了 <code>Quarkus</code> 项目。</p>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
+<blockquote>
+<p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and <code>GraalVM</code>, crafted from the best of breed Java libraries and standards.</p>
+</blockquote>
+<p><code>云原生</code> 是其主打特征。</p>
+<h2 id="Web-Server-v2"><a class="header-anchor" href="#Web-Server-v2">¶</a>Web Server</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;fruits&quot;)</span></span><br><span class="line"><span class="meta">@Produces(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="meta">@Consumes(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FruitResource</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@ConfigProperty(name = &quot;myapp.schema.create&quot;, defaultValue = &quot;true&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> schemaCreate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    PgPool client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="keyword">public</span> Multi&lt;Fruit&gt; <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findAll(client);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Path(&quot;&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">getSingle</span><span class="params">(<span class="meta">@PathParam</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findById(client, id)</span><br><span class="line">                .onItem().apply(fruit -&gt; fruit != <span class="literal">null</span> ? Response.ok(fruit) : Response.status(Status.NOT_FOUND))</span><br><span class="line">                .onItem().apply(ResponseBuilder::build);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@POST</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">create</span><span class="params">(Fruit fruit)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fruit.save(client)</span><br><span class="line">                .onItem().apply(id -&gt; URI.create(<span class="string">&quot;/fruits/&quot;</span> + id))</span><br><span class="line">                .onItem().apply(uri -&gt; Response.created(uri).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整体的使用上，<code>Quarkus</code> 是非常接近 <code>Spring</code> 的体验，不过整体上因为 <code>Quarkus</code>  更加的拥抱云原生，因此并没有在 <code>Cloud</code> 侧的组件做更多的时期，希望用户基于 <code>CNCF</code> 所提供的能力进行工作，这点可能会让开发者很不舒服。悄悄的告诉你(Quarkus底层也会依赖Vertx)</p>
+<blockquote>
+<p>Quarkus is based on Vert.x, and almost all network-related features rely on Vert.x. While lots of reactive features from Quarkus don’t show Vert.x, it’s used underneath.</p>
+</blockquote>
+<p>面向微服务、云原生，编译到 native 以获得超快启动时间、超低内存占用，统一命令式与反应式编程范式，这几点其实新的框架都差不多，Quarkus 更重视“把问题提前到编译期解决”。不过这件事情对于开发者来讲可能就没有什么体感了。</p>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">其实也可以理解 Quarkus 基于 Vertx 提供了更好开箱即用的体验，并且和周边生态集成的更加紧密了。</p>
+</div>
+<h1>Helidon</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
+<p>刚刚也讲了，其实大部分的框架都比较类似了，<code>Helidon</code> 也是如此。提供了</p>
+<ul>
+<li>Reactive non-blocking database client</li>
+<li>Supports existing blocking JDBC drivers</li>
+<li>Relational and non-relational databases</li>
+<li>Metrics, tracing, health checks</li>
+<li>Portability</li>
+<li>Extensibility</li>
+</ul>
+<p>值得一说的是对 <code>GraalVM</code> 也是积极支持的。<code>Helidon</code> 将项目分为了 <code>SE</code> <code>MP</code>，对于 <code>SE</code> 作为功能组件存在，<code>MP</code> 则是为了实现 <a href="https://projects.eclipse.org/proposals/eclipse-microprofile"><code>MicroProfile</code></a></p>
+<p><code>MicroProfile</code> 说起来就比较厉害了，拉了 <code>IBM</code> <code>RedHat</code> <code>Payara</code> <code>Tomitribe</code> <code>SouJava</code> 下水，准备重新搞标准了 ， 天下还苦 <code>Spring</code> 久已， <code>Spring</code> 的确现在看起来有些笨重。</p>
+<h2 id="Web-Server-v3"><a class="header-anchor" href="#Web-Server-v3">¶</a>Web Server</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">WebServer</span> <span class="variable">webServer</span> <span class="operator">=</span> WebServer</span><br><span class="line">            .create(Routing.builder()</span><br><span class="line">                            .any((req, res) -&gt; res.send(<span class="string">&quot;It works!&quot;</span>))) </span><br><span class="line">            .start() </span><br><span class="line">            .await(<span class="number">10</span>, TimeUnit.SECONDS); </span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;Server started at: http://localhost:&quot;</span> + webServer.port()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div>
+    <label class="author-mark-label">作者语</label>
+    <p class="author-mark">Helidon 应该还算是最不完善的，文档毕竟稀少，代码的话以封装 JDK & Netty 为主。</p>
+</div>
+<h1>Micronaut</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
+<p><code>micronaut</code> 和 <code>grails</code> 实属亲戚关系，而 <code>grails</code> 和 <code>spring</code> 又经常 PY。因此我觉得 <code>Micronaut</code> 和  <code>Spring</code> 总有不可告人的秘密。</p>
+<blockquote>
+<p>Micronaut is a modern, JVM-based, full stack Java framework designed for building modular, easily testable JVM applications with support for Java, Kotlin and the Groovy language.</p>
+</blockquote>
+<p>Micronaut 还是有一些有趣的东西，不过和其他家也类似，<code>IOC</code> 是通过 <code>annotation Processor</code> 处理的，也就是所谓的了静态处理。</p>
+<h2 id="Web-server"><a class="header-anchor" href="#Web-server">¶</a>Web server</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Micronaut.run(Application.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@MicronautTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloControllerSpec</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    EmbeddedServer server; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@Client(&quot;/&quot;)</span></span><br><span class="line">    HttpClient client; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">testHelloWorldResponse</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> client.toBlocking() </span><br><span class="line">                .retrieve(HttpRequest.GET(<span class="string">&quot;/hello&quot;</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;Hello World&quot;</span>, response); <span class="comment">//) </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从 <code>Hello World</code> 看其实和 <code>Spring</code> 没啥却别（更多地方看起来都没啥区别），我还倾向于 <code>Micronaut</code> 仅仅是 <code>Spring</code> 体系的一个马甲。</p>
+<h1>Lagom</h1>
+<p><img src="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
+<p>Lagom 就一直属于万年老二的状态，以前和 <code>Spring</code> 竞争的 <a href="https://www.playframework.com/"><code>Play Framework</code></a>，现在用 <code>Lagom</code> 和 <code>Spring</code> 竞争，因为 <code>Lagom</code> 的内部通讯基于 <code>Akka Remoting</code> <code>Steam Driver</code> 的机制，可是说是完全独立的一套体系。</p>
+<p><img src="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
+<p>说到 <code>Lagom</code> 就一定要说到 <code>Akka</code>，<code>Actor</code> 这个模型说起都说好，但是实际上都没啥人用 <a href="https://www.zhihu.com/question/279512440">为什么Akka(Actor模型)在中国不温不火？</a>。绝大多数的开发者没有意识到布道师的眼中只有优点是没有缺点的。</p>
+<p>对于 <code>Akka</code> 也不深入了解，这个就权当给大家一点开拓视野的资料。</p>
+<h1>体系之争</h1>
+<p>现在开源早就过了单兵作战的时代，每一个开源项目的背后企业也是我们应该考虑的。</p>
+<ul>
+<li>Spring → Pivotal → VMware</li>
+<li>Quarkus/Vert.x → Eclipse 基金会 → Red Hat 支持</li>
+<li>Helidon → Oracle</li>
+<li>Micronaut → Object Computing（Grails、OpenDDS） → Spring 有 PY</li>
+<li>Lagom → Lightbend（Akka）</li>
+</ul>
+<p>前三家都算是家大业大也不怕跑路， <code>Micronaut</code> 就略为弱一点， <code>Lightbend</code> 和其他家有所区别 <code>Lightbend</code> 面向 <code>EE</code> 因此也是为数几家可以提供 <code>企业化</code> 服务的体系。</p>
+<h1>雷达</h1>
+<div id="spring-vertx" style="height: 400px"></div>
+<script crossorigin="anonymous" integrity="sha384-et+fqdf7kslHL5Ip8rXSJPUPODLa7eMfpFTBaCfnlMzrcAz/wxI5Xm/mNTZwd+7H" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script>
+<script type="text/javascript">
+var dom = document.getElementById("spring-vertx");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+option = {
+    title: {
+        text: '技术雷达图'
+    },
+    tooltip: {},
+    legend: {
+        data: ['Spring', 'Vertx', 'Quarkus', 'Helidon', 'Micronaut', 'Lagom']
+    },
+    radar: {
+        // shape: 'circle',
+        name: {
+            textStyle: {
+                color: '#fff',
+                backgroundColor: '#999',
+                borderRadius: 3,
+                padding: [3, 5]
+            }
+        },
+        indicator: [
+            { name: '制品大小', max: 100},
+            { name: '功能性', max: 100},
+            { name : '启动速度（越小越好）', max: 100 },
+            { name: '性能', max: 100 },
+            { name: '生态建设', max: 100},
+        ],
+        radius: '65%'
+    },
+    series: [{
+        name: '大比拼',
+        type: 'radar',
+        // areaStyle: {normal: {}},
+        data: [
+            {
+                value: [100, 90, 100, 50, 100],
+                name: 'Spring'
+            },
+            {
+                value: [60, 70, 50, 90, 80],
+                name: 'Vertx'
+            },
+            {
+                value: [70, 70, 45, 80, 80],
+                name: 'Quarkus'
+            },
+            {
+                value: [70, 70, 50, 80, 70],
+                name: 'Helidon'
+            },
+            {
+                value: [80, 70, 60, 70, 60],
+                name: 'Micronaut'
+            },
+            {
+                value: [80, 70, 70, 70, 60],
+                name: 'Lagom'
+            }
+        ]
+    }]
+};;
+
+myChart.setOption(option, true);
+
+</script><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>java</category>
+        <category>微服务</category>
+        <category>框架</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Netty源码分析-(0)-预备知识</title>
     <url>/2018/06/12/java/netty/netty-0-prepare/</url>
     <content><![CDATA[<h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
@@ -5384,184 +5562,6 @@ for rapid development of maintainable high performance protocol servers &amp; cl
       <tags>
         <tag>java</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>微服务框架 - 2020</title>
-    <url>/2020/07/19/java/microservice/new-mircoservice-framework/</url>
-    <content><![CDATA[<p><img src="https://s3.jpg.cm/2020/07/20/UBmpO.png" alt="UBmpO.png"></p>
-<p>在 <a href="2020/06/20/java/other/2020-new-direction/">Java社区的新方向</a> 中也说明了一个 Java 社区的趋势，在这个过程中有很多在努力的项目和团队，我们今天就先看看有哪些新的框架。</p>
-<span id="more"></span>
-<h1>Spring Boot/Cloud</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBOc6.png" alt="UBOc6.png"></p>
-<p><code>Spring Boot</code> 和 <code>Spring Cloud</code> 现阶段仍是最大的微服务框架。大多数读者对其都很熟悉，我们就以 <code>Spring Boot</code> 为标杆，来和其他的框架进行对比。</p>
-<p>在最终的 <code>雷达图</code> 中，我们会对比这几种框架的 <code>制品大小</code> <code>启动速度</code> <code>功能性</code> <code>性能</code> 这几个指标。在每个新框架内尽可能举一些比较生动的 DEMO 给大家进行参考。</p>
-<h1>Eclipse Vert.X</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBZvT.png" alt="UBZvT.png"></p>
-<p><a href="https://vertx.io/"><code>Vert.X</code></a> 如果说起来可能比微服务还略早一些，笔者也曾经为其中文社区翻译过文档，<code>Vert.X</code> 社区因为觉得 <code>Spring</code> 还是太重量级了，对于现在的软件开发来说，我们可能需要的仅仅是一组工具，因此推出了此框架：</p>
-<blockquote>
-<p>Eclipse Vert.x is a <code>tool-kit</code> for building <code>reactive</code> applications on the JVM.</p>
-</blockquote>
-<p>重点也给大家标红了 <code>tool-kit</code> 和 <code>reactive</code> 是他的最为重要的特征，除此之外</p>
-<ul>
-<li>轻量级：Core部分代码只有 700kb 左右</li>
-<li>快速：<a href="https://www.techempower.com/benchmarks/">techempower benchmarks</a> java 社区少数能打的、</li>
-<li>模块化： Vertx的模块化做的非常好，不像 SpringCloud属于拼凑式的模块化</li>
-</ul>
-<h2 id="Verticles"><a class="header-anchor" href="#Verticles">¶</a>Verticles</h2>
-<p><code>Vert.X</code> 比较有趣的基于一种名为 <code>Verticle</code> 的对象进行编程，我们编写函数入口/对象 都是一种 <code>Verticle</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyVerticle</span> <span class="keyword">extends</span> <span class="title class_">AbstractVerticle</span> &#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Called when verticle is deployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">start</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Optional - called when verticle is undeployed</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stop</span><span class="params">()</span> &#123;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>因此在设计之处，<code>Vertx</code> 已经考虑到 <code>Hotrestart</code>，对于开发者更容易理解。<code>Verticle</code> 之间的通讯又有点类似于 <code>Actor</code> 的通讯机制，不过值得注意的，<code>Core</code> 部分是不提供跨主机调研的，只能在同一个 <code>Verticle Deployment</code> 进行通讯，因此并不是可以直接等价于 <code>Akka</code>。</p>
-<h2 id="Web-Server"><a class="header-anchor" href="#Web-Server">¶</a>Web Server</h2>
-<p><code>Vert.X</code> 更喜欢将控制权返给开发者，<code>框架</code>封装使用，<code>工具</code>展示本质。因此对于我们来说，如果需要构建一个 <code>web server</code>，我们应该使用如下方式。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">HttpServer</span> <span class="variable">server</span> <span class="operator">=</span> vertx.createHttpServer();</span><br><span class="line"></span><br><span class="line"><span class="type">Router</span> <span class="variable">router</span> <span class="operator">=</span> Router.router(vertx);</span><br><span class="line"></span><br><span class="line">router.route().handler(routingContext -&gt; &#123;</span><br><span class="line">  <span class="type">HttpServerResponse</span> <span class="variable">response</span> <span class="operator">=</span> routingContext.response();</span><br><span class="line">  response.putHeader(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>);</span><br><span class="line">  response.end(<span class="string">&quot;Hello World from Vert.x-Web!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.requestHandler(router).listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
-<p>从短短的几行里面，我们可以发现 <code>Vert.x</code> 正如宣传的提供的是一系列的 <code>Tookit</code> 在构建的过程中推荐开发者自己亲手搭建一个系统。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBfWe.png" alt="UBfWe.png"></p>
-<hr>
-<p>不过 <code>Vert.x</code> 这个工具箱很强大，提供了 <code>Web</code> <code>Data Access</code> <code>Reactive</code> <code>IoT</code> <code>Authentication and Authorisation</code> <code>Messaging</code> <code>Integration</code> <code>Event Bus Bridge</code> <code>DevOps</code> <code>Testing</code> <code>Clustering</code> <code>Services</code> <code>Standards</code> 这么多系列的工具，总有一款适合你。</p>
-<div>
-    <label class="author-mark-label">作者语</label>
-    <p class="author-mark">个人还是比较喜欢 Vert.X， 像 GoLanguage 也证明这种基于小工具的组合其实也是可以满足需求的，并且因为足够简单在使用的过程中也比较好去排查问题。</p>
-</div>
-<h1>Quarkus</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfLlQ.png" alt="UfLlQ.png"></p>
-<p>说起 <code>quarkus</code> 就有点厉害了， <code>quarkus</code> 主打的是 <code>GraalVM</code>，在之前的文章中和大家讨论过在 <code>云原生</code> 时代内的 <code>JVM</code> 太过于笨重，从 <code>JVM</code> 尝试解决这个问题的就是 <code>GraalVM</code>，但是 <code>GraalVM</code> 并非是一个无痛的，比如反射就不能使用(需要转化)，因此 <code>GraalVM</code> 就好比新能源汽车，我们已经不需要汽油发动机，因此也需要配套的设施来发挥，因此 <code>Redhat</code> 就发起了 <code>Quarkus</code> 项目。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBgHy.png" alt="UBgHy.png"></p>
-<blockquote>
-<p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and <code>GraalVM</code>, crafted from the best of breed Java libraries and standards.</p>
-</blockquote>
-<p><code>云原生</code> 是其主打特征。</p>
-<h2 id="Web-Server-v2"><a class="header-anchor" href="#Web-Server-v2">¶</a>Web Server</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;fruits&quot;)</span></span><br><span class="line"><span class="meta">@Produces(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="meta">@Consumes(MediaType.APPLICATION_JSON)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FruitResource</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@ConfigProperty(name = &quot;myapp.schema.create&quot;, defaultValue = &quot;true&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> schemaCreate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    PgPool client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="keyword">public</span> Multi&lt;Fruit&gt; <span class="title function_">get</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findAll(client);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Path(&quot;&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">getSingle</span><span class="params">(<span class="meta">@PathParam</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Fruit.findById(client, id)</span><br><span class="line">                .onItem().apply(fruit -&gt; fruit != <span class="literal">null</span> ? Response.ok(fruit) : Response.status(Status.NOT_FOUND))</span><br><span class="line">                .onItem().apply(ResponseBuilder::build);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@POST</span></span><br><span class="line">    <span class="keyword">public</span> Uni&lt;Response&gt; <span class="title function_">create</span><span class="params">(Fruit fruit)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fruit.save(client)</span><br><span class="line">                .onItem().apply(id -&gt; URI.create(<span class="string">&quot;/fruits/&quot;</span> + id))</span><br><span class="line">                .onItem().apply(uri -&gt; Response.created(uri).build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>整体的使用上，<code>Quarkus</code> 是非常接近 <code>Spring</code> 的体验，不过整体上因为 <code>Quarkus</code>  更加的拥抱云原生，因此并没有在 <code>Cloud</code> 侧的组件做更多的时期，希望用户基于 <code>CNCF</code> 所提供的能力进行工作，这点可能会让开发者很不舒服。悄悄的告诉你(Quarkus底层也会依赖Vertx)</p>
-<blockquote>
-<p>Quarkus is based on Vert.x, and almost all network-related features rely on Vert.x. While lots of reactive features from Quarkus don’t show Vert.x, it’s used underneath.</p>
-</blockquote>
-<p>面向微服务、云原生，编译到 native 以获得超快启动时间、超低内存占用，统一命令式与反应式编程范式，这几点其实新的框架都差不多，Quarkus 更重视“把问题提前到编译期解决”。不过这件事情对于开发者来讲可能就没有什么体感了。</p>
-<div>
-    <label class="author-mark-label">作者语</label>
-    <p class="author-mark">其实也可以理解 Quarkus 基于 Vertx 提供了更好开箱即用的体验，并且和周边生态集成的更加紧密了。</p>
-</div>
-<h1>Helidon</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfPsh.png" alt="UfPsh.png"></p>
-<p>刚刚也讲了，其实大部分的框架都比较类似了，<code>Helidon</code> 也是如此。提供了</p>
-<ul>
-<li>Reactive non-blocking database client</li>
-<li>Supports existing blocking JDBC drivers</li>
-<li>Relational and non-relational databases</li>
-<li>Metrics, tracing, health checks</li>
-<li>Portability</li>
-<li>Extensibility</li>
-</ul>
-<p>值得一说的是对 <code>GraalVM</code> 也是积极支持的。<code>Helidon</code> 将项目分为了 <code>SE</code> <code>MP</code>，对于 <code>SE</code> 作为功能组件存在，<code>MP</code> 则是为了实现 <a href="https://projects.eclipse.org/proposals/eclipse-microprofile"><code>MicroProfile</code></a></p>
-<p><code>MicroProfile</code> 说起来就比较厉害了，拉了 <code>IBM</code> <code>RedHat</code> <code>Payara</code> <code>Tomitribe</code> <code>SouJava</code> 下水，准备重新搞标准了 ， 天下还苦 <code>Spring</code> 久已， <code>Spring</code> 的确现在看起来有些笨重。</p>
-<h2 id="Web-Server-v3"><a class="header-anchor" href="#Web-Server-v3">¶</a>Web Server</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">WebServer</span> <span class="variable">webServer</span> <span class="operator">=</span> WebServer</span><br><span class="line">            .create(Routing.builder()</span><br><span class="line">                            .any((req, res) -&gt; res.send(<span class="string">&quot;It works!&quot;</span>))) </span><br><span class="line">            .start() </span><br><span class="line">            .await(<span class="number">10</span>, TimeUnit.SECONDS); </span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;Server started at: http://localhost:&quot;</span> + webServer.port()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<div>
-    <label class="author-mark-label">作者语</label>
-    <p class="author-mark">Helidon 应该还算是最不完善的，文档毕竟稀少，代码的话以封装 JDK & Netty 为主。</p>
-</div>
-<h1>Micronaut</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfRhS.png" alt="UfRhS.png"></p>
-<p><code>micronaut</code> 和 <code>grails</code> 实属亲戚关系，而 <code>grails</code> 和 <code>spring</code> 又经常 PY。因此我觉得 <code>Micronaut</code> 和  <code>Spring</code> 总有不可告人的秘密。</p>
-<blockquote>
-<p>Micronaut is a modern, JVM-based, full stack Java framework designed for building modular, easily testable JVM applications with support for Java, Kotlin and the Groovy language.</p>
-</blockquote>
-<p>Micronaut 还是有一些有趣的东西，不过和其他家也类似，<code>IOC</code> 是通过 <code>annotation Processor</code> 处理的，也就是所谓的了静态处理。</p>
-<h2 id="Web-server"><a class="header-anchor" href="#Web-server">¶</a>Web server</h2>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Micronaut.run(Application.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@MicronautTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloControllerSpec</span> &#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    EmbeddedServer server; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="meta">@Client(&quot;/&quot;)</span></span><br><span class="line">    HttpClient client; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">testHelloWorldResponse</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> client.toBlocking() </span><br><span class="line">                .retrieve(HttpRequest.GET(<span class="string">&quot;/hello&quot;</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;Hello World&quot;</span>, response); <span class="comment">//) </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从 <code>Hello World</code> 看其实和 <code>Spring</code> 没啥却别（更多地方看起来都没啥区别），我还倾向于 <code>Micronaut</code> 仅仅是 <code>Spring</code> 体系的一个马甲。</p>
-<h1>Lagom</h1>
-<p><img src="https://s3.jpg.cm/2020/07/20/UfWnW.png" alt="UfWnW.png"></p>
-<p>Lagom 就一直属于万年老二的状态，以前和 <code>Spring</code> 竞争的 <a href="https://www.playframework.com/"><code>Play Framework</code></a>，现在用 <code>Lagom</code> 和 <code>Spring</code> 竞争，因为 <code>Lagom</code> 的内部通讯基于 <code>Akka Remoting</code> <code>Steam Driver</code> 的机制，可是说是完全独立的一套体系。</p>
-<p><img src="https://s3.jpg.cm/2020/07/20/UBaW4.png" alt="UBaW4.png"></p>
-<p>说到 <code>Lagom</code> 就一定要说到 <code>Akka</code>，<code>Actor</code> 这个模型说起都说好，但是实际上都没啥人用 <a href="https://www.zhihu.com/question/279512440">为什么Akka(Actor模型)在中国不温不火？</a>。绝大多数的开发者没有意识到布道师的眼中只有优点是没有缺点的。</p>
-<p>对于 <code>Akka</code> 也不深入了解，这个就权当给大家一点开拓视野的资料。</p>
-<h1>体系之争</h1>
-<p>现在开源早就过了单兵作战的时代，每一个开源项目的背后企业也是我们应该考虑的。</p>
-<ul>
-<li>Spring → Pivotal → VMware</li>
-<li>Quarkus/Vert.x → Eclipse 基金会 → Red Hat 支持</li>
-<li>Helidon → Oracle</li>
-<li>Micronaut → Object Computing（Grails、OpenDDS） → Spring 有 PY</li>
-<li>Lagom → Lightbend（Akka）</li>
-</ul>
-<p>前三家都算是家大业大也不怕跑路， <code>Micronaut</code> 就略为弱一点， <code>Lightbend</code> 和其他家有所区别 <code>Lightbend</code> 面向 <code>EE</code> 因此也是为数几家可以提供 <code>企业化</code> 服务的体系。</p>
-<h1>雷达</h1>
-<div id="spring-vertx" style="height: 400px"></div>
-<script crossorigin="anonymous" integrity="sha384-et+fqdf7kslHL5Ip8rXSJPUPODLa7eMfpFTBaCfnlMzrcAz/wxI5Xm/mNTZwd+7H" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script>
-<script type="text/javascript">
-var dom = document.getElementById("spring-vertx");
-var myChart = echarts.init(dom);
-var app = {};
-option = null;
-option = {
-    title: {
-        text: '技术雷达图'
-    },
-    tooltip: {},
-    legend: {
-        data: ['Spring', 'Vertx', 'Quarkus', 'Helidon', 'Micronaut', 'Lagom']
-    },
-    radar: {
-        // shape: 'circle',
-        name: {
-            textStyle: {
-                color: '#fff',
-                backgroundColor: '#999',
-                borderRadius: 3,
-                padding: [3, 5]
-            }
-        },
-        indicator: [
-            { name: '制品大小', max: 100},
-            { name: '功能性', max: 100},
-            { name : '启动速度（越小越好）', max: 100 },
-            { name: '性能', max: 100 },
-            { name: '生态建设', max: 100},
-        ],
-        radius: '65%'
-    },
-    series: [{
-        name: '大比拼',
-        type: 'radar',
-        // areaStyle: {normal: {}},
-        data: [
-            {
-                value: [100, 90, 100, 50, 100],
-                name: 'Spring'
-            },
-            {
-                value: [60, 70, 50, 90, 80],
-                name: 'Vertx'
-            },
-            {
-                value: [70, 70, 45, 80, 80],
-                name: 'Quarkus'
-            },
-            {
-                value: [70, 70, 50, 80, 70],
-                name: 'Helidon'
-            },
-            {
-                value: [80, 70, 60, 70, 60],
-                name: 'Micronaut'
-            },
-            {
-                value: [80, 70, 70, 70, 60],
-                name: 'Lagom'
-            }
-        ]
-    }]
-};;
-
-myChart.setOption(option, true);
-
-</script><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
-      <categories>
-        <category>java</category>
-        <category>微服务</category>
-        <category>框架</category>
-      </categories>
   </entry>
   <entry>
     <title>写给 Java 开发者的 Kotlin 教程 (2) - 基础语法</title>
@@ -6820,6 +6820,52 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
       <tags>
         <tag>istio</tag>
         <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 中流量劫持的几个常见姿势</title>
+    <url>/2023/05/25/networking/linux/hijack-in-linux/</url>
+    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305261450813.png" alt=""></p>
+<p>在 istio 中我们见识过流量劫持的厉害，我们今天就盘算下相关的技术。</p>
+<span id="more"></span>
+<h2 id="Use-Iptables"><a class="header-anchor" href="#Use-Iptables">¶</a>Use Iptables</h2>
+<p>使用 Iptables 是最常见的劫持方式，无论是常规的 <code>KubeProxy</code> 还是 <code>istio</code> 都使用了这种模式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -s 192.168.0.10 -p tcp --dport 80 -j REDIRECT --to-port 8080</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以将本身发往 192.168.0.10:80 的请求转到到 192.168.0.10:8080<br>
+这种技术一般被称之为 <code>DNAT</code></p>
+<h2 id="Use-epbf"><a class="header-anchor" href="#Use-epbf">¶</a>Use epbf</h2>
+<p>使用比较新的 Linux 版本可以 sockmap 完成在 <strong>本机</strong> 上的更高级的转发方式</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/bpf.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/if_ether.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/ip.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/tcp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> bpf_map_def <span class="title function_">SEC</span><span class="params">(<span class="string">&quot;maps&quot;</span>)</span> sock_map = &#123;</span><br><span class="line">    .type = BPF_MAP_TYPE_SOCKMAP,</span><br><span class="line">    .max_entries = <span class="number">2</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">SEC(<span class="string">&quot;sockops&quot;</span>)</span><br><span class="line"><span class="type">int</span> <span class="title function_">handle_tcp</span><span class="params">(<span class="keyword">struct</span> __sk_buff *skb)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ethhdr</span> *<span class="title">eth</span> =</span> bpf_hdr_pointer(skb);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">iphdr</span> *<span class="title">ip</span> =</span> (<span class="keyword">struct</span> iphdr *)(eth + <span class="number">1</span>);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">tcphdr</span> *<span class="title">tcp</span> =</span> (<span class="keyword">struct</span> tcphdr *)(ip + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check if the packet is TCP</span></span><br><span class="line">    <span class="keyword">if</span> (ip-&gt;protocol != IPPROTO_TCP)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Redirect packets to another socket using the sock_map</span></span><br><span class="line">    bpf_sock_ops_redirect(skb, &amp;sock_map, BPF_F_INGRESS);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Use-Tun-Tap"><a class="header-anchor" href="#Use-Tun-Tap">¶</a>Use Tun/Tap</h2>
+<p>相对复杂点</p>
+<ol>
+<li>常见一个 tun 虚拟网卡，分配地址，并且激活</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ip tuntap add mode tun dev tun0</span><br><span class="line"></span><br><span class="line">ip addr add 10.0.0.1/24 dev tun0</span><br><span class="line"></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> dev tun0 up</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置路由</li>
+</ol>
+<p>这里比如我们将 <code>192.168.0.0/24</code> 都转到这里</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ip route add 192.168.0.0/24 dev tun0</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>编写代码读取</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> tun_fd = open(<span class="string">&quot;/dev/net/tun&quot;</span>, O_RDWR);</span><br><span class="line"><span class="keyword">if</span> (tun_fd &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;Failed to open TUN device&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ifreq</span> <span class="title">ifr</span>;</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;ifr, <span class="number">0</span>, <span class="keyword">sizeof</span>(ifr));</span><br><span class="line">ifr.ifr_flags = IFF_TUN;  <span class="comment">// Set as TUN device</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (ioctl(tun_fd, TUNSETIFF, (<span class="type">void</span> *)&amp;ifr) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;Failed to set TUN device options&quot;</span>);</span><br><span class="line">    close(tun_fd);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> buffer[<span class="number">4096</span>];</span><br><span class="line"><span class="type">ssize_t</span> num_bytes;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    num_bytes = read(tun_fd, buffer, <span class="keyword">sizeof</span>(buffer));</span><br><span class="line">    <span class="keyword">if</span> (num_bytes &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;Error while reading from TUN device&quot;</span>);</span><br><span class="line">        close(tun_fd);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Process the received data</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有个完整的例子 <a href="https://github.com/sjlongland/tuntap-packet-dumper">tuntap-packet-dumper</a></p>
+<p>当我们尝试 <code>Ping</code> 的时候，就可以从 Tun0 的另外一头获得数据</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Flags: 0x0000  Protocol: 0x86dd</span><br><span class="line">To:    60:00:00:00:00:08</span><br><span class="line">From:  3a:ff:fe:80:00:00</span><br><span class="line">IP Version 0  Priority: 0</span><br><span class="line">Flow Label:  0x001077</span><br><span class="line">Payload length: 26488</span><br><span class="line">Next header: 0xd2</span><br><span class="line">Hop <span class="built_in">limit</span>:   68</span><br><span class="line">Source IP: 9c62:ff02::</span><br><span class="line">Dest IP:   2:8500:96a0::</span><br><span class="line">  48:  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15</span><br><span class="line">   0: 00 00 10 77 67 78 d2 44 9c 62 ff 02 00 00 00 00</span><br><span class="line">  16: 00 00 00 00 00 00 00 00 00 02 85 00 96 a0 00 00</span><br><span class="line">  32: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</span><br></pre></td></tr></table></figure>
+<h2 id="USE-LD-PRELOAD"><a class="header-anchor" href="#USE-LD-PRELOAD">¶</a>USE LD_PRELOAD</h2>
+<p>这是 <code>chatgpt</code> 给的一种方式，原以为很离谱，真的有这样的 <a href="https://manpages.ubuntu.com/manpages/trusty/man8/torsocks.8.html">torsocks</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_PRELOAD=/lib/libtorsocks.so</span><br></pre></td></tr></table></figure>
+<p>本质上编写自定义共享库：创建一个共享库来拦截与 TCP 相关的系统调用并修改它们的行为。您可以使用 C 或 C++ 等编程语言来编写库。一些通常被拦截的函数包括 socket、connect、bind、listen、accept、send 和 recv。在这些拦截函数中，您可以根据需要实施重定向 TCP 流量的逻辑。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>network</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>network</tag>
       </tags>
   </entry>
   <entry>
@@ -10829,7 +10875,9 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <li>节点上的 membrige 会更新本Node节点的 IP 清单</li>
 </ol>
 <figure class="highlight go"><figcaption><span>新建 POD</span><a href="https://github.com/merbridge/merbridge/blob/554cf33d429fad8b29252ae0776fb8fec8d7aecc/controller/pod.go#L106-L139">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addFunc</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	pod, ok := obj.(*v1.Pod)</span><br><span class="line">	log.Debugf(<span class="string">&quot;got pod updated %s/%s&quot;</span>, pod.Namespace, pod.Name)</span><br><span class="line"></span><br><span class="line">	_ip, _ := linux.IP2Linux(pod.Status.PodIP)</span><br><span class="line">	log.Infof(<span class="string">&quot;update local_pod_ips with ip: %s&quot;</span>, pod.Status.PodIP)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新 ebpf 中的 localIPMAP 对象</span></span><br><span class="line">	err := ebpfs.GetLocalIPMap().Update(_ip, &amp;p, ebpf.UpdateAny)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Errorf(<span class="string">&quot;update local_pod_ips %s error: %v&quot;</span>, pod.Status.PodIP, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
+<p>通过 <code>bpftool</code> 工具很方便可以查看到</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ bpftool map show</span><br><span class="line">29: lru_hash  name cookie_original  flags 0x0</span><br><span class="line">        key 8B  value 24B  max_entries 65535  memlock 2097152B</span><br><span class="line">30: <span class="built_in">hash</span>  name local_pod_ips  flags 0x0</span><br><span class="line">        key 16B  value 484B  max_entries 1024  memlock 516096B</span><br><span class="line">31: lru_hash  name process_ip  flags 0x0</span><br><span class="line">        key 4B  value 4B  max_entries 1024  memlock 8192B</span><br><span class="line">32: lru_hash  name cgroup_info_map  flags 0x0</span><br><span class="line">        key 8B  value 32B  max_entries 1024  memlock 40960B</span><br><span class="line">33: <span class="built_in">hash</span>  name mark_pod_ips_ma  flags 0x0</span><br><span class="line">        key 4B  value 16B  max_entries 65535  memlock 1572864B</span><br><span class="line">37: array  name mb_conne.data  flags 0x0</span><br><span class="line">        key 4B  value 4B  max_entries 1  memlock 4096B</span><br><span class="line">        btf_id 135</span><br><span class="line">38: lru_hash  name pair_original_d  flags 0x0</span><br><span class="line">        key 36B  value 24B  max_entries 65535  memlock 4194304B</span><br><span class="line">39: sockhash  name sock_pair_map  flags 0x0</span><br><span class="line">        key 36B  value 4B  max_entries 65535  memlock 2621440B</span><br><span class="line">70: <span class="built_in">hash</span>  name calico_failsafe  flags 0x1</span><br><span class="line">        key 4B  value 1B  max_entries 65535  memlock 524288B</span><br></pre></td></tr></table></figure>
+<ol>
 <li>CNI 会将当前 POD IP 植入命令空间</li>
 </ol>
 <figure class="highlight go"><figcaption><span>CNI-CMDADD</span><a href="https://github.com/merbridge/merbridge/blob/3db9b4462a0d4e61791a57dcbe5728607eb35e3d/internal/cni-server/cni-plugin.go#L208-L241">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *server)</span></span> listenConfig(addr net.Addr, netns <span class="type">string</span>) net.ListenConfig &#123;</span><br><span class="line">	<span class="keyword">return</span> net.ListenConfig&#123;</span><br><span class="line">		Control: <span class="function"><span class="keyword">func</span><span class="params">(network, address <span class="type">string</span>, conn syscall.RawConn)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">			<span class="keyword">var</span> operr <span class="type">error</span></span><br><span class="line">			<span class="keyword">if</span> err := conn.Control(<span class="function"><span class="keyword">func</span><span class="params">(fd <span class="type">uintptr</span>)</span></span> &#123;</span><br><span class="line">                <span class="comment">// 创建一个 mark_pod_ips_map 在 epbf 中</span></span><br><span class="line">				m, err := ebpf.LoadPinnedMap(path.Join(s.bpfMountPath, <span class="string">&quot;mark_pod_ips_map&quot;</span>), &amp;ebpf.LoadPinOptions&#123;&#125;)</span><br><span class="line">				<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">					operr = err</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">var</span> ip unsafe.Pointer</span><br><span class="line">				<span class="keyword">switch</span> v := addr.(<span class="keyword">type</span>) &#123; <span class="comment">// todo instead of hash</span></span><br><span class="line">				<span class="keyword">case</span> *net.IPNet: <span class="comment">// nolint: typecheck</span></span><br><span class="line">					ip, err = linux.IP2Linux(v.IP.String())</span><br><span class="line">				<span class="keyword">case</span> *net.IPAddr: <span class="comment">// nolint: typecheck</span></span><br><span class="line">					ip, err = linux.IP2Linux(v.String())</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">					operr = err</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				key := getMarkKeyOfNetns(netns)</span><br><span class="line">                <span class="comment">// 将 IP 更换新到其中</span></span><br><span class="line">				operr = m.Update(key, ip, ebpf.UpdateAny)</span><br><span class="line">				<span class="keyword">if</span> operr != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				operr = syscall.SetsockoptInt(<span class="type">int</span>(fd), unix.SOL_SOCKET, ns.SoMark, <span class="type">int</span>(key))</span><br><span class="line">			&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> operr</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

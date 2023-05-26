@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2023-05-17T06:14:17.018Z</updated>
+  <updated>2023-05-26T06:54:14.373Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Linux 中流量劫持的几个常见姿势</title>
+    <link href="http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/"/>
+    <id>http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/</id>
+    <published>2023-05-25T08:48:07.000Z</published>
+    <updated>2023-05-26T06:54:14.373Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305261450813.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 istio 中我们见识过流量劫持的厉害，我们今天就盘算下相关的技术。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/categories/linux/network/"/>
+    
+    
+      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
+    
+      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
     <title>How Merbridge Works</title>
     <link href="http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/"/>
     <id>http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/</id>
     <published>2023-05-17T02:38:10.000Z</published>
-    <updated>2023-05-17T06:14:17.018Z</updated>
+    <updated>2023-05-26T06:54:14.373Z</updated>
     
     <summary type="html">
     
@@ -497,27 +522,6 @@
       <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
     
       <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Isito 1.10.x 更新解读</title>
-    <link href="http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/"/>
-    <id>http://blog.yanick.site/2021/05/19/networking/istio/upgrade/1.10.x/</id>
-    <published>2021-05-19T04:28:41.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519134744.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;原文: &lt;a href=&quot;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&quot;&gt;https://istio.io/latest/news/releases/1.10.x/announcing-1.10/&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
-    
-    
-      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
     
   </entry>
   

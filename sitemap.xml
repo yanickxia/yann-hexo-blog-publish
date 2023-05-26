@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/</loc>
+    
+    <lastmod>2023-05-26T06:54:14.373Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/</loc>
     
-    <lastmod>2023-05-17T06:14:17.018Z</lastmod>
+    <lastmod>2023-05-26T06:54:14.373Z</lastmod>
     
   </url>
   
@@ -891,6 +898,13 @@
   </url>
   
   <url>
+    <loc>http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/</loc>
+    
+    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2018/06/12/java/netty/netty-0-prepare/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
@@ -948,13 +962,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2021/04/24/java/other/java11/</loc>
-    
-    <lastmod>2021-10-21T03:11:29.424Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2020/07/19/java/microservice/new-mircoservice-framework/</loc>
     
     <lastmod>2021-10-21T03:11:29.424Z</lastmod>
     
