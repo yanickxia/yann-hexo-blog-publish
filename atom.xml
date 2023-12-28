@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2023-05-26T06:54:14.373Z</updated>
+  <updated>2023-12-28T09:14:19.988Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -21,11 +21,11 @@
     <link href="http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/"/>
     <id>http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/</id>
     <published>2023-05-25T08:48:07.000Z</published>
-    <updated>2023-05-26T06:54:14.373Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305261450813.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305261450813.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在 istio 中我们见识过流量劫持的厉害，我们今天就盘算下相关的技术。&lt;/p&gt;
     
     </summary>
@@ -46,7 +46,7 @@
     <link href="http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/"/>
     <id>http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/</id>
     <published>2023-05-17T02:38:10.000Z</published>
-    <updated>2023-12-28T07:29:19.859Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
@@ -74,11 +74,11 @@
     <link href="http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/"/>
     <id>http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/</id>
     <published>2023-03-07T09:38:10.000Z</published>
-    <updated>2023-03-07T09:39:17.883Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202303071736740.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303071736740.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;推荐在阅读前，先阅读下&lt;a href=&quot;https://istio.io/latest/blog/2023/rust-based-ztunnel/&quot;&gt;Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh&lt;/a&gt;&lt;/p&gt;
     
     </summary>
@@ -128,11 +128,11 @@
     <link href="http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/"/>
     <id>http://blog.yanick.site/2023/01/20/networking/istio/feature/locality-load-balancing/</id>
     <published>2023-01-20T04:28:41.000Z</published>
-    <updated>2023-01-20T01:19:15.876Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202301200907733.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202301200907733.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;首先我们知道 isito 是支持 地域路由的，比较同地域优先。&lt;a href=&quot;https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/&quot;&gt;istio locality-load-balancing&lt;/a&gt; 但是此文档缺失验证，本篇意在从 Inside 来看看是是怎么工作的。&lt;/p&gt;
     
     </summary>
@@ -149,11 +149,11 @@
     <link href="http://blog.yanick.site/2022/11/07/networking/higress/higress/"/>
     <id>http://blog.yanick.site/2022/11/07/networking/higress/higress/</id>
     <published>2022-11-07T02:00:00.000Z</published>
-    <updated>2022-11-07T06:14:20.985Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211071002609.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211071002609.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在 &lt;a href=&quot;https://mp.weixin.qq.com/s/vUkA4SeMVtG-genfP2b0ww&quot;&gt;阿里巴巴开源下一代云原生网关Higress：基于Envoy，支持Nginx Ingress零成本快速迁移&lt;/a&gt;中，介绍了阿里开源的云原生网关。&lt;br&gt;
 我们今天就来探索下，这个项目是做了什么，他又是怎么工作的。&lt;/p&gt;
     
@@ -177,11 +177,11 @@
     <link href="http://blog.yanick.site/2022/10/31/networking/envoy/read-code/"/>
     <id>http://blog.yanick.site/2022/10/31/networking/envoy/read-code/</id>
     <published>2022-10-31T14:30:00.000Z</published>
-    <updated>2022-11-02T13:24:21.273Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211021523504.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211021523504.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;一般阅读源码有两种模式&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;验证式阅读：大致上就是先了解抽象，然后按照抽象去验证系统是否按照我们所理解的方式进行工作。&lt;/li&gt;
@@ -209,11 +209,11 @@
     <link href="http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/"/>
     <id>http://blog.yanick.site/2022/10/21/networking/istio/how-it-works/istio-complete/</id>
     <published>2022-10-21T02:00:41.000Z</published>
-    <updated>2022-12-13T02:26:37.890Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202210211117213.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202210211117213.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;虽然起了一个很大的标题，有点标题党的意思，但是本篇会覆盖大多数 &lt;code&gt;istio pliot&lt;/code&gt; 的功能，可以耐着性子看下去。&lt;/p&gt;
 &lt;p&gt;我们在对 istio 有一个初步了解的情况下，我们很容易得知，istio 的整个抽象架构就是一个标准的 CS 模型，对于我们需要解答的就是 istio 是如何将那些配置项和k8s的运行状态，转为 Envoy 所需要使用的数据结构的。&lt;/p&gt;
     
@@ -235,11 +235,11 @@
     <link href="http://blog.yanick.site/2022/09/14/site/site/"/>
     <id>http://blog.yanick.site/2022/09/14/site/site/</id>
     <published>2022-09-14T06:29:03.000Z</published>
-    <updated>2022-09-15T03:09:19.083Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209141410061.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209141410061.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;记录下博客建站的一些日常事务。&lt;/p&gt;
     
     </summary>
@@ -260,11 +260,11 @@
     <link href="http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/"/>
     <id>http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</id>
     <published>2022-09-08T09:38:10.000Z</published>
-    <updated>2022-09-18T03:14:20.262Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131754322.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131754322.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
     
     </summary>
@@ -360,11 +360,11 @@
     <link href="http://blog.yanick.site/2022/04/27/networking/envoy/filters/"/>
     <id>http://blog.yanick.site/2022/04/27/networking/envoy/filters/</id>
     <published>2022-04-27T11:30:00.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202204271957129.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202204271957129.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;今天我们来聊聊，Envoy 中最重要的抽象 &lt;code&gt;Filter&lt;/code&gt;&lt;/p&gt;
     
     </summary>
@@ -387,11 +387,11 @@
     <link href="http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/"/>
     <id>http://blog.yanick.site/2022/04/16/networking/istio/istio-iptables/</id>
     <published>2022-04-16T08:28:41.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过 &lt;code&gt;iptables&lt;/code&gt; 拦截流量，对于这个 &lt;code&gt;iptables&lt;/code&gt; 的规则，我们仔细的分析下。&lt;/p&gt;
     
     </summary>
@@ -408,11 +408,11 @@
     <link href="http://blog.yanick.site/2022/03/17/go/generic/"/>
     <id>http://blog.yanick.site/2022/03/17/go/generic/</id>
     <published>2022-03-17T12:31:37.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
     
     </summary>
@@ -429,11 +429,11 @@
     <link href="http://blog.yanick.site/2021/09/10/networking/istio/upgrade/1.11.x/"/>
     <id>http://blog.yanick.site/2021/09/10/networking/istio/upgrade/1.11.x/</id>
     <published>2021-09-10T04:28:41.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210910154051.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910154051.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -449,11 +449,11 @@
     <link href="http://blog.yanick.site/2021/08/27/networking/istio/How-Istio-works-translate/"/>
     <id>http://blog.yanick.site/2021/08/27/networking/istio/How-Istio-works-translate/</id>
     <published>2021-08-27T02:38:10.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210830103734.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210830103734.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;众所周知，Istio 有一个很核心的功能是将Kube的资源对象翻译成Envoy的Xds协议。因此对于这部分来说，Istio 涉及到大致上三个部分&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Kube 资源的监听&lt;/li&gt;
@@ -475,11 +475,11 @@
     <link href="http://blog.yanick.site/2021/06/20/rust/rust-pin/"/>
     <id>http://blog.yanick.site/2021/06/20/rust/rust-pin/</id>
     <published>2021-06-20T09:38:10.000Z</published>
-    <updated>2022-09-11T13:34:21.136Z</updated>
+    <updated>2023-12-28T09:14:19.988Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210620173801.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210620173801.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -503,11 +503,11 @@
     <link href="http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/"/>
     <id>http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/</id>
     <published>2021-05-26T08:04:12.000Z</published>
-    <updated>2022-09-11T13:34:21.132Z</updated>
+    <updated>2023-12-28T09:14:19.984Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210606174353.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210606174353.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;p&gt;今天就让我们一起来品一品，&lt;code&gt;Envoy&lt;/code&gt; 中的 &lt;code&gt;Dubbo&lt;/code&gt; 协议是如何实现的，基于 &lt;code&gt;1.18&lt;/code&gt; 分支&lt;/p&gt;
     
     </summary>

@@ -490,7 +490,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
   <entry>
     <title>Go Generic</title>
     <url>/2022/03/17/go/generic/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202203161135891.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202203161135891.png" alt=""></p>
 <p>在最近发布的 <code>go 1.18</code> 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。<code>go</code> 的 <a href="https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md">泛型提案</a> 本文大部分翻译从此。</p>
 <span id="more"></span>
 <h2 id="Overview"><a class="header-anchor" href="#Overview">¶</a>Overview</h2>
@@ -575,7 +575,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
   <entry>
     <title>Go Impossible Missions</title>
     <url>/2021/04/30/go/go-impossible-missions/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210430161943.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210430161943.png" alt=""></p>
 <p>主要就是为了吐槽 <code>GO</code></p>
 <span id="more"></span>
 <h2 id="模板方法"><a class="header-anchor" href="#模板方法">¶</a>模板方法</h2>
@@ -675,7 +675,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
   <entry>
     <title>Opentelemetry Collector 源码解读</title>
     <url>/2021/03/26/go/ot/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326194325.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210326194325.png" alt=""></p>
 <p><code>opentelemetry</code> 作为 <code>CNCF</code> 社区的全新项目，最为核心的就是 <code>Collector</code></p>
 <span id="more"></span>
 <h2 id="核心"><a class="header-anchor" href="#核心">¶</a>核心</h2>
@@ -714,7 +714,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
 <figure class="highlight go"><figcaption><span>NewFactory</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewFactory</span><span class="params">()</span></span> component.ExporterFactory &#123;</span><br><span class="line">	<span class="keyword">return</span> exporterhelper.NewFactory(</span><br><span class="line">		typeStr,</span><br><span class="line">		createDefaultConfig,</span><br><span class="line">		exporterhelper.WithTraces(createTraceExporter))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这些 <code>Factory</code> 是作为默认存在的代码写死在系统内的</p>
 <figure class="highlight go"><figcaption><span>service/defaultcomponents/defaults.go:54</span></figcaption><table><tr><td class="code"><pre><span class="line">receivers, err := component.MakeReceiverFactoryMap(</span><br><span class="line">    jaegerreceiver.NewFactory(),</span><br><span class="line">    fluentforwardreceiver.NewFactory(),</span><br><span class="line">    zipkinreceiver.NewFactory(),</span><br><span class="line">    prometheusreceiver.NewFactory(),</span><br><span class="line">    opencensusreceiver.NewFactory(),</span><br><span class="line">    otlpreceiver.NewFactory(),</span><br><span class="line">    hostmetricsreceiver.NewFactory(),</span><br><span class="line">    kafkareceiver.NewFactory(),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326214327.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210326214327.png" alt=""></p>
 <p>不仅仅只支持单入口的，我们也可以支持多入口的</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">service:</span></span><br><span class="line">  <span class="attr">pipelines:</span> </span><br><span class="line">    <span class="attr">traces:</span> </span><br><span class="line">      <span class="attr">receivers:</span> [<span class="string">otlp</span>, <span class="string">jaeger</span>, <span class="string">zipkin</span>]</span><br><span class="line">      <span class="attr">processors:</span> [<span class="string">memory_limiter</span>, <span class="string">batch</span>]</span><br><span class="line">      <span class="attr">exporters:</span> [<span class="string">otlp</span>, <span class="string">jaeger</span>, <span class="string">zipkin</span>]</span><br></pre></td></tr></table></figure>
 <p>到这里，我们就明白了 <code>service</code> 的功能，就是读取配置文件，按照文件去构建系统，让我们回到真正运行的部分</p>
@@ -977,7 +977,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
   <entry>
     <title>The Hard Way Learn Computer Science [实践班]</title>
     <url>/2021/01/13/hard-way/learn-by-self-hard-way-practices/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113101402.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210113101402.png" alt=""></p>
 <p>我们在 <a href="/2020/11/17/hard-way/learn-by-self-hard-way/">The Hard Way Learn Computer Science</a> 分享了一些学习的书籍和视频，不过都理论大过实践，所以我的女朋友觉得贼难，那我们今天就实践大于理论来分享一下。</p>
 <span id="more"></span>
 <h2 id="Pre"><a class="header-anchor" href="#Pre">¶</a>Pre</h2>
@@ -988,7 +988,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
 <p><code>面向对象</code> 语言处理 <code>IO</code> 一般还是会比 <code>函数式</code> 语言略好的一点，但是 <code>IO</code> 是我们程序不可回避的部分，编写一个入门的 <code>CLI</code> 程序是作为入门的最好办法。</p>
 <h2 id="计算机网络"><a class="header-anchor" href="#计算机网络">¶</a>计算机网络</h2>
 <h3 id="基础"><a class="header-anchor" href="#基础">¶</a>基础</h3>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113113733.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210113113733.png" alt=""></p>
 <p>网络编程人人要，打基础从 <code>Socket</code> 编程开始</p>
 <ul>
 <li><a href="https://www.tutorialspoint.com/unix_sockets/what_is_socket.htm">unix_sockets</a></li>
@@ -996,7 +996,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
 <h4 id="实验-基于-TCP-聊天"><a class="header-anchor" href="#实验-基于-TCP-聊天">¶</a>实验: 基于 TCP 聊天</h4>
 <p><strong>目标</strong>: 在两台网络互连的机器上通过 <code>tcp</code> 相互可以聊天，效果如下:<br>
 <strong>关键词</strong>: <code>socket</code> <code>bio</code></p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113114131.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210113114131.png" alt=""></p>
 <hr>
 <p>当我们完成了基础的 <code>socket</code> 编程之后，我们进入不同系统的特定的 <code>多路复用</code> 网络部分。</p>
 <ul>
@@ -1005,7 +1005,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
 <h4 id="实验-基于-TCP-聊天室-Plus"><a class="header-anchor" href="#实验-基于-TCP-聊天室-Plus">¶</a>实验: 基于 TCP 聊天室 Plus</h4>
 <p><strong>目标</strong>: 在多台网络互连的机器上通过 <code>tcp</code> 相互可以聊天，服务端用 <code>UDP</code> 对所有的的聊天客户端进 <code>Multicast</code> 或 <code>Broadcast</code>，效果如下:<br>
 <strong>关键词</strong>: <code>socket</code> <code>nio</code> <code>thread</code></p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210113114654.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210113114654.png" alt=""></p>
 <h3 id="进阶"><a class="header-anchor" href="#进阶">¶</a>进阶</h3>
 <p>上面的学习都没有涉及到如何做 <code>TCP</code> 上层的协议解析，当我们完成了 <code>TCP</code> 通讯部分的代码之后，我们就可以进入 <code>协议解析</code> 部分</p>
 <ul>
@@ -1025,7 +1025,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
   <entry>
     <title>The Hard Way Learn Computer Science</title>
     <url>/2020/11/17/hard-way/learn-by-self-hard-way/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201117213257.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201117213257.png" alt=""></p>
 <blockquote>
 <p>写给我的女朋友，一个不愿意减肥的小可爱</p>
 </blockquote>
@@ -2620,7 +2620,7 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
   <entry>
     <title>SSL CA HTTPS</title>
     <url>/2020/11/28/other/ca/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201128222900.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128222900.png" alt=""></p>
 <p>CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。</p>
 <span id="more"></span>
 <h2 id="HTTPS证书"><a class="header-anchor" href="#HTTPS证书">¶</a>HTTPS证书</h2>
@@ -2632,15 +2632,15 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
 <li>客户端回应</li>
 <li>服务器的最后回应</li>
 </ul>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201128215700.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128215700.png" alt=""></p>
 <p>其中比较复杂的就是 RSA 非对称加密技术了，这里就不做展开，可以参考 <a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA算法原理</a></p>
 <h2 id="CA"><a class="header-anchor" href="#CA">¶</a>CA</h2>
 <p>在上一节中，我们知道了服务器之间是需要交换公私钥的，因此其实有被串改的风险的，因为其实我们是没办法辨别对方是否是真实性，因此我们在此加入了一个中间公正机构，也就是 CA 提供商，因此我们访问一些自定义的服务SSL会导致如下</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201128220120.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128220120.png" alt=""></p>
 <p>就是因为 RSA 证书不受信任，因此CA提供商，提供了有偿服务，在服务器上维护了大量公私钥，不过有人会问，为什么CA本身不能是假的呢？其实这个也是可以的，不过在绝大多数的系统中，会提供默认的证书提供商的公钥，只要不去恶意的替换就不存在被替换的风险。</p>
 <h3 id="Root-根证书"><a class="header-anchor" href="#Root-根证书">¶</a>Root 根证书</h3>
 <p>为什么需要根证书呢？这就是和上面信任的问题，我们知道绝大多数的系统会内置一些 <code>CA</code> 提供商的证书，这些证书就是根证书，此时我们去访问一个 <code>HTTPS</code> 服务器的时候，那我们怎么知道它的证书是可靠的呢？解决之道就是 <code>证书链</code></p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201128220630.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128220630.png" alt=""></p>
 <p><code>证书链</code> 在生成证书的时候就会生产出来，一般来说就就是三级</p>
 <ul>
 <li>end-user：即 <a href="http://www.google.com">www.google.com</a>，是该网站使用 HTTPS 安装的数字证书</li>
@@ -3210,7 +3210,7 @@ IntelliJ的构建系统基于Groovy 和 Gant，Groovy适用于一些测试代码
   <entry>
     <title>Rank N Types</title>
     <url>/2021/02/09/proggramming/Rank-N-Types/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210209163003.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210209163003.png" alt=""></p>
 <p>前几日在和朋友讨论一个 <code>Rust</code> 的编程问题。</p>
 <span id="more"></span>
 <figure class="highlight rust"><figcaption><span>https://play.rust-lang.org/?version</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line">    <span class="keyword">use</span> std::collections::HashMap;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">sort</span>&lt;T: <span class="built_in">Ord</span>&gt;(arr: &amp;<span class="keyword">mut</span> [T]) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">sort2</span>&lt;T: <span class="built_in">Ord</span>&gt;(arr: &amp;<span class="keyword">mut</span> [T]) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">functions</span>&lt;T: <span class="built_in">Ord</span>&gt;() <span class="punctuation">-&gt;</span> HashMap&lt;<span class="type">String</span>, <span class="title function_ invoke__">fn</span>(&amp;<span class="keyword">mut</span> [T])&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">sorts</span> = HashMap::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// not working</span></span><br><span class="line">        sorts.<span class="title function_ invoke__">insert</span>(<span class="string">&quot;sort&quot;</span>.<span class="title function_ invoke__">to_string</span>(), sort);</span><br><span class="line">        sorts.<span class="title function_ invoke__">insert</span>(<span class="string">&quot;insert&quot;</span>.<span class="title function_ invoke__">to_string</span>(), sort2);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// it&#x27;s working </span></span><br><span class="line">        <span class="comment">// sorts.insert(&quot;sort&quot;.to_string(), sort as fn(&amp;mut [T]));</span></span><br><span class="line">        <span class="comment">// sorts.insert(&quot;insert&quot;.to_string(), sort2 as fn(&amp;mut [T]) );</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sorts;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3624,7 +3624,7 @@ Some days I just want to drink： 有些日子我只想灌醉自己</p>
   <entry>
     <title>年轻的程序员请尽量减少抽象</title>
     <url>/2020/12/25/rethink/not-more-abstraction/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201228145412.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201228145412.png" alt=""></p>
 <blockquote>
 <p>Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方面的细节。</p>
 </blockquote>
@@ -4408,7 +4408,7 @@ The designers were primarily motivated by their shareddislike of C++.</li>
   <entry>
     <title>Rust Pin</title>
     <url>/2021/06/20/rust/rust-pin/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210620173801.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210620173801.png" alt=""></p>
 <span id="more"></span>
 <h2 id="为什么需要-Pin"><a class="header-anchor" href="#为什么需要-Pin">¶</a>为什么需要 Pin</h2>
 <p>假如我们有一个对象定义如下</p>
@@ -4422,7 +4422,7 @@ The designers were primarily motivated by their shareddislike of C++.</li>
 <p>结果答案就变成了</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">a: test1, b: test1</span><br><span class="line">a: test1, b: test2</span><br></pre></td></tr></table></figure>
 <p>原因就是因为我们将对象的指针交换了，但是并没有保证内部引用 b 还是指向当前的自己。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210620160333.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210620160333.png" alt=""></p>
 <h2 id="解决之道"><a class="header-anchor" href="#解决之道">¶</a>解决之道</h2>
 <p>显然我们需要保证 <code>b</code> 所指向的 <strong>Self</strong> 并不能被修改，因此 <code>Pin</code> 可以这么使用</p>
 <figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> std::pin::Pin;</span><br><span class="line"><span class="keyword">use</span> std::marker::PhantomPinned;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    a: <span class="type">String</span>,</span><br><span class="line">    b: *<span class="keyword">const</span> <span class="type">String</span>,</span><br><span class="line">    _marker: PhantomPinned,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(txt: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        Test &#123;</span><br><span class="line">            a: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(txt),</span><br><span class="line">            b: std::ptr::<span class="title function_ invoke__">null</span>(),</span><br><span class="line">            _marker: PhantomPinned, <span class="comment">// This makes our type `!Unpin`</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">init</span>&lt;<span class="symbol">&#x27;a</span>&gt;(<span class="keyword">self</span>: Pin&lt;&amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> <span class="keyword">Self</span>&gt;) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">self_ptr</span>: *<span class="keyword">const</span> <span class="type">String</span> = &amp;<span class="keyword">self</span>.a;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">this</span> = <span class="keyword">unsafe</span> &#123; <span class="keyword">self</span>.<span class="title function_ invoke__">get_unchecked_mut</span>() &#125;;</span><br><span class="line">        this.b = self_ptr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">a</span>&lt;<span class="symbol">&#x27;a</span>&gt;(<span class="keyword">self</span>: Pin&lt;&amp;<span class="symbol">&#x27;a</span> <span class="keyword">Self</span>&gt;) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">        &amp;<span class="keyword">self</span>.<span class="title function_ invoke__">get_ref</span>().a</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">b</span>&lt;<span class="symbol">&#x27;a</span>&gt;(<span class="keyword">self</span>: Pin&lt;&amp;<span class="symbol">&#x27;a</span> <span class="keyword">Self</span>&gt;) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">assert!</span>(!<span class="keyword">self</span>.b.<span class="title function_ invoke__">is_null</span>(), <span class="string">&quot;Test::b called without Test::init being called first&quot;</span>);</span><br><span class="line">        <span class="keyword">unsafe</span> &#123; &amp;*(<span class="keyword">self</span>.b) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -4545,13 +4545,13 @@ The designers were primarily motivated by their shareddislike of C++.</li>
   <entry>
     <title>博客建站日常备忘录</title>
     <url>/2022/09/14/site/site/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209141410061.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209141410061.png" alt=""></p>
 <p>记录下博客建站的一些日常事务。</p>
 <span id="more"></span>
 <h2 id="CDN-选择"><a class="header-anchor" href="#CDN-选择">¶</a>CDN 选择</h2>
 <p>因为大多数还是中文阅读者，还是把博客挂载国内的CDN上，现在使用 <a href="https://www.upyun.com/league">又拍云联盟</a> 非常的好用，因为还有对象储存&amp;CDN，这样直接部署上去就好了。</p>
 <h3 id="图床选择"><a class="header-anchor" href="#图床选择">¶</a>图床选择</h3>
-<p>图片和文章还是分开了，之前用过公益图床比如 <code>路过</code>, <code>sm.ms</code> 感觉很多都会倒闭，现在的图片是放在 <code>github repo</code> 中，使用 <a href="https://statically.io/">statically</a> 提供的 <code>https://cdn.staticaly.com</code></p>
+<p>图片和文章还是分开了，之前用过公益图床比如 <code>路过</code>, <code>sm.ms</code> 感觉很多都会倒闭，现在的图片是放在 <code>github repo</code> 中，使用 <a href="https://statically.io/">statically</a> 提供的 <code>https://jsd.cdn.zzko.cn</code></p>
 <p>还有一部分图片放在了 CDN 上。七牛，又怕云，腾讯都有。<br>
 最近在调研的是 <a href="https://vercel.com/">vercel</a></p>
 <h3 id="上传工具"><a class="header-anchor" href="#上传工具">¶</a>上传工具</h3>
@@ -4712,23 +4712,23 @@ The designers were primarily motivated by their shareddislike of C++.</li>
   <entry>
     <title>Learn By Game&amp;#58 01 环境准备</title>
     <url>/2021/01/24/game/learn-by-game/learn-by-game-01/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124180700.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210124180700.png" alt=""></p>
 <p>因为女票只想使用 <code>Java</code> 来学习编程知识，因此我们就来做有趣的游戏 [打飞机] 来学习。</p>
 <span id="more"></span>
 <h2 id="环境准备"><a class="header-anchor" href="#环境准备">¶</a>环境准备</h2>
 <p><code>Java</code> 届最出名的游戏框架显然是 <a href="https://libgdx.badlogicgames.com/download.html">libGDX</a>，我们从 <a href="https://libgdx.badlogicgames.com/download.html">download</a> 下载 <a href="https://libgdx.badlogicgames.com/nightlies/dist/gdx-setup.jar">Setup App</a></p>
 <p>在下载完成之后</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -jar gdx-setup.jar</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124181306.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210124181306.png" alt=""></p>
 <h2 id="创建项目模板"><a class="header-anchor" href="#创建项目模板">¶</a>创建项目模板</h2>
 <p>使用如下参数创建</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124181845.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210124181845.png" alt=""></p>
 <h2 id="导入项目-运行"><a class="header-anchor" href="#导入项目-运行">¶</a>导入项目 &amp; 运行</h2>
 <p>我们导入项目，然后使用 <code>Main</code> 执行运行，见到如下图所示，作为我们项目的基础</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124182136.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210124182136.png" alt=""></p>
 <h2 id="目标"><a class="header-anchor" href="#目标">¶</a>目标</h2>
 <p>我们做一个打飞机的小游戏</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210124182544.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210124182544.png" alt=""></p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
         <category>自学</category>
@@ -6566,7 +6566,7 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>Envoy Filters</title>
     <url>/2022/04/27/networking/envoy/filters/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202204271957129.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202204271957129.png" alt=""></p>
 <p>今天我们来聊聊，Envoy 中最重要的抽象 <code>Filter</code></p>
 <span id="more"></span>
 <h2 id="FilterChainManager"><a class="header-anchor" href="#FilterChainManager">¶</a>FilterChainManager</h2>
@@ -6588,11 +6588,11 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>Isito iptables &amp; CNI</title>
     <url>/2022/04/16/networking/istio/istio-iptables/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202204161647430.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202204161647430.png" alt=""></p>
 <p>众所周知 <code>istio</code> 通过 <code>iptables</code> 拦截流量，对于这个 <code>iptables</code> 的规则，我们仔细的分析下。</p>
 <span id="more"></span>
 <h2 id="IPTABLES-规则"><a class="header-anchor" href="#IPTABLES-规则">¶</a>IPTABLES 规则</h2>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202204162022284.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202204162022284.png" alt=""></p>
 <p>我们找到任意的一个节点先看看我的配置项。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">iptables --table nat --list</span><br><span class="line">Chain PREROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">ISTIO_INBOUND  tcp  --  anywhere             anywhere            </span><br><span class="line"></span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">ISTIO_OUTPUT  tcp  --  anywhere             anywhere            </span><br><span class="line">RETURN     udp  --  anywhere             anywhere             udp dpt:domain owner UID match 1337</span><br><span class="line">RETURN     udp  --  anywhere             anywhere             udp dpt:domain owner GID match 1337</span><br><span class="line">REDIRECT   udp  --  anywhere             kube-dns.kube-system.svc.cluster.local  udp dpt:domain redir ports 15053</span><br><span class="line"></span><br><span class="line">Chain POSTROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain ISTIO_INBOUND (1 references)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:15008</span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:ssh</span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:15090</span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:15021</span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:15020</span><br><span class="line">ISTIO_IN_REDIRECT  tcp  --  anywhere             anywhere            </span><br><span class="line"></span><br><span class="line">Chain ISTIO_IN_REDIRECT (3 references)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">REDIRECT   tcp  --  anywhere             anywhere             redir ports 15006</span><br><span class="line"></span><br><span class="line">Chain ISTIO_OUTPUT (1 references)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">RETURN     all  --  127.0.0.6            anywhere            </span><br><span class="line">ISTIO_IN_REDIRECT  tcp  --  anywhere            !localhost            tcp dpt:!domain owner UID match 1337</span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:!domain ! owner UID match 1337</span><br><span class="line">RETURN     all  --  anywhere             anywhere             owner UID match 1337</span><br><span class="line">ISTIO_IN_REDIRECT  all  --  anywhere            !localhost            owner GID match 1337</span><br><span class="line">RETURN     tcp  --  anywhere             anywhere             tcp dpt:!domain ! owner GID match 1337</span><br><span class="line">RETURN     all  --  anywhere             anywhere             owner GID match 1337</span><br><span class="line">REDIRECT   tcp  --  anywhere             kube-dns.kube-system.svc.cluster.local  tcp dpt:domain redir ports 15053</span><br><span class="line">RETURN     all  --  anywhere             localhost           </span><br><span class="line">ISTIO_REDIRECT  all  --  anywhere             anywhere            </span><br><span class="line"></span><br><span class="line">Chain ISTIO_REDIRECT (1 references)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">REDIRECT   tcp  --  anywhere             anywhere             redir ports 15001</span><br></pre></td></tr></table></figure>
 <h3 id="入口流量顺序"><a class="header-anchor" href="#入口流量顺序">¶</a>入口流量顺序</h3>
@@ -6628,7 +6628,7 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <p>代码主要帮助完成一些自动化的配置，在此不做分析。</p>
 <h2 id="CNI"><a class="header-anchor" href="#CNI">¶</a>CNI</h2>
 <p><code>Istio</code> 同样提供的 <code>CNI</code> 插件，但是这里的 <code>CNI</code> 主要的工作就是帮助系统完成 <code>Iptables</code> 的初始化</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/202204162117895.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202204162117895.png" alt=""></p>
 <p>主要消除了 <code>Sidecar</code> 部署到 <code>Istio</code> 中的 <code>NET_ADMIN</code> 和 <code>NET_RAW</code> 权限的需求。</p>
 <p><code>CNI</code> 作为一个标准的 <code>CS</code> 模型，提供了一套标准的代码模板，<code>Istio</code> 基于这个模式，实现的逻辑在 <a href="https://github.com/istio/istio/blob/016bc46f4a5e0ef3fa135b3c5380ab7765467c1a/cni/pkg/plugin#L59-L59">plugin</a> 中</p>
 <figure class="highlight go"><figcaption><span>CmdAdd github</span><a href="https://github.com/istio/istio/blob/016bc46f4a5e0ef3fa135b3c5380ab7765467c1a/cni/pkg/plugin/plugin.go#L264-L279">link</a></figcaption><table><tr><td class="code"><pre><span class="line">log.Debugf(<span class="string">&quot;Setting up redirect for pod %v/%v&quot;</span>, podNamespace, podName)</span><br><span class="line"><span class="keyword">if</span> redirect, redirErr := NewRedirect(pi); redirErr != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Errorf(<span class="string">&quot;Pod %s/%s redirect failed due to bad params: %v&quot;</span>, podNamespace, podName, redirErr)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Get the constructor for the configured type of InterceptRuleMgr</span></span><br><span class="line">    interceptMgrCtor := GetInterceptRuleMgrCtor(interceptRuleMgrType)</span><br><span class="line">    <span class="keyword">if</span> interceptMgrCtor == <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Errorf(<span class="string">&quot;Pod redirect failed due to unavailable InterceptRuleMgr of type %s&quot;</span>,</span><br><span class="line">            interceptRuleMgrType)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        rulesMgr := interceptMgrCtor()</span><br><span class="line">        <span class="keyword">if</span> err := rulesMgr.Program(podName, args.Netns, redirect); err != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> err</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -6650,12 +6650,12 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>Spring Cloud Run In Istio</title>
     <url>/2020/12/20/networking/istio/spring-cloud-with-istio/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220144511.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220144511.png" alt=""></p>
 <p><code>istio</code> 迈入 <code>1.6</code> 之后趋于稳定，大家都慢慢的开始尝试起来，摆在大家面前会有这么一个问题，原来的旧系统如何兼容 <code>istio</code>？</p>
 <span id="more"></span>
 <h2 id="How-Spring-Cloud-Works"><a class="header-anchor" href="#How-Spring-Cloud-Works">¶</a>How Spring Cloud Works</h2>
 <p><code>Spring Cloud</code> 体系是如何工作的呢？</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220144847.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220144847.png" alt=""></p>
 <p><code>Spring Cloud</code> 体系中，每一个服务实例会将自己的 <code>IP</code> 地址上报至 <code>Service Registry</code> 中，这一步是通过 <code>Registry Client</code> 实现，当其需要访问其他的实例的时候，也会去 <code>Service Registry</code> 中获取其他实例的 <code>IP</code> 地址</p>
 <p><code>Registry Client</code> 和  <code>Service Registry </code>都是抽象的构成，在实现的过程中</p>
 <ul>
@@ -6671,26 +6671,26 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <h3 id="基于-Eureka-的流程分析"><a class="header-anchor" href="#基于-Eureka-的流程分析">¶</a>基于 Eureka 的流程分析</h3>
 <h4 id="注册流程"><a class="header-anchor" href="#注册流程">¶</a>注册流程</h4>
 <p>不同的注册中心的区别主要在注册中心自身逻辑上[AP/CP]，对于其他部分的影响不大</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220145809.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220145809.png" alt=""></p>
 <p>实例所对应的服务是由 元数据 提供，IP 地址是由系统检测生成 (但是可以<code>手动覆盖</code>)</p>
 <h4 id="调用过程"><a class="header-anchor" href="#调用过程">¶</a>调用过程</h4>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220145846.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220145846.png" alt=""></p>
 <p>而调用过程，<code>Biz</code> 一般会通过 <code>RestfulTemaplate</code>/<code>Feign</code> 来访问远程地址，通过一些中间件的集成。将 <code>服务名</code> 翻译成 <code>IP</code> 地址</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="built_in">this</span>.restTemplate.exchange(</span><br><span class="line">    <span class="string">&quot;http://bookmark-service/&#123;userId&#125;/bookmarks&quot;</span>,</span><br><span class="line">    HttpMethod.GET,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">ParameterizedTypeReference</span>&lt;List&lt;Bookmark&gt;&gt;() &#123;</span><br><span class="line">    &#125;,(Object) <span class="string">&quot;mstine&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>此例中 <code>bookmark-service</code> -&gt; <code>192.168.xxx.yyy</code>  在 <code>k8s</code> 中，此 <code>IP</code> 约等同于 <code>POD IP</code></p>
 <h2 id="How-Istio-Works"><a class="header-anchor" href="#How-Istio-Works">¶</a>How Istio Works</h2>
 <p>那么相对应的 <code>istio</code> 体系又是如何工作的呢？</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220150134.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220150134.png" alt=""></p>
 <p>对于 <code>istio</code> 来说，<code>poliot</code> 将监控所有的关心的数据，在客户端进行访问远程地址的时候，通过的是 <code>ClusterIP/DNS</code> 进行访问，<code>istio</code> 通过 <code>tcp</code> 协议中的 <code>dest ip</code> 或者是 <code>http</code> 协议中的 <code>host</code> 进行判断需要访问某个具体的服务，在 <code>Envoy</code> 进行负载均衡。</p>
 <p>在 <a href="/2020/10/28/networking/istio/isito-pilot/">Isito の Pilot 组件</a> 有深入的解读，就不作展开。</p>
 <p>如果我们直接访问某个不受 <code>istio</code> 托管的服务地址 (比如 <code>pod ip</code>/<code>未知的service ip</code>) ，istio 会认为这次请求是 <code>PassthroughCluster</code> 无法利用任何 <code>istio</code> 的特性。</p>
 <h2 id="那么问题呢？"><a class="header-anchor" href="#那么问题呢？">¶</a>那么问题呢？</h2>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220151800.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220151800.png" alt=""></p>
 <p>我们希望我们的系统能够跑在 <code>istio</code> 享受到 <code>istio</code> 所带来的诸多特性，而非是通过 <code>sidecar</code> 绕了一圈而什么都没有做。</p>
 <p>在 <code>Spring Cloud</code> 体系中，<code>Biz</code> 通过 <code>IP</code> 访问其他服务，<code>istio</code> 并不能区分 <code>192.168.2.3</code> 是哪个服务的地址，会选择直接转发，就谈不上任何管控维度。</p>
 <h3 id="WHY-TLDR"><a class="header-anchor" href="#WHY-TLDR">¶</a>WHY [TLDR]</h3>
 <p>这就要了解到 <code>Istio</code> 的工作原理，<code>istio</code> 将配置转为 <code>Envoy</code> 的配置<br>
-<img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220152108.png" alt=""></p>
+<img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220152108.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -6750,14 +6750,14 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <h3 id="Spring-Cloud-访问-Cluster-IP"><a class="header-anchor" href="#Spring-Cloud-访问-Cluster-IP">¶</a>Spring Cloud 访问 Cluster IP</h3>
 <h4 id="By-Eureka-Server"><a class="header-anchor" href="#By-Eureka-Server">¶</a>By Eureka Server</h4>
 <p>从 <code>eureka</code> 解决这个问题，想办法让 <code>Eureka Server</code> 返回给客户端的是 <code>Service Address</code></p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220153800.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220153800.png" alt=""></p>
 <ul>
 <li><code>Fake Eureka Server</code> 对于注册和心跳保持不处理直接返回 <code>200</code></li>
 <li><code>Fake Eureka Server</code> 对于 <code>Fetch</code> 请求，返回服务名对应的 <code>ClusterIP</code></li>
 </ul>
 <p>我们为每个服务服务创建一个 <code>Cluster IP</code> 对象即可。</p>
 <h4 id="By-Eureka-Client"><a class="header-anchor" href="#By-Eureka-Client">¶</a>By Eureka Client</h4>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220154352.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220154352.png" alt=""></p>
 <ul>
 <li><code>Eureka Client</code> 在返回给 <code>Ribbin</code> 之前将 <code>IP</code> 翻译成 <code>Srv IP</code></li>
 </ul>
@@ -6767,7 +6767,7 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <h3 id="Istio-匹配-Pod-IP"><a class="header-anchor" href="#Istio-匹配-Pod-IP">¶</a>Istio 匹配 Pod IP</h3>
 <h4 id="Add-Http-Header"><a class="header-anchor" href="#Add-Http-Header">¶</a>Add Http Header</h4>
 <p>对于 <code>istio</code> 来说(<code>Envoy</code>)， <code>Http filter</code> 是 一个接着一个运行的。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201220154655.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201220154655.png" alt=""></p>
 <p><code>Routing</code> 的 <code>HTTP Filter</code> 优先级较低，如果我们能在 <code>Routing</code> 之前增加一个 <code>Filter</code> 然后将 <code>IP</code> 转化为 <code>Host</code> 然后加入 <code>HttpHeaders</code> 中，应该就可以满足需求。<a href="https://github.com/envoyproxy/envoy-filter-example/blob/master/http-filter-example/http_filter.cc">https://github.com/envoyproxy/envoy-filter-example/blob/master/http-filter-example/http_filter.cc</a></p>
 <figure class="highlight rust"><figcaption><span>example</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> log::info;</span><br><span class="line"><span class="keyword">use</span> proxy_wasm::traits::Context;</span><br><span class="line"><span class="keyword">use</span> proxy_wasm::traits::HttpContext;</span><br><span class="line"><span class="keyword">use</span> proxy_wasm::&#123;types::Action&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[no_mangle]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">_start</span>() &#123;</span><br><span class="line">    proxy_wasm::<span class="title function_ invoke__">set_log_level</span>(proxy_wasm::types::LogLevel::Trace);</span><br><span class="line">    proxy_wasm::<span class="title function_ invoke__">set_http_context</span>(|_, _| <span class="punctuation">-&gt;</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> HttpContext&gt; &#123; <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(HelloContext &#123;&#125;) &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">HelloContext</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Context</span> <span class="keyword">for</span> <span class="title class_">HelloContext</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">HttpContext</span> <span class="keyword">for</span> <span class="title class_">HelloContext</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">on_http_request_headers</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, num_headers: <span class="type">usize</span>) <span class="punctuation">-&gt;</span> Action &#123;</span><br><span class="line">        info!(<span class="string">&quot;Set Host Header As reviews.default.svc.cluster.local.&quot;</span>);</span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">set_http_request_header</span>(<span class="string">&quot;Host&quot;</span>, <span class="title function_ invoke__">Some</span>(<span class="string">&quot;reviews.default.svc.cluster.local&quot;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// call server pod ip -&gt; cluster ip</span></span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">clear_http_route_cache</span>();  <span class="comment">//记得Cache Route Cache ！！！！！！！ FXXXXXXXXK</span></span><br><span class="line">        <span class="keyword">return</span> Action::Continue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Custom-Registry"><a class="header-anchor" href="#Custom-Registry">¶</a>Custom Registry</h4>
@@ -6825,7 +6825,7 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>Linux 中流量劫持的几个常见姿势</title>
     <url>/2023/05/25/networking/linux/hijack-in-linux/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305261450813.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305261450813.png" alt=""></p>
 <p>在 istio 中我们见识过流量劫持的厉害，我们今天就盘算下相关的技术。</p>
 <span id="more"></span>
 <h2 id="Use-Iptables"><a class="header-anchor" href="#Use-Iptables">¶</a>Use Iptables</h2>
@@ -7243,12 +7243,12 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>Isito 1.8 新功能&amp;#58 DNS Agent</title>
     <url>/2021/02/07/networking/istio/feature/dns-agent/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175028.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210207175028.png" alt=""></p>
 <p>在 <code>1.8</code> 的版本中，<code>istio</code> 悄悄的上了一个预览版的功能 <a href="https://istio.io/latest/blog/2020/dns-proxy/">DNS Proxy</a>，这个功能极为的强大，让我们一起来看看吧。</p>
 <span id="more"></span>
 <h2 id="为何诞生"><a class="header-anchor" href="#为何诞生">¶</a>为何诞生</h2>
 <p>从官方的文档中，<code>DNS Proxy</code>的功能主要为了 <code>减少KubeDNS的查询</code>，这个很好理解</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210207175250.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210207175250.png" alt=""></p>
 <p>除此之外，还要解决一个很重大的问题：<code>VM 和 Kubernetes</code> 的集成问题。</p>
 <iframe frameborder="0" style="width:100%;height:400px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=VMs%20to%20Kubernetes%20integration.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fyanickxia%2Fdrawio%2Fmaster%2FVMs%2520to%2520Kubernetes%2520integration.drawio"></iframe>
 <p>当我们将 <code>虚拟机</code> 接入集群的时候，<code>虚拟机</code> 中的应用如何访问 <code>Kubernates</code> 中的应用一直是一个困难的事情。还顺带解决了多集群访问的问题。让我们看看他是怎没做的。</p>
@@ -7313,7 +7313,7 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>istio locality load balancing not working</title>
     <url>/2023/01/20/networking/istio/feature/locality-load-balancing/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202301200907733.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202301200907733.png" alt=""></p>
 <p>首先我们知道 isito 是支持 地域路由的，比较同地域优先。<a href="https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/">istio locality-load-balancing</a> 但是此文档缺失验证，本篇意在从 Inside 来看看是是怎么工作的。</p>
 <span id="more"></span>
 <h2 id="易混关键词"><a class="header-anchor" href="#易混关键词">¶</a>易混关键词</h2>
@@ -7456,7 +7456,7 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
   <entry>
     <title>Isito 1.10.x 更新解读</title>
     <url>/2021/05/19/networking/istio/upgrade/1.10.x/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519134744.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519134744.png" alt=""></p>
 <p>原文: <a href="https://istio.io/latest/news/releases/1.10.x/announcing-1.10/">https://istio.io/latest/news/releases/1.10.x/announcing-1.10/</a></p>
 <span id="more"></span>
 <h2 id="新功能"><a class="header-anchor" href="#新功能">¶</a>新功能</h2>
@@ -7480,18 +7480,18 @@ A: 中缀函数调用的优先级低于算术操作符、类型转换以及 rang
 <figure class="highlight bash"><figcaption><span>istio-1.9.x</span></figcaption><table><tr><td class="code"><pre><span class="line">kubectl get pods -n istio-system -l app=istiod</span><br><span class="line"></span><br><span class="line">NAME                                    READY   STATUS    RESTARTS   AGE</span><br><span class="line">istiod-786779888b-p9s5n                 1/1     Running   0          114m</span><br><span class="line">istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m</span><br></pre></td></tr></table></figure>
 <p>而在这个版本中，我们增加一个新的映射 (by Label)</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">istioctl x revision tag <span class="built_in">set</span> prod --revision 1-7-6</span><br><span class="line">istioctl x revision tag <span class="built_in">set</span> canary --revision 1-8-0</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519135037.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135037.png" alt=""></p>
 <p>Namespaces A and B -&gt; 1-7-6,<br>
 Namespace C -&gt; 1-8-0</p>
 <p>我们现在仅仅需要修改 <code>tag</code> 即可</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">istioctl x revision tag <span class="built_in">set</span> prod --revision 1-8-0</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519135117.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135117.png" alt=""></p>
 <p>相较于之前的版本，我们多一层抽象，这样可以保持 <code>Namespace</code> <code>Label</code> 的稳定，对于升级的行为就完全控制在 istio 的 scope 内。</p>
 <h3 id="Sidecar-Networking-Changes"><a class="header-anchor" href="#Sidecar-Networking-Changes">¶</a>Sidecar Networking Changes</h3>
 <p>在 istio 1.10 之前，所有的外部流量都会被重定向到 lo</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519135150.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135150.png" alt=""></p>
 <p>这样有个问题，就是导致了如果应用仅仅 listen on eth0 就会导致无法处理，从 1.10 之后</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210519135216.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135216.png" alt=""></p>
 <p>所有的流量都从 eth0 进出，这样要注意，如果在 localhost 进行模拟测试会导致未经过 istio sidecar 的处理。</p>
 <h2 id="废弃项"><a class="header-anchor" href="#废弃项">¶</a>废弃项</h2>
 <ul>
@@ -7513,7 +7513,7 @@ Namespace C -&gt; 1-8-0</p>
   <entry>
     <title>Isito 1.11.x 更新解读</title>
     <url>/2021/09/10/networking/istio/upgrade/1.11.x/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210910154051.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910154051.png" alt=""></p>
 <span id="more"></span>
 <h2 id="CNI-plugin-Beta"><a class="header-anchor" href="#CNI-plugin-Beta">¶</a>CNI plugin (Beta)</h2>
 <p>Istio / Install Istio with the Istio CNI plugin<br>
@@ -7521,10 +7521,10 @@ CNI 依然是 Beta ……</p>
 <h2 id="External-control-plane-Beta"><a class="header-anchor" href="#External-control-plane-Beta">¶</a>External control plane (Beta)</h2>
 <p><a href="https://istio.io/latest/docs/setup/install/external-controlplane/">Istio / Install Istio with an External Control Plane</a><br>
 相较于我们现在的 多集群 部署方式，此次更新增加了一个独立的新模式</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210910153835.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910153835.png" alt=""></p>
 <p>而这样部署的缺点是，因为我们所有的配置项都需要配置在主集群中，因此我们为整个网格配置一个独立的 ETCD</p>
 <p>现在社区增加了一个独立模式</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210910153926.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910153926.png" alt=""></p>
 <p>区别在于我们可以将 istiod 完全的独立部署出来，因此我们可以在一个独立集群中部署多个istiod给不同的集群，值得注意的是，配置项也不再配置在 istiod 的集群中，而是选择一个 remote cluster 作为配置源（vs 等）。</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">install.istio.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">IstioOperator</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">external-istiod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">profile:</span> <span class="string">external</span></span><br><span class="line">  <span class="attr">values:</span></span><br><span class="line">    <span class="attr">global:</span></span><br><span class="line">      <span class="attr">istioNamespace:</span> <span class="string">external-istiod</span></span><br><span class="line">      <span class="attr">configCluster:</span> <span class="literal">true</span>  <span class="string">&lt;-----</span> <span class="string">配置源</span></span><br></pre></td></tr></table></figure>
 <h2 id="Gateway-injection"><a class="header-anchor" href="#Gateway-injection">¶</a>Gateway injection</h2>
@@ -7551,7 +7551,7 @@ CNI 依然是 Beta ……</p>
 <span id="more"></span>
 <h2 id="LSM-Tree"><a class="header-anchor" href="#LSM-Tree">¶</a>LSM Tree</h2>
 <p>在原始的 <a href="http://paperhub.s3.amazonaws.com/18e91eb4db2114a06ea614f0384f2784.pdf"><code>The Log-Structured Merge-Tree (LSM Tree)</code></a> 的设计中，我们在内存中维护一个 C<sub>0</sub>  树，我们不断的向这个树中  <code>Append</code> 数据，当内存中的 C<sub>0</sub> 超过一定大小，我们将部分数据落入磁盘的 C<sub>1</sub> 树，分级之后还有 C<sub>2</sub> 树 C<sub>3</sub> 树 C<sub>K</sub> 树，每一颗树都比前一颗树更大。不过在 <code>LevelDB</code> 中的设计有所形变。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108220445.png" alt="lsm tree"></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201108220445.png" alt="lsm tree"></p>
 <h3 id="SSTables"><a class="header-anchor" href="#SSTables">¶</a>SSTables</h3>
 <p>在 <code>LevelDB</code> 的 <code>LSM Tree</code> 的数据结构中，我们映射到持久化的磁盘对象时候用的对象叫 <code>SSTable [Sorted Strings Table]</code> 在 <code>SSTABLE</code> 中由多个 <code>Segement</code> 构成，这和我们在 <code>LS file system</code> 中一样，减少小碎片文件的写入。</p>
 <p><img src="https://s3.jpg.cm/2020/11/08/S4nBu.png" alt="S4nBu.png"></p>
@@ -7581,7 +7581,7 @@ CNI 依然是 Beta ……</p>
 <p>跳过中间那些 foreach 执行的部分，我们看看真正的 <code>PUT</code> 逻辑，在 <code>MemTableInserter::Put</code> 中</p>
 <figure class="highlight cpp"><figcaption><span>MemTableInserter::Put</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Put</span><span class="params">(<span class="type">const</span> Slice&amp; key, <span class="type">const</span> Slice&amp; value)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  mem_-&gt;<span class="built_in">Add</span>(sequence_, kTypeValue, key, value);</span><br><span class="line">  sequence_++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MemTable Add 的逻辑很简单，开辟空间，扔进去</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MemTable::Add</span><span class="params">(SequenceNumber s, ValueType type, <span class="type">const</span> Slice&amp; key,</span></span></span><br><span class="line"><span class="params"><span class="function">                   <span class="type">const</span> Slice&amp; value)</span> </span>&#123;</span><br><span class="line">  <span class="type">size_t</span> key_size = key.<span class="built_in">size</span>();</span><br><span class="line">  <span class="type">size_t</span> val_size = value.<span class="built_in">size</span>();</span><br><span class="line">  <span class="type">size_t</span> internal_key_size = key_size + <span class="number">8</span>;</span><br><span class="line">  <span class="type">const</span> <span class="type">size_t</span> encoded_len = <span class="built_in">VarintLength</span>(internal_key_size) +</span><br><span class="line">                             internal_key_size + <span class="built_in">VarintLength</span>(val_size) +</span><br><span class="line">                             val_size;</span><br><span class="line">  <span class="comment">// 开辟一个 buf 空间给这个 kv</span></span><br><span class="line">  <span class="type">char</span>* buf = arena_.<span class="built_in">Allocate</span>(encoded_len);</span><br><span class="line">  <span class="type">char</span>* p = <span class="built_in">EncodeVarint32</span>(buf, internal_key_size);</span><br><span class="line">  <span class="comment">// copy 进去</span></span><br><span class="line">  std::<span class="built_in">memcpy</span>(p, key.<span class="built_in">data</span>(), key_size);</span><br><span class="line">  p += key_size;</span><br><span class="line">  <span class="built_in">EncodeFixed64</span>(p, (s &lt;&lt; <span class="number">8</span>) | type);</span><br><span class="line">  p += <span class="number">8</span>;</span><br><span class="line">  p = <span class="built_in">EncodeVarint32</span>(p, val_size);</span><br><span class="line">  std::<span class="built_in">memcpy</span>(p, value.<span class="built_in">data</span>(), val_size);</span><br><span class="line">  <span class="built_in">assert</span>(p + val_size == buf + encoded_len);</span><br><span class="line">  <span class="comment">// 将索引写入 Table 中 [其实是SkipList] </span></span><br><span class="line">  table_.<span class="built_in">Insert</span>(buf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对于 <code>SkipList</code> 就不做多解释了。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201109171348.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201109171348.png" alt=""></p>
 <p>详细<a href="#%E5%8F%82%E8%80%83">参考</a>。</p>
 <h5 id="Write-Disk"><a class="header-anchor" href="#Write-Disk">¶</a>Write Disk</h5>
 <p>而对于 <code>MemTable</code> 满了如何写入磁盘，这里的操作在我们略过的 <code>MakeRoomForWrite</code> 中</p>
@@ -7596,7 +7596,7 @@ CNI 依然是 Beta ……</p>
 <p>当我们查找某个 <code>Key</code>，比如 <code>Dollar</code> 这个值势必在 <code>dog</code> 和 <code>downgrade</code> 之间，因此我们只需要扫描 <code>17208</code> 到 <code>19504</code> 但是如果数据没有的情况下，我们可能会扫描全表，因此我们加入 <a href="https://yetanotherdevblog.com/bloom-filters/"><code>bloom filter</code></a> 来帮助我们快速确认是否某个值根本不存在。</p>
 <h4 id="精准读"><a class="header-anchor" href="#精准读">¶</a>精准读</h4>
 <p>考虑下这样数据结构下的读操作</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108222116.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201108222116.png" alt=""></p>
 <p>如果我们想要读取 <code>23</code> 的值得话，按照图中标示的顺序，会先读取内存，在从<code>Level0</code>依次往高层读取，直到找到<code>key=23</code>的数据。</p>
 <blockquote>
 <p>这大概也是 LevelDB 的由来吧</p>
@@ -7625,7 +7625,7 @@ CNI 依然是 Beta ……</p>
 <li>读取 <code>offset</code> 范围内的对象，然后找到再返回</li>
 </ul>
 <p>在 <code>Read</code> <code>Write</code> <code>Space</code> 也有类似于 <code>CAP</code> 的定理</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108223732.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201108223732.png" alt=""></p>
 <hr>
 <p>讲了一大串和 <code>时序数据库</code>  有啥关系呢？时序数据库是一个大规模写的系统，查询也有，不过倒是容忍多高，因此大多数的 <code>TSDB [Time Series Database]</code> 都是使用 <code>LSM</code> 来进行储存的。解决完单机的储存，对于分布式系统，靠一台机器肯定是不行的，因此我们就要想到如何把数据分散到不同的机器上。</p>
 <h2 id="分布式存储"><a class="header-anchor" href="#分布式存储">¶</a>分布式存储</h2>
@@ -9262,7 +9262,7 @@ tests (Boris Beizer in Johnson 1994).</p>
 <figure class="highlight rust"><figcaption><span>Chip8EmulatorBackend exec</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">exec</span>(</span><br><span class="line">        &amp;<span class="keyword">mut</span> <span class="keyword">self</span>,</span><br><span class="line">        config: &amp;Chip8Config,</span><br><span class="line">        tx: Sender&lt;Chip8VMCommand&gt;,</span><br><span class="line">        rx: Receiver&lt;Chip8UICommand&gt;,</span><br><span class="line">    ) &#123;</span><br><span class="line"></span><br><span class="line"><span class="symbol">&#x27;main</span>: <span class="keyword">loop</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">event</span> <span class="keyword">in</span> event_pump.<span class="title function_ invoke__">poll_iter</span>() &#123;</span><br><span class="line">        <span class="keyword">match</span> event &#123;</span><br><span class="line">            Event::Quit &#123; .. &#125; =&gt; &#123;</span><br><span class="line">                paused = <span class="literal">true</span>;</span><br><span class="line">                tx.<span class="title function_ invoke__">send</span>(Quit).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            Event::KeyDown &#123; keycode, .. &#125; =&gt; &#123;</span><br><span class="line">                <span class="keyword">if</span> keys_pressed.<span class="title function_ invoke__">contains</span>(&amp;keycode) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">match</span> keycode.<span class="title function_ invoke__">unwrap</span>() &#123;</span><br><span class="line">                    <span class="comment">// quit on Escape</span></span><br><span class="line">                    Keycode::Escape =&gt; &#123;</span><br><span class="line">                        paused = <span class="literal">true</span>;</span><br><span class="line">                        tx.<span class="title function_ invoke__">send</span>(Quit).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// toggle pause on Return</span></span><br><span class="line">                    Keycode::Return =&gt; &#123;</span><br><span class="line">                        tx.<span class="title function_ invoke__">send</span>(<span class="title function_ invoke__">UpdateRunStatus</span>(paused)).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                        paused = !paused;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// reset on backspace</span></span><br><span class="line">                    Keycode::Backspace =&gt; &#123;</span><br><span class="line">                        info!(<span class="string">&quot;Reinitializing the virtual machine.&quot;</span>);</span><br><span class="line">                        tx.<span class="title function_ invoke__">send</span>(Reset).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                    &#125;</span><br><span class="line">                    _ =&gt; &#123;</span><br><span class="line">                        <span class="keyword">if</span> !paused &#123;</span><br><span class="line">                            <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(index) = key_binds.<span class="title function_ invoke__">get</span>(&amp;keycode.<span class="title function_ invoke__">unwrap</span>()) &#123;</span><br><span class="line">                                tx.<span class="title function_ invoke__">send</span>(<span class="title function_ invoke__">UpdateKeyStatus</span>(*index, Pressed)).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                keys_pressed.<span class="title function_ invoke__">push</span>(keycode);</span><br><span class="line">            &#125;</span><br><span class="line">            Event::KeyUp &#123; keycode, .. &#125; =&gt; &#123;</span><br><span class="line">                <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..keys_pressed.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">                    <span class="keyword">if</span> keys_pressed[i] == keycode &#123;</span><br><span class="line">                        keys_pressed.<span class="title function_ invoke__">remove</span>(i);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(index) = key_binds.<span class="title function_ invoke__">get</span>(&amp;keycode.<span class="title function_ invoke__">unwrap</span>()) &#123;</span><br><span class="line">                    tx.<span class="title function_ invoke__">send</span>(<span class="title function_ invoke__">UpdateKeyStatus</span>(*index, Released)).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            _ =&gt; <span class="keyword">continue</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="让我们看看最终效果吧"><a class="header-anchor" href="#让我们看看最终效果吧">¶</a>让我们看看最终效果吧</h2>
 <p>最终源码: <a href="https://github.com/yanickxia/impl-chip8">https://github.com/yanickxia/impl-chip8</a></p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201108151702.gif" alt="Kapture 2020-11-08 at 13.41.06.gif"></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201108151702.gif" alt="Kapture 2020-11-08 at 13.41.06.gif"></p>
 <h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
 <ul>
 <li><a href="http://mattmik.com/files/chip8/mastering/chip8.html">mastering chip8</a></li>
@@ -10249,7 +10249,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
   <entry>
     <title>How Dubbo Envoy Filter Works (For Envoy)</title>
     <url>/2021/05/26/networking/envoy/how-dubbo-filter-works/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210606174353.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210606174353.png" alt=""></p>
 <p>今天就让我们一起来品一品，<code>Envoy</code> 中的 <code>Dubbo</code> 协议是如何实现的，基于 <code>1.18</code> 分支</p>
 <span id="more"></span>
 
@@ -10453,13 +10453,13 @@ Filter 是 Motan 很重要的一个实现接口</p>
   <entry>
     <title>How Higress Works</title>
     <url>/2022/11/07/networking/higress/higress/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211071002609.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211071002609.png" alt=""></p>
 <p>在 <a href="https://mp.weixin.qq.com/s/vUkA4SeMVtG-genfP2b0ww">阿里巴巴开源下一代云原生网关Higress：基于Envoy，支持Nginx Ingress零成本快速迁移</a>中，介绍了阿里开源的云原生网关。<br>
 我们今天就来探索下，这个项目是做了什么，他又是怎么工作的。</p>
 <span id="more"></span>
 <h2 id="Intro"><a class="header-anchor" href="#Intro">¶</a>Intro</h2>
 <p>对于一个全新的系统，我们首先从架构上切入是一个比较的好的选择。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211071007261.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211071007261.png" alt=""></p>
 <p>从架构图上，我们可以发现，整体还是分成了</p>
 <ul>
 <li><code>控制面</code>: istio + Higress Controller</li>
@@ -10685,7 +10685,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
   <entry>
     <title>How Istio works&amp;#58 translate</title>
     <url>/2021/08/27/networking/istio/How-Istio-works-translate/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210830103734.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210830103734.png" alt=""></p>
 <p>众所周知，Istio 有一个很核心的功能是将Kube的资源对象翻译成Envoy的Xds协议。因此对于这部分来说，Istio 涉及到大致上三个部分</p>
 <ul>
 <li>Kube 资源的监听</li>
@@ -10741,7 +10741,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <p>我们大部分的行为变化，都会导致发生 <code>ConfigUpdate</code>，而我们是通过一个独立的 <code>pushChannel</code> 向我们的 <code>xds server</code> 发送信息（也是poliot自身）。现在再回到我们的 <code>endpointController</code> 中，我们可以发现</p>
 <figure class="highlight go"><figcaption><span>updateEDS</span><a href="https://github.com/istio/istio/blob/master/pilot/pkg/serviceregistry/kube/controller/endpointcontroller.go#L62">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">updateEDS</span><span class="params">(c *Controller, epc kubeEndpointsController, ep <span class="keyword">interface</span>&#123;&#125;, event model.Event)</span></span> &#123;</span><br><span class="line">	host, svcName, ns := epc.getServiceInfo(ep)</span><br><span class="line">	log.Debugf(<span class="string">&quot;Handle EDS endpoint %s in namespace %s&quot;</span>, svcName, ns)</span><br><span class="line">	<span class="keyword">var</span> endpoints []*model.IstioEndpoint</span><br><span class="line">	<span class="keyword">if</span> event == model.EventDelete &#123;</span><br><span class="line">		endpoints = epc.forgetEndpoint(ep)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		endpoints = epc.buildIstioEndpoints(ep, host)</span><br><span class="line">	&#125;</span><br><span class="line">	c.opts.XDSUpdater.EDSUpdate(<span class="type">string</span>(c.Cluster()), <span class="type">string</span>(host), ns, endpoints)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>呼之欲出，我们所有的资源变化都会导致 <code>Xds Server</code> 产生变化。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/istio-translate-1.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/istio-translate-1.png" alt=""></p>
 <p>因此我们来到了下一个问题</p>
 <h2 id="Istio-如何储存资源"><a class="header-anchor" href="#Istio-如何储存资源">¶</a>Istio 如何储存资源</h2>
 <p>在消费 <code>push event</code> 的地方，我们经常轻易的发现，这一切处理函数在</p>
@@ -10761,12 +10761,12 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <li>PushContext: 推送上下文对象，对于 DiscoveryServer 存储一个 全局的 <code>globalPushContext</code></li>
 </ul>
 <p>因此在这里我们我们就可以梳理清楚这几者的关系。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/istio.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/istio.png" alt=""></p>
 <h2 id="如何转为Xds协议"><a class="header-anchor" href="#如何转为Xds协议">¶</a>如何转为Xds协议</h2>
 <p>来到了我们的最后一个需要解答的地方，我们这些 <code>PushContext</code> 的内容又是如何转化为 <code>xDS</code> 协议的呢？</p>
 <p>对于所有的资源转化，<code>istio</code> 抽象了一个独立的  <code>Interface</code> 进行出来。</p>
 <figure class="highlight go"><figcaption><span>XdsResourceGenerator</span><a href="https://github.com/istio/istio/blob/master/pilot/pkg/model/context.go#L213">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> XdsResourceGenerator <span class="keyword">interface</span> &#123;</span><br><span class="line">	Generate(proxy *Proxy, push *PushContext, w *WatchedResource, updates *PushRequest) (Resources, XdsLogDetails, <span class="type">error</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210828102630.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210828102630.png" alt=""></p>
 <p>我们可以发现不同类型的转换。对于 <code>xDS</code> 协议本身的实现，可以参考 <a href="2021/07/01/xDS/">xDS 协议的实现</a></p>
 <p>从这里我们梳理下调用的时序关系</p>
 
@@ -10827,7 +10827,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <span id="more"></span>
 <h2 id="Istio-iptable-流量路径"><a class="header-anchor" href="#Istio-iptable-流量路径">¶</a>Istio iptable 流量路径</h2>
 <p>在传统的 Istio 流量路径中，outbound 流量由 APP 出来被 iptables 劫持，然后通过内核转发给 Envoy，Envoy 再出去。Inbound 类似，因此实际上数据包在内核中倒腾了好几次</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171028862.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305171028862.png" alt=""></p>
 <h2 id="优化手段"><a class="header-anchor" href="#优化手段">¶</a>优化手段</h2>
 <p>既然是 ebpf 的手段，那肯定是 <a href="https://arthurchiao.art/blog/socket-acceleration-with-ebpf-zh/">[译] 利用 ebpf sockmap/redirection 提升 socket 性能（2020）</a><br>
 目标是绕过内核的 <code>TCP/IP</code> 协议栈</p>
@@ -10852,7 +10852,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <h3 id="Outbound-流量"><a class="header-anchor" href="#Outbound-流量">¶</a>Outbound 流量</h3>
 <h4 id="早期版本"><a class="header-anchor" href="#早期版本">¶</a>早期版本</h4>
 <p>在早期的版本中，采用了一个比较巧妙的方式来做</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171045615.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305171045615.png" alt=""></p>
 <ol>
 <li>在应用向外发起连接时，connect 程序会将目标地址修改为 127.x.y.z:15001，并用 cookie_original_dst 保存原始目的地址。</li>
 <li>在 sockops 程序中，将当前 sock 和四元组保存在 sock_pair_map 中。同时，将四元组信息和对应的原始目的地址写入 pair_original_dst 中 (之所以不用 cookie，是因为 get_sockopt 函数无法获取当前 cookie)。</li>
@@ -10864,7 +10864,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">__u64 uid = bpf_get_current_uid_gid() &amp; <span class="number">0xffffffff</span>;</span><br><span class="line">__u32 dst_ip = ctx-&gt;user_ip4;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里的 outip 就是一个自增变量，来区分在同一个宿主机上不同命名空间内的来自相同 localhost 的请求</span></span><br><span class="line">ctx-&gt;user_ip4 = bpf_htonl(<span class="number">0x7f800000</span> | (outip++));</span><br><span class="line"><span class="keyword">if</span> (outip &gt;&gt; <span class="number">20</span>) &#123;</span><br><span class="line">    outip = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">ctx-&gt;user_port = bpf_htons(OUT_REDIRECT_PORT);</span><br></pre></td></tr></table></figure>
 <h4 id="当前版本-0-7-2"><a class="header-anchor" href="#当前版本-0-7-2">¶</a>当前版本 (&gt;0.7.2)</h4>
 <p>当前版本采用了 CNI 模式，较为复杂，但是会更加全面。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171100535.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305171100535.png" alt=""></p>
 <p>大部分 CNI 就是在节点上运行一个 <code>daemonsets</code> 的 <code>POD</code> 基于 <code>Network NS</code> 做一些工作，这里也一样，当我们安装完成 <code>merbridge</code>，我们就能看到对应的节点 POD，</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ kubectl get pod -n istio-system</span><br><span class="line">NAME                                    READY   STATUS    RESTARTS   AGE</span><br><span class="line">istio-ingressgateway-676d4bf8b7-24257   1/1     Running   0          57d</span><br><span class="line">istiod-5fb4fb7f6b-5pzbs                 1/1     Running   0          57d</span><br><span class="line">merbridge-c4jj9                         1/1     Running   0          14h</span><br><span class="line">merbridge-jldmx                         1/1     Running   0          14h</span><br><span class="line">merbridge-x65x6                         1/1     Running   0          14h</span><br></pre></td></tr></table></figure>
 <p>当然还有 CLI 命令，代码在<a href="https://github.com/merbridge/merbridge/blob/3db9b4462a0d4e61791a57dcbe5728607eb35e3d/internal/cni-server/cni-plugin.go#L63-L111">这里</a></p>
@@ -10915,11 +10915,11 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// from envoy to others</span></span><br><span class="line">__u32 _dst_ip[<span class="number">4</span>];</span><br><span class="line">set_ipv4(_dst_ip, dst_ip);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pod_config</span> *<span class="title">pod</span> =</span> bpf_map_lookup_elem(&amp;local_pod_ips, _dst_ip);</span><br><span class="line"><span class="keyword">if</span> (!pod) &#123;</span><br><span class="line">    <span class="comment">// dst ip is not in this node, bypass</span></span><br><span class="line">    debugf(<span class="string">&quot;dest ip: %pI4 not in this node, bypass&quot;</span>, &amp;dst_ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (curr_pod_ip) &#123;</span><br><span class="line">    <span class="keyword">if</span> (curr_pod_ip != dst_ip) &#123;</span><br><span class="line">        <span class="comment">// call other pod, need redirect port.</span></span><br><span class="line">        <span class="type">int</span> exclude = <span class="number">0</span>;</span><br><span class="line">        IS_EXCLUDE_PORT(pod-&gt;exclude_in_ports, ctx-&gt;user_port,</span><br><span class="line">                        &amp;exclude);</span><br><span class="line">        <span class="keyword">if</span> (exclude) &#123;</span><br><span class="line">            debugf(<span class="string">&quot;ignored dest port by exclude_in_ports, ip: %pI4, &quot;</span></span><br><span class="line">                   <span class="string">&quot;port: %d&quot;</span>,</span><br><span class="line">                   &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> include = <span class="number">0</span>;</span><br><span class="line">        IS_INCLUDE_PORT(pod-&gt;include_in_ports, ctx-&gt;user_port,</span><br><span class="line">                        &amp;include);</span><br><span class="line">        <span class="keyword">if</span> (!include) &#123;</span><br><span class="line">            debugf(<span class="string">&quot;ignored dest port by include_in_ports, ip: %pI4, &quot;</span></span><br><span class="line">                   <span class="string">&quot;port: %d&quot;</span>,</span><br><span class="line">                   &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ctx-&gt;user_port = bpf_htons(IN_REDIRECT_PORT);</span><br><span class="line">    &#125;</span><br><span class="line">    origin.flags |= <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 兼容老模式</span></span><br><span class="line">&#125;</span><br><span class="line">__u64 cookie = bpf_get_socket_cookie_addr(ctx);</span><br><span class="line">debugf(<span class="string">&quot;call from sidecar container: cookie: %d, ip: %pI4, port: %d&quot;</span>,</span><br><span class="line">       cookie, &amp;dst_ip, bpf_htons(ctx-&gt;user_port));</span><br><span class="line"><span class="keyword">if</span> (bpf_map_update_elem(&amp;cookie_original_dst, &amp;cookie, &amp;origin,</span><br><span class="line">                        BPF_NOEXIST)) &#123;</span><br><span class="line">    printk(<span class="string">&quot;update cookie origin failed&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="最终效果"><a class="header-anchor" href="#最终效果">¶</a>最终效果</h3>
 <h4 id="IPtables-模型"><a class="header-anchor" href="#IPtables-模型">¶</a>IPtables 模型</h4>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171140364.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305171140364.png" alt=""></p>
 <h4 id="eBPF-模式-跨集群"><a class="header-anchor" href="#eBPF-模式-跨集群">¶</a>eBPF 模式(跨集群)</h4>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171141222.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305171141222.png" alt=""></p>
 <h4 id="eBPF-模式-同集群"><a class="header-anchor" href="#eBPF-模式-同集群">¶</a>eBPF 模式(同集群)</h4>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171141016.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305171141016.png" alt=""></p>
 <h2 id="Next"><a class="header-anchor" href="#Next">¶</a>Next</h2>
 <p>基于 eBPF 的扩展性，社区也在积极的探索新的功能，比如 TC (流量控制)</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line">err = netns.Do(<span class="function"><span class="keyword">func</span><span class="params">(_ ns.NetNS)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">    <span class="comment">// listen on 39807</span></span><br><span class="line">    <span class="keyword">if</span> err := s.buildListener(netns.Path()); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// attach tc to the device</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(args.IfName) != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> s.attachTC(netns.Path(), args.IfName)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// interface not specified, should not happen?</span></span><br><span class="line">    ifaces, _ := net.Interfaces()</span><br><span class="line">    <span class="keyword">for</span> _, iface := <span class="keyword">range</span> ifaces &#123;</span><br><span class="line">        <span class="keyword">if</span> (iface.Flags&amp;net.FlagLoopback) == <span class="number">0</span> &amp;&amp; (iface.Flags&amp;net.FlagUp) != <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> s.attachTC(netns.Path(), iface.Name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;device not found for %s&quot;</span>, args.Netns)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -10958,9 +10958,9 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <p><img src="https://s3.jpg.cm/2020/10/29/NhRkz.png" alt="NhRkz.png"></p>
 <hr>
 <p>对于 <code>Pilot</code> 来说，做的事情也很简单</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201118183737.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201118183737.png" alt=""></p>
 <p>将 <code>istio crd</code> 的配置信息和 <code>kube</code> 的各种服务信息进行整合，然后通过 <code>xds</code> 推送给 <code>Envoy</code></p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201118183803.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201118183803.png" alt=""></p>
 <h3 id="Discovery-Server"><a class="header-anchor" href="#Discovery-Server">¶</a>Discovery Server</h3>
 <p>函数的入口处为 <code>pilot/pkg/bootstrap/server.go:Start</code> 我们实际上会启动两个不同的 <code>Server</code></p>
 <ul>
@@ -11056,7 +11056,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
 <p>为了验证我们的想法，我们直接在 <code>incrementEvent(otype, &quot;delete&quot;)</code> 加上我们的 <code>BreakPoint</code></p>
 <figure class="highlight bash"><figcaption><span>delete a pod</span></figcaption><table><tr><td class="code"><pre><span class="line">kubectl delete pod tcp-echo-v1-7dd5c5dcfb-mxs77</span><br></pre></td></tr></table></figure>
 <p>然后果然在我们这里看到 <code>BreakPoint</code> 的对象元数据。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20201113161439.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201113161439.png" alt=""></p>
 <p>在 <code>Queue</code> 的数据如何被消费，实则是一个定时的 <code>Task</code>，如下声明</p>
 <figure class="highlight go"><figcaption><span>pkg/queue/instance.go:Run</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *queueImpl)</span></span> Run(stop &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;) &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		q.cond.L.Lock() <span class="comment">// 上锁</span></span><br><span class="line">		<span class="keyword">for</span> !q.closing &amp;&amp; <span class="built_in">len</span>(q.tasks) == <span class="number">0</span> &#123; <span class="comment">// 没有任务继续 Wait</span></span><br><span class="line">			q.cond.Wait()</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> task Task</span><br><span class="line">		task, q.tasks = q.tasks[<span class="number">0</span>], q.tasks[<span class="number">1</span>:] <span class="comment">// 获得需要运行的 Task</span></span><br><span class="line">		q.cond.L.Unlock()</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> err := task(); err != <span class="literal">nil</span> &#123; <span class="comment">// 执行操作</span></span><br><span class="line">			log.Infof(<span class="string">&quot;Work item handle failed (%v), retry after delay %v&quot;</span>, err, q.delay)</span><br><span class="line">			time.AfterFunc(q.delay, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; <span class="comment">// 如果错误就延迟执行</span></span><br><span class="line">				q.Push(task)</span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="https://s3.jpg.cm/2020/11/13/YAayp.png" alt="YAayp.png"></p>
@@ -11315,7 +11315,7 @@ NIO模型基于Reactor模型</p>
   <entry>
     <title>Rust Ztunnel 源码分析</title>
     <url>/2023/03/07/networking/istio/ambient-mesh/ztunnel/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202303071736740.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303071736740.png" alt=""></p>
 <p>推荐在阅读前，先阅读下<a href="https://istio.io/latest/blog/2023/rust-based-ztunnel/">Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh</a></p>
 <span id="more"></span>
 <h2 id="Goal"><a class="header-anchor" href="#Goal">¶</a>Goal</h2>
@@ -11324,7 +11324,7 @@ NIO模型基于Reactor模型</p>
 <li>L4 的流量是如何区分和扭转的</li>
 <li>mtls 是如何工作的</li>
 </ul>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202303061459764.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303061459764.png" alt=""></p>
 <h2 id="前置知识"><a class="header-anchor" href="#前置知识">¶</a>前置知识</h2>
 <ul>
 <li>Ztunnel 基于 Tokio(Network库) 和 Hyper(Http库)
@@ -11395,11 +11395,11 @@ NIO模型基于Reactor模型</p>
 <ol>
 <li>
 <p>zTunnel &lt;–&gt; zTunnel<br>
-<img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202303071350215.png" alt=""></p>
+<img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303071350215.png" alt=""></p>
 </li>
 <li>
 <p>zTunnel &lt;–&gt; Waypoint<br>
-<img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202303071352265.png" alt=""></p>
+<img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303071352265.png" alt=""></p>
 </li>
 </ol>
 <p>因此在处理上也略有不同</p>
@@ -11685,7 +11685,7 @@ NIO模型基于Reactor模型</p>
   <entry>
     <title>关于Envoy的知识</title>
     <url>/2020/04/21/networking/envoy/around-envoy/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210312145904.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210312145904.png" alt=""></p>
 <h2 id="开发环境搭建"><a class="header-anchor" href="#开发环境搭建">¶</a>开发环境搭建</h2>
 <p>基于 Ubuntu 18.04 进行开发，一下的所有篇幅的Envoy版本基于 1.14.1</p>
 <span id="more"></span>
@@ -11876,11 +11876,11 @@ NIO模型基于Reactor模型</p>
 </div>
 <script type="text/javascript" src="https://app.diagrams.net/js/viewer.min.js"></script>
 <!-- <script src="https://cdn.bootcss.com/viewerjs/1.5.0/viewer.min.js"></script> -->
-<script src="https://cdn.staticaly.com/npm/echarts/dist/echarts.min.js" type="text/javascript">
+<script src="https://jsd.cdn.zzko.cn/npm/echarts/dist/echarts.min.js" type="text/javascript">
 </script>
-<script src="https://cdn.staticaly.com/npm/echarts-gl/dist/echarts-gl.min.js" type="text/javascript">
+<script src="https://jsd.cdn.zzko.cn/npm/echarts-gl/dist/echarts-gl.min.js" type="text/javascript">
 </script>
-<script src="https://cdn.staticaly.com/npm/echarts-stat/dist/ecStat.min.js" type="text/javascript">
+<script src="https://jsd.cdn.zzko.cn/npm/echarts-stat/dist/ecStat.min.js" type="text/javascript">
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <h3 id="Gaph"><a class="header-anchor" href="#Gaph">¶</a>Gaph</h3>
@@ -11968,7 +11968,7 @@ NIO模型基于Reactor模型</p>
   <entry>
     <title>探索性阅读 Envoy</title>
     <url>/2022/10/31/networking/envoy/read-code/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211021523504.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211021523504.png" alt=""></p>
 <p>一般阅读源码有两种模式</p>
 <ul>
 <li>验证式阅读：大致上就是先了解抽象，然后按照抽象去验证系统是否按照我们所理解的方式进行工作。</li>
@@ -12087,7 +12087,7 @@ NIO模型基于Reactor模型</p>
   <entry>
     <title>RT-Thread 简明阅读</title>
     <url>/2021/03/25/os/rt-thread/rt-thread/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325155834.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210325155834.png" alt=""></p>
 <p>对于一个<code>软件工程师</code>来说，我并不是很关心 <code>BootLoader</code> 这些东西，几乎都比较接近于硬件，<code>Linux</code> 的代码又普遍太过于工业级，因此尝试用 <code>rt-thread</code> 这样一<br>
 个比较小型的 <code>real time</code> 系统来解析操作系统的工作。</p>
 <blockquote>
@@ -12113,7 +12113,7 @@ NIO模型基于Reactor模型</p>
 <p><code>RT-Thread </code>线程管理的主要功能是对线程进行管理和调度，系统中总共存在两类线程，分别是系统线程和用户线程。对于进程来说，我们需要保留运行的状态进行调度。</p>
 <figure class="highlight c"><figcaption><span>rtdef.h</span><a href="https://github.com/RT-Thread/rt-thread/blob/master/include/rtdef.h#L572">link</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="comment">/* rt 对象 */</span></span><br><span class="line">    <span class="type">char</span>        name[RT_NAME_MAX];     <span class="comment">/* 线程名称 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  type;                   <span class="comment">/* 对象类型 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  flags;                  <span class="comment">/* 标志位 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">rt_list_t</span>   <span class="built_in">list</span>;                   <span class="comment">/* 对象列表 */</span></span><br><span class="line">    <span class="type">rt_list_t</span>   tlist;                  <span class="comment">/* 线程列表 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 栈指针与入口指针 */</span></span><br><span class="line">    <span class="type">void</span>       *sp;                      <span class="comment">/* 栈指针 */</span></span><br><span class="line">    <span class="type">void</span>       *entry;                   <span class="comment">/* 入口函数指针 */</span></span><br><span class="line">    <span class="type">void</span>       *parameter;              <span class="comment">/* 参数 */</span></span><br><span class="line">    <span class="type">void</span>       *stack_addr;             <span class="comment">/* 栈地址指针 */</span></span><br><span class="line">    <span class="type">rt_uint32_t</span> stack_size;            <span class="comment">/* 栈大小 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 错误代码 */</span></span><br><span class="line">    <span class="type">rt_err_t</span>    error;                  <span class="comment">/* 线程错误代码 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  stat;                   <span class="comment">/* 线程状态 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 优先级 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  current_priority;    <span class="comment">/* 当前优先级 */</span></span><br><span class="line">    <span class="type">rt_uint8_t</span>  init_priority;        <span class="comment">/* 初始优先级 */</span></span><br><span class="line">    <span class="type">rt_uint32_t</span> number_mask;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="type">rt_ubase_t</span>  init_tick;               <span class="comment">/* 线程初始化计数值 */</span></span><br><span class="line">    <span class="type">rt_ubase_t</span>  remaining_tick;         <span class="comment">/* 线程剩余计数值 */</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_timer</span> <span class="title">thread_timer</span>;</span>      <span class="comment">/* 内置线程定时器 */</span></span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> (*cleanup)(<span class="keyword">struct</span> rt_thread *tid);  <span class="comment">/* 线程退出清除函数 */</span></span><br><span class="line">    <span class="type">rt_uint32_t</span> user_data;                      <span class="comment">/* 用户数据 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>对 <code>RT-Thread</code> 也包含了一组进程的状态切换。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325163941.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210325163941.png" alt=""></p>
 <h3 id="Try-it"><a class="header-anchor" href="#Try-it">¶</a>Try it</h3>
 <p>我们修改 <code>/rt-thread/bsp/qemu-vexpress-a9/applications/main.c</code></p>
 <figure class="highlight c"><figcaption><span>main.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;rtthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THREAD_STACK_SIZE   1024</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THREAD_PRIORITY     20</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THREAD_TIMESLICE    10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 线程入口 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">thread_entry</span><span class="params">(<span class="type">void</span>* parameter)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_uint32_t</span> value;</span><br><span class="line">    <span class="type">rt_uint32_t</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    value = (<span class="type">rt_uint32_t</span>)parameter;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == (count % <span class="number">5</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            rt_kprintf(<span class="string">&quot;thread %d is running ,thread %d count = %d\n&quot;</span>, value , value , count);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(count&gt; <span class="number">200</span>)</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         count++;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">timeslice_sample</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">rt_thread_t</span> tid = RT_NULL;</span><br><span class="line">    <span class="comment">/* 创建线程 1 */</span></span><br><span class="line">    tid = rt_thread_create(<span class="string">&quot;thread1&quot;</span>,</span><br><span class="line">                            thread_entry, (<span class="type">void</span>*)<span class="number">1</span>,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY, THREAD_TIMESLICE);</span><br><span class="line">    <span class="keyword">if</span> (tid != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 创建线程 2 */</span></span><br><span class="line">    tid = rt_thread_create(<span class="string">&quot;thread2&quot;</span>,</span><br><span class="line">                            thread_entry, (<span class="type">void</span>*)<span class="number">2</span>,</span><br><span class="line">                            THREAD_STACK_SIZE,</span><br><span class="line">                            THREAD_PRIORITY, THREAD_TIMESLICE<span class="number">-5</span>);</span><br><span class="line">    <span class="keyword">if</span> (tid != RT_NULL)</span><br><span class="line">        rt_thread_startup(tid);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    timeslice_sample();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -12160,7 +12160,7 @@ NIO模型基于Reactor模型</p>
 <figure class="highlight c"><figcaption><span>ipc.c</span><a href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L633">link</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="type">rt_mutex_t</span> <span class="title function_">rt_mutex_create</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">rt_uint8_t</span> flag)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_mutex</span> *<span class="title">mutex</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 在内核中分配对象 */</span></span><br><span class="line">    mutex = (<span class="type">rt_mutex_t</span>)rt_object_allocate(RT_Object_Class_Mutex, name);</span><br><span class="line">    <span class="keyword">if</span> (mutex == RT_NULL)</span><br><span class="line">        <span class="keyword">return</span> mutex;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化 */</span></span><br><span class="line">    rt_ipc_object_init(&amp;(mutex-&gt;parent));</span><br><span class="line"></span><br><span class="line">    mutex-&gt;value              = <span class="number">1</span>;</span><br><span class="line">    mutex-&gt;owner              = RT_NULL;</span><br><span class="line">    mutex-&gt;original_priority  = <span class="number">0xFF</span>;</span><br><span class="line">    mutex-&gt;hold               = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* set flag */</span></span><br><span class="line">    mutex-&gt;parent.parent.flag = flag;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mutex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当我们去 <code>rt_mutex_take</code> 获得一个 <code>mutex</code> 时候</p>
 <figure class="highlight c"><figcaption><span>ipc.c</span><a href="https://github.com/RT-Thread/rt-thread/blob/master/src/ipc.c#L697">link</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="type">rt_err_t</span> <span class="title function_">rt_mutex_take</span><span class="params">(<span class="type">rt_mutex_t</span> mutex, <span class="type">rt_int32_t</span> time)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">register</span> <span class="type">rt_base_t</span> temp;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">thread</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* get current thread */</span></span><br><span class="line">    thread = rt_thread_self();</span><br><span class="line">    temp = rt_hw_interrupt_disable();</span><br><span class="line"></span><br><span class="line">    thread-&gt;error = RT_EOK;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果mutex的获得者是自己，那就快速通过</span></span><br><span class="line">    <span class="keyword">if</span> (mutex-&gt;owner == thread)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// ....</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="comment">// 如果是 mutex &gt; 0，那就让此线程获得，Fast Path</span></span><br><span class="line">        <span class="keyword">if</span> (mutex-&gt;value &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* mutex is available */</span></span><br><span class="line">            mutex-&gt;value --;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* set mutex owner and original priority */</span></span><br><span class="line">            mutex-&gt;owner             = thread;</span><br><span class="line">            mutex-&gt;original_priority = thread-&gt;current_priority;</span><br><span class="line">            <span class="keyword">if</span>(mutex-&gt;hold &lt; RT_MUTEX_HOLD_MAX)</span><br><span class="line">            &#123;</span><br><span class="line">                mutex-&gt;hold ++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                rt_hw_interrupt_enable(temp); <span class="comment">/* enable interrupt */</span></span><br><span class="line">                <span class="keyword">return</span> -RT_EFULL; <span class="comment">/* value overflowed */</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* 其他是无法获得，当 time == 0 就快速失败了 */</span></span><br><span class="line">            <span class="keyword">if</span> (time == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* set error as timeout */</span></span><br><span class="line">                thread-&gt;error = -RT_ETIMEOUT;</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* enable interrupt */</span></span><br><span class="line">                rt_hw_interrupt_enable(temp);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> -RT_ETIMEOUT;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/* 如果获取这个 thread 的优先级高 &gt; 已经获得锁的进程 */</span></span><br><span class="line">                <span class="keyword">if</span> (thread-&gt;current_priority &lt; mutex-&gt;owner-&gt;current_priority)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">/* 修改这个锁Owner的优先级 */</span></span><br><span class="line">                    rt_thread_control(mutex-&gt;owner,</span><br><span class="line">                                      RT_THREAD_CTRL_CHANGE_PRIORITY,</span><br><span class="line">                                      &amp;thread-&gt;current_priority);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* 暂停一下这个线程，下面准备重新调度 */</span></span><br><span class="line">                rt_ipc_list_suspend(&amp;(mutex-&gt;parent.suspend_thread),</span><br><span class="line">                                    thread,</span><br><span class="line">                                    mutex-&gt;parent.parent.flag);</span><br><span class="line"></span><br><span class="line">                rt_hw_interrupt_enable(temp);</span><br><span class="line"></span><br><span class="line">                <span class="comment">/* 再调度 */</span></span><br><span class="line">                rt_schedule();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    rt_hw_interrupt_enable(temp);</span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210325184809.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210325184809.png" alt=""></p>
 <blockquote>
 <p>RT-Thread 操作系统中，互斥量可以解决优先级翻转问题，实现的是优先级继承算法。优先级继承是通过在线程 A 尝试获取共享资源而被挂起的期间内，将线程 C 的优先级提升到线程 A 的优先级别，从而解决优先级翻转引起的问题。这样能够防止 C（间接地防止 A）被 B 抢占，如下图所示。优先级继承是指，提高某个占有某种资源的低优先级线程的优先级，使之与所有等待该资源的线程中优先级最高的那个线程的优先级相等，然后执行，而当这个低优先级线程释放该资源时，优先级重新回到初始设定。因此，继承优先级的线程避免了系统资源被任何中间优先级的线程抢占。</p>
 </blockquote>
@@ -12178,7 +12178,7 @@ NIO模型基于Reactor模型</p>
 <h2 id="定时器"><a class="header-anchor" href="#定时器">¶</a>定时器</h2>
 <p>我们从上面一看到了绝大多数的时候，都会非常依赖于 <code>Timer</code> 的功能。而 <code>Timer</code> 本身也是有硬件和软件两种模式，<code>RT</code> 提供的是软时钟的模式。<br>
 软件的定时器也提供了 <code>HARD_TIMER</code> <code>SOFT_TIMER</code> 两种模式，区别在于 <code>HARD_TIMER</code> 以中断的行为触发， <code>SOFT_TIMER</code> 是一个独立线程进行调度。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326093513.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210326093513.png" alt=""></p>
 <p>默认的 <code>HARD_TIMER</code> 模式下，将定时任务按照一个 <code>Link List</code> 储存起来，当节拍器触发到相对应的时候，就可以运行这个任务了。回忆一下，我们最初的 <code>Clock</code> 章节</p>
 <figure class="highlight c"><figcaption><span>clock.c</span><a href="https://github.com/RT-Thread/rt-thread/blob/master/src/clock.c">link</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">rt_tick_increase</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* check timer */</span></span><br><span class="line">    rt_timer_check();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>最后一步就我们的 <code>Timer</code> 检查。</p>
@@ -12202,7 +12202,7 @@ NIO模型基于Reactor模型</p>
 <figure class="highlight c"><figcaption><span>socket.c</span><a href="https://github.com/RT-Thread/rt-thread/blob/13044b1e290a3aef4e57c3d443da1c571d33789d/components/net/lwip-2.0.2/src/api/sockets.c#L765">link</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="type">ssize_t</span></span><br><span class="line"><span class="title function_">lwip_recvfrom</span><span class="params">(<span class="type">int</span> s, <span class="type">void</span> *mem, <span class="type">size_t</span> len, <span class="type">int</span> flags,</span></span><br><span class="line"><span class="params">              <span class="keyword">struct</span> sockaddr *from, <span class="type">socklen_t</span> *fromlen)</span></span><br><span class="line">&#123; </span><br><span class="line">  sock = get_socket(s); <span class="comment">// 这里是 lwip_sock</span></span><br><span class="line">  <span class="keyword">if</span> (!sock) &#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (NETCONNTYPE_GROUP(netconn_type(sock-&gt;conn)) == NETCONN_TCP) &#123;</span><br><span class="line">    err = netconn_recv_tcp_pbuf(sock-&gt;conn, (<span class="keyword">struct</span> pbuf **)&amp;buf);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    err = netconn_recv(sock-&gt;conn, (<span class="keyword">struct</span> netbuf **)&amp;buf);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们可以读取的过程是 <code>netconn_recv_tcp_pbuf</code> 进行操作的，对于 <code>LWIP</code> 的逻辑，我们后续再讨论，我们来细讨论下，网卡的数据和内核之间的交流。</p>
 <h3 id="网卡驱动"><a class="header-anchor" href="#网卡驱动">¶</a>网卡驱动</h3>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/20210326154641.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210326154641.png" alt=""></p>
 <p>现在的网卡普遍已经不再使用 <code>中断</code> 来通知操作系统来获得数据了，因为中断频繁发生是很浪费上下文切换的。因此都是 <code>NAPI</code> 模式，也就是网卡自己处理数据从 TX/RX 中，不过在 <code>RT</code> 中还是使用 <code>中断</code> 来处理了。<br>
 比如在网卡读取数据时</p>
 <figure class="highlight c"><figcaption><span>drv_smc911x.c</span><a href="https://github.com/RT-Thread/rt-thread/blob/13044b1e29/bsp/qemu-vexpress-a9/drivers/drv_smc911x.c">link</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> pbuf *<span class="title function_">smc911x_emac_rx</span><span class="params">(<span class="type">rt_device_t</span> dev)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pbuf</span>* <span class="title">p</span> =</span> RT_NULL;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">eth_device_smc911x</span> *<span class="title">emac</span>;</span></span><br><span class="line"></span><br><span class="line">    emac = SMC911X_EMAC_DEVICE(dev);</span><br><span class="line">    RT_ASSERT(emac != RT_NULL);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((smc911x_reg_read(emac, RX_FIFO_INF) &amp; RX_FIFO_INF_RXSUSED) &gt;&gt; <span class="number">16</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">uint32_t</span> status;</span><br><span class="line">        <span class="type">uint32_t</span> pktlen, tmplen;</span><br><span class="line"></span><br><span class="line">        status = smc911x_reg_read(emac, RX_STATUS_FIFO); <span class="comment">// 读取 FIFO 队列的状态</span></span><br><span class="line">        <span class="comment">/* get frame length */</span></span><br><span class="line">        pktlen = (status &amp; RX_STS_PKT_LEN) &gt;&gt; <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">        smc911x_reg_write(emac, RX_CFG, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        tmplen = (pktlen + <span class="number">3</span>) / <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* allocate pbuf */</span></span><br><span class="line">        p = pbuf_alloc(PBUF_RAW, tmplen * <span class="number">4</span>, PBUF_RAM);</span><br><span class="line">        <span class="keyword">if</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">uint32_t</span> *data = (<span class="type">uint32_t</span> *)p-&gt;payload;</span><br><span class="line">            <span class="keyword">while</span> (tmplen--)</span><br><span class="line">            &#123;</span><br><span class="line">                *data++ = smc911x_reg_read(emac, RX_DATA_FIFO);  <span class="comment">// 网卡的缓冲区获得数据</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -12220,17 +12220,17 @@ NIO模型基于Reactor模型</p>
   <entry>
     <title>Ambient Mesh Works</title>
     <url>/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131754322.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131754322.png" alt=""></p>
 <p>在最新的一次发布中，<code>Istio</code> 带来一个超级重磅的消息，带来了无 <code>Sidecar</code> 的版本 <a href="https://istio.io/latest/blog/2022/get-started-ambient/"><code>Ambient Mesh</code></a></p>
 <span id="more"></span>
 <h2 id="Intro"><a class="header-anchor" href="#Intro">¶</a>Intro</h2>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131758697.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131758697.png" alt=""></p>
 <p>在官方的文档中，我们可以发现这次我们取消了 <code>App</code> 同样 <code>POD</code> 的 <code>Sidecar</code> 转而将转发的逻辑下沉到 2个全新的组件上</p>
 <ul>
 <li><code>ztunnel</code> 一个处理 L4 请求的 <code>Node</code> 级别的组件</li>
 <li><code>waypoint</code> 一个处理 L7 请求的 <code>Namespace</code> 级别的组件</li>
 </ul>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131758097.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131758097.png" alt=""></p>
 <p>可以理解成当前的 gateway 有四种角色</p>
 <ul>
 <li>ingressGateway: 消费 Gateway CR</li>
@@ -12254,7 +12254,7 @@ NIO模型基于Reactor模型</p>
 <figure class="highlight go"><figcaption><span>ztunnelgen.go</span><a href="https://github.com/istio/istio/blob/ccca32c20b5247ae85ea606e91792bce272b2144/pilot/pkg/networking/ambientgen/ztunnelgen.go#L107-L123">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *ZTunnelConfigGenerator)</span></span> Generate(</span><br><span class="line">	proxy *model.Proxy,</span><br><span class="line">	w *model.WatchedResource,</span><br><span class="line">	req *model.PushRequest,</span><br><span class="line">) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">	push := req.Push</span><br><span class="line">	<span class="keyword">switch</span> w.TypeUrl &#123;</span><br><span class="line">	<span class="keyword">case</span> v3.ListenerType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildListeners(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.ClusterType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildClusters(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> v3.EndpointType:</span><br><span class="line">		<span class="keyword">return</span> g.BuildEndpoints(proxy, push, w.ResourceNames), model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里再配合原先生成 Cluster 的逻辑等等，我们就把整个流程给串联起来。</p>
 <h3 id="Waypoint"><a class="header-anchor" href="#Waypoint">¶</a>Waypoint</h3>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209131759402.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131759402.png" alt=""></p>
 <p><code>Waypoint</code> 显然是处理 <code>L7</code> 逻辑的。</p>
 <blockquote>
 <p>Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.</p>
@@ -12283,7 +12283,7 @@ NIO模型基于Reactor模型</p>
 <p>通过对请求 <code>Mark</code> 的方式，流量走了 <code>Table 101</code>，然后进入了  <code>istioout</code></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">6: istioout: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UNKNOWN group default</span><br><span class="line">    <span class="built_in">link</span>/ether 96:99:db:e4:ca:ad brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.127.1/30 brd 192.168.127.3 scope global istioout</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
 <p>而这个恰好就是 zTunnel 组件。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202209181045072.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209181045072.png" alt=""></p>
 <h3 id="zTunnel-Waypoint"><a class="header-anchor" href="#zTunnel-Waypoint">¶</a>zTunnel -&gt; Waypoint</h3>
 <p>到这里就非常的符合我们的经验了，直接看 <code>Envoy</code> 就好了。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ k <span class="built_in">exec</span> -n istio-system ztunnel-4gkmd    --  iptables</span><br><span class="line"></span><br><span class="line">:POSTROUTING ACCEPT [19284:5797390]</span><br><span class="line">-A PREROUTING -j LOG --log-prefix <span class="string">&quot;mangle pre [ztunnel-4gkmd] &quot;</span></span><br><span class="line">-A PREROUTING -i pistioin -p tcp -m tcp --dport 15008 -j TPROXY --on-port 15008 --on-ip 127.0.0.1 --tproxy-mark 0x400/0xfff</span><br><span class="line">-A PREROUTING -i pistioout -p tcp -j TPROXY --on-port 15001 --on-ip 127.0.0.1 --tproxy-mark 0x400/0xfff</span><br><span class="line">-A PREROUTING -i pistioin -p tcp -j TPROXY --on-port 15006 --on-ip 127.0.0.1 --tproxy-mark 0x400/0xfff</span><br><span class="line">-A PREROUTING ! -d 10.244.2.3/32 -i eth0 -p tcp -j MARK --set-xmark 0x4d3/0xfff</span><br></pre></td></tr></table></figure>
@@ -12561,7 +12561,7 @@ NIO模型基于Reactor模型</p>
   <entry>
     <title>Isito Pliot 代码大全</title>
     <url>/2022/10/21/networking/istio/how-it-works/istio-complete/</url>
-    <content><![CDATA[<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202210211117213.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202210211117213.png" alt=""></p>
 <p>虽然起了一个很大的标题，有点标题党的意思，但是本篇会覆盖大多数 <code>istio pliot</code> 的功能，可以耐着性子看下去。</p>
 <p>我们在对 istio 有一个初步了解的情况下，我们很容易得知，istio 的整个抽象架构就是一个标准的 CS 模型，对于我们需要解答的就是 istio 是如何将那些配置项和k8s的运行状态，转为 Envoy 所需要使用的数据结构的。</p>
 <span id="more"></span>
@@ -12624,7 +12624,7 @@ NIO模型基于Reactor模型</p>
 <li>Config 类型的：也就是 VirtualService 之类的配置</li>
 <li>Data 类型的：也就是运行期的 Service POD 之类的</li>
 </ul>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202210211128395.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202210211128395.png" alt=""></p>
 <p>在系统的启动之初就明确的得知，系统有三个部分的 资源 Controller</p>
 <figure class="highlight go"><figcaption><span>initControllers</span><a href="https://github.com/istio/istio/blob/60c49981cf3c6d7985542ff8d17e8f78ecef6d27/pilot/pkg/bootstrap/server.go#L1075-L1091">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// initControllers initializes the controllers.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Server)</span></span> initControllers(args *PilotArgs) <span class="type">error</span> &#123;</span><br><span class="line">    log.Info(<span class="string">&quot;initializing controllers&quot;</span>)</span><br><span class="line">    s.initMulticluster(args)</span><br><span class="line">    <span class="comment">// Certificate controller is created before MCP controller in case MCP server pod</span></span><br><span class="line">    <span class="comment">// waits to mount a certificate to be provisioned by the certificate controller.</span></span><br><span class="line">    <span class="keyword">if</span> err := s.initCertController(args); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;error initializing certificate controller: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 配置类 Controller</span></span><br><span class="line">    <span class="keyword">if</span> err := s.initConfigController(args); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;error initializing config controller: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Data 数据类 Controller</span></span><br><span class="line">    <span class="keyword">if</span> err := s.initServiceControllers(args); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;error initializing service controllers: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="Config-类数据源"><a class="header-anchor" href="#Config-类数据源">¶</a>Config 类数据源</h3>
@@ -12659,13 +12659,13 @@ NIO模型基于Reactor模型</p>
 <figure class="highlight go"><figcaption><span>clusterAdd</span><a href="https://github.com/istio/istio/blob/4768755bdf953f7b2bf4ca5bbf18bc4ec6f612b5/pilot/pkg/serviceregistry/kube/controller/multicluster.go#L145-L279">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// ClusterAdded is passed to the secret controller as a callback to be called</span></span><br><span class="line"><span class="comment">// when a remote cluster is added.  This function needs to set up all the handlers</span></span><br><span class="line"><span class="comment">// to watch for resources being added, deleted or changed on remote clusters.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Multicluster)</span></span> ClusterAdded(cluster *multicluster.Cluster, clusterStopCh &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;) <span class="type">error</span> &#123;</span><br><span class="line">    m.m.Lock()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> m.closing &#123;</span><br><span class="line">        m.m.Unlock()</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;failed adding member cluster %s: server shutting down&quot;</span>, cluster.ID)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    client := cluster.Client</span><br><span class="line"></span><br><span class="line">    <span class="comment">// clusterStopCh is a channel that will be closed when this cluster removed.</span></span><br><span class="line">    options := m.opts</span><br><span class="line">    options.ClusterID = cluster.ID</span><br><span class="line">    <span class="comment">// the aggregate registry&#x27;s HasSynced will use the k8s controller&#x27;s HasSynced, so we reference the same timeout</span></span><br><span class="line">    options.SyncTimeout = cluster.SyncTimeout</span><br><span class="line">    <span class="comment">// different clusters may have different k8s version, re-apply conditional default</span></span><br><span class="line">    options.EndpointMode = DetectEndpointMode(client)</span><br><span class="line"></span><br><span class="line">    log.Infof(<span class="string">&quot;Initializing Kubernetes service registry %q&quot;</span>, options.ClusterID)</span><br><span class="line">    kubeRegistry := NewController(client, options)</span><br><span class="line">    m.remoteKubeControllers[cluster.ID] = &amp;kubeController&#123;</span><br><span class="line">        Controller: kubeRegistry,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// localCluster may also be the &quot;config&quot; cluster, in an external-istiod setup.</span></span><br><span class="line">    localCluster := m.opts.ClusterID == cluster.ID</span><br><span class="line"></span><br><span class="line">    m.m.Unlock()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// TODO move instance cache out of registries</span></span><br><span class="line">    <span class="keyword">if</span> m.serviceEntryStore != <span class="literal">nil</span> &amp;&amp; features.EnableServiceEntrySelectPods &#123;</span><br><span class="line">        <span class="comment">// Add an instance handler in the kubernetes registry to notify service entry store about pod events</span></span><br><span class="line">        kubeRegistry.AppendWorkloadHandler(m.serviceEntryStore.WorkloadInstanceHandler)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// TODO only create namespace controller and cert patch for remote clusters (no way to tell currently)</span></span><br><span class="line">    <span class="keyword">if</span> m.startNsController &amp;&amp; (features.ExternalIstiod || localCluster) &#123;</span><br><span class="line">        <span class="comment">// Block server exit on graceful termination of the leader controller.</span></span><br><span class="line">        m.s.RunComponentAsyncAndWait(<span class="function"><span class="keyword">func</span><span class="params">(_ &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">            log.Infof(<span class="string">&quot;joining leader-election for %s in %s on cluster %s&quot;</span>,</span><br><span class="line">                leaderelection.NamespaceController, options.SystemNamespace, options.ClusterID)</span><br><span class="line">            leaderelection.</span><br><span class="line">                NewLeaderElection(options.SystemNamespace, m.serverID, leaderelection.NamespaceController, m.revision, client).</span><br><span class="line">                AddRunFunction(<span class="function"><span class="keyword">func</span><span class="params">(leaderStop &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">                    log.Infof(<span class="string">&quot;starting namespace controller for cluster %s&quot;</span>, cluster.ID)</span><br><span class="line">                    nc := NewNamespaceController(client, m.caBundleWatcher)</span><br><span class="line">                    <span class="comment">// Start informers again. This fixes the case where informers for namespace do not start,</span></span><br><span class="line">                    <span class="comment">// as we create them only after acquiring the leader lock</span></span><br><span class="line">                    <span class="comment">// Note: stop here should be the overall pilot stop, NOT the leader election stop. We are</span></span><br><span class="line">                    <span class="comment">// basically lazy loading the informer, if we stop it when we lose the lock we will never</span></span><br><span class="line">                    <span class="comment">// recreate it again.</span></span><br><span class="line">                    client.RunAndWait(clusterStopCh)</span><br><span class="line">                    nc.Run(leaderStop)</span><br><span class="line">                &#125;).Run(clusterStopCh)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="XdsResourceGenerator"><a class="header-anchor" href="#XdsResourceGenerator">¶</a>XdsResourceGenerator</h2>
 <p>当我们知道了 istio 的 数据源和数据模式之后，那下一步就是 istio 是如何把这些数据转为 Envoy 所能感知到的 XDS 的协议，这部分是通过 XdsResourceGenerator 来生成各种配置。</p>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202210211356751.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202210211356751.png" alt=""></p>
 <p>最终的抽象如下</p>
 <figure class="highlight go"><figcaption><span>Generator</span><a href="https://github.com/istio/istio/blob/202e88863858342eeb0206944e9d277a545eb194/pilot/pkg/model/context.go#L215-L215">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> XdsResourceGenerator <span class="keyword">interface</span> &#123;</span><br><span class="line">   <span class="comment">// Generate generates the Sotw resources for Xds.</span></span><br><span class="line">   Generate(proxy *Proxy, push *PushContext, w *WatchedResource, updates *PushRequest) (Resources, XdsLogDetails, <span class="type">error</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对于不同的资源产生的方式采用了不同的方式实现。<br>
 比如 NDS 就是用来处理 DNS 的规则</p>
 <figure class="highlight go"><figcaption><span>NDS</span><a href="https://github.com/istio/istio/blob/202e88863858342eeb0206944e9d277a545eb194/pilot/pkg/xds/nds.go#L31-L31">github</a></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> NdsGenerator <span class="keyword">struct</span> &#123;</span><br><span class="line">   Server *DiscoveryServer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n NdsGenerator)</span></span> Generate(proxy *model.Proxy, push *model.PushContext, w *model.WatchedResource,</span><br><span class="line">   req *model.PushRequest) (model.Resources, model.XdsLogDetails, <span class="type">error</span>) &#123;</span><br><span class="line">   <span class="keyword">if</span> !ndsNeedsPush(req) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">   &#125;</span><br><span class="line">   nt := n.Server.ConfigGenerator.BuildNameTable(proxy, push)</span><br><span class="line">   <span class="keyword">if</span> nt == <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">   &#125;</span><br><span class="line">   resources := model.Resources&#123;&amp;discovery.Resource&#123;Resource: util.MessageToAny(nt)&#125;&#125;</span><br><span class="line">   <span class="keyword">return</span> resources, model.DefaultXdsLogDetails, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2022/202211111042177.png" alt=""></p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211111042177.png" alt=""></p>
 <h3 id="Proxyelss-ConfigGenerator"><a class="header-anchor" href="#Proxyelss-ConfigGenerator">¶</a>Proxyelss ConfigGenerator</h3>
 <p>在充满私货的 <a href="https://cloud.google.com/traffic-director/docs/proxyless-overview">无代理 gRPC 服务的 Traffic Director</a>  中，谷歌为 <code>istiod</code> 增加了对 <code>Proxyless</code> 的支持，我们来看看这是如何实现的。</p>
 <p>我们既然知道了 istio 提供了生成的抽象，我们自然可以从 <code>XdsResourceGenerator</code> 入手，快速的定位 grpc 的配置生成的地方。</p>
