@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"blog.yanick.site","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":true,"nav":{"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":1}},"activeClass":"changyan"},"algolia":{"appID":"SLJ0R87CAH","apiKey":"fd4f2896d73497ea343ec5d504a06bb4","indexName":"yann_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeInUp"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="在 服务网格加速器 Merbridge 正式进入 CNCF 沙箱 中提及使用 Cillum 来提速 Istio，我们来瞧瞧这个原理是如何的。      注意     本文基于 0.8.1 版本  ¶Istio iptable 流量路径 在传统的 Istio 流量路径中，outbound 流量由 APP 出来被 iptables 劫持，然后通过内核转发给 Envoy，Envoy 再出去。Inboun">
+  <meta name="description" content="在 服务网格加速器 Merbridge 正式进入 CNCF 沙箱 中提及使用 Cillum 来提速 Istio，我们来瞧瞧这个原理是如何的。      注意     本文基于 0.8.1 版本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How Merbridge Works">
 <meta property="og:url" content="http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="在 服务网格加速器 Merbridge 正式进入 CNCF 沙箱 中提及使用 Cillum 来提速 Istio，我们来瞧瞧这个原理是如何的。      注意     本文基于 0.8.1 版本  ¶Istio iptable 流量路径 在传统的 Istio 流量路径中，outbound 流量由 APP 出来被 iptables 劫持，然后通过内核转发给 Envoy，Envoy 再出去。Inboun">
+<meta property="og:description" content="在 服务网格加速器 Merbridge 正式进入 CNCF 沙箱 中提及使用 Cillum 来提速 Istio，我们来瞧瞧这个原理是如何的。      注意     本文基于 0.8.1 版本">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171028862.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171045615.png">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171141222.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171141016.png">
 <meta property="article:published_time" content="2023-05-17T02:38:10.000Z">
-<meta property="article:modified_time" content="2023-05-26T06:54:14.373Z">
+<meta property="article:modified_time" content="2023-12-28T07:29:19.859Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="istio">
 <meta property="article:tag" content="merbridge">
@@ -265,7 +265,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-26 14:54:14" itemprop="dateModified" datetime="2023-05-26T14:54:14+08:00">2023-05-26</time>
+                <time title="修改时间：2023-12-28 15:29:19" itemprop="dateModified" datetime="2023-12-28T15:29:19+08:00">2023-12-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -304,6 +304,7 @@
     <label class="author-mark-label">注意</label>
     <p class="author-mark">本文基于 0.8.1 版本</p>
 </div>
+<span id="more"></span>
 <h2 id="Istio-iptable-流量路径"><a class="header-anchor" href="#Istio-iptable-流量路径">¶</a>Istio iptable 流量路径</h2>
 <p>在传统的 Istio 流量路径中，outbound 流量由 APP 出来被 iptables 劫持，然后通过内核转发给 Envoy，Envoy 再出去。Inbound 类似，因此实际上数据包在内核中倒腾了好几次</p>
 <p><img src="/images/loading.gif" data-original="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171028862.png" alt=""></p>

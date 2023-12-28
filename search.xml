@@ -10824,6 +10824,7 @@ Filter 是 Motan 很重要的一个实现接口</p>
     <label class="author-mark-label">注意</label>
     <p class="author-mark">本文基于 0.8.1 版本</p>
 </div>
+<span id="more"></span>
 <h2 id="Istio-iptable-流量路径"><a class="header-anchor" href="#Istio-iptable-流量路径">¶</a>Istio iptable 流量路径</h2>
 <p>在传统的 Istio 流量路径中，outbound 流量由 APP 出来被 iptables 劫持，然后通过内核转发给 Envoy，Envoy 再出去。Inbound 类似，因此实际上数据包在内核中倒腾了好几次</p>
 <p><img src="https://cdn.staticaly.com/gh/yanickxia/picture-bed@master/2023/202305171028862.png" alt=""></p>
