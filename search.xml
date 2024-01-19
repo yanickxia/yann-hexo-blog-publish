@@ -2648,6 +2648,20 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
 <li>root：即 Google Trust Services - GlobalSign Root CA-R2，是根 CA 的证书，它给中间 CA 签发证书</li>
 </ul>
 <p>为什么需要证书链，并不是担心 <code>end-user</code> 的私钥丢失，丢失了再生成就好了，主要担心的是 <code>intermediates</code> 的私钥丢失，这样会影响所有下游系统，因此当 <code>intermediates</code> 的私钥丢失，<code>root</code> 会放弃这个 <code>intermediates</code> 的证书，认为不合法，然后换一个CA给所有的 <code>end-user</code> 生产一个人新的证书，这样<code>中间CA</code> 产生的不安全被隔离了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 比如这里我们生成一个 ca 的证书（x509格式， ca.key 为私钥  ca.crt为数字证书[公钥] ）</span></span><br><span class="line">openssl req -x509 -sha256 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 356 -nodes -subj <span class="string">&#x27;/CN=My Cert Authority&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="数字证书"><a class="header-anchor" href="#数字证书">¶</a>数字证书</h3>
+<p>公钥和私钥，是非常基础的设施，在 A 和 B 两个服务之间，建立链接的时候，我们知道会发送 <code>Hello</code> 请求，其中包含的也就是服务器的数字证书，数字证书。</p>
+<p>用于 SSL 的公钥和私钥本质上是用于加密和签署数据的长字符串。使用公钥加密的数据只能用私钥解密。但是直接传递长字符串并不明智，实则是服务端将自己的公钥发送给 CA，CA 将其一些其他信息（失效时间）一起打包，用自己的私钥签名，打包成一个数字证书。</p>
+<p>这样当对端收到这个数字证书的时候，可以使用 CA 的公钥进行验签，保证了这个传递的数字证书本身是可靠的。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 生成服务端证书 (server.key 为私钥, server.csr 为证书签名请求（Certificate signing request）[其中包含了公钥])</span></span><br><span class="line">openssl req -new -newkey rsa:4096 -keyout server.key -out server.csr -nodes -subj <span class="string">&#x27;/CN=mydomain.com&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 server.csr  通过 CA 签名成  server.crt 数字证书[公钥]</span></span><br><span class="line">openssl x509 -req -sha256 -days 365 -<span class="keyword">in</span> server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt</span><br></pre></td></tr></table></figure>
+<h3 id="验签"><a class="header-anchor" href="#验签">¶</a>验签</h3>
+<p>经过上面的一通操作，此时如别有个 Client 需要进行访问的时候</p>
+<ol>
+<li>Client 是有 ca.crt 的（这个是公开的）</li>
+<li>Client 请求 Server 发出 Hello， Server 进行响应，返回了 server.crt</li>
+<li>server.crt 收到，Client 使用 ca.crt 进行验签，保证合法，从而得知 server 的公钥</li>
+<li>请求后续使用 server 的公钥</li>
+</ol>
 <h3 id="Real-World"><a class="header-anchor" href="#Real-World">¶</a>Real World</h3>
 <p>一般我们生成自签名的系统的时候，第一步都是生产自签名的 ROOT 证书</p>
 <ul>
@@ -2661,6 +2675,10 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
 <li>cert-chain.pem: 证书链</li>
 </ul>
 <p>因此我们到时候直接需要把 root-cert 加入我们的系统之中，这些 IMT 证书就可以直接使用了。</p>
+<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
+<ul>
+<li><a href="https://crypt.wenwoha.com/">人人都能看懂的密码学</a></li>
+</ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>]]></content>
       <categories>
         <category>ca</category>
