@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/</loc>
+    
+    <lastmod>2024-03-13T14:29:32.931Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.yanick.site/2023/01/22/os/run-linux-in-qemu/</loc>
     
     <lastmod>2024-03-13T13:54:26.794Z</lastmod>
@@ -87,13 +94,6 @@
   
   <url>
     <loc>http://blog.yanick.site/2020/11/05/rust/impl-CHIP-8-emulator-in-rust/</loc>
-    
-    <lastmod>2023-12-28T09:14:19.988Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/</loc>
     
     <lastmod>2023-12-28T09:14:19.988Z</lastmod>
     
