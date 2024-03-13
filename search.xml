@@ -2527,7 +2527,7 @@ Pod 中的所有容器必须设置 CPU 和 Memory，并且 request 和 limit 值
   <entry>
     <title>使用 QEMU 运行 Linux kernel</title>
     <url>/2023/01/22/os/run-linux-in-qemu/</url>
-    <content><![CDATA[<p><img src="https://images.upyun.yanick.site/2022/202301222056140.png" alt=""></p>
+    <content><![CDATA[<p><img src="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403132131563.png" alt=""></p>
 <p>让我们使用 qemu 来运行 Linux 吧。</p>
 <span id="more"></span>
 <h2 id="安装-QEMU"><a class="header-anchor" href="#安装-QEMU">¶</a>安装 QEMU</h2>
