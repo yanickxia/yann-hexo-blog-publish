@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="在 Kubernetes 网络原理(2) - Container &amp; Pod 中，我们已经看到了在一个 Node 内部的 Pod 和 Container 的通讯，我们今天来看看跨Node的Pod通讯。">
 <meta property="og:type" content="article">
@@ -57,6 +57,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -239,6 +240,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2019/03/17/kubernetes/how-kubernetes-network-2/" rel="bookmark">
+        <time class="popular-posts-time">2019-03-17</time>
+        <br>
+      Kubernetes-Calico-网络原理(2) - Container & Pod
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2019/03/22/kubernetes/how-kubernetes-network-5/" rel="bookmark">
+        <time class="popular-posts-time">2019-03-22</time>
+        <br>
+      Kubernetes-网络原理(5) - ClusterIP
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2019/03/17/kubernetes/how-kubernetes-network-1/" rel="bookmark">
+        <time class="popular-posts-time">2019-03-17</time>
+        <br>
+      Kubernetes-Calico-网络原理(1) - 环境预备 & 初窥网络
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -329,27 +361,33 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
+
 <p>在 <a target="_blank" rel="noopener" href="http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-2/">Kubernetes 网络原理(2) - Container &amp; Pod</a> 中，我们已经看到了在一个 <code>Node</code> 内部的 <code>Pod</code> 和 <code>Container</code> 的通讯，我们今天来看看跨<code>Node</code>的<code>Pod</code>通讯。</p>
 <span id="more"></span>
-<h2 id="Pod-Node"><a class="header-anchor" href="#Pod-Node">¶</a>Pod &lt;-&gt; Node</h2>
-<p>我们首先先部署一个环境，在 <code>work-2</code> 上部署一个新的 <code>echo-server</code></p>
+
+<h2 id="Pod-Node"><a href="#Pod-Node" class="headerlink" title="Pod &lt;-&gt; Node"></a>Pod &lt;-&gt; Node</h2><p>我们首先先部署一个环境，在 <code>work-2</code> 上部署一个新的 <code>echo-server</code></p>
 <div class='spoiler collapsed'>
     <div class='spoiler-title'>
         Pod部署Yaml文件
     </div>
     <div class='spoiler-content'>
         <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">c2c-network-demo-w2</span></span><br><span class="line"><span class="attr">labels:</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">c2c-network-demo-w2</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">containers:</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">hello-world-server</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">python:2.7</span></span><br><span class="line">  <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">  <span class="attr">command:</span> [<span class="string">&quot;/bin/bash&quot;</span>]</span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&quot;-c&quot;</span>, <span class="string">&quot;echo \&quot;&lt;p&gt;Hi from $(hostname)&lt;/p&gt;\&quot; &gt; index.html; python -m SimpleHTTPServer 8080&quot;</span>]</span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">curl-client</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">yannxia/ubuntu-with-tcpdump</span></span><br><span class="line">  <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">  <span class="attr">command:</span> [<span class="string">&quot;/bin/sh&quot;</span>]</span><br><span class="line">  <span class="attr">args:</span> [<span class="string">&quot;-c&quot;</span>, <span class="string">&quot;while true; do sleep 10; done;&quot;</span>]</span><br><span class="line">  <span class="attr">nodeSelector:</span></span><br><span class="line">  <span class="attr">worker:</span> <span class="literal">no</span><span class="number">-2</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-
+  
     </div>
 </div>
+
 <p>我们可以查看到在 <code>worker-2</code> 上面有了新的服务。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pod -o wide</span><br><span class="line">NAME                  READY   STATUS    RESTARTS   AGE     IP             NODE           NOMINATED NODE   READINESS GATES</span><br><span class="line">c2c-network-demo      2/2     Running   0          2d2h    192.168.1.10   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">c2c-network-demo-w2   2/2     Running   0          87s     192.168.2.6    k8s-worker-2   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">echo-server           1/1     Running   0          11d     192.168.1.2    k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">test-tools            1/1     Running   0          7h45m   192.168.1.12   k8s-worker-1   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
 <p>我们可以看到 <code>c2c-network-demo-w2</code> 分配的 IP 是 <code>192.168.2.6</code>，我们在 <code>k8s-worker-1</code> 的 <code>Node</code> 尝试访问下，毫无疑问的可以访问通。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@test-tools:/<span class="comment"># ping 192.168.2.6</span></span><br><span class="line">PING 192.168.2.6 (192.168.2.6): 56 data bytes</span><br><span class="line">64 bytes from 192.168.2.6: icmp_seq=0 ttl=62 time=0.467 ms</span><br></pre></td></tr></table></figure>
+
 <p>在<code>k8s-worker-1</code>的路由表查一下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         10.12.0.1       0.0.0.0         UG    0      0        0 ens192</span><br><span class="line">10.12.0.0       0.0.0.0         255.255.0.0     U     0      0        0 ens192</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0</span><br><span class="line">192.168.0.0     10.12.22.1      255.255.255.0   UG    0      0        0 tunl0</span><br><span class="line">192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 *</span><br><span class="line">192.168.1.2     0.0.0.0         255.255.255.255 UH    0      0        0 cali0005aea454a</span><br><span class="line">192.168.1.10    0.0.0.0         255.255.255.255 UH    0      0        0 calid9d486e54a8</span><br><span class="line">192.168.1.12    0.0.0.0         255.255.255.255 UH    0      0        0 calied9d42cb137</span><br><span class="line">192.168.2.0     10.12.22.3      255.255.255.0   UG    0      0        0 tunl0</span><br></pre></td></tr></table></figure>
+
 <p>我们可以发现命中的是</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.0     10.12.22.3      255.255.255.0   UG    0      0        0 tunl0</span><br></pre></td></tr></table></figure>
+
 <p>我们的网络包从 <code>tunl0</code> 网卡出去，目标是下一条的 <code>Gateway:10.12.22.3</code> 但是我们 <code>tunl0</code> 的另一头是一个单独的应用，此时我们同时抓包 <code>ens192</code> 和 <code>tunl0</code> 从黑盒的模式看看，这个<code>Calico</code>的应用做了什么事情。</p>
 <ul>
 <li><code>tunl0</code><div class='spoiler collapsed'>
@@ -359,8 +397,7 @@
     <div class='spoiler-content'>
         <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ tcpdump -i tunl0</span><br><span class="line">01:24:59.482498 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [S], <span class="built_in">seq</span> 2194532999, win 28000, options [m</span><br><span class="line">ss 1400,sackOK,TS val 248040654 ecr 0,nop,wscale 7], length 0</span><br><span class="line">01:24:59.482918 IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [S.], <span class="built_in">seq</span> 2179183161, ack 2194533000, win</span><br><span class="line">27760, options [mss 1400,sackOK,TS val 247938639 ecr 248040654,nop,wscale 7], length 0</span><br><span class="line">01:24:59.482982 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 1, win 219, options [nop,nop,TS v</span><br><span class="line">al 248040655 ecr 247938639], length 0</span><br><span class="line">01:24:59.483073 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [P.], <span class="built_in">seq</span> 1:81, ack 1, win 219, options [n</span><br><span class="line">op,nop,TS val 248040655 ecr 247938639], length 80: HTTP: GET / HTTP/1.1</span><br><span class="line">01:24:59.483209 IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [.], ack 81, win 217, options [nop,nop,TS</span><br><span class="line">val 247938639 ecr 248040655], length 0</span><br><span class="line">01:24:59.484042 IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [P.], <span class="built_in">seq</span> 1:18, ack 81, win 217, options [</span><br><span class="line">nop,nop,TS val 247938639 ecr 248040655], length 17: HTTP: HTTP/1.0 200 OK</span><br><span class="line">01:24:59.484115 IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 18, win 219, options [nop,nop,TS</span><br><span class="line">val 248040655 ecr 247938639], length 0</span><br></pre></td></tr></table></figure>
     </div>
-</div>
-</li>
+</div></li>
 <li><code>ens192</code><div class='spoiler collapsed'>
     <div class='spoiler-title'>
         Tunl0
@@ -368,23 +405,17 @@
     <div class='spoiler-content'>
         <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ tcpdump -i ens192 dst 10.12.22.3 and not port 6443</span><br><span class="line">01:24:59.482524 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [S], <span class="built_in">seq</span> 2</span><br><span class="line">194532999, win 28000, options [mss 1400,sackOK,TS val 248040654 ecr 0,nop,wscale 7], length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.482882 IP k8s-worker-2 &gt; k8s-worker-1: IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [S.], <span class="built_in">seq</span></span><br><span class="line">2179183161, ack 2194533000, win 27760, options [mss 1400,sackOK,TS val 247938639 ecr 248040654,nop,wscale 7],</span><br><span class="line">length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.483005 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 1</span><br><span class="line">, win 219, options [nop,nop,TS val 248040655 ecr 247938639], length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.483083 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [P.], <span class="built_in">seq</span></span><br><span class="line">1:81, ack 1, win 219, options [nop,nop,TS val 248040655 ecr 247938639], length 80: HTTP: GET / HTTP/1.1 (ipip-</span><br><span class="line">proto-4)</span><br><span class="line">01:24:59.483194 IP k8s-worker-2 &gt; k8s-worker-1: IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [.], ack 8</span><br><span class="line">1, win 217, options [nop,nop,TS val 247938639 ecr 248040655], length 0 (ipip-proto-4)</span><br><span class="line">01:24:59.483992 IP k8s-worker-2 &gt; k8s-worker-1: IP 192.168.2.6.http-alt &gt; 192.168.1.12.46282: Flags [P.], <span class="built_in">seq</span></span><br><span class="line">1:18, ack 81, win 217, options [nop,nop,TS val 247938639 ecr 248040655], length 17: HTTP: HTTP/1.0 200 OK (ipi</span><br><span class="line">p-proto-4)</span><br><span class="line">01:24:59.484128 IP k8s-worker-1 &gt; k8s-worker-2: IP 192.168.1.12.46282 &gt; 192.168.2.6.http-alt: Flags [.], ack 1</span><br><span class="line">8, win 219, options [nop,nop,TS val 248040655 ecr 247938639], length 0 (ipip-proto-4)</span><br></pre></td></tr></table></figure>
     </div>
-</div>
-</li>
+</div></li>
 </ul>
 <p>从上面的抓包里面可以分辨出，从 <code>tun0</code> 出来的数据包，到了 <code>eth0</code> 这里被封装成了 <code>IP in IP</code> 的数据包，也就是在本来的 <code>TCP/IP</code> 的协议包之外又封装了一层物理网络的 <code>IP</code>。</p>
-<p><img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/21/5c92e80a5a4da.png" alt=""></p>
-<h2 id="汇总"><a class="header-anchor" href="#汇总">¶</a>汇总</h2>
-<p>我们从最近的一系列分析中：</p>
+<p><img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/21/5c92e80a5a4da.png"></p>
+<h2 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h2><p>我们从最近的一系列分析中：</p>
 <ul>
-<li>Pod -&gt; Node-A<br>
-通过 veth 设备将数据从容器的 eth0 发出</li>
-<li>Node-A -&gt; Node-B<br>
-eth 通过路由表将数据发送到 tunl0, 然后 tunl0 将报文分装成 IPinIP</li>
-<li>Node-B -&gt; Pod<br>
-eth 将 IPIP 协议包解包，使用路由表将数据从 veth 输入到 Pod 的 eth0</li>
+<li>Pod -&gt; Node-A<br>通过 veth 设备将数据从容器的 eth0 发出</li>
+<li>Node-A -&gt; Node-B<br>eth 通过路由表将数据发送到 tunl0, 然后 tunl0 将报文分装成 IPinIP</li>
+<li>Node-B -&gt; Pod<br>eth 将 IPIP 协议包解包，使用路由表将数据从 veth 输入到 Pod 的 eth0</li>
 </ul>
-<h2 id="New-Question"><a class="header-anchor" href="#New-Question">¶</a>New Question</h2>
-<p>除了 IPIP 的模式以为，Calico 还提供了 BGP 模式，那它的工作模式又是如何呢？切看我们下章分解。</p>
+<h2 id="New-Question"><a href="#New-Question" class="headerlink" title="New Question"></a>New Question</h2><p>除了 IPIP 的模式以为，Calico 还提供了 BGP 模式，那它的工作模式又是如何呢？切看我们下章分解。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -465,7 +496,7 @@ eth 将 IPIP 协议包解包，使用路由表将数据从 veth 输入到 Pod �
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

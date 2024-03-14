@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="原文: https:&#x2F;&#x2F;istio.io&#x2F;latest&#x2F;news&#x2F;releases&#x2F;1.10.x&#x2F;announcing-1.10&#x2F;">
 <meta property="og:type" content="article">
@@ -59,6 +59,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -241,6 +242,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2019/03/07/kubernetes/how-kubernetes-network-0/" rel="bookmark">
+        <time class="popular-posts-time">2019-03-07</time>
+        <br>
+      Kubernetes-网络原理(0) - 网络知识预备
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2021/09/10/networking/istio/upgrade/1.11.x/" rel="bookmark">
+        <time class="popular-posts-time">2021-09-10</time>
+        <br>
+      Isito 1.11.x 更新解读
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/05/07/java/nio/java-nio-1-basic/" rel="bookmark">
+        <time class="popular-posts-time">2018-05-07</time>
+        <br>
+      Java网络编程-(1)-NIO基础
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -314,50 +346,48 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519134744.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519134744.png"></p>
 <p>原文: <a target="_blank" rel="noopener" href="https://istio.io/latest/news/releases/1.10.x/announcing-1.10/">https://istio.io/latest/news/releases/1.10.x/announcing-1.10/</a></p>
 <span id="more"></span>
-<h2 id="新功能"><a class="header-anchor" href="#新功能">¶</a>新功能</h2>
-<h3 id="Discovery-Selectors"><a class="header-anchor" href="#Discovery-Selectors">¶</a>Discovery Selectors</h3>
-<p>针对大规模的集群下，有部分的 Namespace 会经常的进行快速变动，创建很多临时的 Pod/Service，会带来 Istiod 监听之后Push xDS 的压力变大。因此增加了一个新特性，来忽略部分 namespace</p>
+
+
+<h2 id="新功能"><a href="#新功能" class="headerlink" title="新功能"></a>新功能</h2><h3 id="Discovery-Selectors"><a href="#Discovery-Selectors" class="headerlink" title="Discovery Selectors"></a>Discovery Selectors</h3><p>针对大规模的集群下，有部分的 Namespace 会经常的进行快速变动，创建很多临时的 Pod&#x2F;Service，会带来 Istiod 监听之后Push xDS 的压力变大。因此增加了一个新特性，来忽略部分 namespace</p>
 <ol>
 <li>我们首先对 Ns 标记上特定标签</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl label namespace default istio-discovery=enabled</span><br></pre></td></tr></table></figure>
+
 <ol start="2">
 <li>修改 Istio 的全局配置</li>
 </ol>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">meshConfig:</span></span><br><span class="line">  <span class="attr">discoverySelectors:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">matchLabels:</span></span><br><span class="line">        <span class="attr">istio-discovery:</span> <span class="string">enabled</span></span><br></pre></td></tr></table></figure>
+
 <p>这样 istiod 仅仅会监听 default 这个 namespace</p>
-<h4 id="Discovery-Selectors-vs-Sidecar-Resource"><a class="header-anchor" href="#Discovery-Selectors-vs-Sidecar-Resource">¶</a>Discovery Selectors vs Sidecar Resource</h4>
-<p><code>discoverySelectors</code> 是全局性配置并且仅仅针对 <code>istiod</code> 生效，和 <code>sidecarResource</code> 功能有重叠，<br>
-<code>Discovery Selectors</code> 相较于 <code>Sidecar</code> 的使用难度，低了很多，对于大部分的场景下，我们仅仅希望忽略一些 <code>namespace</code>，会比 <code>sidecar</code> 要好用些。</p>
-<h3 id="Stable-revision-labels-experimental"><a class="header-anchor" href="#Stable-revision-labels-experimental">¶</a>Stable revision labels (experimental)</h3>
-<p>在以前的版本中，我们也讨论过灰度升级的方案，<a target="_blank" rel="noopener" href="https://istio.io/v1.9/docs/setup/upgrade/canary/">Istioldie 1.9 / Canary Upgrades</a></p>
+<h4 id="Discovery-Selectors-vs-Sidecar-Resource"><a href="#Discovery-Selectors-vs-Sidecar-Resource" class="headerlink" title="Discovery Selectors vs Sidecar Resource"></a>Discovery Selectors vs Sidecar Resource</h4><p><code>discoverySelectors</code> 是全局性配置并且仅仅针对 <code>istiod</code> 生效，和 <code>sidecarResource</code> 功能有重叠，<br><code>Discovery Selectors</code> 相较于 <code>Sidecar</code> 的使用难度，低了很多，对于大部分的场景下，我们仅仅希望忽略一些 <code>namespace</code>，会比 <code>sidecar</code> 要好用些。</p>
+<h3 id="Stable-revision-labels-experimental"><a href="#Stable-revision-labels-experimental" class="headerlink" title="Stable revision labels (experimental)"></a>Stable revision labels (experimental)</h3><p>在以前的版本中，我们也讨论过灰度升级的方案，<a target="_blank" rel="noopener" href="https://istio.io/v1.9/docs/setup/upgrade/canary/">Istioldie 1.9 &#x2F; Canary Upgrades</a></p>
 <p>我们部署多个版本，通过 <code>revision</code> 进行区分。</p>
 <figure class="highlight bash"><figcaption><span>istio-1.9.x</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n istio-system -l app=istiod</span><br><span class="line"></span><br><span class="line">NAME                                    READY   STATUS    RESTARTS   AGE</span><br><span class="line">istiod-786779888b-p9s5n                 1/1     Running   0          114m</span><br><span class="line">istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m</span><br></pre></td></tr></table></figure>
+
 <p>而在这个版本中，我们增加一个新的映射 (by Label)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">istioctl x revision tag <span class="built_in">set</span> prod --revision 1-7-6</span><br><span class="line">istioctl x revision tag <span class="built_in">set</span> canary --revision 1-8-0</span><br></pre></td></tr></table></figure>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135037.png" alt=""></p>
-<p>Namespaces A and B -&gt; 1-7-6,<br>
-Namespace C -&gt; 1-8-0</p>
+
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135037.png"></p>
+<p>Namespaces A and B -&gt; 1-7-6,<br>Namespace C -&gt; 1-8-0</p>
 <p>我们现在仅仅需要修改 <code>tag</code> 即可</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">istioctl x revision tag <span class="built_in">set</span> prod --revision 1-8-0</span><br></pre></td></tr></table></figure>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135117.png" alt=""></p>
+
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135117.png"></p>
 <p>相较于之前的版本，我们多一层抽象，这样可以保持 <code>Namespace</code> <code>Label</code> 的稳定，对于升级的行为就完全控制在 istio 的 scope 内。</p>
-<h3 id="Sidecar-Networking-Changes"><a class="header-anchor" href="#Sidecar-Networking-Changes">¶</a>Sidecar Networking Changes</h3>
-<p>在 istio 1.10 之前，所有的外部流量都会被重定向到 lo</p>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135150.png" alt=""></p>
+<h3 id="Sidecar-Networking-Changes"><a href="#Sidecar-Networking-Changes" class="headerlink" title="Sidecar Networking Changes"></a>Sidecar Networking Changes</h3><p>在 istio 1.10 之前，所有的外部流量都会被重定向到 lo </p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135150.png"></p>
 <p>这样有个问题，就是导致了如果应用仅仅 listen on eth0 就会导致无法处理，从 1.10 之后</p>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135216.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210519135216.png"></p>
 <p>所有的流量都从 eth0 进出，这样要注意，如果在 localhost 进行模拟测试会导致未经过 istio sidecar 的处理。</p>
-<h2 id="废弃项"><a class="header-anchor" href="#废弃项">¶</a>废弃项</h2>
-<ul>
-<li>Kubernetes 第一方 JWT 支持（values.global.jwtPolicy=first-party-jwt）将被删除；它的安全性较低，仅用于向后兼容旧版 Kubernetes。</li>
+<h2 id="废弃项"><a href="#废弃项" class="headerlink" title="废弃项"></a>废弃项</h2><ul>
+<li>Kubernetes 第一方 JWT 支持（values.global.jwtPolicy&#x3D;first-party-jwt）将被删除；它的安全性较低，仅用于向后兼容旧版 Kubernetes。</li>
 <li>values.global.arch 选项已经被 Kubernetes 配置中的 Affinity 设置所取代。</li>
 </ul>
-<h2 id="其他"><a class="header-anchor" href="#其他">¶</a>其他</h2>
-<ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
 <li>更新了网站的UI，变的更好看些</li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
@@ -438,7 +468,7 @@ Namespace C -&gt; 1-8-0</p>
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

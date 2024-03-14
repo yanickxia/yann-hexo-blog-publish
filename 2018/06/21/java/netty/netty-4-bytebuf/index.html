@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
-    <meta name="description" content="¶ByteBuf ByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。  可扩展到用户定义的buffer">
+    <meta name="description" content="ByteBufByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。   可扩展到用户定义的buffer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Netty源码分析-(伪)-(4)-ByteBuf">
 <meta property="og:url" content="http://blog.yanick.site/2018/06/21/java/netty/netty-4-bytebuf/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="¶ByteBuf ByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。  可扩展到用户定义的buffer">
+<meta property="og:description" content="ByteBufByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。   可扩展到用户定义的buffer">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2018/06/21/PSN5TI.png">
 <meta property="article:published_time" content="2018-06-21T04:00:48.000Z">
@@ -54,6 +54,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -326,8 +327,8 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="ByteBuf"><a class="header-anchor" href="#ByteBuf">¶</a>ByteBuf</h2>
-<p>ByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。</p>
+
+<h2 id="ByteBuf"><a href="#ByteBuf" class="headerlink" title="ByteBuf"></a>ByteBuf</h2><p>ByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。 </p>
 <ul>
 <li>可扩展到用户定义的buffer类型中</li>
 <li>通过内置的复合buffer类型实现透明的零拷贝(zero-copy)</li>
@@ -339,20 +340,17 @@
 <li>支持池技术(比如：线程池、数据库连接池)</li>
 </ul>
 <span id="more"></span>
-<h2 id="原理"><a class="header-anchor" href="#原理">¶</a>原理</h2>
-<p>ByteBuf维护两个不同的索引：读索引和写索引。当你从ByteBuf中读，它的readerIndex增加了读取的字节数；同理，当你向ByteBuf中写，writerIndex增加。下图显示了一个空的ByteBuf的布局和状态:<br>
-<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/21/PSN5TI.png" alt="empty"></p>
-<h2 id="自动扩容"><a class="header-anchor" href="#自动扩容">¶</a>自动扩容</h2>
-<p>在 <code>Java Nio</code> 的 <code>java.nio.HeapByteBuffer#put(byte)</code> 中我们可以看java 的 <code>ByteBuffer</code></p>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>ByteBuf维护两个不同的索引：读索引和写索引。当你从ByteBuf中读，它的readerIndex增加了读取的字节数；同理，当你向ByteBuf中写，writerIndex增加。下图显示了一个空的ByteBuf的布局和状态:<br><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/21/PSN5TI.png" alt="empty"></p>
+<h2 id="自动扩容"><a href="#自动扩容" class="headerlink" title="自动扩容"></a>自动扩容</h2><p>在 <code>Java Nio</code> 的 <code>java.nio.HeapByteBuffer#put(byte)</code> 中我们可以看java 的 <code>ByteBuffer</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ByteBuffer <span class="title function_">put</span><span class="params">(<span class="type">byte</span> x)</span> &#123;</span><br><span class="line">    hb[ix(nextPutIndex())] = x;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="title function_">nextPutIndex</span><span class="params">()</span> &#123;                         </span><br><span class="line">    <span class="keyword">if</span> (position &gt;= limit)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BufferOverflowException</span>(); ➊</span><br><span class="line">    <span class="keyword">return</span> position++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Java <code>ByteBuffer</code> 达到上限的时候需要自己手动创建一个新的 <code>ByteBuffer</code> 再存入。而对比 <code>ByteBuf</code></p>
 <p><code>io.netty.buffer.AbstractByteBuf#writeByte</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> ByteBuf <span class="title function_">writeByte</span><span class="params">(<span class="type">int</span> value)</span> &#123;</span><br><span class="line">    ensureWritable0(<span class="number">1</span>);</span><br><span class="line">    _setByte(writerIndex++, value);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">ensureWritable0</span><span class="params">(<span class="type">int</span> minWritableBytes)</span> &#123;</span><br><span class="line">    ensureAccessible();</span><br><span class="line">    <span class="keyword">if</span> (minWritableBytes &lt;= writableBytes()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Normalize the current capacity to the power of 2.</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">newCapacity</span> <span class="operator">=</span> alloc().calculateNewCapacity(writerIndex + minWritableBytes, maxCapacity);</span><br><span class="line">➋</span><br><span class="line">    <span class="comment">// Adjust to the new capacity.</span></span><br><span class="line">    capacity(newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在 ➋ Netty的ByteBuf 会进行自动的扩容。拓展的倍数是 2</p>
-<h2 id="池化技术"><a class="header-anchor" href="#池化技术">¶</a>池化技术</h2>
-<p>传统的 <code>ByteBuffer</code> 的生命周期是委托给 <code>JVM</code> 管理的，Netty分为2块</p>
+<h2 id="池化技术"><a href="#池化技术" class="headerlink" title="池化技术"></a>池化技术</h2><p>传统的 <code>ByteBuffer</code> 的生命周期是委托给 <code>JVM</code> 管理的，Netty分为2块</p>
 <ul>
-<li>基于对象池的ByteBuf: PooledByteBuf和它的子类PoolDirectByteBuf、PoolUnsafeDirectByteBuf、PooledHeapByteBuf</li>
+<li>基于对象池的ByteBuf: PooledByteBuf和它的子类PoolDirectByteBuf、PoolUnsafeDirectByteBuf、PooledHeapByteBuf </li>
 <li>普通的ByteBuf: UnPoolDirectByteBuf、UnPoolUnsafeDirectByteBuf、UnPoolHeapByteBuf</li>
 </ul>
 <p>基于对象池的ByteBuf 的核心逻辑就在 <code>PoolArena</code> 对象，关于 <code>PoolArena</code> 的原理可以参看</p>
@@ -360,14 +358,12 @@
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c4bd37a3555b">深入浅出Netty内存管理</a></li>
 <li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26373138/">Netty权威指南</a></li>
 </ul>
-<h2 id="Netty的零拷贝"><a class="header-anchor" href="#Netty的零拷贝">¶</a>Netty的零拷贝</h2>
-<ul>
+<h2 id="Netty的零拷贝"><a href="#Netty的零拷贝" class="headerlink" title="Netty的零拷贝"></a>Netty的零拷贝</h2><ul>
 <li>DirectByteBuf: ByteBuf可以分为HeapByteBuf和DirectByteBuf，当使用DirectByteBuf可以实现零拷贝</li>
 <li>DefaultFileRegion: DefaultFileRegion是Netty的文件传输类，它通过transferTo方法将文件直接发送到目标Channel，而不需要循环拷贝的方式，提升了传输性能</li>
 </ul>
 <p>这块都设计到java的 <code>native</code> 代码故不展开讲。</p>
-<h2 id="Netty的内存回收管理"><a class="header-anchor" href="#Netty的内存回收管理">¶</a>Netty的内存回收管理</h2>
-<p>Netty会通过 引用计数法 及时申请释放不再被引用的对象 ，实现上是通过 AbstractReferenceCountedByteBuf来实现的</p>
+<h2 id="Netty的内存回收管理"><a href="#Netty的内存回收管理" class="headerlink" title="Netty的内存回收管理"></a>Netty的内存回收管理</h2><p>Netty会通过 引用计数法 及时申请释放不再被引用的对象 ，实现上是通过 AbstractReferenceCountedByteBuf来实现的</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// increment</span></span><br><span class="line"><span class="keyword">private</span> ByteBuf <span class="title function_">retain0</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> increment)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">oldRef</span> <span class="operator">=</span> refCntUpdater.getAndAdd(<span class="built_in">this</span>, increment);</span><br><span class="line">    <span class="keyword">if</span> (oldRef &lt;= <span class="number">0</span> || oldRef + increment &lt; oldRef) &#123;</span><br><span class="line">        <span class="comment">// Ensure we don&#x27;t resurrect (which means the refCnt was 0) and also that we encountered an overflow.</span></span><br><span class="line">        refCntUpdater.getAndAdd(<span class="built_in">this</span>, -increment);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalReferenceCountException</span>(oldRef, increment);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// decrement</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">release0</span><span class="params">(<span class="type">int</span> decrement)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">oldRef</span> <span class="operator">=</span> refCntUpdater.getAndAdd(<span class="built_in">this</span>, -decrement);</span><br><span class="line">    <span class="keyword">if</span> (oldRef == decrement) &#123;</span><br><span class="line">        deallocate();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (oldRef &lt; decrement || oldRef - decrement &gt; oldRef) &#123;</span><br><span class="line">        <span class="comment">// Ensure we don&#x27;t over-release, and avoid underflow.</span></span><br><span class="line">        refCntUpdater.getAndAdd(<span class="built_in">this</span>, decrement);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalReferenceCountException</span>(oldRef, -decrement);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>有同学会问，为什么需要<code>计数引用</code>，因为Netty采用了池化的技术，GC是无法回收这些数据的，需要自己实现一个简单的GC，技术引用是最简单的方式。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
@@ -445,7 +441,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

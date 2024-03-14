@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="今天我们聊聊 《Isito 虚拟机健康检查》">
 <meta property="og:type" content="article">
@@ -56,6 +56,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -238,6 +239,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2022/04/16/networking/istio/istio-iptables/" rel="bookmark">
+        <time class="popular-posts-time">2022-04-16</time>
+        <br>
+      Isito iptables & CNI
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2022/10/21/networking/istio/how-it-works/istio-complete/" rel="bookmark">
+        <time class="popular-posts-time">2022-10-21</time>
+        <br>
+      Isito Pliot 代码大全
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2021/08/27/networking/istio/How-Istio-works-translate/" rel="bookmark">
+        <time class="popular-posts-time">2021-08-27</time>
+        <br>
+      How Istio works&#58 translate
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -315,32 +347,34 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220723234135.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220723234135.png"></p>
 <p>今天我们聊聊 《Isito 虚拟机健康检查》</p>
 <span id="more"></span>
+
 <p>已知 Istio 对接入的 VM 有健康检查，对于 k8s 上的服务来说，Pod 中就包含了健康检查部分</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">goproxy</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">goproxy</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">goproxy</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">k8s.gcr.io/goproxy:0.1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">readinessProbe:</span></span><br><span class="line">      <span class="attr">tcpSocket:</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">    <span class="attr">livenessProbe:</span></span><br><span class="line">      <span class="attr">tcpSocket:</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">15</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
 <p>而对于 <code>VM</code> 接入的 <code>Workload</code>，<code>istio</code> 也提供了类似的能力。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.istio.io/v1alpha3</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">WorkloadGroup</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">reviews</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">bookinfo</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">metadata:</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">app.kubernetes.io/name:</span> <span class="string">reviews</span></span><br><span class="line">      <span class="attr">app.kubernetes.io/version:</span> <span class="string">&quot;1.3.4&quot;</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="attr">grpc:</span> <span class="number">3550</span></span><br><span class="line">      <span class="attr">http:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">serviceAccount:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">probe:</span></span><br><span class="line">    <span class="attr">initialDelaySeconds:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">timeoutSeconds:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">periodSeconds:</span> <span class="number">4</span></span><br><span class="line">    <span class="attr">successThreshold:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">httpGet:</span></span><br><span class="line">     <span class="attr">path:</span> <span class="string">/foo/bar</span></span><br><span class="line">     <span class="attr">host:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">     <span class="attr">port:</span> <span class="number">3100</span></span><br><span class="line">     <span class="attr">scheme:</span> <span class="string">HTTPS</span></span><br><span class="line">     <span class="attr">httpHeaders:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Lit-Header</span></span><br><span class="line">       <span class="attr">value:</span> <span class="string">Im-The-Best</span></span><br></pre></td></tr></table></figure>
+
 <p>这个如何工作的呢？我们今天就来探索下这个问题</p>
-<h2 id="How-it-works"><a class="header-anchor" href="#How-it-works">¶</a>How it works</h2>
-<h3 id="PerformApplicationHealthCheck"><a class="header-anchor" href="#PerformApplicationHealthCheck">¶</a>PerformApplicationHealthCheck</h3>
-<p>在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pkg/istio-agent/xds_proxy.go#L131-L235"><code>initXdsProxy</code></a> 函数中，我们可以看到，<code>istio-agent</code> 在初始化的时候会创建一个 <code>xds.Proxy</code> 对象，这个对象会被用来处理一些工作。</p>
+<h2 id="How-it-works"><a href="#How-it-works" class="headerlink" title="How it works"></a>How it works</h2><h3 id="PerformApplicationHealthCheck"><a href="#PerformApplicationHealthCheck" class="headerlink" title="PerformApplicationHealthCheck"></a>PerformApplicationHealthCheck</h3><p>在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pkg/istio-agent/xds_proxy.go#L131-L235"><code>initXdsProxy</code></a> 函数中，我们可以看到，<code>istio-agent</code> 在初始化的时候会创建一个 <code>xds.Proxy</code> 对象，这个对象会被用来处理一些工作。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> proxy.healthChecker.PerformApplicationHealthCheck(<span class="function"><span class="keyword">func</span><span class="params">(healthEvent *health.ProbeEvent)</span></span> &#123;</span><br><span class="line">		<span class="comment">// Store the same response as Delta and SotW. Depending on how Envoy connects we will use one or the other.</span></span><br><span class="line">    <span class="comment">// 这里根据 PerformApplicationHealthCheck 执行的结果，创建不同的 DiscoveryRequest 分别对应 健康状态下 与 非健康状态</span></span><br><span class="line">		<span class="keyword">var</span> req *discovery.DiscoveryRequest</span><br><span class="line">		<span class="keyword">if</span> healthEvent.Healthy &#123;</span><br><span class="line">			req = &amp;discovery.DiscoveryRequest&#123;TypeUrl: v3.HealthInfoType&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			req = &amp;discovery.DiscoveryRequest&#123;</span><br><span class="line">				TypeUrl: v3.HealthInfoType,</span><br><span class="line">				ErrorDetail: &amp;google_rpc.Status&#123;</span><br><span class="line">					Code:    <span class="type">int32</span>(codes.Internal),</span><br><span class="line">					Message: healthEvent.UnhealthyMessage,</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		proxy.PersistRequest(req)</span><br><span class="line">    <span class="comment">// skip DeltaDiscoveryRequest </span></span><br><span class="line">	&#125;, proxy.stopChan)</span><br></pre></td></tr></table></figure>
+
 <p>对于 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pkg/istio-agent/health/health_check.go#L129-L192"><code>PerformApplicationHealthCheck</code></a> 这里就不做展开，大致上也就是模拟发个请求。</p>
-<h3 id="HealthInfoType-DiscoveryRequest"><a class="header-anchor" href="#HealthInfoType-DiscoveryRequest">¶</a>HealthInfoType DiscoveryRequest</h3>
-<p>那我们发给 <code>Poilt</code> 的 <code>DiscoveryRequest</code> 有何作用呢，我们继续往下探索。</p>
+<h3 id="HealthInfoType-DiscoveryRequest"><a href="#HealthInfoType-DiscoveryRequest" class="headerlink" title="HealthInfoType DiscoveryRequest"></a>HealthInfoType DiscoveryRequest</h3><p>那我们发给 <code>Poilt</code> 的 <code>DiscoveryRequest</code> 有何作用呢，我们继续往下探索。 </p>
 <p>在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pilot/pkg/xds/ads.go#L659-L666"><code>shouldProcessRequest</code></a> 中我们可以看到如下代码。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> features.WorkloadEntryHealthChecks &#123;</span><br><span class="line">  event := workloadentry.HealthEvent&#123;&#125;</span><br><span class="line">  event.Healthy = req.ErrorDetail == <span class="literal">nil</span> <span class="comment">// 如果 ErrorDetail 不为 null 就是不健康</span></span><br><span class="line">  <span class="keyword">if</span> !event.Healthy &#123;</span><br><span class="line">    event.Message = req.ErrorDetail.Message </span><br><span class="line">  &#125;</span><br><span class="line">  s.WorkloadEntryController.QueueWorkloadEntryHealth(proxy, event) <span class="comment">// 触发到 QueueWorkloadEntryHealth 中 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>而在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pilot/pkg/controller/workloadentry/workloadentry_controller.go#L414-L427"><code>QueueWorkloadEntryHealth</code></a> 中的逻辑也是非常的简单的。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Controller)</span></span> QueueWorkloadEntryHealth(proxy *model.Proxy, event HealthEvent) &#123;</span><br><span class="line">	<span class="comment">// replace the updated status</span></span><br><span class="line">	wle := status.UpdateConfigCondition(*cfg, condition.condition)</span><br><span class="line">	<span class="comment">// update the status</span></span><br><span class="line">	_, err := c.store.UpdateStatus(wle)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>到这里，我们对于 <code>workloadEntry</code> 的逻辑已经完全完成。</p>
-<h3 id="ServiceRegistry-Controller"><a class="header-anchor" href="#ServiceRegistry-Controller">¶</a>ServiceRegistry Controller</h3>
-<p>在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pilot/pkg/serviceregistry/kube/controller/controller.go#L923-L947"><code>InstancesByPort</code></a> 这里我们并不回返回哪些不健康的实例，那这部分是如何实现的呢？</p>
+<h3 id="ServiceRegistry-Controller"><a href="#ServiceRegistry-Controller" class="headerlink" title="ServiceRegistry Controller"></a>ServiceRegistry Controller</h3><p>在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pilot/pkg/serviceregistry/kube/controller/controller.go#L923-L947"><code>InstancesByPort</code></a> 这里我们并不回返回哪些不健康的实例，那这部分是如何实现的呢？</p>
 <p>在 <a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/1dbd193cf990ce42810b2627d2251f0ad67d496a/pilot/pkg/serviceregistry/serviceentry/servicediscovery.go#L162-L277"><code>workloadEntryHandler</code></a> 中，我们发现处理的地方。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *ServiceEntryStore)</span></span> workloadEntryHandler(old, curr config.Config, event model.Event) &#123;</span><br><span class="line">	<span class="comment">// If an entry is unhealthy, we will mark this as a delete instead</span></span><br><span class="line">	<span class="comment">// This ensures we do not track unhealthy endpoints</span></span><br><span class="line">	<span class="keyword">if</span> features.WorkloadEntryHealthChecks &amp;&amp; !isHealthy(curr) &#123;</span><br><span class="line">		event = model.EventDelete</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 下面太长了，可以阅读原文，大致上触发了删除内存中的 ServiceInstance，并且触发一个 EdsUpdate</span></span><br><span class="line"></span><br><span class="line">  s.serviceInstances.deleteInstances(key, instancesDeleted)</span><br><span class="line">	<span class="keyword">if</span> event == model.EventDelete &#123;</span><br><span class="line">		s.workloadInstances.<span class="built_in">delete</span>(types.NamespacedName&#123;Namespace: curr.Namespace, Name: curr.Name&#125;)</span><br><span class="line">		s.serviceInstances.deleteInstances(key, instancesUpdated)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		s.workloadInstances.update(wi)</span><br><span class="line">		s.serviceInstances.updateInstances(key, instancesUpdated)</span><br><span class="line">	&#125;</span><br><span class="line">	s.mutex.Unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h3>
 
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>
 
 <script src="https://lib.baomitu.com/webfont/1.6.28/webfontloader.js"></script>
 <script src="https://lib.baomitu.com/snap.svg/0.5.1/snap.svg-min.js"></script>
@@ -349,21 +383,22 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
+
 <div style="width:100%; overflow-y:scroll;" id="diagram"></div>
 <script>
-	var data =
-	['Title: ',
-	 'pliotAgent->workloadController: 1. registy',
-	 'workloadController->kube: 2. create workload entry',
+    var data =
+    ['Title: ',
+     'pliotAgent->workloadController: 1. registy',
+     'workloadController->kube: 2. create workload entry',
    'pliotAgent->workloadController: 3. send HealthInfoType',
    'workloadController->kube: 4. update status',
    'workloadController->configStore: 5. delete or create service Instance',
     ].join('\n');
-  	var diagram = Diagram.parse(data);
-  	diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
+      var diagram = Diagram.parse(data);
+      diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
 </script>
-<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
-<ul>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/istio/istio/blob/release-1.13/pilot/pkg/serviceregistry/serviceregistry_test.go#L890-L923">Service selects WorkloadEntry</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
@@ -445,7 +480,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

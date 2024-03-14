@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
-    <meta name="description" content="服务治理与Mosn author: yanick  服务治理的四个阶段   单体 ：一般起始阶段业务很简单，流量也不大，所有的处理都可以在一个服务中完成；   分布式 ：随着业务操作的多样化以及流量的日益增长，不得不按照服务维度进行拆分，这样相同的服务资源消耗可对等，方便容量评估及管理；   微服务 ：随着服务的拆分粒度越来越细，其服务的数量一直在增加，由此出现各种微服务治理的需求（限流、鉴权、路">
+    <meta name="description" content="服务治理与Mosnauthor: yanick  服务治理的四个阶段 单体 ：一般起始阶段业务很简单，流量也不大，所有的处理都可以在一个服务中完成；  分布式 ：随着业务操作的多样化以及流量的日益增长，不得不按照服务维度进行拆分，这样相同的服务资源消耗可对等，方便容量评估及管理；  微服务 ：随着服务的拆分粒度越来越细，其服务的数量一直在增加，由此出现各种微服务治理的需求（限流、鉴权、路由等），于">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Yanick&#39;s Blog">
 <meta property="og:url" content="http://blog.yanick.site/ppt/mosn/mosn.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="服务治理与Mosn author: yanick  服务治理的四个阶段   单体 ：一般起始阶段业务很简单，流量也不大，所有的处理都可以在一个服务中完成；   分布式 ：随着业务操作的多样化以及流量的日益增长，不得不按照服务维度进行拆分，这样相同的服务资源消耗可对等，方便容量评估及管理；   微服务 ：随着服务的拆分粒度越来越细，其服务的数量一直在增加，由此出现各种微服务治理的需求（限流、鉴权、路">
+<meta property="og:description" content="服务治理与Mosnauthor: yanick  服务治理的四个阶段 单体 ：一般起始阶段业务很简单，流量也不大，所有的处理都可以在一个服务中完成；  分布式 ：随着业务操作的多样化以及流量的日益增长，不得不按照服务维度进行拆分，这样相同的服务资源消耗可对等，方便容量评估及管理；  微服务 ：随着服务的拆分粒度越来越细，其服务的数量一直在增加，由此出现各种微服务治理的需求（限流、鉴权、路由等），于">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20170103142540155?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
@@ -59,6 +59,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -142,7 +143,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">服务治理与Mosn</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">服务治理的四个阶段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">服务治理的四个阶段 - 单体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">服务治理的四个阶段 - 分布式架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">服务治理的四个阶段 - 单体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">服务治理的四个阶段 - 单体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">What’s MOSN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">8.</span> <span class="nav-text">Why MOSN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">9.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">10.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">11.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">12.</span> <span class="nav-text">MOSN 核心概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">13.</span> <span class="nav-text">MOSN 协程模型</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E4%B8%8EMosn"><span class="nav-number">1.</span> <span class="nav-text">服务治理与Mosn</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-number">2.</span> <span class="nav-text">服务治理的四个阶段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5-%E5%8D%95%E4%BD%93"><span class="nav-number">3.</span> <span class="nav-text">服务治理的四个阶段 - 单体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5-%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">服务治理的四个阶段 - 分布式架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5-%E5%8D%95%E4%BD%93-1"><span class="nav-number">5.</span> <span class="nav-text">服务治理的四个阶段 - 单体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5-%E5%8D%95%E4%BD%93-2"><span class="nav-number">6.</span> <span class="nav-text">服务治理的四个阶段 - 单体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#What%E2%80%99s-MOSN"><span class="nav-number">7.</span> <span class="nav-text">What’s MOSN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Why-MOSN"><span class="nav-number">8.</span> <span class="nav-text">Why MOSN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B"><span class="nav-number">9.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B-1"><span class="nav-number">10.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B-2"><span class="nav-number">11.</span> <span class="nav-text">核心能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MOSN-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">12.</span> <span class="nav-text">MOSN 核心概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MOSN-%E5%8D%8F%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">13.</span> <span class="nav-text">MOSN 协程模型</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -270,67 +271,48 @@
       
       
       <div class="post-body">
-          <h1>服务治理与Mosn</h1>
-<p>author: yanick</p>
+          <h1 id="服务治理与Mosn"><a href="#服务治理与Mosn" class="headerlink" title="服务治理与Mosn"></a>服务治理与Mosn</h1><p>author: yanick</p>
 <hr>
-<h1>服务治理的四个阶段</h1>
-<ul>
-<li>
-<p><code>单体</code> ：一般起始阶段业务很简单，流量也不大，所有的处理都可以在一个服务中完成；</p>
+<h1 id="服务治理的四个阶段"><a href="#服务治理的四个阶段" class="headerlink" title="服务治理的四个阶段"></a>服务治理的四个阶段</h1><ul>
+<li><p><code>单体</code> ：一般起始阶段业务很简单，流量也不大，所有的处理都可以在一个服务中完成；</p>
 </li>
-<li>
-<p><code>分布式</code> ：随着业务操作的多样化以及流量的日益增长，不得不按照服务维度进行拆分，这样相同的服务资源消耗可对等，方便容量评估及管理；</p>
+<li><p><code>分布式</code> ：随着业务操作的多样化以及流量的日益增长，不得不按照服务维度进行拆分，这样相同的服务资源消耗可对等，方便容量评估及管理；</p>
 </li>
-<li>
-<p><code>微服务</code> ：随着服务的拆分粒度越来越细，其服务的数量一直在增加，由此出现各种微服务治理的需求（限流、鉴权、路由等），于是便出现各种治理组件并以 SDK 插件的方式集成到不同应用中；</p>
+<li><p><code>微服务</code> ：随着服务的拆分粒度越来越细，其服务的数量一直在增加，由此出现各种微服务治理的需求（限流、鉴权、路由等），于是便出现各种治理组件并以 SDK 插件的方式集成到不同应用中；</p>
 </li>
-<li>
-<p><code>Service Mesh</code> ：伴随着服务治理的 SDK 种类、版本、重复等一系列问题，于是把 SDK 的能力剥离到 Sidecar，和业务进行解耦，从而实现业务和中间件能力的并行迭代；</p>
+<li><p><code>Service Mesh</code> ：伴随着服务治理的 SDK 种类、版本、重复等一系列问题，于是把 SDK 的能力剥离到 Sidecar，和业务进行解耦，从而实现业务和中间件能力的并行迭代；</p>
 </li>
 </ul>
 <hr>
-<h1>服务治理的四个阶段 - 单体</h1>
-<p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<h1 id="服务治理的四个阶段-单体"><a href="#服务治理的四个阶段-单体" class="headerlink" title="服务治理的四个阶段 - 单体"></a>服务治理的四个阶段 - 单体</h1><p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
 <p>优点：足够简单</p>
 <hr>
-<h1>服务治理的四个阶段 - 分布式架构</h1>
-<p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103142540155?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<p>优点：架构上系统更加清晰，核心模块稳定，以服务组件为单位进行升级，避免了频繁发布带来的风险<br>
-开发管理方便<br>
-单独团队维护、工作分明，职责清晰<br>
-业务复用、代码复用<br>
-非常容易拓展</p>
+<h1 id="服务治理的四个阶段-分布式架构"><a href="#服务治理的四个阶段-分布式架构" class="headerlink" title="服务治理的四个阶段 - 分布式架构"></a>服务治理的四个阶段 - 分布式架构</h1><p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103142540155?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
+<p>优点：架构上系统更加清晰，核心模块稳定，以服务组件为单位进行升级，避免了频繁发布带来的风险<br>开发管理方便<br>单独团队维护、工作分明，职责清晰<br>业务复用、代码复用<br>非常容易拓展</p>
 <hr>
-<h1>服务治理的四个阶段 - 单体</h1>
-<p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<h1 id="服务治理的四个阶段-单体-1"><a href="#服务治理的四个阶段-单体-1" class="headerlink" title="服务治理的四个阶段 - 单体"></a>服务治理的四个阶段 - 单体</h1><p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
 <p>优点：足够简单</p>
 <hr>
-<h1>服务治理的四个阶段 - 单体</h1>
-<p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<h1 id="服务治理的四个阶段-单体-2"><a href="#服务治理的四个阶段-单体-2" class="headerlink" title="服务治理的四个阶段 - 单体"></a>服务治理的四个阶段 - 单体</h1><p><img src="/images/loading.gif" data-original="https://img-blog.csdn.net/20170103111147803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VpZmVuZzMwNTE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
 <p>优点：足够简单</p>
 <hr>
-<h1>What’s MOSN</h1>
-<p>MOSN 是一款使用 Go 语言开发的网络代理软件，MOSN 是 Modular Open Smart Network 的简称。 MOSN 可以与任何支持 xDS API 的 Service Mesh 集成，亦可以作为独立的四、七层负载均衡，API Gateway、云原生 Ingress 等使用。</p>
+<h1 id="What’s-MOSN"><a href="#What’s-MOSN" class="headerlink" title="What’s MOSN"></a>What’s MOSN</h1><p>MOSN 是一款使用 Go 语言开发的网络代理软件，MOSN 是 Modular Open Smart Network 的简称。 MOSN 可以与任何支持 xDS API 的 Service Mesh 集成，亦可以作为独立的四、七层负载均衡，API Gateway、云原生 Ingress 等使用。</p>
 <hr>
-<h1>Why MOSN</h1>
-<ul>
+<h1 id="Why-MOSN"><a href="#Why-MOSN" class="headerlink" title="Why MOSN"></a>Why MOSN</h1><ul>
 <li>经过蚂蚁集团几十万容器的生产级验证</li>
 <li>基于 Go 语言易于开发</li>
 <li>与 Istio 完全集成</li>
 </ul>
 <hr>
-<h1>核心能力</h1>
-<ul>
-<li>核心转发
-<ul>
+<h1 id="核心能力"><a href="#核心能力" class="headerlink" title="核心能力"></a>核心能力</h1><ul>
+<li>核心转发<ul>
 <li>自包含的网络服务器</li>
 <li>支持 TCP 代理</li>
 <li>支持 TProxy 模式</li>
 </ul>
 </li>
-<li>多协议
-<ul>
-<li>支持 HTTP/1.1，HTTP/2</li>
+<li>多协议<ul>
+<li>支持 HTTP&#x2F;1.1，HTTP&#x2F;2</li>
 <li>支持 SOFARPC</li>
 <li>支持 Dubbo 协议</li>
 <li>支持 Tars 协议</li>
@@ -338,62 +320,52 @@
 </li>
 </ul>
 <hr>
-<h1>核心能力</h1>
-<ul>
-<li>核心路由
-<ul>
+<h1 id="核心能力-1"><a href="#核心能力-1" class="headerlink" title="核心能力"></a>核心能力</h1><ul>
+<li>核心路由<ul>
 <li>支持 Virtual Host 路由</li>
-<li>支持 Headers/URL/Prefix 路由</li>
+<li>支持 Headers&#x2F;URL&#x2F;Prefix 路由</li>
 <li>支持基于 Host Metadata 的 Subset 路由</li>
 <li>支持重试</li>
 </ul>
 </li>
-<li>后端管理&amp;负载均衡
-<ul>
+<li>后端管理&amp;负载均衡<ul>
 <li>支持连接池</li>
 <li>支持熔断</li>
 <li>支持后端主动健康检查</li>
-<li>支持 Random/RR 等负载策略</li>
+<li>支持 Random&#x2F;RR 等负载策略</li>
 <li>支持基于 Host Metadata 的 Subset 负载策略</li>
 </ul>
 </li>
 </ul>
 <hr>
-<h1>核心能力</h1>
-<ul>
-<li>可观察性
-<ul>
+<h1 id="核心能力-2"><a href="#核心能力-2" class="headerlink" title="核心能力"></a>核心能力</h1><ul>
+<li>可观察性<ul>
 <li>观察网络数据</li>
 <li>观察协议数据</li>
 </ul>
 </li>
-<li>TLS
-<ul>
-<li>支持 HTTP/1.1 on TLS</li>
-<li>支持 HTTP/2.0 on TLS</li>
+<li>TLS<ul>
+<li>支持 HTTP&#x2F;1.1 on TLS</li>
+<li>支持 HTTP&#x2F;2.0 on TLS</li>
 <li>支持 SOFARPC on TLS</li>
 </ul>
 </li>
-<li>进程管理
-<ul>
+<li>进程管理<ul>
 <li>支持平滑 reload</li>
 <li>支持平滑升级</li>
 </ul>
 </li>
-<li>扩展能力
-<ul>
+<li>扩展能力<ul>
 <li>支持自定义私有协议</li>
 <li>支持在 TCP IO 层，协议层面加入自定义扩展</li>
 </ul>
 </li>
 </ul>
 <hr>
-<h1>MOSN 核心概念</h1>
-<ul>
+<h1 id="MOSN-核心概念"><a href="#MOSN-核心概念" class="headerlink" title="MOSN 核心概念"></a>MOSN 核心概念</h1><ul>
 <li>xDS（UDPA）支持</li>
 <li>业务支持</li>
-<li>IO 模型
-<ul>
+<li>IO 模型<ul>
 <li>Golang 经典 netpoll 模型</li>
 <li>RawEpoll 模型</li>
 </ul>
@@ -402,13 +374,12 @@
 <li>TLS 安全链路</li>
 </ul>
 <hr>
-<h1>MOSN 协程模型</h1>
-<p><img src="/images/loading.gif" data-original="https://mosn.io/docs/concept/core-concept/mosn-goroutine-model.jpg" alt="协程模型"></p>
+<h1 id="MOSN-协程模型"><a href="#MOSN-协程模型" class="headerlink" title="MOSN 协程模型"></a>MOSN 协程模型</h1><p><img src="/images/loading.gif" data-original="https://mosn.io/docs/concept/core-concept/mosn-goroutine-model.jpg" alt="协程模型"></p>
 <ul>
 <li>一条 TCP 连接对应一个 Read 协程，执行收包、协议解析；</li>
 <li>一个请求对应一个 worker 协程，执行业务处理，proxy 和 Write 逻辑；</li>
 </ul>
-<p>常规模型一个 TCP 连接将有 Read/Write 两个协程，<code>MOSN</code> 取消了单独的 Write 协程，让 workerpool 工作协程代替，减少了调度延迟和内存占用。</p>
+<p>常规模型一个 TCP 连接将有 Read&#x2F;Write 两个协程，<code>MOSN</code> 取消了单独的 Write 协程，让 workerpool 工作协程代替，减少了调度延迟和内存占用。</p>
 <hr>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
       </div>
@@ -469,7 +440,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

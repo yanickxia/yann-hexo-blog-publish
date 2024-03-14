@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。">
 <meta property="og:type" content="article">
@@ -58,6 +58,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -313,11 +314,11 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128222900.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128222900.png"></p>
 <p>CA，Catificate Authority，它的作用就是提供证书（即服务器证书，由域名、公司信息、序列号和签名信息组成）加强服务端和客户端之间信息交互的安全性，以及证书运维相关服务。</p>
 <span id="more"></span>
-<h2 id="HTTPS证书"><a class="header-anchor" href="#HTTPS证书">¶</a>HTTPS证书</h2>
-<p>说 <code>CA</code> 之前，我们不得不去先聊聊 <code>SSL</code>，因为 <code>HTTP</code> 传输数据的明文性质，导致了后续社区提出了加密方案，也就是 <code>SSL</code>(Secure Socket Layer) 在原有的 <code>Socket</code> 之上增加一层加密传输，<code>HTTPS</code> 也就是 <code>HTTP</code> + <code>SSL</code>, <code>TLS</code> 是被 <code>IETF</code> 标准化的 <code>SSL</code> -&gt; <code>Transport Layer Security</code></p>
+
+<h2 id="HTTPS证书"><a href="#HTTPS证书" class="headerlink" title="HTTPS证书"></a>HTTPS证书</h2><p>说 <code>CA</code> 之前，我们不得不去先聊聊 <code>SSL</code>，因为 <code>HTTP</code> 传输数据的明文性质，导致了后续社区提出了加密方案，也就是 <code>SSL</code>(Secure Socket Layer) 在原有的 <code>Socket</code> 之上增加一层加密传输，<code>HTTPS</code> 也就是 <code>HTTP</code> + <code>SSL</code>, <code>TLS</code> 是被 <code>IETF</code> 标准化的 <code>SSL</code> -&gt; <code>Transport Layer Security</code></p>
 <p><code>SSL</code> 本身也不是很复杂，在建立好 TCP 协议之后，我们通过 <code>SSL</code> 协议协商，完成加密。</p>
 <ul>
 <li>客户端先向服务器发出加密通信的请求，这被叫做ClientHello请求。</li>
@@ -325,38 +326,36 @@
 <li>客户端回应</li>
 <li>服务器的最后回应</li>
 </ul>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128215700.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128215700.png"></p>
 <p>其中比较复杂的就是 RSA 非对称加密技术了，这里就不做展开，可以参考 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA算法原理</a></p>
-<h2 id="CA"><a class="header-anchor" href="#CA">¶</a>CA</h2>
-<p>在上一节中，我们知道了服务器之间是需要交换公私钥的，因此其实有被串改的风险的，因为其实我们是没办法辨别对方是否是真实性，因此我们在此加入了一个中间公正机构，也就是 CA 提供商，因此我们访问一些自定义的服务SSL会导致如下</p>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128220120.png" alt=""></p>
+<h2 id="CA"><a href="#CA" class="headerlink" title="CA"></a>CA</h2><p>在上一节中，我们知道了服务器之间是需要交换公私钥的，因此其实有被串改的风险的，因为其实我们是没办法辨别对方是否是真实性，因此我们在此加入了一个中间公正机构，也就是 CA 提供商，因此我们访问一些自定义的服务SSL会导致如下</p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128220120.png"></p>
 <p>就是因为 RSA 证书不受信任，因此CA提供商，提供了有偿服务，在服务器上维护了大量公私钥，不过有人会问，为什么CA本身不能是假的呢？其实这个也是可以的，不过在绝大多数的系统中，会提供默认的证书提供商的公钥，只要不去恶意的替换就不存在被替换的风险。</p>
-<h3 id="Root-根证书"><a class="header-anchor" href="#Root-根证书">¶</a>Root 根证书</h3>
-<p>为什么需要根证书呢？这就是和上面信任的问题，我们知道绝大多数的系统会内置一些 <code>CA</code> 提供商的证书，这些证书就是根证书，此时我们去访问一个 <code>HTTPS</code> 服务器的时候，那我们怎么知道它的证书是可靠的呢？解决之道就是 <code>证书链</code></p>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128220630.png" alt=""></p>
-<p><code>证书链</code> 在生成证书的时候就会生产出来，一般来说就就是三级</p>
+<h3 id="Root-根证书"><a href="#Root-根证书" class="headerlink" title="Root 根证书"></a>Root 根证书</h3><p>为什么需要根证书呢？这就是和上面信任的问题，我们知道绝大多数的系统会内置一些 <code>CA</code> 提供商的证书，这些证书就是根证书，此时我们去访问一个 <code>HTTPS</code> 服务器的时候，那我们怎么知道它的证书是可靠的呢？解决之道就是 <code>证书链</code></p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201128220630.png"></p>
+<p><code>证书链</code> 在生成证书的时候就会生产出来，一般来说就就是三级 </p>
 <ul>
-<li>end-user：即 <a target="_blank" rel="noopener" href="http://www.google.com">www.google.com</a>，是该网站使用 HTTPS 安装的数字证书</li>
+<li>end-user：即 <a target="_blank" rel="noopener" href="http://www.google.com,是该网站使用/">www.google.com，是该网站使用</a> HTTPS 安装的数字证书</li>
 <li>intermediates：即 Google Internet Authority G3，是给 end-user 签发证书的中间 CA 的证书，中间 CA 可能不止一个</li>
 <li>root：即 Google Trust Services - GlobalSign Root CA-R2，是根 CA 的证书，它给中间 CA 签发证书</li>
 </ul>
 <p>为什么需要证书链，并不是担心 <code>end-user</code> 的私钥丢失，丢失了再生成就好了，主要担心的是 <code>intermediates</code> 的私钥丢失，这样会影响所有下游系统，因此当 <code>intermediates</code> 的私钥丢失，<code>root</code> 会放弃这个 <code>intermediates</code> 的证书，认为不合法，然后换一个CA给所有的 <code>end-user</code> 生产一个人新的证书，这样<code>中间CA</code> 产生的不安全被隔离了。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比如这里我们生成一个 ca 的证书（x509格式， ca.key 为私钥  ca.crt为数字证书[公钥] ）</span></span><br><span class="line">openssl req -x509 -sha256 -newkey rsa:4096 -keyout ca.key -out ca.crt -days 356 -nodes -subj <span class="string">&#x27;/CN=My Cert Authority&#x27;</span></span><br></pre></td></tr></table></figure>
-<h3 id="数字证书"><a class="header-anchor" href="#数字证书">¶</a>数字证书</h3>
-<p>公钥和私钥，是非常基础的设施，在 A 和 B 两个服务之间，建立链接的时候，我们知道会发送 <code>Hello</code> 请求，其中包含的也就是服务器的数字证书，数字证书。</p>
+
+
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><p>公钥和私钥，是非常基础的设施，在 A 和 B 两个服务之间，建立链接的时候，我们知道会发送 <code>Hello</code> 请求，其中包含的也就是服务器的数字证书，数字证书。</p>
 <p>用于 SSL 的公钥和私钥本质上是用于加密和签署数据的长字符串。使用公钥加密的数据只能用私钥解密。但是直接传递长字符串并不明智，实则是服务端将自己的公钥发送给 CA，CA 将其一些其他信息（失效时间）一起打包，用自己的私钥签名，打包成一个数字证书。</p>
 <p>这样当对端收到这个数字证书的时候，可以使用 CA 的公钥进行验签，保证了这个传递的数字证书本身是可靠的。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成服务端证书 (server.key 为私钥, server.csr 为证书签名请求（Certificate signing request）[其中包含了公钥])</span></span><br><span class="line">openssl req -new -newkey rsa:4096 -keyout server.key -out server.csr -nodes -subj <span class="string">&#x27;/CN=mydomain.com&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 server.csr  通过 CA 签名成  server.crt 数字证书[公钥]</span></span><br><span class="line">openssl x509 -req -sha256 -days 365 -<span class="keyword">in</span> server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt</span><br></pre></td></tr></table></figure>
-<h3 id="验签"><a class="header-anchor" href="#验签">¶</a>验签</h3>
-<p>经过上面的一通操作，此时如别有个 Client 需要进行访问的时候</p>
+
+<h3 id="验签"><a href="#验签" class="headerlink" title="验签"></a>验签</h3><p>经过上面的一通操作，此时如别有个 Client 需要进行访问的时候</p>
 <ol>
 <li>Client 是有 ca.crt 的（这个是公开的）</li>
 <li>Client 请求 Server 发出 Hello， Server 进行响应，返回了 server.crt</li>
 <li>server.crt 收到，Client 使用 ca.crt 进行验签，保证合法，从而得知 server 的公钥</li>
 <li>请求后续使用 server 的公钥</li>
 </ol>
-<h3 id="Real-World"><a class="header-anchor" href="#Real-World">¶</a>Real World</h3>
-<p>一般我们生成自签名的系统的时候，第一步都是生产自签名的 ROOT 证书</p>
+<h3 id="Real-World"><a href="#Real-World" class="headerlink" title="Real World"></a>Real World</h3><p>一般我们生成自签名的系统的时候，第一步都是生产自签名的 ROOT 证书</p>
 <ul>
 <li>root-cert.pem: root 证书</li>
 <li>root-key.pem: root 私钥</li>
@@ -368,8 +367,7 @@
 <li>cert-chain.pem: 证书链</li>
 </ul>
 <p>因此我们到时候直接需要把 root-cert 加入我们的系统之中，这些 IMT 证书就可以直接使用了。</p>
-<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
-<ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://crypt.wenwoha.com/">人人都能看懂的密码学</a></li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
@@ -450,7 +448,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

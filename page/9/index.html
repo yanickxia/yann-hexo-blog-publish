@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Yanick&#39;s Blog">
@@ -48,6 +48,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -306,8 +307,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>我们看完的了简单的网络通讯，在<code>Kubernetes</code>中还有一个很重要的<code>ClusterIP</code>的概念。如下图所示，这个是<code>K8s</code>实现服务负载均衡的核心基础。<br>
-<img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/22/5c946f9b14785.png" alt=""></p>
+          <p>我们看完的了简单的网络通讯，在<code>Kubernetes</code>中还有一个很重要的<code>ClusterIP</code>的概念。如下图所示，这个是<code>K8s</code>实现服务负载均衡的核心基础。<br><img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/22/5c946f9b14785.png"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/03/22/kubernetes/how-kubernetes-network-5/#more" rel="contents">
@@ -514,6 +514,7 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
+
 <p>在 <a target="_blank" rel="noopener" href="http://blog.yannxia.top/2019/03/17/kubernetes/how-kubernetes-network-2/">Kubernetes 网络原理(2) - Container &amp; Pod</a> 中，我们已经看到了在一个 <code>Node</code> 内部的 <code>Pod</code> 和 <code>Container</code> 的通讯，我们今天来看看跨<code>Node</code>的<code>Pod</code>通讯。</p>
           <!--noindex-->
             <div class="post-button">
@@ -615,8 +616,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>在 <a href="">kubernetes 网络原理(0) - 网络知识预备</a> 和 <a href="">kubernetes 网络原理(1) - 环境预备 &amp; 初窥网络</a> 中我们将基础的知识已经知悉，我们就来看看我们的网络通讯。</p>
-<p>我们已知道 <code>Kubernetes</code> 的逻辑架构如下：<br>
-<img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/17/5c8e1371f3af1.png" alt="arc"></p>
+<p>我们已知道 <code>Kubernetes</code> 的逻辑架构如下：<br><img src="/images/loading.gif" data-original="https://i.loli.net/2019/03/17/5c8e1371f3af1.png" alt="arc"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/03/17/kubernetes/how-kubernetes-network-2/#more" rel="contents">
@@ -716,8 +716,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="安装-kubernetes"><a class="header-anchor" href="#安装-kubernetes">¶</a>安装 kubernetes</h2>
-<ul>
+          <h2 id="安装-kubernetes"><a href="#安装-kubernetes" class="headerlink" title="安装 kubernetes"></a>安装 kubernetes</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/">create cluster kubeadm</a></li>
 <li><a target="_blank" rel="noopener" href="http://mediawiki.yannxia.top/index.php/Fastest_Install_Kubernetes">fastest install kubernetes</a></li>
 </ul>
@@ -911,8 +910,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>微服务在<code>2019</code>的新趋势，势必是基础设施下行，应用支撑上行。下文展开了说。<br>
-<img src="/images/loading.gif" data-original="https://ws1.sinaimg.cn/large/eddc95fcly1g0sv992p3pj219s0ygh35.jpg" alt=""></p>
+          <p>微服务在<code>2019</code>的新趋势，势必是基础设施下行，应用支撑上行。下文展开了说。<br><img src="/images/loading.gif" data-original="https://ws1.sinaimg.cn/large/eddc95fcly1g0sv992p3pj219s0ygh35.jpg"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/03/06/rethink/microservice-trend-in-2019/#more" rel="contents">
@@ -1183,17 +1181,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="好文共享"><a class="header-anchor" href="#好文共享">¶</a>好文共享</h2>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://linux.cn/article-10469-1.html?utm_source=rss&amp;utm_medium=rss">你（多半）不需要 Kubernetes</a><br>
-Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
-<li><a target="_blank" rel="noopener" href="https://bh.sb/post/41949/">德国工人为什么愿意干到退休？因为他们站着把钱挣了</a><br>
-今年我对Team的目标也是能够站在把钱给赚了，这个才是让员工觉得舒服的方式</li>
+          <h2 id="好文共享"><a href="#好文共享" class="headerlink" title="好文共享"></a>好文共享</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://linux.cn/article-10469-1.html?utm_source=rss&utm_medium=rss">你（多半）不需要 Kubernetes</a><br> Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
+<li><a target="_blank" rel="noopener" href="https://bh.sb/post/41949/">德国工人为什么愿意干到退休？因为他们站着把钱挣了</a><br> 今年我对Team的目标也是能够站在把钱给赚了，这个才是让员工觉得舒服的方式</li>
 </ol>
-<h2 id="好书推荐"><a class="header-anchor" href="#好书推荐">¶</a>好书推荐</h2>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/30128204/">莫斯科绅士</a><br>
-往往最不自由的人却拥有最为自由的灵魂。</li>
+<h2 id="好书推荐"><a href="#好书推荐" class="headerlink" title="好书推荐"></a>好书推荐</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/30128204/">莫斯科绅士</a><br> 往往最不自由的人却拥有最为自由的灵魂。</li>
 </ol>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
       
@@ -1234,7 +1227,7 @@ Kubernetes 的调试难度应该和抓包是一个级别上的。</li>
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

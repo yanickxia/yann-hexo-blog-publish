@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta property="og:type" content="article">
 <meta property="og:title" content="面试拾遗：Epoll 之下的线程模型 &#x2F; Envoy 快速之谜">
@@ -56,6 +56,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -139,7 +140,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">多核之下的 Epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-accept"><span class="nav-number">1.1.</span> <span class="nav-text">负载均衡 accept()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%A7%A6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%E4%B8%80%E7%A7%8D%E6%97%A0%E6%95%88%E7%9A%84%E5%94%A4%E9%86%92%EF%BC%9A-Level-triggered"><span class="nav-number">1.1.1.</span> <span class="nav-text">水平触发情况下一种无效的唤醒： Level triggered</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%E4%B8%80%E7%A7%8D%E6%97%A0%E6%95%88%E7%9A%84%E5%94%A4%E9%86%92%EF%BC%9A-Edge-triggered"><span class="nav-number">1.1.2.</span> <span class="nav-text">边缘触发情况下一种无效的唤醒： Edge triggered</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty"><span class="nav-number">1.1.3.</span> <span class="nav-text">Netty</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-read"><span class="nav-number">1.2.</span> <span class="nav-text">负载均衡 read()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LT-%E6%A8%A1%E5%BC%8F%E4%B8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">LT 模式下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ET-%E6%A8%A1%E5%BC%8F%E4%B8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">ET 模式下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty-v2"><span class="nav-number">1.2.3.</span> <span class="nav-text">Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Workgroup-default-value"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Workgroup default value</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Envoy-So-Fast"><span class="nav-number">1.3.</span> <span class="nav-text">Why Envoy So Fast</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Envoy-Thread-Model"><span class="nav-number">1.3.1.</span> <span class="nav-text">Envoy Thread Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Envoy-Filter"><span class="nav-number">1.3.2.</span> <span class="nav-text">Envoy Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%9F%E5%80%BA%E5%9D%87%E8%A1%A1-Accept"><span class="nav-number">1.3.3.</span> <span class="nav-text">负债均衡 Accept</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E6%A0%B8%E4%B9%8B%E4%B8%8B%E7%9A%84-Epoll"><span class="nav-number">1.</span> <span class="nav-text">多核之下的 Epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-accept"><span class="nav-number">1.1.</span> <span class="nav-text">负载均衡 accept()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%A7%A6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%E4%B8%80%E7%A7%8D%E6%97%A0%E6%95%88%E7%9A%84%E5%94%A4%E9%86%92%EF%BC%9A-Level-triggered"><span class="nav-number">1.1.1.</span> <span class="nav-text">水平触发情况下一种无效的唤醒： Level triggered</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%E4%B8%80%E7%A7%8D%E6%97%A0%E6%95%88%E7%9A%84%E5%94%A4%E9%86%92%EF%BC%9A-Edge-triggered"><span class="nav-number">1.1.2.</span> <span class="nav-text">边缘触发情况下一种无效的唤醒： Edge triggered</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty"><span class="nav-number">1.1.3.</span> <span class="nav-text">Netty</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-read"><span class="nav-number">1.2.</span> <span class="nav-text">负载均衡 read()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LT-%E6%A8%A1%E5%BC%8F%E4%B8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">LT 模式下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ET-%E6%A8%A1%E5%BC%8F%E4%B8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">ET 模式下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Workgroup-default-value"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Workgroup default value</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Envoy-So-Fast"><span class="nav-number">1.3.</span> <span class="nav-text">Why Envoy So Fast</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Envoy-Thread-Model"><span class="nav-number">1.3.1.</span> <span class="nav-text">Envoy Thread Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Envoy-Filter"><span class="nav-number">1.3.2.</span> <span class="nav-text">Envoy Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%9F%E5%80%BA%E5%9D%87%E8%A1%A1-Accept"><span class="nav-number">1.3.3.</span> <span class="nav-text">负债均衡 Accept</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -238,6 +239,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2022/04/27/networking/envoy/filters/" rel="bookmark">
+        <time class="popular-posts-time">2022-04-27</time>
+        <br>
+      Envoy Filters
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2023/01/22/os/run-linux-in-qemu/" rel="bookmark">
+        <time class="popular-posts-time">2023-01-22</time>
+        <br>
+      使用 QEMU 运行 Linux kernel
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2019/03/22/kubernetes/how-kubernetes-network-5/" rel="bookmark">
+        <time class="popular-posts-time">2019-03-22</time>
+        <br>
+      Kubernetes-网络原理(5) - ClusterIP
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -317,16 +349,14 @@
     
     <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/11/bgfwp.png" alt="bgfwp.png"></p>
 <span id="more"></span>
-<h1>多核之下的 Epoll</h1>
-<p>对于 <code>Epoll</code> 来说，我们为了利用多核能力，其实有两种办法</p>
+
+<h1 id="多核之下的-Epoll"><a href="#多核之下的-Epoll" class="headerlink" title="多核之下的 Epoll"></a>多核之下的 Epoll</h1><p>对于 <code>Epoll</code> 来说，我们为了利用多核能力，其实有两种办法</p>
 <ul>
 <li>负载均衡 <code>accept()</code></li>
 <li>负载均衡 <code>read()</code></li>
 </ul>
-<h2 id="负载均衡-accept"><a class="header-anchor" href="#负载均衡-accept">¶</a>负载均衡 <code>accept()</code></h2>
-<p>对于<strong>高频</strong>建立<strong>短连接</strong>的，我们要快速处理 <code>accept()</code></p>
-<h3 id="水平触发情况下一种无效的唤醒：-Level-triggered"><a class="header-anchor" href="#水平触发情况下一种无效的唤醒：-Level-triggered">¶</a>水平触发情况下一种无效的唤醒： Level triggered</h3>
-<ol>
+<h2 id="负载均衡-accept"><a href="#负载均衡-accept" class="headerlink" title="负载均衡 accept()"></a>负载均衡 <code>accept()</code></h2><p>对于<strong>高频</strong>建立<strong>短连接</strong>的，我们要快速处理 <code>accept()</code></p>
+<h3 id="水平触发情况下一种无效的唤醒：-Level-triggered"><a href="#水平触发情况下一种无效的唤醒：-Level-triggered" class="headerlink" title="水平触发情况下一种无效的唤醒： Level triggered"></a>水平触发情况下一种无效的唤醒： Level triggered</h3><ol>
 <li>Kernel: 接收到请求</li>
 <li>Kernel: 唤醒通知两个线程</li>
 <li>Thread A: 完成 epoll_wait().</li>
@@ -334,9 +364,8 @@
 <li>Thread A: 执行 accept() 成功</li>
 <li>Thread B: 执行 accept() 失败，对于 B 的唤醒无效</li>
 </ol>
-<h3 id="边缘触发情况下一种无效的唤醒：-Edge-triggered"><a class="header-anchor" href="#边缘触发情况下一种无效的唤醒：-Edge-triggered">¶</a>边缘触发情况下一种无效的唤醒： Edge triggered</h3>
-<ol>
-<li>Kernel: 接收到请求，唤醒A/B，这里假设是 A</li>
+<h3 id="边缘触发情况下一种无效的唤醒：-Edge-triggered"><a href="#边缘触发情况下一种无效的唤醒：-Edge-triggered" class="headerlink" title="边缘触发情况下一种无效的唤醒： Edge triggered"></a>边缘触发情况下一种无效的唤醒： Edge triggered</h3><ol>
+<li>Kernel: 接收到请求，唤醒A&#x2F;B，这里假设是 A</li>
 <li>Thread A: 完成 epoll_wait().</li>
 <li>Thread A: 执行 accept() 成功</li>
 <li>Kernel: 接收到请求</li>
@@ -346,14 +375,11 @@
 </ol>
 <hr>
 <p>当上述的线程从 2个变成 1000 个，我们就可能唤醒很多线程而无效。对于 <code>Linux 4.5</code> 增加了 <code>EPOLLEXCLUSIVE</code> 标记，只会唤醒一个 <code>epoll_wait()</code> 状态的线程。</p>
-<h3 id="Netty"><a class="header-anchor" href="#Netty">¶</a>Netty</h3>
-<p>对于 <code>Netty</code> 来说， <code>accept()</code> 的工作是放在 <code>Bossgroup</code> 中执行的，因此，如果我们需要处理大量高频的请求，我们应该尽可能的将 <code>bossGroup</code> 多分配一些，对于 <code>Netty</code> 来说是无法禁止使用 <code>childGroup</code> 的。</p>
+<h3 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h3><p>对于 <code>Netty</code> 来说， <code>accept()</code> 的工作是放在 <code>Bossgroup</code> 中执行的，因此，如果我们需要处理大量高频的请求，我们应该尽可能的将 <code>bossGroup</code> 多分配一些，对于 <code>Netty</code> 来说是无法禁止使用 <code>childGroup</code> 的。</p>
 <figure class="highlight java"><figcaption><span>Server构造器</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ServerBootstrap <span class="title function_">group</span><span class="params">(EventLoopGroup parentGroup, EventLoopGroup childGroup)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.group(parentGroup);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.childGroup != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;childGroup set already&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">this</span>.childGroup = ObjectUtil.checkNotNull(childGroup, <span class="string">&quot;childGroup&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>因此我们势必会涉及到 <code>BossGroup</code> -&gt; <code>WorkerGroup</code> 的开销。</p>
-<h2 id="负载均衡-read"><a class="header-anchor" href="#负载均衡-read">¶</a>负载均衡 <code>read()</code></h2>
-<p>对于裸用 <code>Epoll</code> 来说，我们会出现以下2个问题，都会出现两个不同的进程处理同一个 Socket 的数据</p>
-<h3 id="LT-模式下"><a class="header-anchor" href="#LT-模式下">¶</a>LT 模式下</h3>
-<ol>
+<h2 id="负载均衡-read"><a href="#负载均衡-read" class="headerlink" title="负载均衡 read()"></a>负载均衡 <code>read()</code></h2><p>对于裸用 <code>Epoll</code> 来说，我们会出现以下2个问题，都会出现两个不同的进程处理同一个 Socket 的数据</p>
+<h3 id="LT-模式下"><a href="#LT-模式下" class="headerlink" title="LT 模式下"></a>LT 模式下</h3><ol>
 <li>Kernel: 接收到 <code>2047</code> 字节数据</li>
 <li>Kernel: 唤醒A处理</li>
 <li>Thread A: 完成 <code>epoll_wait()</code></li>
@@ -362,8 +388,7 @@
 <li>Thread A: 执行 <code>read(2048)</code> 获得 <code>2048</code> 字节数据</li>
 <li>Thread B: 执行 <code>read(2048)</code> 获得 <code>1</code> 字节数据</li>
 </ol>
-<h3 id="ET-模式下"><a class="header-anchor" href="#ET-模式下">¶</a>ET 模式下</h3>
-<ol>
+<h3 id="ET-模式下"><a href="#ET-模式下" class="headerlink" title="ET 模式下"></a>ET 模式下</h3><ol>
 <li>Kernel: 接收到 <code>2048</code> 字节数据</li>
 <li>Kernel: 唤醒A处理</li>
 <li>Thread A: 完成 <code>epoll_wait()</code></li>
@@ -377,31 +402,25 @@
 <hr>
 <p>针对上述的情况， <code>Linux</code> 加入了 <code>EPOLLONESHOT</code> 只允许一个线程注册唯一的回调事件。</p>
 <figure class="highlight cpp"><figcaption><span>epolloneshot</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Eepoll::ResetOneShot</span><span class="params">(intepollfd,SOCKET fd,<span class="type">bool</span> bOne)</span></span>&#123;</span><br><span class="line">    epoll_eventevent;</span><br><span class="line">    event.data.fd= fd;</span><br><span class="line">    event.events= EPOLLIN | EPOLLET ;</span><br><span class="line">    <span class="keyword">if</span>(bOne)&#123;</span><br><span class="line">            event.events |=EPOLLONESHOT;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">-1</span> == <span class="built_in">epoll_ctl</span>(epollfd,EPOLL_CTL_MOD,fd,&amp;event))&#123;</span><br><span class="line">            <span class="built_in">perror</span>(<span class="string">&quot;resetoneshotepoll_ctl error!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Netty-v2"><a class="header-anchor" href="#Netty-v2">¶</a>Netty</h3>
-<p>这种一般服务于 <code>大量</code>长时间连接的，需要及时处理接收到的请求，这种情况下需要单 <code>Boss</code> 而需要多个 <code>Worker</code></p>
+<h3 id="Netty-1"><a href="#Netty-1" class="headerlink" title="Netty"></a>Netty</h3><p>这种一般服务于 <code>大量</code>长时间连接的，需要及时处理接收到的请求，这种情况下需要单 <code>Boss</code> 而需要多个 <code>Worker</code></p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/11/bz6Nu.png" alt="bz6Nu.png"></p>
-<h4 id="Workgroup-default-value"><a class="header-anchor" href="#Workgroup-default-value">¶</a>Workgroup default value</h4>
-<p><code>Workgroup</code> 的默认值是 <code>CPU Core</code> 的 <code>2</code> 倍，昨天也被问了这个事情，查了一下 <code>Google</code> 也没有找到适合的答案，我估计这是应该是一个实验数据，在大部分的情况下这个 <code>2</code> 应该可以发挥最大的作用。（有空测试一下）</p>
-<h2 id="Why-Envoy-So-Fast"><a class="header-anchor" href="#Why-Envoy-So-Fast">¶</a>Why Envoy So Fast</h2>
-<p>这方面的资料比较少，并且作者在阅读 <code>Envoy</code> 源码的时候的确也没发现什么特别之处，从设计上尝试回答一下这个问题</p>
-<h3 id="Envoy-Thread-Model"><a class="header-anchor" href="#Envoy-Thread-Model">¶</a>Envoy Thread Model</h3>
-<p><code>Envoy</code> 的线程模式是对等设计，在HTTP转发模式下，因为每一个线程和下游的服务[<code>另外一个Envoy</code>]连接的时候会创建一个 <code>HTTP/2</code> 的连接[基于 <code>Host:Port</code> 区分]，这些连接被缓存在一个 <code>连接池内</code>，此时可以利用 <code>Http2</code> 多路复用的能力节约很多时间。</p>
+<h4 id="Workgroup-default-value"><a href="#Workgroup-default-value" class="headerlink" title="Workgroup default value"></a>Workgroup default value</h4><p><code>Workgroup</code> 的默认值是 <code>CPU Core</code> 的 <code>2</code> 倍，昨天也被问了这个事情，查了一下 <code>Google</code> 也没有找到适合的答案，我估计这是应该是一个实验数据，在大部分的情况下这个 <code>2</code> 应该可以发挥最大的作用。（有空测试一下）</p>
+<h2 id="Why-Envoy-So-Fast"><a href="#Why-Envoy-So-Fast" class="headerlink" title="Why Envoy So Fast"></a>Why Envoy So Fast</h2><p>这方面的资料比较少，并且作者在阅读 <code>Envoy</code> 源码的时候的确也没发现什么特别之处，从设计上尝试回答一下这个问题</p>
+<h3 id="Envoy-Thread-Model"><a href="#Envoy-Thread-Model" class="headerlink" title="Envoy Thread Model"></a>Envoy Thread Model</h3><p><code>Envoy</code> 的线程模式是对等设计，在HTTP转发模式下，因为每一个线程和下游的服务[<code>另外一个Envoy</code>]连接的时候会创建一个 <code>HTTP/2</code> 的连接[基于 <code>Host:Port</code> 区分]，这些连接被缓存在一个 <code>连接池内</code>，此时可以利用 <code>Http2</code> 多路复用的能力节约很多时间。</p>
 <blockquote>
-<p>Each worker thread maintains its own connection pools for each cluster, so if an Envoy has two threads and a cluster with both HTTP/1 and HTTP/2 support, there will be at least 4 connection pools.</p>
+<p>Each worker thread maintains its own connection pools for each cluster, so if an Envoy has two threads and a cluster with both HTTP&#x2F;1 and HTTP&#x2F;2 support, there will be at least 4 connection pools.</p>
 </blockquote>
 <div>
     <label class="author-mark-label">作者注</label>
     <p class="author-mark">连接池功效，Nginx也有，这块我觉得互有胜负吧，应该算是很常见的优化手段。</p>
 </div>
+
 <p>除此之外，<code>non-blocking</code> 是最核心的部分。对于一个热更新系统，我们可以很自然的想到我们需要共享一部分的数据在不同的线程之间，常见的是使用 <code>ReadWriterLock</code>，<code>Envoy</code> 用了一种特别的设计办法 <code>Thread Local Storage (TLS) system</code>：</p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/11/b2MF6.png" alt="b2MF6.png"></p>
 <p>类似于 <code>RCU</code> 的机制，所有的 <code>Worker</code> 仅仅进行读取的操作。</p>
-<h3 id="Envoy-Filter"><a class="header-anchor" href="#Envoy-Filter">¶</a>Envoy Filter</h3>
-<p><code>Envoy Filter</code> 是动态生成的，这和大部分的传统 <code>Filter</code> 不太一样，对于大多数的实现，比如 <code>Spring WebMVC</code> 的 <code>Filter</code> 对于所有的请求都是相同的，我们可以在函数的入口判断是否需要处理，或者是直接调用下一个 <code>Filter</code> 而 <code>Envoy</code> 的 <code>Filter</code> 构成的 <code>FilterChain</code> 是由配置生成的，因此比如我们只需要 <code>2</code> 步操作的话，我们在 生成的<code>FilterChain</code> 中也只有 <code>2</code> 个 <code>Filter</code>，减少了很多的函数调用栈的成本。</p>
-<h3 id="负债均衡-Accept"><a class="header-anchor" href="#负债均衡-Accept">¶</a>负债均衡 Accept</h3>
-<p>对于 <code>Envoy</code> 来说， Run as <code>Sidecar</code> 针对同 <code>Pod</code> 的请求多半是高频的短连接 <code>HTTP</code>，这种模式下，我们 <code>负债均衡 Accept</code> 是最佳的选择，因此 <code>Envoy</code> 在设计的时候，就是使用负债均衡 <code>Accept</code> 的设计。</p>
-<h1>参考</h1>
-<ul>
+<h3 id="Envoy-Filter"><a href="#Envoy-Filter" class="headerlink" title="Envoy Filter"></a>Envoy Filter</h3><p><code>Envoy Filter</code> 是动态生成的，这和大部分的传统 <code>Filter</code> 不太一样，对于大多数的实现，比如 <code>Spring WebMVC</code> 的 <code>Filter</code> 对于所有的请求都是相同的，我们可以在函数的入口判断是否需要处理，或者是直接调用下一个 <code>Filter</code> 而 <code>Envoy</code> 的 <code>Filter</code> 构成的 <code>FilterChain</code> 是由配置生成的，因此比如我们只需要 <code>2</code> 步操作的话，我们在 生成的<code>FilterChain</code> 中也只有 <code>2</code> 个 <code>Filter</code>，减少了很多的函数调用栈的成本。</p>
+<h3 id="负债均衡-Accept"><a href="#负债均衡-Accept" class="headerlink" title="负债均衡 Accept"></a>负债均衡 Accept</h3><p>对于 <code>Envoy</code> 来说， Run as <code>Sidecar</code> 针对同 <code>Pod</code> 的请求多半是高频的短连接 <code>HTTP</code>，这种模式下，我们 <code>负债均衡 Accept</code> 是最佳的选择，因此 <code>Envoy</code> 在设计的时候，就是使用负债均衡 <code>Accept</code> 的设计。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://idea.popcount.org/2017-02-20-epoll-is-fundamentally-broken-12/">Epoll is fundamentally broken</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.envoyproxy.io/envoy-threading-model-a8d44b922310">threading model</a></li>
 </ul>
@@ -484,7 +503,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

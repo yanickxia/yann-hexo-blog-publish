@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="在最近发布的 go 1.18 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。go 的 泛型提案 本文大部分翻译从此。">
 <meta property="og:type" content="article">
@@ -54,6 +54,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -137,7 +138,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">设计实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Type-parameters"><span class="nav-number">2.1.</span> <span class="nav-text">Type parameters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Constraints-%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.</span> <span class="nav-text">Constraints 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.1.</span> <span class="nav-text">任意约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.2.</span> <span class="nav-text">类型约束</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">泛型参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F%E5%8D%95%E5%85%83"><span class="nav-number">4.</span> <span class="nav-text">约束单元</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E7%BA%A6%E6%9D%9F-v2"><span class="nav-number">4.1.</span> <span class="nav-text">任意约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E4%BC%BC%E7%BA%A6%E6%9D%9F%EF%BC%88Approximation-constraint-element%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">近似约束（Approximation constraint element）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.3.</span> <span class="nav-text">联合约束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">接口参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%9A%E6%9C%AA%E5%8C%85%E5%90%AB%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">尚未包含的</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">设计实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Type-parameters"><span class="nav-number">2.1.</span> <span class="nav-text">Type parameters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Constraints-%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.</span> <span class="nav-text">Constraints 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.1.</span> <span class="nav-text">任意约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.2.</span> <span class="nav-text">类型约束</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">泛型参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F%E5%8D%95%E5%85%83"><span class="nav-number">4.</span> <span class="nav-text">约束单元</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E7%BA%A6%E6%9D%9F-1"><span class="nav-number">4.1.</span> <span class="nav-text">任意约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E4%BC%BC%E7%BA%A6%E6%9D%9F%EF%BC%88Approximation-constraint-element%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">近似约束（Approximation constraint element）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.3.</span> <span class="nav-text">联合约束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">接口参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%9A%E6%9C%AA%E5%8C%85%E5%90%AB%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">尚未包含的</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -236,6 +237,23 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/07/12/kotlin/easy-way-to-kotlin-for-java-proggamer/control-flow/" rel="bookmark">
+        <time class="popular-posts-time">2018-07-12</time>
+        <br>
+      写给 Java 开发者的 Kotlin 教程 (4) - 控制流表达式
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -313,19 +331,18 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202203161135891.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202203161135891.png"></p>
 <p>在最近发布的 <code>go 1.18</code> 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。<code>go</code> 的 <a target="_blank" rel="noopener" href="https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md">泛型提案</a> 本文大部分翻译从此。</p>
 <span id="more"></span>
-<h2 id="Overview"><a class="header-anchor" href="#Overview">¶</a>Overview</h2>
-<ul>
-<li css-module=".">函数可以有一个额外的类型参数列表，它使用方括号，但在其他方面看起来像一个普通的参数列表: func f [ t any ](p t)</li>
+
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ul>
+<li>函数可以有一个额外的类型参数列表，它使用方括号，但在其他方面看起来像一个普通的参数列表: func f [ t any ](p t){ … } </li>
 <li>这些类型参数可以由常规参数和在函数体中使用。</li>
 <li>类型还可以有一个类型参数列表: 类型 m [ t any ][] t (any 就是任意类型)</li>
 <li>每个类型参数都有一个类型约束，就像每个普通参数都有一个类型: func f [ t Constraint ](p t){ … }。</li>
 <li>接口类型的类型约束。</li>
 <li>新的预声明名 <code>any</code> 是允许任何类型的类型约束。</li>
-<li>作为类型约束使用的接口类型可以嵌入额外的元素来限制满足约束的类型参数集:
-<ul>
+<li>作为类型约束使用的接口类型可以嵌入额外的元素来限制满足约束的类型参数集:<ul>
 <li>任意类型 <code>T</code> 限制为该类型</li>
 <li>近似元素 <code>~T</code> 限制所有基础类型为T的类型</li>
 <li>并集元素 <code>T1 | T2 |…</code> 限制为列出的任何元素</li>
@@ -333,51 +350,50 @@
 </li>
 <li>泛型函数只能使用约束允许的所有类型支持的操作。</li>
 </ul>
-<h2 id="设计实现"><a class="header-anchor" href="#设计实现">¶</a>设计实现</h2>
-<h3 id="Type-parameters"><a class="header-anchor" href="#Type-parameters">¶</a>Type parameters</h3>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Print</span>[<span class="title">T</span> <span class="title">any</span>]<span class="params">(s []T)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">		fmt.Println(v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="设计实现"><a href="#设计实现" class="headerlink" title="设计实现"></a>设计实现</h2><h3 id="Type-parameters"><a href="#Type-parameters" class="headerlink" title="Type parameters"></a>Type parameters</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Print</span>[<span class="title">T</span> <span class="title">any</span>]<span class="params">(s []T)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">		fmt.Println(v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这意味着在函数 Print 中，标识符 t 是一个类型参数，这个类型当前未知，但在调用函数时将是已知的。Any 意味着 t 可以是任何类型。如上所示，在描述普通非类型参数的类型时，类型参数可用作类型。它也可以用作函数体中的类型。</p>
-<h3 id="Constraints-约束"><a class="header-anchor" href="#Constraints-约束">¶</a>Constraints 约束</h3>
-<h4 id="任意约束"><a class="header-anchor" href="#任意约束">¶</a>任意约束</h4>
-<p>我们知道在 <code>GO</code> 中 <code>interface&#123;&#125;</code> 是代表任意值</p>
+<h3 id="Constraints-约束"><a href="#Constraints-约束" class="headerlink" title="Constraints 约束"></a>Constraints 约束</h3><h4 id="任意约束"><a href="#任意约束" class="headerlink" title="任意约束"></a>任意约束</h4><p>我们知道在 <code>GO</code> 中 <code>interface&#123;&#125;</code> 是代表任意值</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Print prints the elements of any slice.</span></span><br><span class="line"><span class="comment">// Print has a type parameter T and has a single (non-type)</span></span><br><span class="line"><span class="comment">// parameter s which is a slice of that type parameter.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Print</span>[<span class="title">T</span> <span class="title">interface</span></span>&#123;&#125;](s []T) &#123;</span><br><span class="line">	<span class="comment">// same as above</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这样我们就能够表达为接受任意类型的 Print，但是很多时候我们希望只有部分类型才能传入</p>
-<h4 id="类型约束"><a class="header-anchor" href="#类型约束">¶</a>类型约束</h4>
-<p>比如我们约定了一个 Stringer 类型</p>
+<h4 id="类型约束"><a href="#类型约束" class="headerlink" title="类型约束"></a>类型约束</h4><p>比如我们约定了一个 Stringer 类型</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Stringer <span class="keyword">interface</span> &#123;</span><br><span class="line">	String() <span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>我们可以这些表达 Print 函数</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Stringify</span>[<span class="title">T</span> <span class="title">Stringer</span>]<span class="params">(s []T)</span></span> (ret []<span class="type">string</span>) &#123;</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">		ret = <span class="built_in">append</span>(ret, v.String())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>多类型约束的话，我们可以这么来申明</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Stringer <span class="keyword">interface</span> &#123;</span><br><span class="line">	String() <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Plusser <span class="keyword">interface</span> &#123;</span><br><span class="line">	Plus(<span class="type">string</span>) <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ConcatTo</span>[<span class="title">S</span> <span class="title">Stringer</span>, <span class="title">P</span> <span class="title">Plusser</span>]<span class="params">(s []S, p []P)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	r := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="built_in">len</span>(s))</span><br><span class="line">	<span class="keyword">for</span> i, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">		r[i] = p[i].Plus(v.String())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="泛型参数"><a class="header-anchor" href="#泛型参数">¶</a>泛型参数</h2>
-<p>之前我们定义一个接受任意类型的数组是</p>
+
+<h2 id="泛型参数"><a href="#泛型参数" class="headerlink" title="泛型参数"></a>泛型参数</h2><p>之前我们定义一个接受任意类型的数组是</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Vector is a name for a slice of any element type.</span></span><br><span class="line"><span class="keyword">type</span> Vector []<span class="keyword">interface</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>现在我们可以</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Vector is a name for a slice of any element type.</span></span><br><span class="line"><span class="keyword">type</span> Vector[T any] []T</span><br></pre></td></tr></table></figure>
+
 <p>当然可以函数约束一样，可以使用类型约束</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义够传入 int 的数组</span></span><br><span class="line"><span class="keyword">var</span> v Vector[<span class="type">int</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以泛型的实现函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v *Vector[T])</span></span> Push(x T) &#123; *v = <span class="built_in">append</span>(*v, x) &#125;</span><br></pre></td></tr></table></figure>
+
 <p>不过要注意</p>
 <blockquote>
 <p>Although methods of a generic type may use the type’s parameters, methods may not themselves have additional type parameters. Where it would be useful to add type arguments to a method, people will have to write a suitably parameterized top-level function.</p>
 </blockquote>
 <p>Go 并没有实现，函数类型中的泛型</p>
-<h2 id="约束单元"><a class="header-anchor" href="#约束单元">¶</a>约束单元</h2>
-<h3 id="任意约束-v2"><a class="header-anchor" href="#任意约束-v2">¶</a>任意约束</h3>
-<p>就是没有约束的话，也就是 any， 我们知道了</p>
-<h3 id="近似约束（Approximation-constraint-element）"><a class="header-anchor" href="#近似约束（Approximation-constraint-element）">¶</a>近似约束（Approximation constraint element）</h3>
-<p>我们只需要某个特定的函数实现的话，我们就可以使用这样的约束</p>
+<h2 id="约束单元"><a href="#约束单元" class="headerlink" title="约束单元"></a>约束单元</h2><h3 id="任意约束-1"><a href="#任意约束-1" class="headerlink" title="任意约束"></a>任意约束</h3><p>就是没有约束的话，也就是 any， 我们知道了</p>
+<h3 id="近似约束（Approximation-constraint-element）"><a href="#近似约束（Approximation-constraint-element）" class="headerlink" title="近似约束（Approximation constraint element）"></a>近似约束（Approximation constraint element）</h3><p>我们只需要某个特定的函数实现的话，我们就可以使用这样的约束</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyString <span class="type">string</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 任意基础类型是 string 的约束</span></span><br><span class="line"><span class="keyword">type</span> AnyString <span class="keyword">interface</span> &#123;</span><br><span class="line">	~<span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="联合约束"><a class="header-anchor" href="#联合约束">¶</a>联合约束</h3>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PredeclaredSignedInteger is a constraint that matches the</span></span><br><span class="line"><span class="comment">// five predeclared signed integer types.</span></span><br><span class="line"><span class="keyword">type</span> PredeclaredSignedInteger <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="type">int</span> | <span class="type">int8</span> | <span class="type">int16</span> | <span class="type">int32</span> | <span class="type">int64</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="联合约束"><a href="#联合约束" class="headerlink" title="联合约束"></a>联合约束</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PredeclaredSignedInteger is a constraint that matches the</span></span><br><span class="line"><span class="comment">// five predeclared signed integer types.</span></span><br><span class="line"><span class="keyword">type</span> PredeclaredSignedInteger <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="type">int</span> | <span class="type">int8</span> | <span class="type">int16</span> | <span class="type">int32</span> | <span class="type">int64</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>基于这个逻辑我们就可以定义 比如 <code>可以比较</code>的类型</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Ordered <span class="keyword">interface</span> &#123;</span><br><span class="line">	~<span class="type">int</span> | ~<span class="type">int8</span> | ~<span class="type">int16</span> | ~<span class="type">int32</span> | ~<span class="type">int64</span> |</span><br><span class="line">		~<span class="type">uint</span> | ~<span class="type">uint8</span> | ~<span class="type">uint16</span> | ~<span class="type">uint32</span> | ~<span class="type">uint64</span> | ~<span class="type">uintptr</span> |</span><br><span class="line">		~<span class="type">float32</span> | ~<span class="type">float64</span> |</span><br><span class="line">		~<span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="接口参数"><a class="header-anchor" href="#接口参数">¶</a>接口参数</h2>
-<p>除了，我们可以使用类型放置于参数中。我们还可以使用 接口作为参数类型</p>
+
+<h2 id="接口参数"><a href="#接口参数" class="headerlink" title="接口参数"></a>接口参数</h2><p>除了，我们可以使用类型放置于参数中。我们还可以使用 接口作为参数类型</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Map</span>[<span class="title">F</span>, <span class="title">T</span> <span class="title">any</span>]<span class="params">(s []F, f <span class="keyword">func</span>(F)</span></span> T) []T &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
 <p>非常标准的 MAP 函数，从 F 转换为 T</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s []<span class="type">int</span></span><br><span class="line">f := <span class="function"><span class="keyword">func</span><span class="params">(i <span class="type">int</span>)</span></span> <span class="type">int64</span> &#123; <span class="keyword">return</span> <span class="type">int64</span>(i) &#125;</span><br><span class="line"><span class="keyword">var</span> r []<span class="type">int64</span></span><br><span class="line"><span class="comment">// Specify both type arguments explicitly.</span></span><br><span class="line">r = Map[<span class="type">int</span>, <span class="type">int64</span>](s, f)</span><br><span class="line"><span class="comment">// Specify just the first type argument, for F,</span></span><br><span class="line"><span class="comment">// and let T be inferred.</span></span><br><span class="line">r = Map[<span class="type">int</span>](s, f)</span><br><span class="line"><span class="comment">// Don&#x27;t specify any type arguments, and let both be inferred.</span></span><br><span class="line">r = Map(s, f)</span><br></pre></td></tr></table></figure>
-<h2 id="尚未包含的"><a class="header-anchor" href="#尚未包含的">¶</a>尚未包含的</h2>
-<ul>
+
+<h2 id="尚未包含的"><a href="#尚未包含的" class="headerlink" title="尚未包含的"></a>尚未包含的</h2><ul>
 <li>没有专门化。没有办法编写一个泛型函数的多个版本，这些版本被设计用于处理特定的类型参数。也就是比如我处理 T any 的泛型，就没办法单独处理 T one 类型的</li>
 <li>没有元编程。没有办法编写在编译时执行的代码来生成在运行时执行的代码。</li>
 <li>没有更高层次的抽象。除了调用或实例化函数之外，没有办法使用具有类型参数的函数。除了实例化泛型类型之外，没有其他方法可以使用它。</li>
@@ -386,7 +402,7 @@
 <li>无操作符方法。您可以编写一个编译时类型安全的泛型容器，但是只能使用普通方法访问它，而不能使用 c [ k ]这样的语法。</li>
 <li>没有柯里化。除了使用 helper 函数或包装器类型之外，没有办法部分地实例化泛型函数或类型。所有类型参数必须在实例化时显式传递或推断。</li>
 <li>没有可变类型参数。不支持可变参数类型参数，这将允许编写单个泛型函数，该函数接受不同数量的类型参数和常规参数。</li>
-<li>没有适配器。约束无法定义可用于支持尚未实现约束的类型参数的适配器，例如，根据 Equal 方法定义 = = 操作符，反之亦然。</li>
+<li>没有适配器。约束无法定义可用于支持尚未实现约束的类型参数的适配器，例如，根据 Equal 方法定义 &#x3D; &#x3D; 操作符，反之亦然。</li>
 <li>对于非类型的值，如常量，没有参量化。对于数组来说，这种情况最为明显，在这种情况下，编写类型 Matrix [ n int ][ n ][ n ][ n ] float64可能很方便。有时，为容器类型指定有效值(如元素的默认值)也是有用的。</li>
 </ul>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
@@ -464,7 +480,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

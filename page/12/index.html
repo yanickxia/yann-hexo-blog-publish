@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Yanick&#39;s Blog">
@@ -48,6 +48,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -310,8 +311,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1>Motan</h1>
-<p><code>Motan</code> 是一套基于java开发的RPC框架，除了常规的点对点调用外，<code>Motan</code> 还提供服务治理功能，包括服务节点的自动发现、摘除、高可用和负载均衡等。<code>Motan</code> 具有良好的扩展性，主要模块都提供了多种不同的实现，例如支持多种注册中心，支持多种rpc协议等。（可以看作 <code>Dubbo</code> 的复刻版）</p>
+          <h1 id="Motan"><a href="#Motan" class="headerlink" title="Motan"></a>Motan</h1><p><code>Motan</code> 是一套基于java开发的RPC框架，除了常规的点对点调用外，<code>Motan</code> 还提供服务治理功能，包括服务节点的自动发现、摘除、高可用和负载均衡等。<code>Motan</code> 具有良好的扩展性，主要模块都提供了多种不同的实现，例如支持多种注册中心，支持多种rpc协议等。（可以看作 <code>Dubbo</code> 的复刻版）</p>
 <p><a href="#%E5%90%AF%E5%8A%A8%E5%88%86%E6%9E%90">跳过介绍</a></p>
           <!--noindex-->
             <div class="post-button">
@@ -412,8 +412,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>我们都知道 ProjectReactor 是借鉴 Rxjava 的，这个在Android开发中一个极为重要的库，现在因为后端服务采用Netty，又在Reactive的东风之下，后端也选择采用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Reactive_programming"><code>响应式编程模式</code></a> 进行开发，响应式编程不是一个新概念，响应式编程就是用异步数据流进行编程，在传统的GUI应用中因为不能阻塞 <code>绘图IO</code> 所以有很多基于事件的编程模式，响应式编程提高了代码的抽象水平，因此能专注于那些定义业务逻辑的事件的依存关系，而无需摆弄大量的线程相关实现细节。<br>
-下文简称 <code>projectreactor</code> 为 <code>PRR</code>。</p>
+          <p>我们都知道 ProjectReactor 是借鉴 Rxjava 的，这个在Android开发中一个极为重要的库，现在因为后端服务采用Netty，又在Reactive的东风之下，后端也选择采用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Reactive_programming"><code>响应式编程模式</code></a> 进行开发，响应式编程不是一个新概念，响应式编程就是用异步数据流进行编程，在传统的GUI应用中因为不能阻塞 <code>绘图IO</code> 所以有很多基于事件的编程模式，响应式编程提高了代码的抽象水平，因此能专注于那些定义业务逻辑的事件的依存关系，而无需摆弄大量的线程相关实现细节。<br>下文简称 <code>projectreactor</code> 为 <code>PRR</code>。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/26/java/spring/projectreactor/#more" rel="contents">
@@ -513,8 +512,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1>Zuul2</h1>
-<p>Zuul2的难产，终于在 2018.4.13 上架了中心仓库，也代表着Zuul正式加入Netty全家桶的怀抱，关于 Zuul2 有一篇宏观性的博文有兴趣的可以阅读 <a target="_blank" rel="noopener" href="https://medium.com/netflix-techblog/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c">Zuul 2 : The Netflix Journey to Asynchronous, Non-Blocking Systems</a> 此篇博客。</p>
+          <h1 id="Zuul2"><a href="#Zuul2" class="headerlink" title="Zuul2"></a>Zuul2</h1><p>Zuul2的难产，终于在 2018.4.13 上架了中心仓库，也代表着Zuul正式加入Netty全家桶的怀抱，关于 Zuul2 有一篇宏观性的博文有兴趣的可以阅读 <a target="_blank" rel="noopener" href="https://medium.com/netflix-techblog/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c">Zuul 2 : The Netflix Journey to Asynchronous, Non-Blocking Systems</a> 此篇博客。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/22/java/microservice/gateway/zuul2/#more" rel="contents">
@@ -614,8 +612,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1>其他部分</h1>
-<p>Netty最为核心部分我们已经大致上了解完了，Netty中还有一些其他可能会问到的知识点，我们在这里一并提一下。</p>
+          <h1 id="其他部分"><a href="#其他部分" class="headerlink" title="其他部分"></a>其他部分</h1><p>Netty最为核心部分我们已经大致上了解完了，Netty中还有一些其他可能会问到的知识点，我们在这里一并提一下。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/21/java/netty/netty-5-otherwise/#more" rel="contents">
@@ -722,8 +719,8 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="ByteBuf"><a class="header-anchor" href="#ByteBuf">¶</a>ByteBuf</h2>
-<p>ByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。</p>
+
+<h2 id="ByteBuf"><a href="#ByteBuf" class="headerlink" title="ByteBuf"></a>ByteBuf</h2><p>ByteBuf 是 Netty 底层支撑。缓冲区是不同的通道之间传递数据的中介，JDK中的ByteBuffer操作复杂，而且没有经过优化，所以在netty中实现了一个更加强大的缓冲区 ByteBuf 用于表示字节序列。ByteBuf在netty中是通过Channel传输数据的，新的设计解决了JDK中ByteBuffer中的一些问题。 </p>
 <ul>
 <li>可扩展到用户定义的buffer类型中</li>
 <li>通过内置的复合buffer类型实现透明的零拷贝(zero-copy)</li>
@@ -840,11 +837,8 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="ChannelPipeline"><a class="header-anchor" href="#ChannelPipeline">¶</a>ChannelPipeline</h2>
-<p>ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示<br>
-<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzGcXn.png" alt="ChannelPipeline"><br>
-在 <a target="_blank" rel="noopener" href="https://netty.io/4.0/api/io/netty/channel/ChannelPipeline.html">ChannelPipeline.html</a> 有非常详细的文档。<br>
-每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandlerContext链表。</p>
+
+<h2 id="ChannelPipeline"><a href="#ChannelPipeline" class="headerlink" title="ChannelPipeline"></a>ChannelPipeline</h2><p>ChannelPipeline是整个Netty的流程处理的中心，整个结构如下图所示<br><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzGcXn.png" alt="ChannelPipeline"><br>在 <a target="_blank" rel="noopener" href="https://netty.io/4.0/api/io/netty/channel/ChannelPipeline.html">ChannelPipeline.html</a> 有非常详细的文档。<br>每个channel内部都会持有一个ChannelPipeline对象pipeline。pipeline默认实现DefaultChannelPipeline内部维护了一个DefaultChannelHandlerContext链表。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/20/java/netty/netty-3-pipeline/#more" rel="contents">
@@ -951,10 +945,8 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="Acceptor"><a class="header-anchor" href="#Acceptor">¶</a>Acceptor</h2>
-<p>Acceptor 是 Netty 提供一个接收器。<br>
-<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CziSq1.png" alt="Reactor模式"><br>
-还记得 <code>Reactor模式</code> 中那个的Acceptor正是连接了 <code>MainReactor</code> 和 <code>SubReactor</code>的核心所在，我们上文已经分析了Netty的 <code>NioServerChannel</code>，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。</p>
+
+<h2 id="Acceptor"><a href="#Acceptor" class="headerlink" title="Acceptor"></a>Acceptor</h2><p>Acceptor 是 Netty 提供一个接收器。<br><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CziSq1.png" alt="Reactor模式"><br>还记得 <code>Reactor模式</code> 中那个的Acceptor正是连接了 <code>MainReactor</code> 和 <code>SubReactor</code>的核心所在，我们上文已经分析了Netty的 <code>NioServerChannel</code>，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/19/java/netty/netty-2-acceptor-thread/#more" rel="contents">
@@ -1061,9 +1053,8 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="Bootstrap"><a class="header-anchor" href="#Bootstrap">¶</a>Bootstrap</h2>
-<p>Bootstrap 是 Netty 提供的一个便利的工厂类, 我们可以通过它来完成 Netty 的客户端或服务器端的 Netty 初始化。<br>
-下面我以 Netty 源码例子中的 Discard 服务器作为例子, 从客户端和服务器端分别分析一下Netty 的程序是如何启动的。</p>
+
+<h2 id="Bootstrap"><a href="#Bootstrap" class="headerlink" title="Bootstrap"></a>Bootstrap</h2><p>Bootstrap 是 Netty 提供的一个便利的工厂类, 我们可以通过它来完成 Netty 的客户端或服务器端的 Netty 初始化。<br>下面我以 Netty 源码例子中的 Discard 服务器作为例子, 从客户端和服务器端分别分析一下Netty 的程序是如何启动的。</p>
 <p><a href="#%E8%A1%A5%E7%95%AA-%E5%87%A0%E4%B8%AA%E5%85%B3%E9%94%AE%E7%82%B9">快速定位几个关键点</a></p>
           <!--noindex-->
             <div class="post-button">
@@ -1164,15 +1155,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
-<p>关于Netty我们都知道（现在还不知道的Netty的怕是凤毛麟角）</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Netty我们都知道（现在还不知道的Netty的怕是凤毛麟角）</p>
 <blockquote>
-<p>Netty is an asynchronous event-driven network application framework<br>
-for rapid development of maintainable high performance protocol servers &amp; clients.</p>
+<p>Netty is an asynchronous event-driven network application framework<br>for rapid development of maintainable high performance protocol servers &amp; clients.</p>
 </blockquote>
 <p>Netty是一个异步事件驱动的应用框架，能够让我们更快的做一些网络开发。</p>
-<p>阅读此系列博文，<strong>我对你的要求是</strong> 使用过原生的Java Nio进行过网络编程。<br>
-此篇博客算是我阅读Netty的笔记，会有自己探索的过程，望斧正。</p>
+<p>阅读此系列博文，<strong>我对你的要求是</strong> 使用过原生的Java Nio进行过网络编程。<br>此篇博客算是我阅读Netty的笔记，会有自己探索的过程，望斧正。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/12/java/netty/netty-0-prepare/#more" rel="contents">
@@ -1275,9 +1263,9 @@ for rapid development of maintainable high performance protocol servers &amp; cl
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
+
 <p>TCP是基于<code>IP 报文</code>上层的一个协议，和上文所言的UDP不同，TCP是为了在恶劣的网络条件下，依然可以提供<code>可靠</code>的网络连接所提供的一种协议。</p>
-<h2 id="TCP-协议概述"><a class="header-anchor" href="#TCP-协议概述">¶</a>TCP 协议概述</h2>
-<p><img src="/images/loading.gif" data-original="http://img1.51cto.com/attachment/200708/200708061186360118937.jpg" alt="TCP"></p>
+<h2 id="TCP-协议概述"><a href="#TCP-协议概述" class="headerlink" title="TCP 协议概述"></a>TCP 协议概述</h2><p><img src="/images/loading.gif" data-original="http://img1.51cto.com/attachment/200708/200708061186360118937.jpg" alt="TCP"></p>
 <ul>
 <li>TCP提供的是流（可以想象成一个管道）</li>
 <li>TCP拥有发送和接受缓存</li>
@@ -1331,7 +1319,7 @@ for rapid development of maintainable high performance protocol servers &amp; cl
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

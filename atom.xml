@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Yanick&#39;s Blog</title>
-  
+  <icon>http://blog.yanick.site/icon.png</icon>
   <subtitle>Be Better &amp; Have Fun</subtitle>
-  <link href="/atom.xml" rel="self"/>
+  <link href="http://blog.yanick.site/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
   <updated>2023-12-28T09:14:19.988Z</updated>
@@ -14,7 +14,7 @@
     
   </author>
   
-  <generator uri="http://hexo.io/">Hexo</generator>
+  <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
     <title>Linux 中流量劫持的几个常见姿势</title>
@@ -23,21 +23,20 @@
     <published>2023-05-25T08:48:07.000Z</published>
     <updated>2023-12-28T09:14:19.988Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305261450813.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在 istio 中我们见识过流量劫持的厉害，我们今天就盘算下相关的技术。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
-    
-      <category term="network" scheme="http://blog.yanick.site/categories/linux/network/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202305261450813.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 istio 中我们见识过流量劫持的厉害，我们今天就盘算下相关的技术。&lt;/p&gt;</summary>
     
     
-      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
     
-      <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
+    
+    <category term="network" scheme="http://blog.yanick.site/categories/linux/network/"/>
+    
+    
+    <category term="network" scheme="http://blog.yanick.site/tags/network/"/>
+    
+    <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
     
   </entry>
   
@@ -48,25 +47,24 @@
     <published>2023-05-17T02:38:10.000Z</published>
     <updated>2024-03-13T14:29:32.931Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403132227792.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403132227792.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;在 &lt;a href=&quot;https://mp.weixin.qq.com/s/Ht1HuLxQ2RngrVD92TBl4Q&quot;&gt;服务网格加速器 Merbridge 正式进入 CNCF 沙箱&lt;/a&gt; 中提及使用 Cillum 来提速 Istio，我们来瞧瞧这个原理是如何的。&lt;/p&gt;
 &lt;div&gt;
     &lt;label class=&quot;author-mark-label&quot;&gt;注意&lt;/label&gt;
     &lt;p class=&quot;author-mark&quot;&gt;本文基于 0.8.1 版本&lt;/p&gt;
-&lt;/div&gt;
-    
-    </summary>
-    
-      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
-    
-      <category term="merbridge" scheme="http://blog.yanick.site/categories/istio/merbridge/"/>
+&lt;/div&gt;</summary>
     
     
-      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
     
-      <category term="merbridge" scheme="http://blog.yanick.site/tags/merbridge/"/>
+    <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+    <category term="merbridge" scheme="http://blog.yanick.site/categories/istio/merbridge/"/>
+    
+    
+    <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+    <category term="merbridge" scheme="http://blog.yanick.site/tags/merbridge/"/>
     
   </entry>
   
@@ -77,21 +75,20 @@
     <published>2023-03-07T09:38:10.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303071736740.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;推荐在阅读前，先阅读下&lt;a href=&quot;https://istio.io/latest/blog/2023/rust-based-ztunnel/&quot;&gt;Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
-    
-      <category term="ambient" scheme="http://blog.yanick.site/categories/istio/ambient/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2023/202303071736740.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;推荐在阅读前，先阅读下&lt;a href=&quot;https://istio.io/latest/blog/2023/rust-based-ztunnel/&quot;&gt;Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh&lt;/a&gt;&lt;/p&gt;</summary>
     
     
-      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
     
-      <category term="ambient" scheme="http://blog.yanick.site/tags/ambient/"/>
+    <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+    <category term="ambient" scheme="http://blog.yanick.site/categories/istio/ambient/"/>
+    
+    
+    <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+    <category term="ambient" scheme="http://blog.yanick.site/tags/ambient/"/>
     
   </entry>
   
@@ -102,25 +99,24 @@
     <published>2023-01-22T02:09:07.000Z</published>
     <updated>2024-03-13T13:54:26.794Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403132131563.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;让我们使用 qemu 来运行 Linux 吧。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
-    
-      <category term="os" scheme="http://blog.yanick.site/categories/linux/os/"/>
-    
-      <category term="qemu" scheme="http://blog.yanick.site/categories/linux/os/qemu/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403132131563.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;让我们使用 qemu 来运行 Linux 吧。&lt;/p&gt;</summary>
     
     
-      <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
     
-      <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
+    <category term="linux" scheme="http://blog.yanick.site/categories/linux/"/>
     
-      <category term="qemu" scheme="http://blog.yanick.site/tags/qemu/"/>
+    <category term="os" scheme="http://blog.yanick.site/categories/linux/os/"/>
+    
+    <category term="qemu" scheme="http://blog.yanick.site/categories/linux/os/qemu/"/>
+    
+    
+    <category term="os" scheme="http://blog.yanick.site/tags/os/"/>
+    
+    <category term="linux" scheme="http://blog.yanick.site/tags/linux/"/>
+    
+    <category term="qemu" scheme="http://blog.yanick.site/tags/qemu/"/>
     
   </entry>
   
@@ -131,17 +127,16 @@
     <published>2023-01-20T04:28:41.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202301200907733.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;首先我们知道 isito 是支持 地域路由的，比较同地域优先。&lt;a href=&quot;https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/&quot;&gt;istio locality-load-balancing&lt;/a&gt; 但是此文档缺失验证，本篇意在从 Inside 来看看是是怎么工作的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202301200907733.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;首先我们知道 isito 是支持 地域路由的，比较同地域优先。&lt;a href=&quot;https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/&quot;&gt;istio locality-load-balancing&lt;/a&gt; 但是此文档缺失验证，本篇意在从 Inside 来看看是是怎么工作的。&lt;/p&gt;</summary>
     
     
-      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+    <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+    <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
     
   </entry>
   
@@ -152,24 +147,22 @@
     <published>2022-11-07T02:00:00.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211071002609.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在 &lt;a href=&quot;https://mp.weixin.qq.com/s/vUkA4SeMVtG-genfP2b0ww&quot;&gt;阿里巴巴开源下一代云原生网关Higress：基于Envoy，支持Nginx Ingress零成本快速迁移&lt;/a&gt;中，介绍了阿里开源的云原生网关。&lt;br&gt;
-我们今天就来探索下，这个项目是做了什么，他又是怎么工作的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
-    
-      <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211071002609.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;a href=&quot;https://mp.weixin.qq.com/s/vUkA4SeMVtG-genfP2b0ww&quot;&gt;阿里巴巴开源下一代云原生网关Higress：基于Envoy，支持Nginx Ingress零成本快速迁移&lt;/a&gt;中，介绍了阿里开源的云原生网关。&lt;br&gt;我们今天就来探索下，这个项目是做了什么，他又是怎么工作的。&lt;/p&gt;</summary>
     
     
-      <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
     
-      <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
+    <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
+    
+    <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    
+    
+    <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
+    
+    <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
     
   </entry>
   
@@ -180,28 +173,26 @@
     <published>2022-10-31T14:30:00.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211021523504.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202211021523504.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;一般阅读源码有两种模式&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;验证式阅读：大致上就是先了解抽象，然后按照抽象去验证系统是否按照我们所理解的方式进行工作。&lt;/li&gt;
-&lt;li&gt;探索性阅读：和上一种略有不同，当我们有类似软件经验的时候，我们经常会参考其他软件的实现方式（一些通用需要解决的问题），去探索 Envoy 是如何解决这类通用的问题的。&lt;br&gt;
-这两者阅读源码的方式并没有什么好坏，更像是自顶向下和自底向上的差异。&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
-    
-      <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+&lt;li&gt;探索性阅读：和上一种略有不同，当我们有类似软件经验的时候，我们经常会参考其他软件的实现方式（一些通用需要解决的问题），去探索 Envoy 是如何解决这类通用的问题的。&lt;br&gt;这两者阅读源码的方式并没有什么好坏，更像是自顶向下和自底向上的差异。&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
-      <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
     
-      <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
+    <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
+    
+    <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    
+    
+    <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
+    
+    <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
     
   </entry>
   
@@ -212,22 +203,21 @@
     <published>2022-10-21T02:00:41.000Z</published>
     <updated>2023-12-28T09:14:19.988Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202210211117213.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202210211117213.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;虽然起了一个很大的标题，有点标题党的意思，但是本篇会覆盖大多数 &lt;code&gt;istio pliot&lt;/code&gt; 的功能，可以耐着性子看下去。&lt;/p&gt;
-&lt;p&gt;我们在对 istio 有一个初步了解的情况下，我们很容易得知，istio 的整个抽象架构就是一个标准的 CS 模型，对于我们需要解答的就是 istio 是如何将那些配置项和k8s的运行状态，转为 Envoy 所需要使用的数据结构的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
-    
-      <category term="how-it-work" scheme="http://blog.yanick.site/categories/isito/how-it-work/"/>
+&lt;p&gt;我们在对 istio 有一个初步了解的情况下，我们很容易得知，istio 的整个抽象架构就是一个标准的 CS 模型，对于我们需要解答的就是 istio 是如何将那些配置项和k8s的运行状态，转为 Envoy 所需要使用的数据结构的。&lt;/p&gt;</summary>
     
     
-      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
     
-      <category term="how-it-work" scheme="http://blog.yanick.site/tags/how-it-work/"/>
+    <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    <category term="how-it-work" scheme="http://blog.yanick.site/categories/isito/how-it-work/"/>
+    
+    
+    <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+    <category term="how-it-work" scheme="http://blog.yanick.site/tags/how-it-work/"/>
     
   </entry>
   
@@ -238,21 +228,20 @@
     <published>2022-09-14T06:29:03.000Z</published>
     <updated>2023-12-28T09:14:19.988Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209141410061.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;记录下博客建站的一些日常事务。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="site" scheme="http://blog.yanick.site/categories/site/"/>
-    
-      <category term="blog" scheme="http://blog.yanick.site/categories/site/blog/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209141410061.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;记录下博客建站的一些日常事务。&lt;/p&gt;</summary>
     
     
-      <category term="site" scheme="http://blog.yanick.site/tags/site/"/>
     
-      <category term="blog" scheme="http://blog.yanick.site/tags/blog/"/>
+    <category term="site" scheme="http://blog.yanick.site/categories/site/"/>
+    
+    <category term="blog" scheme="http://blog.yanick.site/categories/site/blog/"/>
+    
+    
+    <category term="site" scheme="http://blog.yanick.site/tags/site/"/>
+    
+    <category term="blog" scheme="http://blog.yanick.site/tags/blog/"/>
     
   </entry>
   
@@ -263,17 +252,16 @@
     <published>2022-09-08T09:38:10.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131754322.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202209131754322.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最新的一次发布中，&lt;code&gt;Istio&lt;/code&gt; 带来一个超级重磅的消息，带来了无 &lt;code&gt;Sidecar&lt;/code&gt; 的版本 &lt;a href=&quot;https://istio.io/latest/blog/2022/get-started-ambient/&quot;&gt;&lt;code&gt;Ambient Mesh&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;</summary>
     
     
-      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+    <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+    
+    <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
     
   </entry>
   
@@ -284,25 +272,24 @@
     <published>2022-08-19T08:43:48.000Z</published>
     <updated>2023-12-28T08:44:18.570Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220819165427.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="database" scheme="http://blog.yanick.site/categories/database/"/>
-    
-      <category term="leveldb" scheme="http://blog.yanick.site/categories/database/leveldb/"/>
-    
-      <category term="kv" scheme="http://blog.yanick.site/categories/database/leveldb/kv/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220819165427.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。&lt;/p&gt;</summary>
     
     
-      <category term="database" scheme="http://blog.yanick.site/tags/database/"/>
     
-      <category term="leveldb" scheme="http://blog.yanick.site/tags/leveldb/"/>
+    <category term="database" scheme="http://blog.yanick.site/categories/database/"/>
     
-      <category term="kv" scheme="http://blog.yanick.site/tags/kv/"/>
+    <category term="leveldb" scheme="http://blog.yanick.site/categories/database/leveldb/"/>
+    
+    <category term="kv" scheme="http://blog.yanick.site/categories/database/leveldb/kv/"/>
+    
+    
+    <category term="database" scheme="http://blog.yanick.site/tags/database/"/>
+    
+    <category term="leveldb" scheme="http://blog.yanick.site/tags/leveldb/"/>
+    
+    <category term="kv" scheme="http://blog.yanick.site/tags/kv/"/>
     
   </entry>
   
@@ -313,21 +300,20 @@
     <published>2022-08-06T03:04:12.000Z</published>
     <updated>2023-12-28T08:44:18.570Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202208061311334.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;今天我们来聊聊程序员中最讨论的一个部分，单元测试&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="unittest" scheme="http://blog.yanick.site/categories/unittest/"/>
-    
-      <category term="self-cultivation" scheme="http://blog.yanick.site/categories/unittest/self-cultivation/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202208061311334.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天我们来聊聊程序员中最讨论的一个部分，单元测试&lt;/p&gt;</summary>
     
     
-      <category term="unittest" scheme="http://blog.yanick.site/tags/unittest/"/>
     
-      <category term="self-cultivation" scheme="http://blog.yanick.site/tags/self-cultivation/"/>
+    <category term="unittest" scheme="http://blog.yanick.site/categories/unittest/"/>
+    
+    <category term="self-cultivation" scheme="http://blog.yanick.site/categories/unittest/self-cultivation/"/>
+    
+    
+    <category term="unittest" scheme="http://blog.yanick.site/tags/unittest/"/>
+    
+    <category term="self-cultivation" scheme="http://blog.yanick.site/tags/self-cultivation/"/>
     
   </entry>
   
@@ -338,21 +324,20 @@
     <published>2022-07-23T12:28:41.000Z</published>
     <updated>2023-12-28T08:44:18.570Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220723234135.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;今天我们聊聊 《Isito 虚拟机健康检查》&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
-    
-      <category term="how-it-work" scheme="http://blog.yanick.site/categories/isito/how-it-work/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220723234135.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天我们聊聊 《Isito 虚拟机健康检查》&lt;/p&gt;</summary>
     
     
-      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
     
-      <category term="how-it-work" scheme="http://blog.yanick.site/tags/how-it-work/"/>
+    <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    <category term="how-it-work" scheme="http://blog.yanick.site/categories/isito/how-it-work/"/>
+    
+    
+    <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+    <category term="how-it-work" scheme="http://blog.yanick.site/tags/how-it-work/"/>
     
   </entry>
   
@@ -363,23 +348,22 @@
     <published>2022-04-27T11:30:00.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202204271957129.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;今天我们来聊聊，Envoy 中最重要的抽象 &lt;code&gt;Filter&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
-    
-      <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
-    
-      <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2022/202204271957129.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天我们来聊聊，Envoy 中最重要的抽象 &lt;code&gt;Filter&lt;/code&gt;&lt;/p&gt;</summary>
     
     
-      <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
     
-      <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
+    <category term="网络编程" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="API" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/"/>
+    
+    <category term="Gateway" scheme="http://blog.yanick.site/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/API/Gateway/"/>
+    
+    
+    <category term="API" scheme="http://blog.yanick.site/tags/API/"/>
+    
+    <category term="Gateway" scheme="http://blog.yanick.site/tags/Gateway/"/>
     
   </entry>
   
@@ -390,17 +374,16 @@
     <published>2022-04-16T08:28:41.000Z</published>
     <updated>2023-12-28T09:14:19.988Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202204161647430.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过 &lt;code&gt;iptables&lt;/code&gt; 拦截流量，对于这个 &lt;code&gt;iptables&lt;/code&gt; 的规则，我们仔细的分析下。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202204161647430.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;众所周知 &lt;code&gt;istio&lt;/code&gt; 通过 &lt;code&gt;iptables&lt;/code&gt; 拦截流量，对于这个 &lt;code&gt;iptables&lt;/code&gt; 的规则，我们仔细的分析下。&lt;/p&gt;</summary>
     
     
-      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+    <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+    <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
     
   </entry>
   
@@ -411,16 +394,15 @@
     <published>2022-03-17T12:31:37.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202203161135891.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/202203161135891.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在最近发布的 &lt;code&gt;go 1.18&lt;/code&gt; 的版本中，泛型被正式发布，我们可以来尝鲜了，当然现在学习是最简单的时候。&lt;code&gt;go&lt;/code&gt; 的 &lt;a href=&quot;https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md&quot;&gt;泛型提案&lt;/a&gt; 本文大部分翻译从此。&lt;/p&gt;</summary>
     
-    </summary>
     
-      <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
     
-      <category term="generic" scheme="http://blog.yanick.site/categories/go/generic/"/>
+    <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+    <category term="generic" scheme="http://blog.yanick.site/categories/go/generic/"/>
     
     
   </entry>
@@ -432,16 +414,15 @@
     <published>2021-09-10T04:28:41.000Z</published>
     <updated>2023-12-28T09:14:19.988Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910154051.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910154051.png&quot;&gt;&lt;/p&gt;</summary>
     
     
-      <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
+    
+    <category term="isito" scheme="http://blog.yanick.site/categories/isito/"/>
+    
+    
+    <category term="isito" scheme="http://blog.yanick.site/tags/isito/"/>
     
   </entry>
   
@@ -452,22 +433,21 @@
     <published>2021-08-27T02:38:10.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210830103734.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210830103734.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;众所周知，Istio 有一个很核心的功能是将Kube的资源对象翻译成Envoy的Xds协议。因此对于这部分来说，Istio 涉及到大致上三个部分&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Kube 资源的监听&lt;/li&gt;
 &lt;li&gt;Istio 内部如何存储这些数据&lt;/li&gt;
 &lt;li&gt;如何转为Xds协议&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+&lt;/ul&gt;</summary>
     
     
-      <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
+    
+    <category term="istio" scheme="http://blog.yanick.site/categories/istio/"/>
+    
+    
+    <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
     
   </entry>
   
@@ -478,24 +458,23 @@
     <published>2021-06-20T09:38:10.000Z</published>
     <updated>2023-12-28T09:14:19.988Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210620173801.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-      <category term="deep-dive" scheme="http://blog.yanick.site/categories/rust/deep-dive/"/>
-    
-      <category term="pin" scheme="http://blog.yanick.site/categories/rust/deep-dive/pin/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210620173801.png&quot;&gt;&lt;/p&gt;</summary>
     
     
-      <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
     
-      <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
+    <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
     
-      <category term="pin" scheme="http://blog.yanick.site/tags/pin/"/>
+    <category term="deep-dive" scheme="http://blog.yanick.site/categories/rust/deep-dive/"/>
+    
+    <category term="pin" scheme="http://blog.yanick.site/categories/rust/deep-dive/pin/"/>
+    
+    
+    <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
+    
+    <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
+    
+    <category term="pin" scheme="http://blog.yanick.site/tags/pin/"/>
     
   </entry>
   
@@ -506,21 +485,20 @@
     <published>2021-05-26T08:04:12.000Z</published>
     <updated>2023-12-28T09:14:19.984Z</updated>
     
-    <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210606174353.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;今天就让我们一起来品一品，&lt;code&gt;Envoy&lt;/code&gt; 中的 &lt;code&gt;Dubbo&lt;/code&gt; 协议是如何实现的，基于 &lt;code&gt;1.18&lt;/code&gt; 分支&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="dubbo" scheme="http://blog.yanick.site/categories/dubbo/"/>
-    
-      <category term="envoy" scheme="http://blog.yanick.site/categories/dubbo/envoy/"/>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210606174353.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;今天就让我们一起来品一品，&lt;code&gt;Envoy&lt;/code&gt; 中的 &lt;code&gt;Dubbo&lt;/code&gt; 协议是如何实现的，基于 &lt;code&gt;1.18&lt;/code&gt; 分支&lt;/p&gt;</summary>
     
     
-      <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
     
-      <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
+    <category term="dubbo" scheme="http://blog.yanick.site/categories/dubbo/"/>
+    
+    <category term="envoy" scheme="http://blog.yanick.site/categories/dubbo/envoy/"/>
+    
+    
+    <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
+    
+    <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
     
   </entry>
   

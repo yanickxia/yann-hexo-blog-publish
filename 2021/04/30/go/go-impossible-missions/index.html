@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="主要就是为了吐槽 GO">
 <meta property="og:type" content="article">
@@ -54,6 +54,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -236,6 +237,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/07/10/kotlin/easy-way-to-kotlin-for-java-proggamer/basic-syntax/" rel="bookmark">
+        <time class="popular-posts-time">2018-07-10</time>
+        <br>
+      写给 Java 开发者的 Kotlin 教程 (2) - 基础语法
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/08/17/kotlin/easy-way-to-kotlin-for-java-proggamer/kotlin-best-practices/" rel="bookmark">
+        <time class="popular-posts-time">2018-08-17</time>
+        <br>
+      写给 Java 开发者的 Kotlin 教程 (13) - 最佳实践
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/08/07/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-with-properties/" rel="bookmark">
+        <time class="popular-posts-time">2018-08-07</time>
+        <br>
+      写给 Java 开发者的 Kotlin 教程 (9) -  面向对象 - 属性
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -313,29 +345,35 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210430161943.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210430161943.png"></p>
 <p>主要就是为了吐槽 <code>GO</code></p>
 <span id="more"></span>
-<h2 id="模板方法"><a class="header-anchor" href="#模板方法">¶</a>模板方法</h2>
-<p>在绝大多数的 <code>OOP</code> 语言中，我们都希望，我们可能在父类中完成绝大多数的任务，子类仅仅完成一部分的任务即可。</p>
+
+<h2 id="模板方法"><a href="#模板方法" class="headerlink" title="模板方法"></a>模板方法</h2><p>在绝大多数的 <code>OOP</code> 语言中，我们都希望，我们可能在父类中完成绝大多数的任务，子类仅仅完成一部分的任务即可。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Named</span> &#123;</span><br><span class="line">    String <span class="title function_">name</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span> String <span class="title function_">firstName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name().split(<span class="string">&quot;/&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>当我们实现 <code>EN</code> 和 <code>CN</code> 的版本时候，只需要。</p>
 <div class="tabs" id="named"><ul class="nav-tabs"><li class="tab active"><a href="#named-1">EnglishNamed</a></li><li class="tab"><a href="#named-2">ChineseNamed</a></li></ul><div class="tab-content"><div class="tab-pane active" id="named-1"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">EnglishNamed</span> <span class="keyword">implements</span> <span class="title class_">Named</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">name</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;jack/ma&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="named-2"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ChineseNamed</span> <span class="keyword">implements</span> <span class="title class_">Named</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">name</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;春/天&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
 <p>对于获取 <code>FirstName</code> 的逻辑是一致的。</p>
 <p>那如果我们使用 <code>GO</code> 来实现的话。</p>
 <div class="tabs" id="gonamed1"><ul class="nav-tabs"><li class="tab active"><a href="#gonamed1-1">EnglishNamed</a></li><li class="tab"><a href="#gonamed1-2">ChineseNamed</a></li></ul><div class="tab-content"><div class="tab-pane active" id="gonamed1-1"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> EnglishNamed <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EnglishNamed)</span></span> Name() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;jack/ma&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EnglishNamed)</span></span> FirstName() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> strings.Split(e.Name(), <span class="string">&quot;/&quot;</span>)[<span class="number">0</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="gonamed1-2"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ChineseNamed <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *ChineseNamed)</span></span> Name() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;jack/ma&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *ChineseNamed)</span></span> FirstName() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> strings.Split(e.Name(), <span class="string">&quot;/&quot;</span>)[<span class="number">0</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></div></div>
+
 <p>我们发现其实我们有一个 <code>重复的</code> 代码。为了让这个代码不重复，单纯的依靠组合不能够达成。我们需要修改下实现的方式，重新定义</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Name <span class="type">string</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Named <span class="keyword">interface</span> &#123;</span><br><span class="line">	Name() Name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Name)</span></span> FirstName() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> strings.Split(<span class="type">string</span>(n), <span class="string">&quot;/&quot;</span>)[<span class="number">0</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后我们再来实现对象</p>
 <div class="tabs" id="gonamed"><ul class="nav-tabs"><li class="tab active"><a href="#gonamed-1">EnglishNamed</a></li><li class="tab"><a href="#gonamed-2">ChineseNamed</a></li></ul><div class="tab-content"><div class="tab-pane active" id="gonamed-1"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> EnglishNamed <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EnglishNamed)</span></span> Name() Name &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;jack/ma&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="gonamed-2"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ChineseNamed <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *ChineseNamed)</span></span> Name() Name &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;jack/ma&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
 <p>使用 <code>Rust</code> 我们可以实现和 <code>Java</code> 类似的代码。<code>go</code> 缺失在 <code>inteface</code> 没有 <code>default method</code></p>
-<h2 id="Deep-Equal"><a class="header-anchor" href="#Deep-Equal">¶</a>Deep Equal</h2>
-<p>我们经常会有这么一个需求，比如我有一个对象 A，包含了对象 B，又包含了对象 C，我希望 <a target="_blank" rel="noopener" href="http://C.xxx">C.xxx</a> 字段如果是 True 就进行一些处理</p>
+<h2 id="Deep-Equal"><a href="#Deep-Equal" class="headerlink" title="Deep Equal"></a>Deep Equal</h2><p>我们经常会有这么一个需求，比如我有一个对象 A，包含了对象 B，又包含了对象 C，我希望 C.xxx 字段如果是 True 就进行一些处理</p>
 <figure class="highlight go"><figcaption><span>基础定义</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> A <span class="keyword">struct</span> &#123;</span><br><span class="line">	B *B</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> B <span class="keyword">struct</span> &#123;</span><br><span class="line">	C *C</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> C <span class="keyword">struct</span> &#123;</span><br><span class="line">	Flag <span class="type">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如果是 <code>go</code> 只能写出如下代码</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ifDo</span><span class="params">(a *A)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> a != <span class="literal">nil</span> &amp;&amp; a.B != <span class="literal">nil</span> &amp;&amp; a.B.C != <span class="literal">nil</span> &amp;&amp; a.B.C.Flag &#123;</span><br><span class="line">		<span class="comment">//Do something</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>而对比之下，Java 可以写出略微优雅的代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">ifDo</span><span class="params">(A a)</span>&#123;</span><br><span class="line">    <span class="type">Boolean</span> <span class="variable">ifCondition</span> <span class="operator">=</span> Optional.ofNullable(a)</span><br><span class="line">            .map(A::getB)</span><br><span class="line">            .map(B::getC)</span><br><span class="line">            .map(C::isFlag)</span><br><span class="line">            .orElse(<span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>而到了 <code>Rust | kotlin</code> 我们可以借助于语法糖</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">doIf</span>(a: <span class="type">Option</span>&lt;A&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="type">bool</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">match</span> a?.b?.c &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(it) =&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="type">Option</span>::<span class="title function_ invoke__">Some</span>(it.flag);</span><br><span class="line">        &#125;</span><br><span class="line">        _ =&gt; <span class="type">Option</span>::<span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
@@ -412,7 +450,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

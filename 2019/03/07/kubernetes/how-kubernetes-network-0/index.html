@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="Docker 是“新瓶装旧酒”的产物，依赖于 Linux 内核技术 chroot 、namespace 和 cgroup。本篇先来看 namespace 技术。 Docker 和虚拟机技术一样，从操作系统级上实现了资源的隔离，它本质上是宿主机上的进程（容器进程），所以资源隔离主要就是指进程资源的隔离。实现资源隔离的核心技术就是 Linux namespace。这技术和很多语言的命名空间的设计思想是">
 <meta property="og:type" content="article">
@@ -57,6 +57,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -239,6 +240,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2021/05/19/networking/istio/upgrade/1.10.x/" rel="bookmark">
+        <time class="popular-posts-time">2021-05-19</time>
+        <br>
+      Isito 1.10.x 更新解读
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2019/03/17/kubernetes/how-kubernetes-network-1/" rel="bookmark">
+        <time class="popular-posts-time">2019-03-17</time>
+        <br>
+      Kubernetes-Calico-网络原理(1) - 环境预备 & 初窥网络
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/" rel="bookmark">
+        <time class="popular-posts-time">2022-09-08</time>
+        <br>
+      Ambient Mesh Works
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -320,68 +352,56 @@
 <p>Docker 和虚拟机技术一样，从操作系统级上实现了资源的隔离，它本质上是宿主机上的进程（容器进程），所以资源隔离主要就是指进程资源的隔离。实现资源隔离的核心技术就是 Linux namespace。这技术和很多语言的命名空间的设计思想是一致的（如 C++ 的 namespace）。</p>
 <p>第零篇的话，我们就来看看最基础的 <code>namespace</code>，和我们后续需要使用的 <code>Tcpdump</code> 这个抓包工具。</p>
 <span id="more"></span>
-<h2 id="NAMESPACE"><a class="header-anchor" href="#NAMESPACE">¶</a>NAMESPACE</h2>
-<p>我们都知道 <code>Docker</code> 的基础是 <code>NAMESPACE</code>，通过<code>NAMESPACE</code>我们做到不同的隔离，因为我们这次只聊网络，那我们来看看<code>NAMESPACE</code>的网络隔离。</p>
+
+<h2 id="NAMESPACE"><a href="#NAMESPACE" class="headerlink" title="NAMESPACE"></a>NAMESPACE</h2><p>我们都知道 <code>Docker</code> 的基础是 <code>NAMESPACE</code>，通过<code>NAMESPACE</code>我们做到不同的隔离，因为我们这次只聊网络，那我们来看看<code>NAMESPACE</code>的网络隔离。</p>
 <ol>
-<li>
-<p>创建一个 <code>Network Namespace</code></p>
+<li><p>创建一个 <code>Network Namespace</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns add &lt;new namespace name&gt;</span><br></pre></td></tr></table></figure>
 <p>假如我们创建一个 <code>test</code> 的 <code>namespace</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns add <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p><code>namespace</code> 操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns add <span class="built_in">test</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>namespace</code> 操作</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns <span class="built_in">exec</span> &lt;you namespace name&gt; &lt;operator&gt;</span><br></pre></td></tr></table></figure>
+
 <p>我们打开一个 bash 在 <code>test</code> 的 <code>namespace</code> 中</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip netns <span class="built_in">exec</span> <span class="built_in">test</span> bash</span><br><span class="line"><span class="comment"># 查询下网络信息</span></span><br><span class="line">ip a</span><br></pre></td></tr></table></figure>
+
 <p>我们获得一个有趣的结果</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@debian:~<span class="comment"># ip a</span></span><br><span class="line">1: lo: &lt;LOOPBACK&gt; mtu 65536 qdisc noop state DOWN group default qlen 1</span><br><span class="line">    <span class="built_in">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br></pre></td></tr></table></figure>
+
 <p>我们默认获得一个回环地址的网卡，并没有启动，那我们让其启动</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ip netns <span class="built_in">exec</span> <span class="built_in">test</span> ip <span class="built_in">link</span> <span class="built_in">set</span> dev lo up</span><br><span class="line"><span class="comment"># 再次查看IP</span></span><br><span class="line">ip netns <span class="built_in">exec</span> <span class="built_in">test</span> ip a</span><br><span class="line"></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1</span><br><span class="line"><span class="built_in">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">inet 127.0.0.1/8 scope host lo</span><br><span class="line">   valid_lft forever preferred_lft forever</span><br><span class="line">inet6 ::1/128 scope host</span><br><span class="line">   valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
 <p>我们就获得一个 IP 地址，这样的话，我们系统内部通讯就有了一个 <code>IP</code> 地址。</p>
 </li>
-<li>
-<p>在 <code>Network Namespace</code> 相互通讯<br>
-我们首先在 <code>Namespace</code> 打开一个 <code>Shell</code></p>
+<li><p>在 <code>Network Namespace</code> 相互通讯<br>我们首先在 <code>Namespace</code> 打开一个 <code>Shell</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns <span class="built_in">exec</span> <span class="built_in">test</span> zsh</span><br></pre></td></tr></table></figure>
 <p>然后在里面启动一个<code>HTTP</code>服务</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello world&quot;</span> &gt; index.html ; python -m SimpleHTTPServer 8080</span><br></pre></td></tr></table></figure>
 <p>我们再开启一个新的的 <code>Shell</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip netns <span class="built_in">exec</span> <span class="built_in">test</span> zsh</span><br><span class="line"><span class="comment"># 尝试访问 8080，得到 hello word 的结果</span></span><br><span class="line">~ curl localhost:8080</span><br><span class="line">Hello world</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip netns <span class="built_in">exec</span> <span class="built_in">test</span> zsh</span><br><span class="line"><span class="comment"># 尝试访问 8080，得到 hello word 的结果</span></span><br><span class="line">~ curl localhost:8080</span><br><span class="line">Hello world</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h2 id="网络抓包"><a class="header-anchor" href="#网络抓包">¶</a>网络抓包</h2>
-<p>我们已经创建了一个虚拟的网络，内部的通讯就是通过这个 <code>localhost</code> 进行通讯。<br>
-我们使用 <code>tcpdump</code> 进行网络抓包</p>
+<h2 id="网络抓包"><a href="#网络抓包" class="headerlink" title="网络抓包"></a>网络抓包</h2><p>我们已经创建了一个虚拟的网络，内部的通讯就是通过这个 <code>localhost</code> 进行通讯。<br>我们使用 <code>tcpdump</code> 进行网络抓包</p>
 <ol>
-<li>
-<p>监听 lo 的回环网卡<br>
-<code>tcpdump -i lo</code></p>
+<li><p>监听 lo 的回环网卡<br><code>tcpdump -i lo</code></p>
 </li>
-<li>
-<p>分析数据包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">listening on lo, link-type EN10MB (Ethernet)</span><br><span class="line"><span class="comment">## TCP 链接建立</span></span><br><span class="line"><span class="comment"># TCP 第一次握手 Client -&gt; Server，Seq = N</span></span><br><span class="line">15:03:42.394751 IP localhost.42514 &gt; localhost.http-alt: Flags [S], <span class="built_in">seq</span> 435521204, win 43690, options [mss 65495,sackOK,TS val 3638139 ecr 0,nop,wscale 7], length 0</span><br><span class="line"><span class="comment"># TCP 第二次握手 Server -&gt; Client，ACK = N+1， SEQ = J</span></span><br><span class="line">15:03:42.394774 IP localhost.http-alt &gt; localhost.42514: Flags [S.], <span class="built_in">seq</span> 1254554874, ack 435521205, win 43690, options [mss 65495,sackOK,TS val 3638139 ecr 3638139,nop,wscale 7], length 0</span><br><span class="line"><span class="comment"># TCP 第三次握手 Client -&gt; Server，Seq = J + 1，这里的ACK = 1 是相对报文的开始</span></span><br><span class="line">15:03:42.394792 IP localhost.42514 &gt; localhost.http-alt: Flags [.], ack 1, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 0</span><br><span class="line"><span class="comment">## TCP 数据发送</span></span><br><span class="line"><span class="comment"># 发送HTTP报文 1 - 79 部分</span></span><br><span class="line">15:03:42.396258 IP localhost.42514 &gt; localhost.http-alt: Flags [P.], <span class="built_in">seq</span> 1:79, ack 1, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 78: HTTP: GET / HTTP/1.1</span><br><span class="line"><span class="comment"># 服务端应答收到</span></span><br><span class="line">15:03:42.396372 IP localhost.http-alt &gt; localhost.42514: Flags [.], ack 79, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 0</span><br><span class="line"><span class="comment"># 客户端发送额外的 18 部分</span></span><br><span class="line">15:03:42.396999 IP localhost.http-alt &gt; localhost.42514: Flags [P.], <span class="built_in">seq</span> 1:18, ack 79, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 17: HTTP: HTTP/1.0 200 OK</span><br><span class="line"><span class="comment"># 服务端应答收到</span></span><br><span class="line">15:03:42.397002 IP localhost.42514 &gt; localhost.http-alt: Flags [.], ack 18, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 0</span><br><span class="line"><span class="comment"># 客户端发送 Fin + Ack</span></span><br><span class="line">15:03:42.398629 IP localhost.42514 &gt; localhost.http-alt: Flags [F.], <span class="built_in">seq</span> 79, ack 199, win 342, options [nop,nop,TS val 3638140 ecr 3638139], length 0</span><br><span class="line"><span class="comment"># 服务端响应结束</span></span><br><span class="line">15:03:42.398639 IP localhost.http-alt &gt; localhost.42514: Flags [.], ack 80, win 342, options [nop,nop,TS val 3638140 ecr 3638140], length 0</span><br></pre></td></tr></table></figure>
-</li>
+<li><p>分析数据包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">listening on lo, link-type EN10MB (Ethernet)</span><br><span class="line"><span class="comment">## TCP 链接建立</span></span><br><span class="line"><span class="comment"># TCP 第一次握手 Client -&gt; Server，Seq = N</span></span><br><span class="line">15:03:42.394751 IP localhost.42514 &gt; localhost.http-alt: Flags [S], <span class="built_in">seq</span> 435521204, win 43690, options [mss 65495,sackOK,TS val 3638139 ecr 0,nop,wscale 7], length 0</span><br><span class="line"><span class="comment"># TCP 第二次握手 Server -&gt; Client，ACK = N+1， SEQ = J</span></span><br><span class="line">15:03:42.394774 IP localhost.http-alt &gt; localhost.42514: Flags [S.], <span class="built_in">seq</span> 1254554874, ack 435521205, win 43690, options [mss 65495,sackOK,TS val 3638139 ecr 3638139,nop,wscale 7], length 0</span><br><span class="line"><span class="comment"># TCP 第三次握手 Client -&gt; Server，Seq = J + 1，这里的ACK = 1 是相对报文的开始</span></span><br><span class="line">15:03:42.394792 IP localhost.42514 &gt; localhost.http-alt: Flags [.], ack 1, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 0</span><br><span class="line"><span class="comment">## TCP 数据发送</span></span><br><span class="line"><span class="comment"># 发送HTTP报文 1 - 79 部分</span></span><br><span class="line">15:03:42.396258 IP localhost.42514 &gt; localhost.http-alt: Flags [P.], <span class="built_in">seq</span> 1:79, ack 1, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 78: HTTP: GET / HTTP/1.1</span><br><span class="line"><span class="comment"># 服务端应答收到</span></span><br><span class="line">15:03:42.396372 IP localhost.http-alt &gt; localhost.42514: Flags [.], ack 79, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 0</span><br><span class="line"><span class="comment"># 客户端发送额外的 18 部分</span></span><br><span class="line">15:03:42.396999 IP localhost.http-alt &gt; localhost.42514: Flags [P.], <span class="built_in">seq</span> 1:18, ack 79, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 17: HTTP: HTTP/1.0 200 OK</span><br><span class="line"><span class="comment"># 服务端应答收到</span></span><br><span class="line">15:03:42.397002 IP localhost.42514 &gt; localhost.http-alt: Flags [.], ack 18, win 342, options [nop,nop,TS val 3638139 ecr 3638139], length 0</span><br><span class="line"><span class="comment"># 客户端发送 Fin + Ack</span></span><br><span class="line">15:03:42.398629 IP localhost.42514 &gt; localhost.http-alt: Flags [F.], <span class="built_in">seq</span> 79, ack 199, win 342, options [nop,nop,TS val 3638140 ecr 3638139], length 0</span><br><span class="line"><span class="comment"># 服务端响应结束</span></span><br><span class="line">15:03:42.398639 IP localhost.http-alt &gt; localhost.42514: Flags [.], ack 80, win 342, options [nop,nop,TS val 3638140 ecr 3638140], length 0</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h2 id="镜像准备"><a class="header-anchor" href="#镜像准备">¶</a>镜像准备</h2>
-<p>因为为了方便我们在容器内调试网络，我使用<code>ubuntu</code>构建一个工具箱的镜像</p>
+<h2 id="镜像准备"><a href="#镜像准备" class="headerlink" title="镜像准备"></a>镜像准备</h2><p>因为为了方便我们在容器内调试网络，我使用<code>ubuntu</code>构建一个工具箱的镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull yannxia/ubuntu-with-tcpdump</span><br></pre></td></tr></table></figure>
+
 <p>里面包含了本次实验所需要的所有的网络工具。</p>
-<h2 id="How-Network-Namespace-Work"><a class="header-anchor" href="#How-Network-Namespace-Work">¶</a>How Network Namespace Work</h2>
-<p>至于 <code>Network namespace</code> 怎么工作的？我们知道对于不同的 <code>Namespace</code> 是相互隔离的，我们需要打通的话，我们需要建立一个 <code>Veth</code> 设备对。我们将 <code>Veth0</code> 放置于某个 <code>Namespace</code> 而将 <code>Veth1</code> 放置于另外一个 <code>Namespace</code>。</p>
+<h2 id="How-Network-Namespace-Work"><a href="#How-Network-Namespace-Work" class="headerlink" title="How Network Namespace Work"></a>How Network Namespace Work</h2><p>至于 <code>Network namespace</code> 怎么工作的？我们知道对于不同的 <code>Namespace</code> 是相互隔离的，我们需要打通的话，我们需要建立一个 <code>Veth</code> 设备对。我们将 <code>Veth0</code> 放置于某个 <code>Namespace</code> 而将 <code>Veth1</code> 放置于另外一个 <code>Namespace</code>。</p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/17/uUc8U.png" alt="uUc8U.png"></p>
-<p>对于 <code>Docker</code> 来说，我们的 <code>Veth</code> 默认还会挂载到 <code>Bridge</code> 上<br>
-<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/17/uUUkO.png" alt="uUUkO.png"></p>
+<p>对于 <code>Docker</code> 来说，我们的 <code>Veth</code> 默认还会挂载到 <code>Bridge</code> 上<br><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/08/17/uUUkO.png" alt="uUUkO.png"></p>
 <p>对于 IPTABLES 工作在 IPV4 和 IPV6 收到包，而收到包是在网卡接收到之后，所以在配置 <code>Iptables</code> 的时候，我们基于 <code>interface</code> 进行配置。</p>
-<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
-<ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://blog.scottlowe.org/2013/09/04/introducing-linux-network-namespaces/">introducing-linux-network-namespaces</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.tecmint.com/12-tcpdump-commands-a-network-sniffer-tool/">Tcpdump Commands</a></li>
-<li><a target="_blank" rel="noopener" href="https://cloud.docker.com/u/yannxia/repository/docker/yannxia/ubuntu-with-tcpdump">yannxia/ubuntu-with-tcpdump</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.docker.com/u/yannxia/repository/docker/yannxia/ubuntu-with-tcpdump">yannxia&#x2F;ubuntu-with-tcpdump</a></li>
 <li><a target="_blank" rel="noopener" href="http://ifeanyi.co/posts/linux-namespaces-part-4/">A deep dive into Linux namespaces</a></li>
 </ul>
-<h2 id="TCP-标志位"><a class="header-anchor" href="#TCP-标志位">¶</a>TCP 标志位</h2>
-<table>
+<h2 id="TCP-标志位"><a href="#TCP-标志位" class="headerlink" title="TCP 标志位"></a>TCP 标志位</h2><table>
 <thead>
 <tr>
 <th>序号</th>
@@ -389,8 +409,7 @@
 <th>解释</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>1</td>
 <td>SYN</td>
 <td>建立连接</td>
@@ -415,8 +434,7 @@
 <td>RST</td>
 <td>链接重置</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -496,7 +514,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

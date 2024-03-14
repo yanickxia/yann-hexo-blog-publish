@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
-    <meta name="description" content="¶Acceptor Acceptor 是 Netty 提供一个接收器。  还记得 Reactor模式 中那个的Acceptor正是连接了 MainReactor 和 SubReactor的核心所在，我们上文已经分析了Netty的 NioServerChannel，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。">
+    <meta name="description" content="AcceptorAcceptor 是 Netty 提供一个接收器。还记得 Reactor模式 中那个的Acceptor正是连接了 MainReactor 和 SubReactor的核心所在，我们上文已经分析了Netty的 NioServerChannel，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Netty源码分析-(2)-Acceptor与线程模型">
 <meta property="og:url" content="http://blog.yanick.site/2018/06/19/java/netty/netty-2-acceptor-thread/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="¶Acceptor Acceptor 是 Netty 提供一个接收器。  还记得 Reactor模式 中那个的Acceptor正是连接了 MainReactor 和 SubReactor的核心所在，我们上文已经分析了Netty的 NioServerChannel，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。">
+<meta property="og:description" content="AcceptorAcceptor 是 Netty 提供一个接收器。还记得 Reactor模式 中那个的Acceptor正是连接了 MainReactor 和 SubReactor的核心所在，我们上文已经分析了Netty的 NioServerChannel，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CziSq1.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/06/19/CzSfnP.jpg">
@@ -55,6 +55,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -237,6 +238,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/06/20/java/netty/netty-3-pipeline/" rel="bookmark">
+        <time class="popular-posts-time">2018-06-20</time>
+        <br>
+      Netty源码分析-(3)-ChannelPipeline
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/06/12/java/netty/netty-1-bootstrap/" rel="bookmark">
+        <time class="popular-posts-time">2018-06-12</time>
+        <br>
+      Netty源码分析-(1)-Bootstrap
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/05/07/java/nio/java-nio-1-basic/" rel="bookmark">
+        <time class="popular-posts-time">2018-05-07</time>
+        <br>
+      Java网络编程-(1)-NIO基础
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -327,70 +359,56 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="Acceptor"><a class="header-anchor" href="#Acceptor">¶</a>Acceptor</h2>
-<p>Acceptor 是 Netty 提供一个接收器。<br>
-<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CziSq1.png" alt="Reactor模式"><br>
-还记得 <code>Reactor模式</code> 中那个的Acceptor正是连接了 <code>MainReactor</code> 和 <code>SubReactor</code>的核心所在，我们上文已经分析了Netty的 <code>NioServerChannel</code>，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。</p>
+
+<h2 id="Acceptor"><a href="#Acceptor" class="headerlink" title="Acceptor"></a>Acceptor</h2><p>Acceptor 是 Netty 提供一个接收器。<br><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CziSq1.png" alt="Reactor模式"><br>还记得 <code>Reactor模式</code> 中那个的Acceptor正是连接了 <code>MainReactor</code> 和 <code>SubReactor</code>的核心所在，我们上文已经分析了Netty的 <code>NioServerChannel</code>，这篇我们就来分析下，Netty究竟是怎么去接受请求并且维护链接的。</p>
 <span id="more"></span>
-<h2 id="ServerBootstrapAcceptor"><a class="header-anchor" href="#ServerBootstrapAcceptor">¶</a>ServerBootstrapAcceptor</h2>
-<p>我们还得在ServerBootStrap的过程中，我们有看到一个奇怪的类 <code>ServerBootstrapAcceptor</code> 这个类，我们并没有深入去了解这个类的作用，我们现在来简单的分析下这个类。</p>
+
+<h2 id="ServerBootstrapAcceptor"><a href="#ServerBootstrapAcceptor" class="headerlink" title="ServerBootstrapAcceptor"></a>ServerBootstrapAcceptor</h2><p>我们还得在ServerBootStrap的过程中，我们有看到一个奇怪的类 <code>ServerBootstrapAcceptor</code> 这个类，我们并没有深入去了解这个类的作用，我们现在来简单的分析下这个类。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">ServerBootstrapAcceptor</span> <span class="keyword">extends</span> <span class="title class_">ChannelInboundHandlerAdapter</span> &#123; ➊</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> EventLoopGroup childGroup;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> ChannelHandler childHandler;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Entry&lt;ChannelOption&lt;?&gt;, Object&gt;[] childOptions;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Entry&lt;AttributeKey&lt;?&gt;, Object&gt;[] childAttrs;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Runnable enableAutoReadTask;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">Channel</span> <span class="variable">child</span> <span class="operator">=</span> (Channel) msg;</span><br><span class="line"></span><br><span class="line">            child.pipeline().addLast(childHandler); ➋</span><br><span class="line"></span><br><span class="line">            setChannelOptions(child, childOptions, logger);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Entry&lt;AttributeKey&lt;?&gt;, Object&gt; e: childAttrs) &#123;</span><br><span class="line">                child.attr((AttributeKey&lt;Object&gt;) e.getKey()).set(e.getValue());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                childGroup.register(child).addListener(<span class="keyword">new</span> <span class="title class_">ChannelFutureListener</span>() &#123; ➌</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">operationComplete</span><span class="params">(ChannelFuture future)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                        <span class="keyword">if</span> (!future.isSuccess()) &#123;</span><br><span class="line">                            forceClose(child, future.cause());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">                forceClose(child, t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>➊ 这里指明这个 <code>ServerBootstrapAcceptor</code>类是一个 <code>ChannelInboundHandlerAdapter</code> 我们都知道 <code>ChannelInboundHandlerAdapter</code> 的作用是接受数据请求的实际处理者。<br>
-➋ 这里我们将Child的Handler附加到<code>Pipeline</code>内<br>
-➌ 将 <code>ChildChannel</code> 注册到 <code>ChildEventGroup</code>，我们可以轻而易举的得知，这里就是实现<code>Reactor模式</code>的核心</p>
-<h2 id="childGroup-register-child-探秘"><a class="header-anchor" href="#childGroup-register-child-探秘">¶</a>childGroup.register(child) 探秘</h2>
-<p>通过IDEA的强势跳转功能，我们轻松的定位到</p>
+<p>➊ 这里指明这个 <code>ServerBootstrapAcceptor</code>类是一个 <code>ChannelInboundHandlerAdapter</code> 我们都知道 <code>ChannelInboundHandlerAdapter</code> 的作用是接受数据请求的实际处理者。<br>➋ 这里我们将Child的Handler附加到<code>Pipeline</code>内<br>➌ 将 <code>ChildChannel</code> 注册到 <code>ChildEventGroup</code>，我们可以轻而易举的得知，这里就是实现<code>Reactor模式</code>的核心</p>
+<h2 id="childGroup-register-child-探秘"><a href="#childGroup-register-child-探秘" class="headerlink" title="childGroup.register(child) 探秘"></a>childGroup.register(child) 探秘</h2><p>通过IDEA的强势跳转功能，我们轻松的定位到</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> ChannelFuture <span class="title function_">register</span><span class="params">(Channel channel)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> register(<span class="keyword">new</span> <span class="title class_">DefaultChannelPromise</span>(channel, <span class="built_in">this</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个函数看上去好像有点眼熟，这不就是上一章中服务端是如何注册自己的<code>ServerNioChannel</code>的方案，原来 <code>NioChannel</code> 也是相同的味道。这里就不展开说了，具体的注册过程在上一章中已有体现。</p>
-<h2 id="小结1"><a class="header-anchor" href="#小结1">¶</a>小结1</h2>
-<p>我们知道 <code>ServerBootstrap</code> 在初始化的过程中创建了一个 <code>ServerBootstrapAcceptor</code>,  <code>ServerBootstrapAcceptor</code> 在读取数据的时候，会将当前的 <code>NioChannel</code>注册到  <code>ChildEventLoopGroup</code> 也就是 <code>workerGroup</code> 中</p>
+<h2 id="小结1"><a href="#小结1" class="headerlink" title="小结1"></a>小结1</h2><p>我们知道 <code>ServerBootstrap</code> 在初始化的过程中创建了一个 <code>ServerBootstrapAcceptor</code>,  <code>ServerBootstrapAcceptor</code> 在读取数据的时候，会将当前的 <code>NioChannel</code>注册到  <code>ChildEventLoopGroup</code> 也就是 <code>workerGroup</code> 中</p>
 <div style="width:100%; overflow-y:scroll;" id="diagram"></div>
 <script>
-	var data =
-	['Title: 已知的Reactor流程',
-	 'Client->ServerChannel: 1. Open',
-	 'ServerChannel->ServerBootstrapAcceptor: 2.read msg',
-	 'ServerBootstrapAcceptor->ChildEventLoopGroup: 3.register(ChannelPromise)',
+    var data =
+    ['Title: 已知的Reactor流程',
+     'Client->ServerChannel: 1. Open',
+     'ServerChannel->ServerBootstrapAcceptor: 2.read msg',
+     'ServerBootstrapAcceptor->ChildEventLoopGroup: 3.register(ChannelPromise)',
     ].join('\n');
-  	var diagram = Diagram.parse(data);
-  	diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
+      var diagram = Diagram.parse(data);
+      diagram.drawSVG("diagram", {theme: 'simple', scale: 0.5});
 </script>
+
 <p>那对于我们来说，就是 <code>Client</code> 如何触发 <code>ServerChannel</code> 的READ事件 和  <code>ServerChannel</code> 将数据交付给 <code>ServerBootstrapAcceptor</code> 还是未知的。那我们大胆的预测第一个问题是一个Loop循环，而第二个问题是通过Server的<code>Pipeline</code> 传递过去的（因为<code>ServerBootstrapAcceptor</code> 继承自 <code>ChannelInboundHandlerAdapter</code>）,让我们来验证下吧。</p>
-<h2 id="借助Debug工具探索"><a class="header-anchor" href="#借助Debug工具探索">¶</a>借助Debug工具探索</h2>
-<p>这个时候就不要盲人摸象啦，我们感谢 <code>jetbrains</code> 提供了 <a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> 这个免费的IDE，我们通过断点的方式在我们的代码中设置断点，去观察下运行的<code>栈</code>。<br>
-<img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzSfnP.jpg" alt="debug-tool-by-idea"></p>
-<p>我们通过 <code>Debug Frames</code> 可以清晰的看到栈，我们一层层的去寻找，我们很快可以发现一个有趣的方案<br>
-<code>io.netty.channel.nio.NioEventLoop#run</code></p>
+<h2 id="借助Debug工具探索"><a href="#借助Debug工具探索" class="headerlink" title="借助Debug工具探索"></a>借助Debug工具探索</h2><p>这个时候就不要盲人摸象啦，我们感谢 <code>jetbrains</code> 提供了 <a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> 这个免费的IDE，我们通过断点的方式在我们的代码中设置断点，去观察下运行的<code>栈</code>。<br><img src="/images/loading.gif" data-original="https://s1.ax1x.com/2018/06/19/CzSfnP.jpg" alt="debug-tool-by-idea"></p>
+<p>我们通过 <code>Debug Frames</code> 可以清晰的看到栈，我们一层层的去寻找，我们很快可以发现一个有趣的方案<br><code>io.netty.channel.nio.NioEventLoop#run</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123; ➊</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            cancelledKeys = <span class="number">0</span>;</span><br><span class="line">            needsToSelectAgain = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">ioRatio</span> <span class="operator">=</span> <span class="built_in">this</span>.ioRatio;</span><br><span class="line">            <span class="keyword">if</span> (ioRatio == <span class="number">100</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    processSelectedKeys(); ➋</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="comment">// Ensure we always run tasks.</span></span><br><span class="line">                    runAllTasks();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="type">long</span> <span class="variable">ioStartTime</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    processSelectedKeys();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="comment">// Ensure we always run tasks.</span></span><br><span class="line">                    <span class="keyword">final</span> <span class="type">long</span> <span class="variable">ioTime</span> <span class="operator">=</span> System.nanoTime() - ioStartTime;</span><br><span class="line">                    runAllTasks(ioTime * (<span class="number">100</span> - ioRatio) / ioRatio);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>➊ 处的Loop正对应着这个无限循环的事件<br>
-➋ 处即是最核心的处理逻辑</p>
+<p>➊ 处的Loop正对应着这个无限循环的事件<br>➋ 处即是最核心的处理逻辑</p>
 <p>这个类是<code>NioEventLoop</code> 我们发现了真正处理逻辑的是在这个Thread的Run中，在这里我们就明白，整个Reactor那个循环中心就是在此处。继续往下探索。</p>
 <p>在<code>io.netty.channel.nio.NioEventLoop#processSelectedKey(java.nio.channels.SelectionKey, io.netty.channel.nio.AbstractNioChannel)</code> 中</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">processSelectedKey</span><span class="params">(SelectionKey k, AbstractNioChannel ch)</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> AbstractNioChannel.<span class="type">NioUnsafe</span> <span class="variable">unsafe</span> <span class="operator">=</span> ch.unsafe();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">readyOps</span> <span class="operator">=</span> k.readyOps();</span><br><span class="line">        <span class="keyword">if</span> ((readyOps &amp; SelectionKey.OP_CONNECT) != <span class="number">0</span>) &#123; ➊</span><br><span class="line">            <span class="type">int</span> <span class="variable">ops</span> <span class="operator">=</span> k.interestOps();</span><br><span class="line">            ops &amp;= ~SelectionKey.OP_CONNECT;</span><br><span class="line">            k.interestOps(ops);</span><br><span class="line">            unsafe.finishConnect();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((readyOps &amp; SelectionKey.OP_WRITE) != <span class="number">0</span>) &#123; ➋</span><br><span class="line">            ch.unsafe().forceFlush();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((readyOps &amp; (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != <span class="number">0</span> || readyOps == <span class="number">0</span>) &#123; ➌</span><br><span class="line">            unsafe.read();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CancelledKeyException ignored) &#123;</span><br><span class="line">        unsafe.close(unsafe.voidPromise());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>➊ 处理连接事件<br>
-➋ 处理写事件<br>
-➌ 处理读事件<br>
-我们下一部分分析下 <code>读事件</code> 的处理方式。</p>
-<h2 id="Channel-read-探秘"><a class="header-anchor" href="#Channel-read-探秘">¶</a>Channel read 探秘</h2>
-<p>在 <code>io.netty.channel.nio.AbstractNioMessageChannel.NioMessageUnsafe#read</code> 中有具体的实现。</p>
+<p>➊ 处理连接事件<br>➋ 处理写事件<br>➌ 处理读事件<br>我们下一部分分析下 <code>读事件</code> 的处理方式。</p>
+<h2 id="Channel-read-探秘"><a href="#Channel-read-探秘" class="headerlink" title="Channel read 探秘"></a>Channel read 探秘</h2><p>在 <code>io.netty.channel.nio.AbstractNioMessageChannel.NioMessageUnsafe#read</code> 中有具体的实现。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">read</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">assert</span> <span class="title function_">eventLoop</span><span class="params">()</span>.inEventLoop();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">ChannelConfig</span> <span class="variable">config</span> <span class="operator">=</span> config();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">ChannelPipeline</span> <span class="variable">pipeline</span> <span class="operator">=</span> pipeline();</span><br><span class="line">    <span class="keyword">final</span> RecvByteBufAllocator.<span class="type">Handle</span> <span class="variable">allocHandle</span> <span class="operator">=</span> unsafe().recvBufAllocHandle(); </span><br><span class="line">    allocHandle.reset(config);</span><br><span class="line"></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">closed</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">Throwable</span> <span class="variable">exception</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">size</span> <span class="operator">=</span> readBuf.size();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; size; i ++) &#123;</span><br><span class="line">            readPending = <span class="literal">false</span>;</span><br><span class="line">            pipeline.fireChannelRead(readBuf.get(i)); ➊</span><br><span class="line">        &#125;</span><br><span class="line">        readBuf.clear();</span><br><span class="line">        allocHandle.readComplete();</span><br><span class="line">        pipeline.fireChannelReadComplete();</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>去除一些非主干部分，我们发现 ➊ 部分我们将数据传递给Pipeline 处理，到这里解决了我们第一个处的疑问即：就是 <code>Client</code> 如何触发 <code>ServerChannel</code> 的READ事件。那我们还不知道第二个问题，这个本来在ServerEventGroup中的事件是如何委托给 ChildEventGroup 的。那事件的核心即是 ➊ 处的 pipeline，我们通过Debug工具可以轻易的发现这里的pipeline是 <code>DefaultChannelPipeline&#123;(ServerBootstrap$ServerBootstrapAcceptor#0 = io.netty.bootstrap.ServerBootstrap$ServerBootstrapAcceptor)&#125;</code>，wow，我们抓住了它。</p>
-<h2 id="小结2"><a class="header-anchor" href="#小结2">¶</a>小结2</h2>
-<p>在<a href="#%E5%B0%8F%E7%BB%931">小结1</a>中，我们已经发现了是如何将 <code>BossGroup</code> 的事件委托给 <code>WorkerGroup</code>，而在后续的分析中，我们知道了Netty是如何将最初的监听事件传递给 <code>ServerBootstrapAcceptor</code> 的，如下图。</p>
+<h2 id="小结2"><a href="#小结2" class="headerlink" title="小结2"></a>小结2</h2><p>在<a href="#%E5%B0%8F%E7%BB%931">小结1</a>中，我们已经发现了是如何将 <code>BossGroup</code> 的事件委托给 <code>WorkerGroup</code>，而在后续的分析中，我们知道了Netty是如何将最初的监听事件传递给 <code>ServerBootstrapAcceptor</code> 的，如下图。</p>
 <div style="width:100%; overflow-y:scroll;" id="diagram2"></div>
 <script>
-	var data2 =
-	['Title: 完整的Reactor流程',
-	 'Client->NioEventLoop: 1. Open，在NioEventLoop中循环监听',
+    var data2 =
+    ['Title: 完整的Reactor流程',
+     'Client->NioEventLoop: 1. Open，在NioEventLoop中循环监听',
      'NioEventLoop->DefaultChannelPipeline: 2.委托给ServerBootstrapAcceptor处理',
-	 'DefaultChannelPipeline->ServerBootstrapAcceptor: 2.read msg',
-	 'ServerBootstrapAcceptor->ChildEventLoopGroup: 3.register(ChannelPromise)',
+     'DefaultChannelPipeline->ServerBootstrapAcceptor: 2.read msg',
+     'ServerBootstrapAcceptor->ChildEventLoopGroup: 3.register(ChannelPromise)',
     ].join('\n');
-  	var diagram = Diagram.parse(data2);
-  	diagram.drawSVG("diagram2", {theme: 'simple', scale: 0.5});
+      var diagram = Diagram.parse(data2);
+      diagram.drawSVG("diagram2", {theme: 'simple', scale: 0.5});
 </script>
-<h2 id="知识点"><a class="header-anchor" href="#知识点">¶</a>知识点</h2>
-<ul>
+
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><ul>
 <li>ServerChannel 如何监听事件</li>
 <li>BossEventLoopGroup 如何将事件转让给 WorkerEventLoopGroup （ServerBootstrapAcceptor用途）</li>
 </ul>
@@ -469,7 +487,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

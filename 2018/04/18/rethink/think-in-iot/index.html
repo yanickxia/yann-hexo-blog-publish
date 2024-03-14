@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="世界上技术千千万万，如果投身于热点，就如同夸父逐日。">
 <meta property="og:type" content="article">
@@ -55,6 +55,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -302,6 +303,7 @@
     
     <div class="post-body" itemprop="articleBody"><p>世界上技术千千万万，如果投身于热点，就如同夸父逐日。</p>
 <span id="more"></span>
+
 <p>那我就大胆就做个预测，在互联网时代，我们所做的事情的核心是讲人和人链接一起，其他的物体也是通过人链接在一起的，比如</p>
 <ul>
 <li>Facebook（连接人和人）</li>
@@ -309,15 +311,10 @@
 </ul>
 <p>我觉得下一个阶段是将物和物链接在一起并且让其<strong>联动</strong>，在发展的过程中，我们会经历人和物的连接，鉴于这样的的立意，确定自己投身的方向，大胆的预测未来是属于物联网的。</p>
 <ul>
-<li>采集<br>
-采集要稳定高效，并且需要小型化，功耗要低，这块应该设计的是硬件相关的知识，未来应该会从嵌入式的方式进化出更好的采集终端，依赖多种技术的发展（电池，计算能力，传感线单元）</li>
-<li>传送<br>
-物联网设备应该长期处理不稳定的网络环境，如何高效的传递数据，保证数据的可达性，可能会重写当前的传输协议。但是协议应该很快就会有业界的标准，应该不会更换TCP/IP的基础栈，新老技术的兼容性。</li>
-<li>计算分析<br>
-物联网的计算肯定是需要高实时性，为了实现物物的联动性，至少需要计算速度 &gt; 人体感知的速度 ，这样才能满足人们对于物联网的想象。数据量大，结构简单，如果未来的计算设备能够更小型化，可能计算会变成终端计算的方式，但是又考虑功耗的问题，应该大概率会将一些特定计算能力放在终端上，大部分的计算能力依然会放在</li>
-<li>储存<br>
-这块应该会在现有的大数据技术上提高更注重数据储存性能的技术，要求高吞吐量。对查询的要求应该会大幅度的降低。
-<ul>
+<li>采集<br>采集要稳定高效，并且需要小型化，功耗要低，这块应该设计的是硬件相关的知识，未来应该会从嵌入式的方式进化出更好的采集终端，依赖多种技术的发展（电池，计算能力，传感线单元）</li>
+<li>传送<br>物联网设备应该长期处理不稳定的网络环境，如何高效的传递数据，保证数据的可达性，可能会重写当前的传输协议。但是协议应该很快就会有业界的标准，应该不会更换TCP&#x2F;IP的基础栈，新老技术的兼容性。</li>
+<li>计算分析<br>物联网的计算肯定是需要高实时性，为了实现物物的联动性，至少需要计算速度 &gt; 人体感知的速度 ，这样才能满足人们对于物联网的想象。数据量大，结构简单，如果未来的计算设备能够更小型化，可能计算会变成终端计算的方式，但是又考虑功耗的问题，应该大概率会将一些特定计算能力放在终端上，大部分的计算能力依然会放在</li>
+<li>储存<br>这块应该会在现有的大数据技术上提高更注重数据储存性能的技术，要求高吞吐量。对查询的要求应该会大幅度的降低。<ul>
 <li><a target="_blank" rel="noopener" href="https://cassandra.apache.org/">cassandra</a> 一个简单运维适合存储大量数据组件</li>
 <li>TSDB 非常适合物联网环境下，但是觉得我不适合物体联动，适合的是部分的场景</li>
 </ul>
@@ -403,7 +400,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

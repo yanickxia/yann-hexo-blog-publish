@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
-    <meta name="description" content="开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo 优缺点对比. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。 ¶前">
+    <meta name="description" content="开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo 优缺点对比. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。 前言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Daocloud持续部署Hexo">
 <meta property="og:url" content="http://blog.yanick.site/2016/05/26/docker/use-daocloud-hexo/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo 优缺点对比. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。 ¶前">
+<meta property="og:description" content="开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo 优缺点对比. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。 前言">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cache.yannxia.info/%E5%88%9B%E5%BB%BA%E6%96%B0%E6%9E%84%E5%BB%BA.png">
 <meta property="og:image" content="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png">
@@ -62,6 +62,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -330,8 +331,7 @@
     
     
     <div class="post-body" itemprop="articleBody"><p>开始写博客，不太喜欢CSDN之类的技术博客，还是喜欢维护自己的博客网站，买了一个域名也一直没用，虽然手上也有一个ECS，但是搭建一个WordPress真的挺麻烦，而且只是想做一个安静的美男子。选来选取还是全静态的博客比较适合我这样的懒人，现在Github page使用的静态博客很轻便，大致上现在就是Jekyll 和 Hexo <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21981094">优缺点对比</a>. 总而言之，咱们也不能沦为设备党，还是应该以内容为主。</p>
-<h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
-<p>静态博客的核心就在于整个生成的网站是全静态，没有任何与服务器交互的部分，所以服务器只要提供HTTP服务即可，所以可以部署在Github, Coding, BAE最便宜的静态实例之上。这些都是网上的教程很多，大家百度一波就好了，就在我把自己的HEXO博客挂在BAE的静态实例之上，就在考虑为什么不把博客放在Daoclou之上呢，Docker的容器化简直是现在是最火的方向。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>静态博客的核心就在于整个生成的网站是全静态，没有任何与服务器交互的部分，所以服务器只要提供HTTP服务即可，所以可以部署在Github, Coding, BAE最便宜的静态实例之上。这些都是网上的教程很多，大家百度一波就好了，就在我把自己的HEXO博客挂在BAE的静态实例之上，就在考虑为什么不把博客放在Daoclou之上呢，Docker的容器化简直是现在是最火的方向。</p>
 <p>整理下思路，大致上也就是</p>
 <ol>
 <li>Step 1 ：打包一个Http server</li>
@@ -339,8 +339,7 @@
 <li>Step 3 ：启动服务器</li>
 </ol>
 <p>思路搞清楚，那我们就开始搞起来吧，首先我们需要的是一个WebServer，Nginx大家都耳熟能详，我们仅仅需要的是一个web 服务器，所以我选择使用Lighttpd，为什么选择这个可能是看见Light，我觉得占用的内存会低很多，毕竟我们使用的是免费的资源，配置还是很一般的。</p>
-<h2 id="编写Dockerfile"><a class="header-anchor" href="#编写Dockerfile">¶</a>编写Dockerfile</h2>
-<p>Dockerfile</p>
+<h2 id="编写Dockerfile"><a href="#编写Dockerfile" class="headerlink" title="编写Dockerfile"></a>编写Dockerfile</h2><p>Dockerfile</p>
 <pre><code>FROM jprjr/lighttpd
 #添加静态页面
 ADD public/ /srv/http/
@@ -348,23 +347,13 @@ ADD public/ /srv/http/
 ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lighttpd/lighttpd.conf&quot;]
 </code></pre>
 <p>内容只有这么多，注意public目录是放置Hexo generate 生成的全静态页面目录</p>
-<h2 id="部署项目"><a class="header-anchor" href="#部署项目">¶</a>部署项目</h2>
-<p>首先当然将我们的代码上传至Coding or Github，建议对国有的支持，我选择了将整个项目创建于 Coding上，最终的项目如<br>
-<a target="_blank" rel="noopener" href="https://coding.net/u/yann/p/my-blog-page/git">Coding-Hexo-项目</a></p>
+<h2 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h2><p>首先当然将我们的代码上传至Coding or Github，建议对国有的支持，我选择了将整个项目创建于 Coding上，最终的项目如<br><a target="_blank" rel="noopener" href="https://coding.net/u/yann/p/my-blog-page/git">Coding-Hexo-项目</a></p>
 <ol>
-<li>创建一个新的构建<br>
-<img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E5%88%9B%E5%BB%BA%E6%96%B0%E6%9E%84%E5%BB%BA.png" alt="创建新构建"><br>
-<img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="构建成功"></li>
-<li>构建成功后进行部署<br>
-<img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="部署成功"><br>
-<img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D.png" alt="绑定域名"><br>
-最后就是一路下一步，等待成功就Ok</li>
+<li>创建一个新的构建<br><img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E5%88%9B%E5%BB%BA%E6%96%B0%E6%9E%84%E5%BB%BA.png" alt="创建新构建"><br><img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="构建成功"></li>
+<li>构建成功后进行部署<br><img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E6%9E%84%E5%BB%BA%E6%88%90%E5%8A%9F.png" alt="部署成功"><br><img src="/images/loading.gif" data-original="http://cache.yannxia.info/%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D.png" alt="绑定域名"><br>最后就是一路下一步，等待成功就Ok</li>
 </ol>
-<h2 id="检验成果"><a class="header-anchor" href="#检验成果">¶</a>检验成果</h2>
-<p>从执行的域名就可以访问，<br>
-<img src="/images/loading.gif" data-original="http://cache.yannxia.info/5D5B2352-D79F-4AE1-936B-8046C3B39490.png" alt="访问域名"></p>
-<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
-<p>整来来说这么使用Daocloud进行Docker部署和Bae部署Hexo的静态是一样的道理，也能做到持续集成，但是我们仍然和hexo的命令没有完整的结合在一起，下一步实现一个Hook或者使用Python编写一个基于主分支修改之后，Daocloud也可以自动更新的方案。</p>
+<h2 id="检验成果"><a href="#检验成果" class="headerlink" title="检验成果"></a>检验成果</h2><p>从执行的域名就可以访问，<br><img src="/images/loading.gif" data-original="http://cache.yannxia.info/5D5B2352-D79F-4AE1-936B-8046C3B39490.png" alt="访问域名"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整来来说这么使用Daocloud进行Docker部署和Bae部署Hexo的静态是一样的道理，也能做到持续集成，但是我们仍然和hexo的命令没有完整的结合在一起，下一步实现一个Hook或者使用Python编写一个基于主分支修改之后，Daocloud也可以自动更新的方案。</p>
 <p>最后的最后，感谢Daocloud提供服务。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
@@ -447,7 +436,7 @@ ENTRYPOINT [&quot;lighttpd&quot;, &quot;-D&quot;, &quot;-f&quot;, &quot;/etc/lig
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

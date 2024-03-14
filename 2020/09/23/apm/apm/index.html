@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="人人都需要的 Application Performance Monitoring 了解一下">
 <meta property="og:type" content="article">
@@ -62,6 +62,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -145,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">需要收集什么数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">采集侧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E9%92%88%E4%BD%93%E7%B3%BB"><span class="nav-number">2.1.</span> <span class="nav-text">探针体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A-Java-Agent"><span class="nav-number">2.1.1.</span> <span class="nav-text">例子： Java Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">2.1.2.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDK-%E4%BD%93%E7%B3%BB"><span class="nav-number">2.2.</span> <span class="nav-text">SDK 体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-go-agent"><span class="nav-number">2.2.1.</span> <span class="nav-text">例子: go-agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9ACat"><span class="nav-number">2.2.2.</span> <span class="nav-text">例子：Cat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E6%8A%A5%E4%BD%93%E7%B3%BB"><span class="nav-number">2.2.3.</span> <span class="nav-text">自报体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-v2"><span class="nav-number">2.2.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">处理侧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E5%90%88%E5%A4%84%E7%90%86%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">聚合处理型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E9%80%8F%E4%BC%A0%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">简单透传型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E6%83%B3%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">理想型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">储存侧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.1.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%94%B6%E9%9B%86%E4%BB%80%E4%B9%88%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">需要收集什么数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%87%E9%9B%86%E4%BE%A7"><span class="nav-number">2.</span> <span class="nav-text">采集侧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E9%92%88%E4%BD%93%E7%B3%BB"><span class="nav-number">2.1.</span> <span class="nav-text">探针体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A-Java-Agent"><span class="nav-number">2.1.1.</span> <span class="nav-text">例子： Java Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">2.1.2.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDK-%E4%BD%93%E7%B3%BB"><span class="nav-number">2.2.</span> <span class="nav-text">SDK 体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90-go-agent"><span class="nav-number">2.2.1.</span> <span class="nav-text">例子: go-agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9ACat"><span class="nav-number">2.2.2.</span> <span class="nav-text">例子：Cat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E6%8A%A5%E4%BD%93%E7%B3%BB"><span class="nav-number">2.2.3.</span> <span class="nav-text">自报体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-number">2.2.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E4%BE%A7"><span class="nav-number">3.</span> <span class="nav-text">处理侧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E5%90%88%E5%A4%84%E7%90%86%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">聚合处理型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E9%80%8F%E4%BC%A0%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">简单透传型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E6%83%B3%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">理想型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%82%A8%E5%AD%98%E4%BE%A7"><span class="nav-number">4.</span> <span class="nav-text">储存侧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.1.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -320,26 +321,24 @@
     <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HTv8R.png" alt="HTv8R.png"></p>
 <p>人人都需要的 <code>Application Performance Monitoring</code> 了解一下</p>
 <span id="more"></span>
-<h1>需要收集什么数据</h1>
-<p>首先我们要做 <code>APM</code> 那我们，我们先明确我们的 <code>APM</code> 需要收集的数据有哪些？因为是针对 <code>Application</code> 而言，<code>CPU</code> <code>DISK</code> 就不算是在这个范围之内。一般认为有两类数据需要收集</p>
+
+<h1 id="需要收集什么数据"><a href="#需要收集什么数据" class="headerlink" title="需要收集什么数据"></a>需要收集什么数据</h1><p>首先我们要做 <code>APM</code> 那我们，我们先明确我们的 <code>APM</code> 需要收集的数据有哪些？因为是针对 <code>Application</code> 而言，<code>CPU</code> <code>DISK</code> 就不算是在这个范围之内。一般认为有两类数据需要收集</p>
 <ul>
 <li>运行状态数据 [Metrics]： uptime，health，snaphost，avg_response_time</li>
 <li>链路数据 [Tracing]：单次调用的上下文和链路信息</li>
 </ul>
 <p>第一类数据的作用是分析现在的系统状态，比如依赖的中间件是否有问题，系统的 GC 状态是否正常，对外的 Web 服务是否正常。</p>
 <p>第二类数据的作用是分析在单次处理的过程中是否出现一些问题，以及出现问题时的上下文是如何的。</p>
-<h1>采集侧</h1>
-<h2 id="探针体系"><a class="header-anchor" href="#探针体系">¶</a>探针体系</h2>
-<p>探针顾名思义，插在运行程序上面的一层。因此探针体系的 <code>APM</code> 都有着最好的一个卖点 <code>无侵入</code>，大多数都是利用了特定语言提供的无侵入能力做这件事。这里面的玩家有很多 <code>Skywalking</code> <code>pinpoint</code> 等。</p>
-<h3 id="例子：-Java-Agent"><a class="header-anchor" href="#例子：-Java-Agent">¶</a>例子： Java Agent</h3>
-<p>因为 <code>Java</code> 是一门虚拟机语言，支持一种名为 <code>动态字节码</code> 的功能，这个在功能提供了 <code>2</code> 种模式，<code>C++</code> 版本的 <code>agentlib</code> 和 <code>Java</code> 版本的 <code>javaagent</code></p>
+<h1 id="采集侧"><a href="#采集侧" class="headerlink" title="采集侧"></a>采集侧</h1><h2 id="探针体系"><a href="#探针体系" class="headerlink" title="探针体系"></a>探针体系</h2><p>探针顾名思义，插在运行程序上面的一层。因此探针体系的 <code>APM</code> 都有着最好的一个卖点 <code>无侵入</code>，大多数都是利用了特定语言提供的无侵入能力做这件事。这里面的玩家有很多 <code>Skywalking</code> <code>pinpoint</code> 等。</p>
+<h3 id="例子：-Java-Agent"><a href="#例子：-Java-Agent" class="headerlink" title="例子： Java Agent"></a>例子： Java Agent</h3><p>因为 <code>Java</code> 是一门虚拟机语言，支持一种名为 <code>动态字节码</code> 的功能，这个在功能提供了 <code>2</code> 种模式，<code>C++</code> 版本的 <code>agentlib</code> 和 <code>Java</code> 版本的 <code>javaagent</code></p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HanCe.png" alt="HanCe.png"></p>
 <p>只需要在启动的时候</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -javaagent:agent1.jar -javaagent:agent2.jar -jar MyProgram.jar</span><br></pre></td></tr></table></figure>
+
 <p>这里的 <code>agent.jar</code> 就是我们的探针代码，比如有以下代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">premain</span><span class="params">(String agentArgs, Instrumentation inst)</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> ElementMatcher.Junction&lt;NamedElement&gt; springApplicationType = ElementMatchers.nameEndsWith(<span class="string">&quot;ApplicationObjectSupport&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//捕获到 `ApplicationObjectSupport.setApplicationContext()` 函数，并且创建一个代理函数，逻辑如下个class</span></span><br><span class="line">    <span class="keyword">final</span> AgentBuilder.<span class="type">Transformer</span> <span class="variable">transformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AgentBuilder</span>.Transformer() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> DynamicType.Builder&lt;?&gt; transform(DynamicType.Builder&lt;?&gt; builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule) &#123;</span><br><span class="line">            <span class="keyword">return</span> builder.method(ElementMatchers.named(<span class="string">&quot;setApplicationContext&quot;</span>))</span><br><span class="line">                    .intercept(Advice.to(ContextAdvice.class));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ContextAdvice</span> &#123;</span><br><span class="line">    <span class="comment">// 捕获 ApplicationContext 对象用于处理后面的逻辑</span></span><br><span class="line">    <span class="meta">@Advice</span>.OnMethodEnter</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">enter</span><span class="params">(<span class="meta">@Advice</span>.AllArguments Object[] args)</span> &#123;</span><br><span class="line">        ApplicationContextHolder.applicationContextObj = args[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Advice</span>.OnMethodExit</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">exit</span><span class="params">()</span> &#123;</span><br><span class="line">        VersionLoader.getVersion();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="小结"><a class="header-anchor" href="#小结">¶</a>小结</h3>
-<p>探针体系依赖于语言提供的能力，优点也是不辩自明的，无需客户端做任何修改就可以兼容大部分的框架。主要说说这个体系的缺点</p>
+
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>探针体系依赖于语言提供的能力，优点也是不辩自明的，无需客户端做任何修改就可以兼容大部分的框架。主要说说这个体系的缺点</p>
 <ul>
 <li>适用性低：受限于语言本身的能力</li>
 <li>适配繁琐：这可以参考 Skywalking 的适配，对于开源的还好，如果是内部框架呢？</li>
@@ -347,35 +346,32 @@
 <p>主要选手：</p>
 <img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HacrG.png" alt="skywalking" width="500" height="300" style="display:inline">
 <img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HaUC4.png" alt="pinpiont" width="500" height="300" style="display:inline">
-<h2 id="SDK-体系"><a class="header-anchor" href="#SDK-体系">¶</a>SDK 体系</h2>
-<p><code>SDK</code> 体系最好理解，提供了一套 <code>SDK API</code> 供使用者调用，这样就可以让使用者无感知监控的内部实现。对于大部分的 <code>编译型</code> 语言来说，这是唯一可选的路径。</p>
-<h3 id="例子-go-agent"><a class="header-anchor" href="#例子-go-agent">¶</a>例子: <a target="_blank" rel="noopener" href="https://github.com/newrelic/go-agent/blob/master/GETTING_STARTED.md">go-agent</a></h3>
-<p>比如 <code>Newrelic</code> <code>Tingyun</code> 都是采用这种模式，支持大部分的常见的 <code>Middware</code>，然后也支持手动的创建一些监控数据。</p>
+
+
+<h2 id="SDK-体系"><a href="#SDK-体系" class="headerlink" title="SDK 体系"></a>SDK 体系</h2><p><code>SDK</code> 体系最好理解，提供了一套 <code>SDK API</code> 供使用者调用，这样就可以让使用者无感知监控的内部实现。对于大部分的 <code>编译型</code> 语言来说，这是唯一可选的路径。</p>
+<h3 id="例子-go-agent"><a href="#例子-go-agent" class="headerlink" title="例子: go-agent"></a>例子: <a target="_blank" rel="noopener" href="https://github.com/newrelic/go-agent/blob/master/GETTING_STARTED.md">go-agent</a></h3><p>比如 <code>Newrelic</code> <code>Tingyun</code> 都是采用这种模式，支持大部分的常见的 <code>Middware</code>，然后也支持手动的创建一些监控数据。</p>
 <figure class="highlight go"><figcaption><span>启动一个外部通讯服务</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Create an Application:</span></span><br><span class="line">    app, err := newrelic.NewApplication(</span><br><span class="line">        <span class="comment">// Name your application</span></span><br><span class="line">        newrelic.ConfigAppName(<span class="string">&quot;Your Application Name&quot;</span>),</span><br><span class="line">        <span class="comment">// Fill in your New Relic license key</span></span><br><span class="line">        newrelic.ConfigLicense(<span class="string">&quot;__YOUR_NEW_RELIC_LICENSE_KEY__&quot;</span>),</span><br><span class="line">        <span class="comment">// Add logging:</span></span><br><span class="line">        newrelic.ConfigDebugLogger(os.Stdout),</span><br><span class="line">        <span class="comment">// Optional: add additional changes to your configuration via a config function:</span></span><br><span class="line">        <span class="function"><span class="keyword">func</span><span class="params">(cfg *newrelic.Config)</span></span> &#123;</span><br><span class="line">            cfg.CustomInsightsEvents.Enabled = <span class="literal">false</span></span><br><span class="line">        &#125;,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment">// If an application could not be created then err will reveal why.</span></span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;unable to create New Relic Application&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Now use the app to instrument everything!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>然后再我们想要的地方进行埋点</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原逻辑</span></span><br><span class="line">http.HandleFunc(<span class="string">&quot;/users&quot;</span>, usersHandler)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现逻辑</span></span><br><span class="line">http.HandleFunc(newrelic.WrapHandleFunc(app, <span class="string">&quot;/users&quot;</span>, usersHandler))</span><br></pre></td></tr></table></figure>
+
 <p>原理不用猜也知道了，对于大部分的框架来说，我们在处理上下文的时候都会传递一个 <code>Context</code> 对象，我们希望能够捕获一些状态数据的话，将其放置于 <code>Context</code> 中，然后将其在最终 <code>End</code> 的地方通过异步的队列上报即可。</p>
-<h3 id="例子：Cat"><a class="header-anchor" href="#例子：Cat">¶</a>例子：<a target="_blank" rel="noopener" href="https://github.com/dianping/cat">Cat</a></h3>
-<p>单纯的埋点，无需支持任何框架，本身就是一个全局对象。用起来也非常的粗暴简单</p>
+<h3 id="例子：Cat"><a href="#例子：Cat" class="headerlink" title="例子：Cat"></a>例子：<a target="_blank" rel="noopener" href="https://github.com/dianping/cat">Cat</a></h3><p>单纯的埋点，无需支持任何框架，本身就是一个全局对象。用起来也非常的粗暴简单</p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HTOBf.png" alt="HTOBf.png"></p>
 <figure class="highlight java"><figcaption><span>CAT手动埋点</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Transaction</span> <span class="variable">t</span> <span class="operator">=</span> Cat.newTransaction(<span class="string">&quot;URL&quot;</span>, <span class="string">&quot;pageName&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Cat.logEvent(<span class="string">&quot;URL.Server&quot;</span>, <span class="string">&quot;serverIp&quot;</span>, Event.SUCCESS, <span class="string">&quot;ip=$&#123;serverIp&#125;&quot;</span>);</span><br><span class="line">    Cat.logMetricForCount(<span class="string">&quot;metric.key&quot;</span>);</span><br><span class="line">    Cat.logMetricForDuration(<span class="string">&quot;metric.key&quot;</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    yourBusiness();</span><br><span class="line"></span><br><span class="line">    t.setStatus(Transaction.SUCCESS);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    t.setStatus(e);</span><br><span class="line">    Cat.logError(e);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    t.complete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="自报体系"><a class="header-anchor" href="#自报体系">¶</a>自报体系</h3>
-<p>还有一类以 <code>Web API</code> 提供远端的消费者来提供服务的，这样的需要自行在客户端侧进行逻辑适配，然后按照 <code>API</code> 的要求将数据上报来，因此在我们上面所说的两种监控数据类型上，社区有相对标准的数据格式。</p>
+
+<h3 id="自报体系"><a href="#自报体系" class="headerlink" title="自报体系"></a>自报体系</h3><p>还有一类以 <code>Web API</code> 提供远端的消费者来提供服务的，这样的需要自行在客户端侧进行逻辑适配，然后按照 <code>API</code> 的要求将数据上报来，因此在我们上面所说的两种监控数据类型上，社区有相对标准的数据格式。</p>
 <p>指标类型：prometheus 的 <a target="_blank" rel="noopener" href="https://prometheus.io/docs/concepts/metric_types/">metric types</a>，不过这块还没有什么标准的文件出现，不过有一个 <a target="_blank" rel="noopener" href="https://micrometer.io/">micrometer</a> spring 社区在推进。</p>
 <p>链路类型：<a target="_blank" rel="noopener" href="https://opentracing.io/">opentracing</a> 一统天下</p>
-<h3 id="小结-v2"><a class="header-anchor" href="#小结-v2">¶</a>小结</h3>
-<p><code>SDK</code> 体系就实现起来很简单，并且在使用的过程中如果有什么不兼容的在使用侧进行修改都可以，但是缺点就是一旦引入了 <code>SDK</code>，就是涉及到代码的更新，这就是传统 <code>SDK</code> 同样导致的问题。</p>
-<p>主要选手：<br>
-<img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HauqX.png" width="500" height="300" alt="cat" style="display:inline"></p>
-<h1>处理侧</h1>
-<p>对于收集上来的数据总是需要进行处理的，因此这块设计也不尽相同。</p>
-<h2 id="聚合处理型"><a class="header-anchor" href="#聚合处理型">¶</a>聚合处理型</h2>
-<p><code>Skywalking</code> 和 <code>Pinpoint</code> 都是这个模式，以 <code>Skywalking</code> 为例子，有一个单独的部署的模块为 <code>Observability Analysis Platform</code> 下称 <code>OAP</code></p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p><code>SDK</code> 体系就实现起来很简单，并且在使用的过程中如果有什么不兼容的在使用侧进行修改都可以，但是缺点就是一旦引入了 <code>SDK</code>，就是涉及到代码的更新，这就是传统 <code>SDK</code> 同样导致的问题。</p>
+<p>主要选手：<br><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HauqX.png" width="500" height="300" alt="cat" style="display:inline"></p>
+<h1 id="处理侧"><a href="#处理侧" class="headerlink" title="处理侧"></a>处理侧</h1><p>对于收集上来的数据总是需要进行处理的，因此这块设计也不尽相同。</p>
+<h2 id="聚合处理型"><a href="#聚合处理型" class="headerlink" title="聚合处理型"></a>聚合处理型</h2><p><code>Skywalking</code> 和 <code>Pinpoint</code> 都是这个模式，以 <code>Skywalking</code> 为例子，有一个单独的部署的模块为 <code>Observability Analysis Platform</code> 下称 <code>OAP</code></p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HaJZ6.png" alt="HaJZ6.png"></p>
-<p><code>OAP</code> 承担三件事情</p>
+<p><code>OAP</code> 承担三件事情 </p>
 <ol start="0">
 <li>数据计算：对于 <code>Tracing</code> 数据需要将多个 <code>Span</code> 聚合在一起</li>
-<li>数据的收集对接储存: <code>OAP</code> 支持 <code>H2</code> <code>Mysql</code> <code>Elasticsearch</code></li>
+<li>数据的收集对接储存: <code>OAP</code> 支持 <code>H2</code> <code>Mysql</code> <code>Elasticsearch</code>  </li>
 <li>数据的查询: 因为不同的数据库，对应不同的储存模型，但是对外要提供统一的接口</li>
 </ol>
 <hr>
@@ -384,22 +380,17 @@
 <li>OAP 的性能堪忧，随着接入节点的变多，OAP 既是接入端，又是处理端，还是查询端。</li>
 <li>OAP 的逻辑复杂，且难以扩展。</li>
 </ul>
-<h2 id="简单透传型"><a class="header-anchor" href="#简单透传型">¶</a>简单透传型</h2>
-<p><code>jaeger</code> 就属于这一类型，只有最终的一份工作，将 <code>Tracing</code> 的数据落到不同的数据库中，而且几乎不进行什么处理，因此在数据内存放的都是散落的 <code>Span</code> 信息，在后面继续分析的时候，聚合数据的工作需要留到查询侧再进行，这样的设计也不是不无道理，因为对于大部分的时间来说，我们不会去看 <code>Tracing</code> 的信息，等我们真的点击的时候再进行数据分析即可。</p>
+<h2 id="简单透传型"><a href="#简单透传型" class="headerlink" title="简单透传型"></a>简单透传型</h2><p><code>jaeger</code> 就属于这一类型，只有最终的一份工作，将 <code>Tracing</code> 的数据落到不同的数据库中，而且几乎不进行什么处理，因此在数据内存放的都是散落的 <code>Span</code> 信息，在后面继续分析的时候，聚合数据的工作需要留到查询侧再进行，这样的设计也不是不无道理，因为对于大部分的时间来说，我们不会去看 <code>Tracing</code> 的信息，等我们真的点击的时候再进行数据分析即可。</p>
 <p><img src="/images/loading.gif" data-original="https://s3.jpg.cm/2020/09/23/HaNAT.png" alt="HaNAT.png"></p>
-<h2 id="理想型"><a class="header-anchor" href="#理想型">¶</a>理想型</h2>
-<ul>
+<h2 id="理想型"><a href="#理想型" class="headerlink" title="理想型"></a>理想型</h2><ul>
 <li>数据接入：所有的数据应该可以直接连接 <code>OAP</code> 或者 <code>Kafka</code>，因为对于 <code>POC</code> 或者小客户场景，加入 <code>Kafka</code> 是不适合的，增加了运维复杂度，直接在 <code>OAP</code> 进行处理即可。</li>
 <li>数据处理：1. 对于大规模的场景，数据的消费者应该是 <code>Spark/Flink</code> ，基于流处理的能力减少开发复杂度， 2.  对于简单场景， <code>OAP</code> 进行逻辑处理即可</li>
 </ul>
-<h1>储存侧</h1>
-<blockquote>
+<h1 id="储存侧"><a href="#储存侧" class="headerlink" title="储存侧"></a>储存侧</h1><blockquote>
 <p>储存方案笔者也不是很精通，随便看看</p>
 </blockquote>
-<p>对于数据的存储一般都是监控体系最头疼的地方，不过还算是比较好的现在已经有很多可以参考的案例。现在常见的储存有 <code>Hbase</code> <code>Elasticsearch</code> <code>TSDB</code> 等。<br>
-对于大规模的长时间储存有需要检索分析的话，<code>Hbase</code> 也许符合需求，对于每日场景分析的数据我认为使用 <code>Elasticsearch</code> 更加适合，对于 <code>Metris</code> 指标的话，采用时序数据库又更更适合。因此我认为这几个应该搭配起来使用，大部分时候链路数据的热点也就是在一天左右，因为这些数据可以一开始储存在 <code>Elasticsearch</code> 方便分析，之后可以将数据归档到 <code>Hbase</code> 进行冷处理。</p>
-<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
-<ul>
+<p>对于数据的存储一般都是监控体系最头疼的地方，不过还算是比较好的现在已经有很多可以参考的案例。现在常见的储存有 <code>Hbase</code> <code>Elasticsearch</code> <code>TSDB</code> 等。<br>对于大规模的长时间储存有需要检索分析的话，<code>Hbase</code> 也许符合需求，对于每日场景分析的数据我认为使用 <code>Elasticsearch</code> 更加适合，对于 <code>Metris</code> 指标的话，采用时序数据库又更更适合。因此我认为这几个应该搭配起来使用，大部分时候链路数据的热点也就是在一天左右，因为这些数据可以一开始储存在 <code>Elasticsearch</code> 方便分析，之后可以将数据归档到 <code>Hbase</code> 进行冷处理。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/rickiyang/p/11368932.html">javaagent 使用指南</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/dianping/cat/wiki/overall">cat wiki</a></li>
 </ul>
@@ -481,7 +472,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

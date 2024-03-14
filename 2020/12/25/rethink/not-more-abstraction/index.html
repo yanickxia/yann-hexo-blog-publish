@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方">
 <meta property="og:type" content="article">
@@ -55,6 +55,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -237,6 +238,23 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/08/14/kotlin/easy-way-to-kotlin-for-java-proggamer/oop-class-polymorphism/" rel="bookmark">
+        <time class="popular-posts-time">2018-08-14</time>
+        <br>
+      写给 Java 开发者的 Kotlin 教程 (10) -  面向对象 - 继承与多态
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -310,28 +328,25 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201228145412.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20201228145412.png"></p>
 <blockquote>
 <p>Abstraction is the purposeful suppression, or hiding, of some details of a process or artifact, in order to bring out more clearly other aspects, details, or structure. 抽象是有目的的隐藏过程中的某些细节，以便更清楚地展现其他方面的细节。</p>
 </blockquote>
 <span id="more"></span>
-<h2 id="抽象的价值"><a class="header-anchor" href="#抽象的价值">¶</a>抽象的价值</h2>
-<p>为什么需要抽象，一方面我们需要将不重要的细节隐藏起来，另外一方面因为我们每个人都不是全知全能之神，我们需要站在别人的肩膀之上完成更高层级的事情。</p>
+
+<h2 id="抽象的价值"><a href="#抽象的价值" class="headerlink" title="抽象的价值"></a>抽象的价值</h2><p>为什么需要抽象，一方面我们需要将不重要的细节隐藏起来，另外一方面因为我们每个人都不是全知全能之神，我们需要站在别人的肩膀之上完成更高层级的事情。</p>
 <blockquote>
 <p>比如我们需要在城市中投递快递，无论是 <code>中通快递</code> <code>申通快递</code> <code>顺丰快递</code> 对于快递的抽象就是将某个物品从 <code>A</code> 传输到 <code>B</code>，因此对于我们来说，快递就是一个传递性的协议。</p>
 </blockquote>
 <p>但是值得注意的是</p>
 <blockquote>
-<p>The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise.<br>
-抽象不是模糊不清的复用，而是创建一个绝对精准的新语义层</p>
+<p>The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise.<br>抽象不是模糊不清的复用，而是创建一个绝对精准的新语义层</p>
 </blockquote>
 <p>如果现在没有出现的抽象，绝大多数的时候我们不需要再继续抽象。因为我的抽象往往作为别者的依赖，如果出现 <code>坏抽象</code> 的时候，<code>坏抽象</code> 会变成病毒般的传播起来，而坏抽象往往会有这么几个味道</p>
-<h2 id="坏抽象"><a class="header-anchor" href="#坏抽象">¶</a>坏抽象</h2>
-<blockquote>
+<h2 id="坏抽象"><a href="#坏抽象" class="headerlink" title="坏抽象"></a>坏抽象</h2><blockquote>
 <p>You thought that the abstraction world was made of rivers of honey, roads of chocolate and clouds of marshmallow? Everything has a cost: using abstractions should be a thoughtful decision.</p>
 </blockquote>
-<h3 id="为了解决重复的抽象"><a class="header-anchor" href="#为了解决重复的抽象">¶</a>为了解决重复的抽象</h3>
-<blockquote>
+<h3 id="为了解决重复的抽象"><a href="#为了解决重复的抽象" class="headerlink" title="为了解决重复的抽象"></a>为了解决重复的抽象</h3><blockquote>
 <p>Duplication is far cheaper than the wrong abstraction. [重复比糟糕的抽象好得多]</p>
 </blockquote>
 <ul>
@@ -352,44 +367,36 @@
 <p><code>原本一样的抽象开始有点不一样</code></p>
 <ul>
 <li>另一个新要求到来了。</li>
-<li>程序员 X<br>
-<code>另一个附加参数</code> <code>另一个新的条件</code> <code>循环直到代码变得令人费解</code></li>
+<li>程序员 X<br><code>另一个附加参数</code> <code>另一个新的条件</code> <code>循环直到代码变得令人费解</code></li>
 </ul>
 <p>既有的系统代码代表了正确，不幸的是随着复杂度的上升，保留的压力会越来越大，那些正确的代码让你小心翼翼，你只能加上 <code>more &amp; more</code> 的条件 <code>flag</code> 来完成你的新任务，在 <code>梭罗</code> 的 《瓦尔登湖》 中指出，剥夺你人生自由的恰好就是那些你拥有的。</p>
 <div>
     <label class="author-mark-label">小声比比</label>
     <p class="author-mark">尤其是在一些抽象能力比较弱的语言 (说的就是你Go) 上，基于反射的抽象只会让你更加难理解</p>
 </div>
-<h3 id="糟糕的命名"><a class="header-anchor" href="#糟糕的命名">¶</a>糟糕的命名</h3>
-<blockquote>
+
+<h3 id="糟糕的命名"><a href="#糟糕的命名" class="headerlink" title="糟糕的命名"></a>糟糕的命名</h3><blockquote>
 <p>There are only two hard things in Computer Science: cache invalidation and naming things.</p>
 </blockquote>
 <p>想想当你定义了一个 <code>deleteUser</code> 函数的时候，在执行这个函数的时候，我们将这个 <code>User</code> 置为 <code>Disable</code> 并且将其账号余额给清空了，拜托，下一个接手的程序员如果能从 <code>deleteUser</code> 里面读到这些就有鬼了。</p>
-<h3 id="简化问题"><a class="header-anchor" href="#简化问题">¶</a>简化问题</h3>
-<p>让你设计一个 <code>Json</code> 转换成 <code>Xml</code> 的神奇函数，你想要这个函数简单通俗易懂。你定义了一个 <code>Parser</code> Class，然后给他一个万能的 <code>Parser::parse(String json)</code> 函数，这个糟糕的设计没有任何参数，我试图在转换的过程中将某些字段忽略，我们就不得不去破坏抽象了。</p>
+<h3 id="简化问题"><a href="#简化问题" class="headerlink" title="简化问题"></a>简化问题</h3><p>让你设计一个 <code>Json</code> 转换成 <code>Xml</code> 的神奇函数，你想要这个函数简单通俗易懂。你定义了一个 <code>Parser</code> Class，然后给他一个万能的 <code>Parser::parse(String json)</code> 函数，这个糟糕的设计没有任何参数，我试图在转换的过程中将某些字段忽略，我们就不得不去破坏抽象了。</p>
 <p>过渡简化问题就好像只有一个旋钮的洗衣机，我们可以用 <code>旋转</code> + <code>按下</code> 来完成我的任务，但是多放几个按钮也许更高效的多。</p>
-<h3 id="脱离现实的OOP"><a class="header-anchor" href="#脱离现实的OOP">¶</a>脱离现实的OOP</h3>
-<p><code>OOP</code> 是一个很不错的工具，但并不是灵丹妙药，在使用 <code>OOP</code> 之前考虑下是不是用简单的函数就可以满足你的需求，这也是为什么现在大量的语言都在将 <code>FP</code> 的精华融入系统之中。</p>
+<h3 id="脱离现实的OOP"><a href="#脱离现实的OOP" class="headerlink" title="脱离现实的OOP"></a>脱离现实的OOP</h3><p><code>OOP</code> 是一个很不错的工具，但并不是灵丹妙药，在使用 <code>OOP</code> 之前考虑下是不是用简单的函数就可以满足你的需求，这也是为什么现在大量的语言都在将 <code>FP</code> 的精华融入系统之中。</p>
 <p>创建一个 <code>class</code> 的时候，考虑一下三点：</p>
 <ol>
 <li>简化和消除复杂性。</li>
 <li>其他的类可以使用它，但他不需要是一个全局的 <code>magic class</code>。</li>
 <li>将数据和作用于数据的函数封装在一起。</li>
 </ol>
-<h3 id="面向未来"><a class="header-anchor" href="#面向未来">¶</a>面向未来</h3>
-<blockquote>
+<h3 id="面向未来"><a href="#面向未来" class="headerlink" title="面向未来"></a>面向未来</h3><blockquote>
 <p>premature optimization is the root of all evil</p>
 </blockquote>
 <p>这简直就是 <code>Java</code> 程序员的重灾区，一大堆单一实现的 <code>interface</code>，当在 <code>codereview</code> 的时候，每一个人都抱着我这是为了未来的可拓展性，<code>面向未来</code> 只会带来复杂性，在需要抽象时使用抽象。</p>
 <p><code>programming to interfaces(面向接口编程)</code> 显然不是你的接口，你的 <code>Customer</code> 只有唯一的一个实现类 <code>CustomerImpl</code> 实际上并没有多态性和可替换性，这里就是一个虚假的多态。</p>
-<h2 id="抽象泄露"><a class="header-anchor" href="#抽象泄露">¶</a>抽象泄露</h2>
-<blockquote>
+<h2 id="抽象泄露"><a href="#抽象泄露" class="headerlink" title="抽象泄露"></a>抽象泄露</h2><blockquote>
 <p>all non-trivial abstractions, to some degree, are leaky. [在某种程度上，所有非平凡的抽象都是泄漏的]</p>
 </blockquote>
-<p>首先想一想抽象会是完美的吗？<br>
-如果我们将汽车抽象成一个带方向盘和四个轮子的大铁盒子，会导致什么，当我们的车正常行驶的时候一切刚刚好，但是车出现故障的，我们并不会知道车发生了什么，因为这一切都在你的抽象范围呢，我们为这个车加上一个中控，然后显示故障码？相信我在真实的世界里面，故障是无可穷举的。而恰到好处的抽象并不意味着滴水不漏，<code>Leaky Abstraction</code> 也是一个可选项。<br>
-但是 <code>Leaky Abstraction</code> 有些时候就是对操作者有益，而有些时候是非常糟糕的。比如  <code>NFS</code> 这样的远程文件系统，可以让用户如同操作本地文件一般操纵远程的文件，对于用户来说会出现 <code>Connection Error</code> 这是本地文件从来不会发生的错误，这就是一种抽象泄露，所幸这种泄露并没有什么糟糕之处。<br>
-但是另外一种当你在教导某人在编写一个 <a target="_blank" rel="noopener" href="http://www.gwtproject.org/"><code>GWT</code></a> 系统，<code>GWT</code> 目的就是用 <code>Java</code> 来编写 <code>JS+HTML</code> 的系统，隐藏了 <code>JS</code> 的实现，此时如果用户将 <code>JS</code> 禁用了，<code>Java</code> 程序员就面临着一无所知的境地。</p>
+<p>首先想一想抽象会是完美的吗？<br>如果我们将汽车抽象成一个带方向盘和四个轮子的大铁盒子，会导致什么，当我们的车正常行驶的时候一切刚刚好，但是车出现故障的，我们并不会知道车发生了什么，因为这一切都在你的抽象范围呢，我们为这个车加上一个中控，然后显示故障码？相信我在真实的世界里面，故障是无可穷举的。而恰到好处的抽象并不意味着滴水不漏，<code>Leaky Abstraction</code> 也是一个可选项。<br>但是 <code>Leaky Abstraction</code> 有些时候就是对操作者有益，而有些时候是非常糟糕的。比如  <code>NFS</code> 这样的远程文件系统，可以让用户如同操作本地文件一般操纵远程的文件，对于用户来说会出现 <code>Connection Error</code> 这是本地文件从来不会发生的错误，这就是一种抽象泄露，所幸这种泄露并没有什么糟糕之处。<br>但是另外一种当你在教导某人在编写一个 <a target="_blank" rel="noopener" href="http://www.gwtproject.org/"><code>GWT</code></a> 系统，<code>GWT</code> 目的就是用 <code>Java</code> 来编写 <code>JS+HTML</code> 的系统，隐藏了 <code>JS</code> 的实现，此时如果用户将 <code>JS</code> 禁用了，<code>Java</code> 程序员就面临着一无所知的境地。</p>
 <blockquote>
 <p>The law of leaky abstractions means that whenever somebody comes up with a wizzy new code-generation tool that is supposed to make us all ever-so-efficient, you hear a lot of people saying “learn how to do it manually first, then use the wizzy tool to save time.” Code generation tools which pretend to abstract out something, like all abstractions, leak, and the only way to deal with the leaks competently is to learn about how the abstractions work and what they are abstracting. So the abstractions save us time working, but they don’t save us time learning.</p>
 </blockquote>
@@ -397,15 +404,13 @@
 <p>抽象泄露也不一定都坏的，我们在汽车的抽象中，我们将离合，控制盘，刹车，油门泄露给用户，一个老道的用户可以根据油门的感觉，刹车的时间都可以判断车出现了什么故障，这样的泄露也不全是缺点，就好像电视机的遥控器总不是按键越少越好。</p>
 <p>编程中的 <code>ORM</code> 总是处于如此糟糕的境地，无论你花了多少的努力想要把 <code>SQL</code> 隐藏在 <code>Proggraming</code> 之下，<a target="_blank" rel="noopener" href="https://hibernate.org/orm/"><code>hibernate</code></a> 用了 500 多页的教程来教导你如何用代码规避一个复杂的 <code>SQL</code>，而用户只会选择将 SQL 写在代码之中。</p>
 <hr>
-<p>谨记：<br>
-所有的抽象</p>
+<p>谨记：<br>所有的抽象</p>
 <ul>
 <li>当脱离上下文的时候就变的无效</li>
 <li>并不完美</li>
 <li>与现实世界关联</li>
 </ul>
-<h2 id="参考"><a class="header-anchor" href="#参考">¶</a>参考</h2>
-<ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="http://sriku.org/blog/2019/08/11/abstraction-is-the-root-of-all-evil/">abstraction is the root of all evil</a></li>
 <li><a target="_blank" rel="noopener" href="https://wiki.c2.com/?TooMuchAbstraction">TooMuchAbstraction</a></li>
 <li><a target="_blank" rel="noopener" href="https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction">the wrong abstraction</a></li>
@@ -491,7 +496,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

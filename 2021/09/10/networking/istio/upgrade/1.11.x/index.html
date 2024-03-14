@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta property="og:type" content="article">
 <meta property="og:title" content="Isito 1.11.x 更新解读">
@@ -55,6 +55,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -237,6 +238,37 @@
         </ul>
       </div>
     </div>
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相关文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2022/04/16/networking/istio/istio-iptables/" rel="bookmark">
+        <time class="popular-posts-time">2022-04-16</time>
+        <br>
+      Isito iptables & CNI
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2021/05/19/networking/istio/upgrade/1.10.x/" rel="bookmark">
+        <time class="popular-posts-time">2021-05-19</time>
+        <br>
+      Isito 1.10.x 更新解读
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2022/11/07/networking/higress/higress/" rel="bookmark">
+        <time class="popular-posts-time">2022-11-07</time>
+        <br>
+      How Higress Works
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
   </aside>
 
 
@@ -310,28 +342,22 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910154051.png" alt=""></p>
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910154051.png"></p>
 <span id="more"></span>
-<h2 id="CNI-plugin-Beta"><a class="header-anchor" href="#CNI-plugin-Beta">¶</a>CNI plugin (Beta)</h2>
-<p>Istio / Install Istio with the Istio CNI plugin<br>
-CNI 依然是 Beta ……</p>
-<h2 id="External-control-plane-Beta"><a class="header-anchor" href="#External-control-plane-Beta">¶</a>External control plane (Beta)</h2>
-<p><a target="_blank" rel="noopener" href="https://istio.io/latest/docs/setup/install/external-controlplane/">Istio / Install Istio with an External Control Plane</a><br>
-相较于我们现在的 多集群 部署方式，此次更新增加了一个独立的新模式</p>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910153835.png" alt=""></p>
+
+<h2 id="CNI-plugin-Beta"><a href="#CNI-plugin-Beta" class="headerlink" title="CNI plugin (Beta)"></a>CNI plugin (Beta)</h2><p>Istio &#x2F; Install Istio with the Istio CNI plugin<br>CNI 依然是 Beta ……</p>
+<h2 id="External-control-plane-Beta"><a href="#External-control-plane-Beta" class="headerlink" title="External control plane (Beta)"></a>External control plane (Beta)</h2><p><a target="_blank" rel="noopener" href="https://istio.io/latest/docs/setup/install/external-controlplane/">Istio &#x2F; Install Istio with an External Control Plane</a><br>相较于我们现在的 多集群 部署方式，此次更新增加了一个独立的新模式</p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910153835.png"></p>
 <p>而这样部署的缺点是，因为我们所有的配置项都需要配置在主集群中，因此我们为整个网格配置一个独立的 ETCD</p>
 <p>现在社区增加了一个独立模式</p>
-<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910153926.png" alt=""></p>
+<p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210910153926.png"></p>
 <p>区别在于我们可以将 istiod 完全的独立部署出来，因此我们可以在一个独立集群中部署多个istiod给不同的集群，值得注意的是，配置项也不再配置在 istiod 的集群中，而是选择一个 remote cluster 作为配置源（vs 等）。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">install.istio.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">IstioOperator</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">external-istiod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">profile:</span> <span class="string">external</span></span><br><span class="line">  <span class="attr">values:</span></span><br><span class="line">    <span class="attr">global:</span></span><br><span class="line">      <span class="attr">istioNamespace:</span> <span class="string">external-istiod</span></span><br><span class="line">      <span class="attr">configCluster:</span> <span class="literal">true</span>  <span class="string">&lt;-----</span> <span class="string">配置源</span></span><br></pre></td></tr></table></figure>
-<h2 id="Gateway-injection"><a class="header-anchor" href="#Gateway-injection">¶</a>Gateway injection</h2>
-<p>1.11 之前的版本 ingress 组件是直接和 istiod 连接，下发配置，从而进行转发，不需要额外的 sidecar ，而此版本将此和普通pod一样处理，作为一个 sidecar 注入 gateway 之中，就可以把 gateway 想象成一个空 程序 + sidecar。<br>
-带来最大的区别是， sidecar 的注入是由 istiod (webhook + template) 控制的，因此我们升级 istiod 之后可以直接删除 gateway 以更新到最新版，而之前的模式需要更新 Deployment 镜像。</p>
-<h2 id="Kubernetes-Multi-cluster-Services-MCS-support-Experimental"><a class="header-anchor" href="#Kubernetes-Multi-cluster-Services-MCS-support-Experimental">¶</a>Kubernetes Multi-cluster Services (MCS) support (Experimental)</h2>
-<p>对官网 MCS 的支持，Experimental 还比较早期</p>
-<h2 id="Sneak-peek-new-APIs"><a class="header-anchor" href="#Sneak-peek-new-APIs">¶</a>Sneak peek: new APIs</h2>
-<p>社区也发现 EnvoyFilter 贼用了，<a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1jFuZM4UCKw6AMDmXMIYqbdlyJk95ut2zMPLSNdrUtW8/edit">Istio Extensions API - Google 文档</a><br>
-试图使用新的 API 来替换</p>
+
+
+<h2 id="Gateway-injection"><a href="#Gateway-injection" class="headerlink" title="Gateway injection"></a>Gateway injection</h2><p>1.11 之前的版本 ingress 组件是直接和 istiod 连接，下发配置，从而进行转发，不需要额外的 sidecar ，而此版本将此和普通pod一样处理，作为一个 sidecar 注入 gateway 之中，就可以把 gateway 想象成一个空 程序 + sidecar。<br>带来最大的区别是， sidecar 的注入是由 istiod (webhook + template) 控制的，因此我们升级 istiod 之后可以直接删除 gateway 以更新到最新版，而之前的模式需要更新 Deployment 镜像。</p>
+<h2 id="Kubernetes-Multi-cluster-Services-MCS-support-Experimental"><a href="#Kubernetes-Multi-cluster-Services-MCS-support-Experimental" class="headerlink" title="Kubernetes Multi-cluster Services (MCS) support (Experimental)"></a>Kubernetes Multi-cluster Services (MCS) support (Experimental)</h2><p>对官网 MCS 的支持，Experimental 还比较早期</p>
+<h2 id="Sneak-peek-new-APIs"><a href="#Sneak-peek-new-APIs" class="headerlink" title="Sneak peek: new APIs"></a>Sneak peek: new APIs</h2><p>社区也发现 EnvoyFilter 贼用了，<a target="_blank" rel="noopener" href="https://docs.google.com/document/d/1jFuZM4UCKw6AMDmXMIYqbdlyJk95ut2zMPLSNdrUtW8/edit">Istio Extensions API - Google 文档</a><br>试图使用新的 API 来替换</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -410,7 +436,7 @@ CNI 依然是 Beta ……</p>
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

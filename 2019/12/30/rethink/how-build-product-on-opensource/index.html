@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta name="description" content="从 2017.12 开始，我们就一直在基于 SpringCloud(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。">
 <meta property="og:type" content="article">
@@ -57,6 +57,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -314,39 +315,33 @@
     
     <div class="post-body" itemprop="articleBody"><p>从 <code>2017.12</code> 开始，我们就一直在基于 <code>SpringCloud</code>(下称SC) 这套产品在构建我们自己的商业产品，说不起有一些成功，但却有一些反思。</p>
 <span id="more"></span>
-<h2 id="如何基于开源做产品"><a class="header-anchor" href="#如何基于开源做产品">¶</a>如何基于开源做产品</h2>
-<p>如何基于开源做产品，让我们聊一聊这个话题。在大部分的中小型公司，我们都会基于某一个开源产品进行二次开发，直到最后这个开源产品被吸收殆尽，融入我们的产品，但这是一个漫长的过程。</p>
-<h3 id="找到方向"><a class="header-anchor" href="#找到方向">¶</a>找到方向</h3>
-<p>无论你怎么在技术市场中嗅探到一股新技术的清香味，比如 <code>Docker</code>或<code>SpringCloud</code>，我们最应该了解的都是这个技术背后是怎么样的需求在推进它前进。</p>
+
+<h2 id="如何基于开源做产品"><a href="#如何基于开源做产品" class="headerlink" title="如何基于开源做产品"></a>如何基于开源做产品</h2><p>如何基于开源做产品，让我们聊一聊这个话题。在大部分的中小型公司，我们都会基于某一个开源产品进行二次开发，直到最后这个开源产品被吸收殆尽，融入我们的产品，但这是一个漫长的过程。</p>
+<h3 id="找到方向"><a href="#找到方向" class="headerlink" title="找到方向"></a>找到方向</h3><p>无论你怎么在技术市场中嗅探到一股新技术的清香味，比如 <code>Docker</code>或<code>SpringCloud</code>，我们最应该了解的都是这个技术背后是怎么样的需求在推进它前进。 </p>
 <ul>
 <li><code>Hadoop</code> 的背后是企业对于海量数据需要存储的需求，更深层的是企业的IT从功能化向数据化转型。</li>
 <li><code>Docker</code> 的背后是大规模虚拟机集群管理的困难，更深层是企业的IT的规模化，不再是以前几台机器跑天下的时代。</li>
 <li><code>SpringCloud</code> 的背后是企业应用巨型化，迭代困难导致。</li>
 </ul>
-<p>而这些技术的背后的内驱力，我们的方向，那我们找的方向显然应该是</p>
+<p>而这些技术的背后的内驱力，我们的方向，那我们找的方向显然应该是 </p>
 <ul>
 <li><code>以海量数据为方向</code>：为企业提供可以简单运维的集群，更大的存储量，更快的查询速度……</li>
 <li><code>以海量机器为方向</code>：为企业提供不可变基础设施，完善的监控体系，简化的部署……</li>
 <li><code>以巨大应用为方向</code>：为企业提供敏捷开发，应用的拆分化方案，基础设施的模式化……</li>
 </ul>
-<h3 id="划定自己的范围"><a class="header-anchor" href="#划定自己的范围">¶</a>划定自己的范围</h3>
-<p>上述说的每一块都是巨大的市场，如若非巨头实难将这一切都啃下来，因此我们下一步是划定自己的范围。假设我们是以<code>以巨大应用为方向</code>为产品的方向，我们可以将产品拆解为</p>
+<h3 id="划定自己的范围"><a href="#划定自己的范围" class="headerlink" title="划定自己的范围"></a>划定自己的范围</h3><p>上述说的每一块都是巨大的市场，如若非巨头实难将这一切都啃下来，因此我们下一步是划定自己的范围。假设我们是以<code>以巨大应用为方向</code>为产品的方向，我们可以将产品拆解为 </p>
 <ul>
 <li><code>应用框架</code>：客户既有代码如何使用我们的整个产品。</li>
-<li><code>平台支撑</code>：我们所提供的产品的范围
-<ul>
-<li><code>服务发现</code>：如何进行服务发现
-<ul>
+<li><code>平台支撑</code>：我们所提供的产品的范围<ul>
+<li><code>服务发现</code>：如何进行服务发现<ul>
 <li><code>服务注册</code>：服务注册的信息包含哪些</li>
-<li><code>服务管理</code>：是否包含服务的管理属性
-<ul>
+<li><code>服务管理</code>：是否包含服务的管理属性<ul>
 <li><code>服务下线</code>：是否能够手动将服务下线</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><code>配置中心</code>：如何进行配置管理
-<ul>
+<li><code>配置中心</code>：如何进行配置管理<ul>
 <li><code>配置侧</code>：是否需要进行数据隔离</li>
 <li><code>读取侧</code>：读取侧是否需要进行缓存等</li>
 </ul>
@@ -357,36 +352,25 @@
 </li>
 </ul>
 <p>正如上文的列表，我们需要将系统的功能点列出来，这里有着整个产品最大的一个陷阱 <a href="#%E5%BF%98%E8%AE%B0%E4%BD%A0%E7%9A%84%E5%BC%80%E6%BA%90%E5%AE%9E%E7%8E%B0">反思1：忘记你的开源实现</a>，此时的你应该可以输出产品的功能清单，尽可能的详尽，在后续的迭代中也也是至为重要的指导纲领。</p>
-<h3 id="慎重考察你的开源实现"><a class="header-anchor" href="#慎重考察你的开源实现">¶</a>慎重考察你的开源实现</h3>
-<p>开源实现的代码质量都算不上太差，而我们最为重要的是考察开源的代码里的关于设计理念部分，如果你需要一个 <code>CP</code> 的系统，自然就不要考虑 <code>AP</code> 的Eureka这样的事情，为了要把这一步放在设计之后，也是因为千万不要因为别人的实现干扰了你自己对于产品的理解。</p>
-<h3 id="设计你的架构"><a class="header-anchor" href="#设计你的架构">¶</a>设计你的架构</h3>
-<p>也没什么值得要说的，尽可能的在你的代码和开源之间增加一层适配层，重度的耦合只会让你摔的更疼。<br>
-<img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQBSyt.png" alt="lQBSyt.png"><br>
-哪怕你只有一个实现的时候也是值得的。至少让你们的开发者更容易理解你们自己的设计。</p>
+<h3 id="慎重考察你的开源实现"><a href="#慎重考察你的开源实现" class="headerlink" title="慎重考察你的开源实现"></a>慎重考察你的开源实现</h3><p>开源实现的代码质量都算不上太差，而我们最为重要的是考察开源的代码里的关于设计理念部分，如果你需要一个 <code>CP</code> 的系统，自然就不要考虑 <code>AP</code> 的Eureka这样的事情，为了要把这一步放在设计之后，也是因为千万不要因为别人的实现干扰了你自己对于产品的理解。</p>
+<h3 id="设计你的架构"><a href="#设计你的架构" class="headerlink" title="设计你的架构"></a>设计你的架构</h3><p>也没什么值得要说的，尽可能的在你的代码和开源之间增加一层适配层，重度的耦合只会让你摔的更疼。<br><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQBSyt.png" alt="lQBSyt.png"><br>哪怕你只有一个实现的时候也是值得的。至少让你们的开发者更容易理解你们自己的设计。</p>
 <blockquote>
 <p>tips: 大部分的时候你都会适配其他的实现，如果这个市场只有一家产品，那很可能并不是一个好消息</p>
 </blockquote>
-<h3 id="坚持你的设计"><a class="header-anchor" href="#坚持你的设计">¶</a>坚持你的设计</h3>
-<p>哪怕是你发现底层的开源实现无法满足你的需求的时候，你可以使用很复杂的方式实现你的设计，也不要轻易的改变你的设计。改变那些无关紧要的部分，对于核心的理解是切记不能改变的，不然你就很快会变成下面这样</p>
+<h3 id="坚持你的设计"><a href="#坚持你的设计" class="headerlink" title="坚持你的设计"></a>坚持你的设计</h3><p>哪怕是你发现底层的开源实现无法满足你的需求的时候，你可以使用很复杂的方式实现你的设计，也不要轻易的改变你的设计。改变那些无关紧要的部分，对于核心的理解是切记不能改变的，不然你就很快会变成下面这样</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">你的产品：100%    别人的产品： 0%</span><br><span class="line">------- 因为难以实现的功能 --------</span><br><span class="line">你的产品： 80%    别人的产品： 20%</span><br><span class="line">------- 因为难以实现的功能 * 2 --------</span><br><span class="line">你的产品： 60%    别人的产品： 40%</span><br><span class="line">------- 因为难以实现的功能 * 3 --------</span><br><span class="line">你的产品： 40%    别人的产品： 60%</span><br></pre></td></tr></table></figure>
+
 <p>此时的你需要增加自己的设计的时候，你就会发现你自己的概念是极其难以加入的，为什么？因为这个产品的主体已经不是你设计的产品了，已经变成一个开源产品的发行版 (注：<a href="#%E4%BD%A0%E7%A9%B6%E7%AB%9F%E5%81%9A%E7%9A%84%E6%98%AF%E5%8F%91%E8%A1%8C%E7%89%88%E8%BF%98%E6%98%AF%E4%BA%A7%E5%93%81">反思2:你究竟做的是发行版还是产品</a>)</p>
-<h3 id="专注"><a class="header-anchor" href="#专注">¶</a>专注</h3>
-<p>每个产品都可能包含很多组件，在刚开始的阶段，我们可能处处完善，更应该专注于某一块，对于一个商业产品可以先从数据的展示的方面进行设计，比如在微服务设计中，对于监控数据的展示，投入更多的精力在 <code>APM</code>，切莫贪大导致的每一块都做的不怎么样。</p>
+<h3 id="专注"><a href="#专注" class="headerlink" title="专注"></a>专注</h3><p>每个产品都可能包含很多组件，在刚开始的阶段，我们可能处处完善，更应该专注于某一块，对于一个商业产品可以先从数据的展示的方面进行设计，比如在微服务设计中，对于监控数据的展示，投入更多的精力在 <code>APM</code>，切莫贪大导致的每一块都做的不怎么样。</p>
 <blockquote>
 <p>Tips: 对于我们的组件是可以融合的，更应该能够拆分，产品的某一部分都是独立的产品，用开源的方式去做一个独立的产品会让你的产品走的更远。</p>
 </blockquote>
-<h3 id="保持关注"><a class="header-anchor" href="#保持关注">¶</a>保持关注</h3>
-<p>在一个新的方向上，经常会出现全面性的风向转变，就比如容器技术就经历了 <code>Swam</code> 转至 <code>K8S</code>，因为上面的概念解耦，我们也需要耗费一些精力进行下层的适配，而有些技术可能天生就是冲突的，比如 <code>SpringCloud</code> 所基于的 <code>REST</code> 和 <code>Dubbo</code> 所基于非透明的 <code>RPC</code> 在使用的过程就是完全不一样的，在选择的过程中可能会面领着市场的完全方向转变，甚至于被 <code>ServicsMesh</code> 这样的新的技术革命掉。因此产品在自己的概念中也时刻关注是否有一些已经 <code>outdate</code> 了。</p>
+<h3 id="保持关注"><a href="#保持关注" class="headerlink" title="保持关注"></a>保持关注</h3><p>在一个新的方向上，经常会出现全面性的风向转变，就比如容器技术就经历了 <code>Swam</code> 转至 <code>K8S</code>，因为上面的概念解耦，我们也需要耗费一些精力进行下层的适配，而有些技术可能天生就是冲突的，比如 <code>SpringCloud</code> 所基于的 <code>REST</code> 和 <code>Dubbo</code> 所基于非透明的 <code>RPC</code> 在使用的过程就是完全不一样的，在选择的过程中可能会面领着市场的完全方向转变，甚至于被 <code>ServicsMesh</code> 这样的新的技术革命掉。因此产品在自己的概念中也时刻关注是否有一些已经 <code>outdate</code> 了。</p>
 <p>比如说在传统的微服务领域中的给服务外挂Sidecar的方式完全在后续的迭代版本中会被 <code>isito</code> 此类的方案取缔，甚至于服务发现也会随之消失。</p>
-<h2 id="反思"><a class="header-anchor" href="#反思">¶</a>反思</h2>
-<h3 id="反思1：忘记你的开源实现"><a class="header-anchor" href="#反思1：忘记你的开源实现">¶</a>反思1：忘记你的开源实现</h3>
-<p>这大概是我们在这两年内犯过最大的错误，这个错误的影响一直至今。此话怎么讲，且听我细细分析。<br>
-因为我们这套产品是基于 <code>SpringCloud</code> 此时便有 <code>SpringCloud</code> 先入为主的印象，这就让我们在后续的设计中，很多都因实现而设计。</p>
+<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><h3 id="反思1：忘记你的开源实现"><a href="#反思1：忘记你的开源实现" class="headerlink" title="反思1：忘记你的开源实现"></a>反思1：忘记你的开源实现</h3><p>这大概是我们在这两年内犯过最大的错误，这个错误的影响一直至今。此话怎么讲，且听我细细分析。<br>因为我们这套产品是基于 <code>SpringCloud</code> 此时便有 <code>SpringCloud</code> 先入为主的印象，这就让我们在后续的设计中，很多都因实现而设计。</p>
 <p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQ1Tqs.png" alt="lQ1Tqs.png"></p>
 <p>举个例子：我们在设计服务发现的时候，因为<code>SC</code>在实现之处是基于<code>Eureka</code>，<code>Eureka</code>对于服务的分组的非常的简单只有<code>服务</code>和<code>实例</code>这两个维度，因此我们在后续的系统设计中，我们便按照<code>服务</code>和<code>实例</code>这两个维度进行诸多的设计，比如流量的监控，服务的转发等等功能，而这些功能在实现的过程中，也作为了<code>HardCode</code>部分存在，直至后期我们需要增加额外的维度的时候就吃了一个大亏。因此在这两年的摸索中，渐渐明白了一个道理，你在实现自己的产品的时候，首先应该满足是自己产品的特性！就比如在 Spring 的实现中，<code>WebMVC</code> 可以基于 <code>Tomcat</code> <code>Netty</code> <code>Jboss</code> 其中任一种实现，Spring将那些他所需要的特性功能比如 <code>server.port</code> 作为了产品的属性，而 <code>tomcat.max-connect</code> 是作为额外的配置项存在的。</p>
-<h3 id="反思2：你究竟做的是发行版还是产品"><a class="header-anchor" href="#反思2：你究竟做的是发行版还是产品">¶</a>反思2：你究竟做的是发行版还是产品</h3>
-<p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQl23F.png" alt="lQl23F.png"> <code>Linux</code> 有发行版的概念，不同的发行版之间可能是有不同的包管理工具，不同的启动机制等等，但是大部分是一直的，但是产品不一样，产品不应该将自己的内核实现暴露给用户，因此Windows只有Windows，并没有Windows的发行版，一部分是自己没有开源，另外一方面产品的内核逻辑是产品的主要竞争力。<br>
-比如某竞品的设计如此 <img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQMSEV.png" alt="lQMSEV.png"> 当你融入自己的想法之后，你可以清晰的将原来所开源产品的组件转为你所拥有的概念，可能这样说起来有些不清晰，在我看来，一个产品如果在客户在使用的过程中，不是非常明显的感受你的实现是基于某个产品的就算是成功了。</p>
+<h3 id="反思2：你究竟做的是发行版还是产品"><a href="#反思2：你究竟做的是发行版还是产品" class="headerlink" title="反思2：你究竟做的是发行版还是产品"></a>反思2：你究竟做的是发行版还是产品</h3><p><img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQl23F.png" alt="lQl23F.png"> <code>Linux</code> 有发行版的概念，不同的发行版之间可能是有不同的包管理工具，不同的启动机制等等，但是大部分是一直的，但是产品不一样，产品不应该将自己的内核实现暴露给用户，因此Windows只有Windows，并没有Windows的发行版，一部分是自己没有开源，另外一方面产品的内核逻辑是产品的主要竞争力。<br>比如某竞品的设计如此 <img src="/images/loading.gif" data-original="https://s2.ax1x.com/2019/12/30/lQMSEV.png" alt="lQMSEV.png"> 当你融入自己的想法之后，你可以清晰的将原来所开源产品的组件转为你所拥有的概念，可能这样说起来有些不清晰，在我看来，一个产品如果在客户在使用的过程中，不是非常明显的感受你的实现是基于某个产品的就算是成功了。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
@@ -462,7 +446,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>

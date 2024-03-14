@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Yanick&#39;s Blog">
@@ -48,6 +48,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -313,9 +314,9 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<p>UDP是基于<code>IP 报文</code>上层的一个协议，在TCP/IP协议簇中也提及到，其实UDP只是比IP多提供了进程到进程之间的通讯，除此之外并没有提供额外什么功能。</p>
-<h2 id="UDP-协议格式"><a class="header-anchor" href="#UDP-协议格式">¶</a>UDP 协议格式</h2>
-<p><img src="/images/loading.gif" data-original="http://network-insight.net/wp-content/uploads/2014/10/UDP-Header.jpg" alt="udp"></p>
+
+<p>UDP是基于<code>IP 报文</code>上层的一个协议，在TCP&#x2F;IP协议簇中也提及到，其实UDP只是比IP多提供了进程到进程之间的通讯，除此之外并没有提供额外什么功能。</p>
+<h2 id="UDP-协议格式"><a href="#UDP-协议格式" class="headerlink" title="UDP 协议格式"></a>UDP 协议格式</h2><p><img src="/images/loading.gif" data-original="http://network-insight.net/wp-content/uploads/2014/10/UDP-Header.jpg" alt="udp"></p>
 <p>值得注意的点：</p>
 <ul>
 <li>UDP头部多了源端口号和目标端口号</li>
@@ -523,12 +524,11 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="IP-协议格式"><a class="header-anchor" href="#IP-协议格式">¶</a>IP 协议格式</h2>
-<p><img src="/images/loading.gif" data-original="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1525701055612&amp;di=0948d9e53d38bcc604965c72842d3074&amp;imgtype=0&amp;src=http%3A%2F%2F7xntdm.com1.z0.glb.clouddn.com%2FIPformat.png" alt="ip"></p>
-<p>IP 报文是 <code>无连接</code> 的，IP报文可能出现丢失，重复等等，这个在IP协议中是无任何保证的，IP协议就是能够将数据发送到目标地址即可。<br>
-值得注意的点：</p>
+
+<h2 id="IP-协议格式"><a href="#IP-协议格式" class="headerlink" title="IP 协议格式"></a>IP 协议格式</h2><p><img src="/images/loading.gif" data-original="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525701055612&di=0948d9e53d38bcc604965c72842d3074&imgtype=0&src=http://7xntdm.com1.z0.glb.clouddn.com/IPformat.png" alt="ip"></p>
+<p>IP 报文是 <code>无连接</code> 的，IP报文可能出现丢失，重复等等，这个在IP协议中是无任何保证的，IP协议就是能够将数据发送到目标地址即可。<br>值得注意的点：</p>
 <ul>
-<li>IP的头部中有一个总长度字段，这个是以<code>字节</code>为单位的，这个单位只有16位，所以最大为 2^16 = 65535 长度，不过依然会被MTU限制切分</li>
+<li>IP的头部中有一个总长度字段，这个是以<code>字节</code>为单位的，这个单位只有16位，所以最大为 2^16 &#x3D; 65535 长度，不过依然会被MTU限制切分</li>
 <li>标识字段：这个字段为每一个报文生成一个累加的值，对于数据分片的时候，如果标识字段相同即可认为是同一个数据片</li>
 <li>TTL：代表最大的调数，每经过一个Route就减一，等于0的时候就自然被丢弃</li>
 </ul>
@@ -631,11 +631,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="Java-BIO"><a class="header-anchor" href="#Java-BIO">¶</a>Java BIO</h2>
-<p>传统的网络模式是BIO的模式<br>
-<img src="/images/loading.gif" data-original="http://tutorials.jenkov.com/images/java-nio/nio-vs-io-1.png" alt="BIO"></p>
-<p>我们发现BIO编程模型中最为致命的部分就是 我们需要为 <strong>Stream</strong> 使用一个 <strong>Thread</strong>。<br>
-所以在JDK1.6中引入了NIO，优化这一部分。</p>
+          <h2 id="Java-BIO"><a href="#Java-BIO" class="headerlink" title="Java BIO"></a>Java BIO</h2><p>传统的网络模式是BIO的模式<br><img src="/images/loading.gif" data-original="http://tutorials.jenkov.com/images/java-nio/nio-vs-io-1.png" alt="BIO"></p>
+<p>我们发现BIO编程模型中最为致命的部分就是 我们需要为 <strong>Stream</strong> 使用一个 <strong>Thread</strong>。<br>所以在JDK1.6中引入了NIO，优化这一部分。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/05/07/java/nio/java-nio-1-basic/#more" rel="contents">
@@ -738,11 +735,8 @@
 <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
 
 
-<h2 id="预备知识"><a class="header-anchor" href="#预备知识">¶</a>预备知识</h2>
-<p><img src="/images/loading.gif" data-original="http://electricala2z.com/wp-content/uploads/2017/10/osi-model.gif" alt="OSI"><br>
-网络是<strong>分层</strong>的，TCP/IP 关注的是 第三层采用 IP 协议 和 第四层 采用的是 TCP 和 UDP 协议。<br>
-对于第一层和第二层，我们需要在意的是 <strong>MTU</strong> （最大传输单元）,<br>
-这个值有一个<strong>最小值</strong>,因为载波监听的需求，并没强制性的最大值，Lan默认的是1500。(如何优化MTU可以见 <strong>参考2</strong>) 如何查询MTU可以通过 <code>ifconfig</code> 命令查询。</p>
+
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p><img src="/images/loading.gif" data-original="http://electricala2z.com/wp-content/uploads/2017/10/osi-model.gif" alt="OSI"><br>网络是<strong>分层</strong>的，TCP&#x2F;IP 关注的是 第三层采用 IP 协议 和 第四层 采用的是 TCP 和 UDP 协议。<br>对于第一层和第二层，我们需要在意的是 <strong>MTU</strong> （最大传输单元）,<br>这个值有一个<strong>最小值</strong>,因为载波监听的需求，并没强制性的最大值，Lan默认的是1500。(如何优化MTU可以见 <strong>参考2</strong>) 如何查询MTU可以通过 <code>ifconfig</code> 命令查询。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/05/06/networking/tcp-ip/tcp-ip-review-1-arp/#more" rel="contents">
@@ -930,8 +924,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="背景"><a class="header-anchor" href="#背景">¶</a>背景</h2>
-<p>在自己的<a target="_blank" rel="noopener" href="http://blog.yannxia.top/2018/04/16/think-in-occupation/">职业规划</a>中我认为未来是属于物理网的，我觉得技术的核心在与 采集 传输 计算 储存，采集和我的原本的专业方向不是很匹配，我把自己定性为研究传输和储存，我决定从网络传输上开始学习。</p>
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在自己的<a target="_blank" rel="noopener" href="http://blog.yannxia.top/2018/04/16/think-in-occupation/">职业规划</a>中我认为未来是属于物理网的，我觉得技术的核心在与 采集 传输 计算 储存，采集和我的原本的专业方向不是很匹配，我把自己定性为研究传输和储存，我决定从网络传输上开始学习。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/04/20/rethink/what-is-learn-in-2018/#more" rel="contents">
@@ -1189,8 +1182,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击<br>
-面试岗位分别为:</p>
+          <p>抱着面一次学一点知识的心态写下此文，知识浅薄忘扶正。大部分的内容都有链接可以点击<br>面试岗位分别为:   </p>
 <ul>
 <li>阿里巴巴-优酷-视频分发-高级开发</li>
 <li>哔哩哔哩-基础架构部</li>
@@ -1245,7 +1237,7 @@
     <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
   </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
 
     </div>
   </footer>
