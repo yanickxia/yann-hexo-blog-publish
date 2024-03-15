@@ -6,7 +6,7 @@
   <link href="http://blog.yanick.site/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2023-12-28T09:14:19.988Z</updated>
+  <updated>2024-03-15T11:34:25.729Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kitex 是如何工作</title>
+    <link href="http://blog.yanick.site/2024/03/14/rpc/how-kitex-works/"/>
+    <id>http://blog.yanick.site/2024/03/14/rpc/how-kitex-works/</id>
+    <published>2024-03-14T05:46:07.000Z</published>
+    <updated>2024-03-15T11:34:25.729Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403131746512.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;让我们来瞧瞧 Cloudwego 社区的 Kitex,</summary>
+        
+      
+    
+    
+    
+    <category term="go" scheme="http://blog.yanick.site/categories/go/"/>
+    
+    <category term="rpc" scheme="http://blog.yanick.site/categories/go/rpc/"/>
+    
+    
+    <category term="go" scheme="http://blog.yanick.site/tags/go/"/>
+    
+    <category term="rpc" scheme="http://blog.yanick.site/tags/rpc/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 中流量劫持的几个常见姿势</title>
@@ -475,30 +505,6 @@
     <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
     
     <category term="pin" scheme="http://blog.yanick.site/tags/pin/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>How Dubbo Envoy Filter Works (For Envoy)</title>
-    <link href="http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/"/>
-    <id>http://blog.yanick.site/2021/05/26/networking/envoy/how-dubbo-filter-works/</id>
-    <published>2021-05-26T08:04:12.000Z</published>
-    <updated>2023-12-28T09:14:19.984Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210606174353.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;今天就让我们一起来品一品，&lt;code&gt;Envoy&lt;/code&gt; 中的 &lt;code&gt;Dubbo&lt;/code&gt; 协议是如何实现的，基于 &lt;code&gt;1.18&lt;/code&gt; 分支&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="dubbo" scheme="http://blog.yanick.site/categories/dubbo/"/>
-    
-    <category term="envoy" scheme="http://blog.yanick.site/categories/dubbo/envoy/"/>
-    
-    
-    <category term="envoy" scheme="http://blog.yanick.site/tags/envoy/"/>
-    
-    <category term="dubbo" scheme="http://blog.yanick.site/tags/dubbo/"/>
     
   </entry>
   

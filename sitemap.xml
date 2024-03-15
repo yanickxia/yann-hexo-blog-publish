@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.yanick.site/2020/11/08/rpc/how-kitex-works/</loc>
+    <loc>http://blog.yanick.site/2024/03/14/rpc/how-kitex-works/</loc>
     
-    <lastmod>2024-03-14T08:14:23.139Z</lastmod>
+    <lastmod>2024-03-15T11:34:25.729Z</lastmod>
     
   </url>
   
@@ -72,7 +72,7 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/</loc>
+    <loc>http://blog.yanick.site/2020/10/28/networking/istio/isito-pilot/</loc>
     
     <lastmod>2023-12-28T09:14:19.988Z</lastmod>
     
@@ -93,14 +93,14 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2020/10/28/networking/istio/isito-pilot/</loc>
+    <loc>http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/</loc>
     
     <lastmod>2023-12-28T09:14:19.988Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/</loc>
+    <loc>http://blog.yanick.site/2021/03/25/os/rt-thread/rt-thread/</loc>
     
     <lastmod>2023-12-28T09:14:19.988Z</lastmod>
     
@@ -233,13 +233,6 @@
   </url>
   
   <url>
-    <loc>http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</loc>
-    
-    <lastmod>2023-12-28T09:14:19.984Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/</loc>
     
     <lastmod>2023-12-28T09:14:19.984Z</lastmod>
@@ -248,6 +241,13 @@
   
   <url>
     <loc>http://blog.yanick.site/2021/02/07/networking/istio/feature/dns-agent/</loc>
+    
+    <lastmod>2023-12-28T09:14:19.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.yanick.site/2022/09/08/networking/istio/ambient-mesh/ambient-mesh/</loc>
     
     <lastmod>2023-12-28T09:14:19.984Z</lastmod>
     
