@@ -19,17 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
 
-    <meta name="description" content="让我们来瞧瞧 Cloudwego 社区的 Kitex, 还没写完，先占位   快速文档进阶教程      注意事项     本文基于 kitex v0.9.0   从栈分析开始在 Example 中，我们编写 Client 代码如下 api.go1234resp, err :&#x3D; cli.GetItem(context.Background(), req, callopt.WithRPCTimeo">
+    <meta name="description" content="让我们来瞧瞧 Cloudwego 社区的 Kitex, 还没写完，先占位">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kitex 是如何工作">
 <meta property="og:url" content="http://blog.yanick.site/2024/03/14/rpc/how-kitex-works/index.html">
 <meta property="og:site_name" content="Yanick&#39;s Blog">
-<meta property="og:description" content="让我们来瞧瞧 Cloudwego 社区的 Kitex, 还没写完，先占位   快速文档进阶教程      注意事项     本文基于 kitex v0.9.0   从栈分析开始在 Example 中，我们编写 Client 代码如下 api.go1234resp, err :&#x3D; cli.GetItem(context.Background(), req, callopt.WithRPCTimeo">
+<meta property="og:description" content="让我们来瞧瞧 Cloudwego 社区的 Kitex, 还没写完，先占位">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403131746512.png">
 <meta property="og:image" content="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403141551145.png">
 <meta property="article:published_time" content="2024-03-14T05:46:07.000Z">
-<meta property="article:modified_time" content="2024-03-15T11:34:25.729Z">
+<meta property="article:modified_time" content="2024-03-15T13:29:18.756Z">
 <meta property="article:author" content="Yanick.xia">
 <meta property="article:tag" content="go">
 <meta property="article:tag" content="rpc">
@@ -292,7 +292,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-03-15 19:34:25" itemprop="dateModified" datetime="2024-03-15T19:34:25+08:00">2024-03-15</time>
+      <time title="修改时间：2024-03-15 21:29:18" itemprop="dateModified" datetime="2024-03-15T21:29:18+08:00">2024-03-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -319,7 +319,7 @@
     
     <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/2024/202403131746512.png"></p>
 <p>让我们来瞧瞧 Cloudwego 社区的 Kitex, 还没写完，先占位</p>
-<!-- more --->
+<span id="more"></span>
 
 <h2 id="快速文档"><a href="#快速文档" class="headerlink" title="快速文档"></a>快速文档</h2><p><a target="_blank" rel="noopener" href="https://www.cloudwego.io/zh/docs/kitex/getting-started/tutorial/">进阶教程</a></p>
 <div>
