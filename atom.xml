@@ -294,11 +294,11 @@
     <link href="http://blog.yanick.site/2022/08/19/database/leveldb/"/>
     <id>http://blog.yanick.site/2022/08/19/database/leveldb/</id>
     <published>2022-08-19T08:43:48.000Z</published>
-    <updated>2023-12-28T08:44:18.570Z</updated>
+    <updated>2024-03-17T10:45:24.166Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20220819165427.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源。今天聊聊这个。&lt;/p&gt;</summary>
+&lt;p&gt;LevelDB是一款写性能十分优秀的可持久化的KV存储引擎，其实现原理是依据LSM-Tree（Log Structed-Merge Tree），由Google开源，今天聊聊这个。&lt;/p&gt;</summary>
     
     
     
