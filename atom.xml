@@ -6,7 +6,7 @@
   <link href="http://blog.yanick.site/atom.xml" rel="self"/>
   
   <link href="http://blog.yanick.site/"/>
-  <updated>2024-03-15T13:29:18.756Z</updated>
+  <updated>2024-03-26T10:14:19.969Z</updated>
   <id>http://blog.yanick.site/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从零编写 Kubernetes Controller</title>
+    <link href="http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/"/>
+    <id>http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/</id>
+    <published>2024-03-26T10:04:12.000Z</published>
+    <updated>2024-03-26T10:14:19.969Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.us/gh/yanickxia/picx-images-hosting@master/20240326/image.9dcq6wqsqo.webp&quot; alt=&quot;image&quot;&gt;&lt;/p&gt;
+&lt;p&gt;控制器，就是监控kubernetes中各种资源的变化，并把当前状态变成期望状态。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="kubernetes" scheme="http://blog.yanick.site/categories/kubernetes/"/>
+    
+    <category term="controller" scheme="http://blog.yanick.site/categories/kubernetes/controller/"/>
+    
+    
+    <category term="kubernetes" scheme="http://blog.yanick.site/tags/kubernetes/"/>
+    
+    <category term="controller" scheme="http://blog.yanick.site/tags/controller/"/>
+    
+  </entry>
   
   <entry>
     <title>Kitex 是如何工作</title>
@@ -472,33 +496,6 @@
     
     
     <category term="istio" scheme="http://blog.yanick.site/tags/istio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rust Pin</title>
-    <link href="http://blog.yanick.site/2021/06/20/rust/rust-pin/"/>
-    <id>http://blog.yanick.site/2021/06/20/rust/rust-pin/</id>
-    <published>2021-06-20T09:38:10.000Z</published>
-    <updated>2023-12-28T09:14:19.988Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://jsd.cdn.zzko.cn/gh/yanickxia/picture-bed@master/20210620173801.png&quot;&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="rust" scheme="http://blog.yanick.site/categories/rust/"/>
-    
-    <category term="deep-dive" scheme="http://blog.yanick.site/categories/rust/deep-dive/"/>
-    
-    <category term="pin" scheme="http://blog.yanick.site/categories/rust/deep-dive/pin/"/>
-    
-    
-    <category term="rust" scheme="http://blog.yanick.site/tags/rust/"/>
-    
-    <category term="deep-dive" scheme="http://blog.yanick.site/tags/deep-dive/"/>
-    
-    <category term="pin" scheme="http://blog.yanick.site/tags/pin/"/>
     
   </entry>
   

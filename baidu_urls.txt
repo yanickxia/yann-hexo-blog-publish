@@ -1,5 +1,5 @@
+http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/
 http://blog.yanick.site/2024/03/14/rpc/how-kitex-works/
 http://blog.yanick.site/2023/05/25/networking/linux/hijack-in-linux/
 http://blog.yanick.site/2023/05/17/networking/istio/how-merbridge-works/
 http://blog.yanick.site/2023/03/07/networking/istio/ambient-mesh/ztunnel/
-http://blog.yanick.site/2023/01/22/os/run-linux-in-qemu/

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/2020/logo-thin.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/2020/logo-thin.png">
+  <link rel="mask-icon" href="/images/2020/logo-thin.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.yanick.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":1},"livere":{"text":"LiveRe","order":2},"disqus":{"text":"Disqus","order":3},"changyan":{"text":"ChangYan","order":4}}},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"algolia":{"appID":"X63TMP2SGF","apiKey":"5da34bba5b8856ff3957dd79e6b80f59","indexName":"yann_blog","hits":{"per_page":10}}}</script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/config.js"></script>
+
+    <meta name="description" content="控制器，就是监控kubernetes中各种资源的变化，并把当前状态变成期望状态。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零编写 Kubernetes Controller">
+<meta property="og:url" content="http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/index.html">
+<meta property="og:site_name" content="Yanick&#39;s Blog">
+<meta property="og:description" content="控制器，就是监控kubernetes中各种资源的变化，并把当前状态变成期望状态。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.us/gh/yanickxia/picx-images-hosting@master/20240326/image.9dcq6wqsqo.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.us/gh/yanickxia/picture-bed@master/2024/202403261319298.png">
+<meta property="article:published_time" content="2024-03-26T10:04:12.000Z">
+<meta property="article:modified_time" content="2024-03-26T10:14:19.969Z">
+<meta property="article:author" content="Yanick.xia">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="controller">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.us/gh/yanickxia/picx-images-hosting@master/20240326/image.9dcq6wqsqo.webp">
+
+
+<link rel="canonical" href="http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/","path":"2024/03/26/kubernetes/your-frist-controller/your-frist-controller/","title":"从零编写 Kubernetes Controller"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>从零编写 Kubernetes Controller | Yanick's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Yanick's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yanick's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be Better & Have Fun</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-计划"><a href="/plan/" rel="section"><i class="fa fa-paper-plane fa-fw"></i>计划</a></li><li class="menu-item menu-item-推荐"><a href="/annual-recommend/2021.html" rel="section"><i class="fas fa-thumbs-up fa-fw"></i>推荐</a></li><li class="menu-item menu-item-地图"><a href="/knowledge-map/" rel="section"><i class="fa fa-map fa-fw"></i>地图</a></li><li class="menu-item menu-item-分享"><a href="/link/" rel="section"><i class="fa fa-link fa-fw"></i>分享</a></li><li class="menu-item menu-item-专题"><a href="/column/" rel="section"><i class="fa fa-columns fa-fw"></i>专题</a></li><li class="menu-item menu-item-随想站"><a href="https://misc.yanick.site/" rel="section" target="_blank"><i class="fas fa-compact-disc fa-fw"></i>随想站</a></li><li class="menu-item menu-item-专栏站"><a href="https://article.yanick.site/" rel="section" target="_blank"><i class="fa fa-edit fa-fw"></i>专栏站</a></li><li class="menu-item menu-item-百科站"><a href="https://wiki.yanick.site/" rel="section" target="_blank"><i class="fab fa-wikipedia-w fa-fw"></i>百科站</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRD"><span class="nav-number">2.</span> <span class="nav-text">CRD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#builder"><span class="nav-number">2.1.</span> <span class="nav-text">builder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-API"><span class="nav-number">2.2.</span> <span class="nav-text">创建 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-CR-%E8%AF%95%E8%AF%95"><span class="nav-number">2.3.</span> <span class="nav-text">创建一个 CR 试试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ValidatingAdmissionWebhook-Controller"><span class="nav-number">3.</span> <span class="nav-text">ValidatingAdmissionWebhook Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA-Quota-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-ValidatingWebhook"><span class="nav-number">3.1.</span> <span class="nav-text">为 Quota 创建一个 ValidatingWebhook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%BE%97%E5%B7%B2%E6%9C%89%E7%9A%84-Limit-%E4%BF%A1%E6%81%AF"><span class="nav-number">3.2.</span> <span class="nav-text">获得已有的 Limit 信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA-AdmissionWebhook"><span class="nav-number">3.3.</span> <span class="nav-text">构建 AdmissionWebhook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">3.4.</span> <span class="nav-text">构建镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">3.5.</span> <span class="nav-text">部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-Show"><span class="nav-number">4.</span> <span class="nav-text">Demo Show</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yanick.xia</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">119</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button animated">
+    <button><i class="fa fa-comment"></i>
+      聊天
+    </button>
+  </div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:me@yanick.site" title="Mail → mailto:me@yanick.site" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/yanickxia" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yanickxia" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yann.xia" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yann.xia" rel="noopener me" target="_blank"><i class="fab fa-zhihu fa-fw"></i>ZhiHu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://sakeven.me/" title="https:&#x2F;&#x2F;sakeven.me&#x2F;" rel="noopener" target="_blank">Sakeven</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://reficul.io/" title="https:&#x2F;&#x2F;reficul.io&#x2F;" rel="noopener" target="_blank">Reficul</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://www.tomwei7.com/" title="https:&#x2F;&#x2F;www.tomwei7.com&#x2F;" rel="noopener" target="_blank">Tomwei</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.jinwei.me/" title="https:&#x2F;&#x2F;blog.jinwei.me" rel="noopener" target="_blank">Jinwei</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://renlulu.github.io/" title="https:&#x2F;&#x2F;renlulu.github.io&#x2F;" rel="noopener" target="_blank">Renlulu</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://justjjy.com/" title="http:&#x2F;&#x2F;justjjy.com&#x2F;" rel="noopener" target="_blank">JJY</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://zhyee.top/" title="http:&#x2F;&#x2F;zhyee.top" rel="noopener" target="_blank">Zhyee</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://blog.ihypo.net/" title="http:&#x2F;&#x2F;blog.ihypo.net" rel="noopener" target="_blank">Hypo</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://blog.heytaoge.com/" title="http:&#x2F;&#x2F;blog.heytaoge.com&#x2F;" rel="noopener" target="_blank">Taoge</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.hdls.me/" title="https:&#x2F;&#x2F;blog.hdls.me&#x2F;" rel="noopener" target="_blank">海的澜色</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://farer.org/" title="https:&#x2F;&#x2F;farer.org&#x2F;" rel="noopener" target="_blank">Windfarer</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.41tair.org/" title="https:&#x2F;&#x2F;blog.41tair.org&#x2F;" rel="noopener" target="_blank">Byron</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.yanick.site/2024/03/26/kubernetes/your-frist-controller/your-frist-controller/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yanick.xia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="从零编写 Kubernetes Controller | Yanick's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从零编写 Kubernetes Controller
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-03-26 18:04:12 / 修改时间：18:14:19" itemprop="dateCreated datePublished" datetime="2024-03-26T18:04:12+08:00">2024-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/controller/" itemprop="url" rel="index"><span itemprop="name">controller</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.us/gh/yanickxia/picx-images-hosting@master/20240326/image.9dcq6wqsqo.webp" alt="image"></p>
+<p>控制器，就是监控kubernetes中各种资源的变化，并把当前状态变成期望状态。</p>
+<span id="more"></span>
+
+<script>
+    console.log('献给我的老婆，希望她找到自己心仪的工作');
+</script>
+
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>我们在这个章节中来实现一个基于用户的 <code>Quota</code> 配额的控制器，在社区提供的 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/">资源配额</a> 中仅仅能够根据命名空间进行资源配额，但是实际上我们可以根据用户（跨多个Namespace）进行资源配额。那么我们就需要进行一些定制化的开发。</p>
+<blockquote>
+<p>这里简化，我们仅针对 CPU 和 MEM 进行限制。</p>
+</blockquote>
+<p>那我们进行需求分析</p>
+<ol>
+<li>需要能够定义用户的 <code>ResourceQuota</code> 配额</li>
+<li>能够针对用户的 <code>ResourceQuota</code> 配额，进行资源配额的限制<ol>
+<li>需要计算用户当前已经使用的配额量</li>
+<li>针对超限的用户禁止其继续创建</li>
+</ol>
+</li>
+</ol>
+<p>根据我们的需求，我们在 <code>Kubernetes</code> 提供的一系列能力中可以找到我们相对需要使用的工具</p>
+<ul>
+<li>CRD <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/api-extension/custom-resources/">定制资源</a>:  申明我们自定义的数据结构来储存对用户的资源配额的信息</li>
+<li>Controller <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/extensible-admission-controllers/">动态准入控制</a>: 通过 Reconcile，获得用户当前所有的资源配额。</li>
+<li>ValidatingAdmissionWebhook: 通过回调接口，获得用户对应的信息</li>
+</ul>
+<p>那么我们系统的简化架构如下</p>
+<p><img src="/images/loading.gif" data-original="https://cdn.jsdelivr.us/gh/yanickxia/picture-bed@master/2024/202403261319298.png"></p>
+<h2 id="CRD"><a href="#CRD" class="headerlink" title="CRD"></a>CRD</h2><p>首先设计我们的数据结构，这里需要使用 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/">使用 CustomResourceDefinition 扩展 Kubernetes API</a> 我们可以直接编写 <code>Yaml</code> 文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apiextensions.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">CustomResourceDefinition</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="comment"># 名字必需与下面的 spec 字段匹配，并且格式为 &#x27;&lt;名称的复数形式&gt;.&lt;组名&gt;&#x27;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">crontabs.stable.example.com</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="comment"># 组名称，用于 REST API: /apis/&lt;组&gt;/&lt;版本&gt;</span></span><br><span class="line">  <span class="attr">group:</span> <span class="string">stable.example.com</span></span><br><span class="line">  <span class="comment"># 列举此 CustomResourceDefinition 所支持的版本</span></span><br><span class="line">  <span class="attr">versions:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">v1</span></span><br><span class="line">      <span class="comment"># 每个版本都可以通过 served 标志来独立启用或禁止</span></span><br><span class="line">      <span class="attr">served:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 其中一个且只有一个版本必需被标记为存储版本</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">schema:</span></span><br><span class="line">        <span class="attr">openAPIV3Schema:</span></span><br><span class="line">          <span class="attr">type:</span> <span class="string">object</span></span><br><span class="line">          <span class="attr">properties:</span></span><br><span class="line">            <span class="attr">spec:</span></span><br><span class="line">              <span class="attr">type:</span> <span class="string">object</span></span><br><span class="line">              <span class="attr">properties:</span></span><br><span class="line">                <span class="attr">cronSpec:</span></span><br><span class="line">                  <span class="attr">type:</span> <span class="string">string</span></span><br><span class="line">                <span class="attr">image:</span></span><br><span class="line">                  <span class="attr">type:</span> <span class="string">string</span></span><br><span class="line">                <span class="attr">replicas:</span></span><br><span class="line">                  <span class="attr">type:</span> <span class="string">integer</span></span><br><span class="line">  <span class="comment"># 可以是 Namespaced 或 Cluster</span></span><br><span class="line">  <span class="attr">scope:</span> <span class="string">Namespaced</span></span><br><span class="line">  <span class="attr">names:</span></span><br><span class="line">    <span class="comment"># 名称的复数形式，用于 URL：/apis/&lt;组&gt;/&lt;版本&gt;/&lt;名称的复数形式&gt;</span></span><br><span class="line">    <span class="attr">plural:</span> <span class="string">crontabs</span></span><br><span class="line">    <span class="comment"># 名称的单数形式，作为命令行使用时和显示时的别名</span></span><br><span class="line">    <span class="attr">singular:</span> <span class="string">crontab</span></span><br><span class="line">    <span class="comment"># kind 通常是单数形式的驼峰命名（CamelCased）形式。你的资源清单会使用这一形式。</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">CronTab</span></span><br><span class="line">    <span class="comment"># shortNames 允许你在命令行使用较短的字符串来匹配资源</span></span><br><span class="line">    <span class="attr">shortNames:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ct</span></span><br></pre></td></tr></table></figure>
+
+<p>但是这样太难以维护了，我们一般使用另外一种方式 <a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/kubebuilder"><code>kubebuilder</code></a> 通过代码生成的方式来生成这个 <code>Yaml</code> 和一些基本的代码</p>
+<h3 id="builder"><a href="#builder" class="headerlink" title="builder"></a>builder</h3><p>首先安装 <code>kubebuilder</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># download kubebuilder and install locally.</span></span><br><span class="line">curl -L -o kubebuilder <span class="string">&quot;https://go.kubebuilder.io/dl/latest/<span class="subst">$(go env GOOS)</span>/<span class="subst">$(go env GOARCH)</span>&quot;</span></span><br><span class="line"><span class="built_in">chmod</span> +x kubebuilder &amp;&amp; <span class="built_in">mv</span> kubebuilder /usr/local/bin/</span><br></pre></td></tr></table></figure>
+
+<p>那我们开始初始化一个项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> quota-limit</span><br><span class="line">$ <span class="built_in">cd</span> quota-limit</span><br><span class="line">$ kubebuilder init --domain tutorial.controller.io --repo tutorial.controller.io/quota-limit</span><br><span class="line"></span><br><span class="line">INFO Writing kustomize manifests <span class="keyword">for</span> you to edit...</span><br><span class="line">INFO Writing scaffold <span class="keyword">for</span> you to edit...</span><br><span class="line">INFO Get controller runtime:</span><br><span class="line">$ go get sigs.k8s.io/controller-runtime@v0.17.0</span><br><span class="line">go: downloading sigs.k8s.io/controller-runtime v0.17.0</span><br><span class="line">go: downloading k8s.io/apimachinery v0.29.0</span><br><span class="line">go: downloading k8s.io/client-go v0.29.0</span><br><span class="line">go: downloading github.com/go-logr/logr v1.4.1</span><br><span class="line">go: downloading k8s.io/klog/v2 v2.110.1</span><br><span class="line">go: downloading k8s.io/api v0.29.0</span><br><span class="line">go: downloading k8s.io/component-base v0.29.0</span><br><span class="line">go: downloading github.com/evanphx/json-patch/v5 v5.8.0</span><br><span class="line">go: downloading sigs.k8s.io/structured-merge-diff/v4 v4.4.1</span><br><span class="line">go: downloading k8s.io/apiextensions-apiserver v0.29.0</span><br><span class="line">go: downloading github.com/prometheus/client_golang v1.18.0</span><br><span class="line">go: downloading k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00</span><br><span class="line">go: downloading golang.org/x/net v0.19.0</span><br></pre></td></tr></table></figure>
+
+<p>最终生成的目录如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">$ tree .</span><br><span class="line">.</span><br><span class="line">├── Dockerfile</span><br><span class="line">├── Makefile</span><br><span class="line">├── PROJECT</span><br><span class="line">├── README.md</span><br><span class="line">├── cmd</span><br><span class="line">│   └── main.go</span><br><span class="line">├── config</span><br><span class="line">│   ├── default</span><br><span class="line">│   │   ├── kustomization.yaml</span><br><span class="line">│   │   ├── manager_auth_proxy_patch.yaml</span><br><span class="line">│   │   └── manager_config_patch.yaml</span><br><span class="line">│   ├── manager</span><br><span class="line">│   │   ├── kustomization.yaml</span><br><span class="line">│   │   └── manager.yaml</span><br><span class="line">│   ├── prometheus</span><br><span class="line">│   │   ├── kustomization.yaml</span><br><span class="line">│   │   └── monitor.yaml</span><br><span class="line">│   └── rbac</span><br><span class="line">│       ├── auth_proxy_client_clusterrole.yaml</span><br><span class="line">│       ├── auth_proxy_role.yaml</span><br><span class="line">│       ├── auth_proxy_role_binding.yaml</span><br><span class="line">│       ├── auth_proxy_service.yaml</span><br><span class="line">│       ├── kustomization.yaml</span><br><span class="line">│       ├── leader_election_role.yaml</span><br><span class="line">│       ├── leader_election_role_binding.yaml</span><br><span class="line">│       ├── role.yaml</span><br><span class="line">│       ├── role_binding.yaml</span><br><span class="line">│       └── service_account.yaml</span><br><span class="line">├── go.mod</span><br><span class="line">├── go.sum</span><br><span class="line">├── hack</span><br><span class="line">│   └── boilerplate.go.txt</span><br><span class="line">└── <span class="built_in">test</span></span><br><span class="line">    ├── e2e</span><br><span class="line">    │   ├── e2e_suite_test.go</span><br><span class="line">    │   └── e2e_test.go</span><br><span class="line">    └── utils</span><br><span class="line">        └── utils.go</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建-API"><a href="#创建-API" class="headerlink" title="创建 API"></a>创建 API</h3><p>接下来我们创建 CRD 定义</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ kubebuilder create api --group resource --version v1 --kind Quota</span><br><span class="line">INFO Create Resource [y/n]                        </span><br><span class="line">y</span><br><span class="line">INFO Create Controller [y/n]                      </span><br><span class="line">y</span><br><span class="line">INFO Writing kustomize manifests <span class="keyword">for</span> you to edit... </span><br><span class="line">INFO Writing scaffold <span class="keyword">for</span> you to edit...          </span><br><span class="line">INFO api/v1/quota_types.go                        </span><br><span class="line">INFO api/v1/groupversion_info.go                  </span><br><span class="line">INFO internal/controller/suite_test.go            </span><br><span class="line">INFO internal/controller/quota_controller.go      </span><br><span class="line">INFO internal/controller/quota_controller_test.go </span><br><span class="line">INFO Update dependencies:</span><br></pre></td></tr></table></figure>
+
+<p>执行完成之后，在我们的目录下就生成了 <code>api</code> 的定义文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ tree .</span><br><span class="line">.</span><br><span class="line">├── Dockerfile</span><br><span class="line">├── Makefile</span><br><span class="line">├── PROJECT</span><br><span class="line">├── README.md</span><br><span class="line">├── api</span><br><span class="line">│   └── v1</span><br><span class="line">│       ├── groupversion_info.go</span><br><span class="line">│       ├── quota_types.go  &lt;---- 定义文件</span><br><span class="line">│       └── zz_generated.deepcopy.go</span><br><span class="line">├── internal</span><br><span class="line">│   └── controller</span><br><span class="line">│       ├── quota_controller.go   &lt;--- 模板代码</span><br><span class="line">│       ├── quota_controller_test.go</span><br><span class="line">│       └── suite_test.go</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Quota is the Schema for the quotas API</span></span><br><span class="line"><span class="keyword">type</span> Quota <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta   <span class="string">`json:&quot;,inline&quot;`</span></span><br><span class="line">	metav1.ObjectMeta <span class="string">`json:&quot;metadata,omitempty&quot;`</span></span><br><span class="line"></span><br><span class="line">	Spec   QuotaSpec   <span class="string">`json:&quot;spec,omitempty&quot;`</span></span><br><span class="line">	Status QuotaStatus <span class="string">`json:&quot;status,omitempty&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//+kubebuilder:object:root=true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// QuotaList contains a list of Quota</span></span><br><span class="line"><span class="keyword">type</span> QuotaList <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta <span class="string">`json:&quot;,inline&quot;`</span></span><br><span class="line">	metav1.ListMeta <span class="string">`json:&quot;metadata,omitempty&quot;`</span></span><br><span class="line">	Items           []Quota <span class="string">`json:&quot;items&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	SchemeBuilder.Register(&amp;Quota&#123;&#125;, &amp;QuotaList&#123;&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>包含了一些必要的实现，那么我们就来定义我们的 API，我们就简单的定义一些字段</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QuotaSpec defines the desired state of Quota</span></span><br><span class="line"><span class="keyword">type</span> QuotaSpec <span class="keyword">struct</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这直接借鉴 Pod 中的定义</span></span><br><span class="line">	Limits v1.ResourceList <span class="string">`json:&quot;limits,omitempty&quot; protobuf:&quot;bytes,1,rep,name=limits,casttype=ResourceList,castkey=ResourceName&quot;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们再次执行 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make manifests </span><br><span class="line">/quota-limit/bin/controller-gen-v0.14.0 rbac:roleName=manager-role crd webhook paths=<span class="string">&quot;./...&quot;</span> output:crd:artifacts:config=config/crd/bases</span><br></pre></td></tr></table></figure>
+
+<p>我们就可以生成 <code>crd</code> 文件了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">├── config</span><br><span class="line">│   ├── crd</span><br><span class="line">│   │   ├── bases</span><br><span class="line">│   │   │   └── resource.tutorial.controller.io_quotas.yaml  &lt;- 生成的文件</span><br><span class="line">│   │   ├── kustomization.yaml</span><br><span class="line">│   │   └── kustomizeconfig.yaml</span><br></pre></td></tr></table></figure>
+
+
+<p>到这里我们就完成了基本的 <code>CRD</code> 定义，那我们可以运行一下看看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定的 kubeconfig</span></span><br><span class="line">$ <span class="built_in">export</span> KUBECONFIG=<span class="variable">$KUBES</span>/boe/k3s.config </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 CRD Apply 到集群中</span></span><br><span class="line">$ k apply -f config/crd/bases/resource.tutorial.controller.io_quotas.yaml </span><br><span class="line">customresourcedefinition.apiextensions.k8s.io/quotas.resource.tutorial.controller.io created</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line">$ go run cmd/main.go </span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    setup   starting manager</span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    controller-runtime.metrics      Starting metrics server</span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    starting server &#123;<span class="string">&quot;kind&quot;</span>: <span class="string">&quot;health probe&quot;</span>, <span class="string">&quot;addr&quot;</span>: <span class="string">&quot;[::]:8081&quot;</span>&#125;</span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    controller-runtime.metrics      Serving metrics server  &#123;<span class="string">&quot;bindAddress&quot;</span>: <span class="string">&quot;:8080&quot;</span>, <span class="string">&quot;secure&quot;</span>: <span class="literal">false</span>&#125;</span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    Starting EventSource    &#123;<span class="string">&quot;controller&quot;</span>: <span class="string">&quot;quota&quot;</span>, <span class="string">&quot;controllerGroup&quot;</span>: <span class="string">&quot;resource.tutorial.controller.io&quot;</span>, <span class="string">&quot;controllerKind&quot;</span>: <span class="string">&quot;Quota&quot;</span>, <span class="string">&quot;source&quot;</span>: <span class="string">&quot;kind source: *v1.Quota&quot;</span>&#125;</span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    Starting Controller     &#123;<span class="string">&quot;controller&quot;</span>: <span class="string">&quot;quota&quot;</span>, <span class="string">&quot;controllerGroup&quot;</span>: <span class="string">&quot;resource.tutorial.controller.io&quot;</span>, <span class="string">&quot;controllerKind&quot;</span>: <span class="string">&quot;Quota&quot;</span>&#125;</span><br><span class="line">2024-03-26T13:54:25+08:00       INFO    Starting workers        &#123;<span class="string">&quot;controller&quot;</span>: <span class="string">&quot;quota&quot;</span>, <span class="string">&quot;controllerGroup&quot;</span>: <span class="string">&quot;resource.tutorial.controller.io&quot;</span>, <span class="string">&quot;controllerKind&quot;</span>: <span class="string">&quot;Quota&quot;</span>, <span class="string">&quot;worker count&quot;</span>: 1&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>到这里我们就完成了非常基础的脚手架部分了。</p>
+<h3 id="创建一个-CR-试试"><a href="#创建一个-CR-试试" class="headerlink" title="创建一个 CR 试试"></a>创建一个 CR 试试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> limit.yaml</span><br><span class="line">apiVersion: resource.tutorial.controller.io/v1</span><br><span class="line">kind: Quota</span><br><span class="line">metadata:</span><br><span class="line">  name: <span class="built_in">test</span></span><br><span class="line">spec:</span><br><span class="line">  limits:</span><br><span class="line">    cpu: <span class="string">&quot;1&quot;</span></span><br><span class="line">    mem: <span class="string">&quot;100Mi&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>将其 <code>apply</code>  到系统里面</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># apply</span></span><br><span class="line">$ k apply -f limit.yaml</span><br><span class="line">quota.resource.tutorial.controller.io/test-limit created</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以从 kubectl 获得</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># get</span></span><br><span class="line">$ k get quotas.resource.tutorial.controller.io test-limit -oyaml</span><br><span class="line">apiVersion: resource.tutorial.controller.io/v1</span><br><span class="line">kind: Quota</span><br><span class="line">metadata:</span><br><span class="line">  annotations:</span><br><span class="line">    kubectl.kubernetes.io/last-applied-configuration: |</span><br><span class="line">      &#123;<span class="string">&quot;apiVersion&quot;</span>:<span class="string">&quot;resource.tutorial.controller.io/v1&quot;</span>,<span class="string">&quot;kind&quot;</span>:<span class="string">&quot;Quota&quot;</span>,<span class="string">&quot;metadata&quot;</span>:&#123;<span class="string">&quot;annotations&quot;</span>:&#123;&#125;,<span class="string">&quot;name&quot;</span>:<span class="string">&quot;test&quot;</span>,<span class="string">&quot;namespace&quot;</span>:<span class="string">&quot;default&quot;</span>&#125;,<span class="string">&quot;spec&quot;</span>:&#123;<span class="string">&quot;limits&quot;</span>:&#123;<span class="string">&quot;cpu&quot;</span>:<span class="string">&quot;1&quot;</span>,<span class="string">&quot;mem&quot;</span>:<span class="string">&quot;100Mi&quot;</span>&#125;&#125;&#125;</span><br><span class="line">  creationTimestamp: <span class="string">&quot;2024-03-26T07:17:38Z&quot;</span></span><br><span class="line">  generation: 1</span><br><span class="line">  name: <span class="built_in">test</span></span><br><span class="line">  namespace: default</span><br><span class="line">  resourceVersion: <span class="string">&quot;25148&quot;</span></span><br><span class="line">  uid: a899cf34-7c44-4ea7-a557-5039f97520b6</span><br><span class="line">spec:</span><br><span class="line">  limits:</span><br><span class="line">    cpu: <span class="string">&quot;1&quot;</span></span><br><span class="line">    mem: 100Mi</span><br></pre></td></tr></table></figure>
+
+<h2 id="ValidatingAdmissionWebhook-Controller"><a href="#ValidatingAdmissionWebhook-Controller" class="headerlink" title="ValidatingAdmissionWebhook Controller"></a>ValidatingAdmissionWebhook Controller</h2><h3 id="为-Quota-创建一个-ValidatingWebhook"><a href="#为-Quota-创建一个-ValidatingWebhook" class="headerlink" title="为 Quota 创建一个 ValidatingWebhook"></a>为 Quota 创建一个 ValidatingWebhook</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ kubebuilder create webhook --group resource --version v1 --kind Quota --defaulting --programmatic-validation</span><br><span class="line"></span><br><span class="line">INFO Writing kustomize manifests <span class="keyword">for</span> you to edit... </span><br><span class="line">INFO Writing scaffold <span class="keyword">for</span> you to edit...          </span><br><span class="line">INFO api/v1/quota_webhook.go                      </span><br><span class="line">INFO api/v1/quota_webhook_test.go                 </span><br><span class="line">INFO api/v1/webhook_suite_test.go                 </span><br><span class="line">INFO Update dependencies:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<div>
+    <label class="author-mark-label">作者注</label>
+    <p class="author-mark">这里其实对于我们系统来说是可有可无的，但是因为 Kubebuilder 依赖于 webhook 修改 Deployment等信息，所以这里最好是用 CLI 创建一个我们 CRD 的 Validate 顺带可以帮助我们构建后面对于 POD 的 Validate Webhook。</p>
+</div>
+
+
+<p>执行之后，在 <code>config</code> 里面会生成大量的新配置，在代理里面也会增加</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> os.Getenv(<span class="string">&quot;ENABLE_WEBHOOKS&quot;</span>) != <span class="string">&quot;false&quot;</span> &#123;</span><br><span class="line">    <span class="comment">// 注册 Validate 的 Webhook</span></span><br><span class="line">    <span class="keyword">if</span> err = (&amp;resourcev1.Quota&#123;&#125;).SetupWebhookWithManager(mgr); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        setupLog.Error(err, <span class="string">&quot;unable to create webhook&quot;</span>, <span class="string">&quot;webhook&quot;</span>, <span class="string">&quot;Quota&quot;</span>)</span><br><span class="line">        os.Exit(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    setupLog.Info(<span class="string">&quot;quota webhook inited&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="获得已有的-Limit-信息"><a href="#获得已有的-Limit-信息" class="headerlink" title="获得已有的 Limit 信息"></a>获得已有的 Limit 信息</h3><p>对于 <code>Controller</code> 来说，我们需要知道所有的 POD 当前已经使用的 <code>CPU</code> 和 <code>MEM</code>，这里我们准备一个测试的 <code>Deployment</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">echo-web</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">echo-web</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">echo-web</span></span><br><span class="line">        <span class="attr">user:</span> <span class="string">&quot;test&quot;</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">echo-web</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">ealen/echo-server</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">1Gi</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">100m</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">128Mi</span></span><br></pre></td></tr></table></figure>
+
+<p>那我们第一步显然就是感知到当前用户已用的 <code>Limits</code></p>
+<p>最简单的方式，就是我们每次都直接查询，如果开启了 <code>Client</code> 的 <code>Cache</code> 模式，这个成本也不会太高。当然我们在后面也可以进行一些优化。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">podList := &amp;v1.PodList&#123;&#125;</span><br><span class="line">_ := r.List(ctx, podList, client.HasLabels&#123;</span><br><span class="line">    <span class="string">&quot;user&quot;</span>, <span class="string">&quot;&lt;USER_ID&gt;&quot;</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>通过 Pod 的信息就可以获得 <code>Limit</code> 信息了。那我们现在需要 <code>ValidatingAdmissionWebhook</code> 部分。</p>
+<h3 id="构建-AdmissionWebhook"><a href="#构建-AdmissionWebhook" class="headerlink" title="构建 AdmissionWebhook"></a>构建 AdmissionWebhook</h3><p>我们要为 <code>Pod</code> 创建一个 <code>Webhook</code>，参考 <a target="_blank" rel="noopener" href="https://book.kubebuilder.io/reference/webhook-for-core-types">Admission Webhook for Core Types</a></p>
+<p>我们准备代码的基本模板</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> PodValidator <span class="keyword">struct</span> &#123;</span><br><span class="line">	Client  client.Client</span><br><span class="line">	Decoder *admission.Decoder</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v *PodValidator)</span></span> validate(ctx context.Context, obj runtime.Object) (admission.Warnings, <span class="type">error</span>) &#123;</span><br><span class="line">	log := logf.FromContext(ctx)</span><br><span class="line">	pod, ok := obj.(*v1.Pod)</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;expected a Pod but got a %T&quot;</span>, obj)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Info(<span class="string">&quot;Validating Pod&quot;</span>)</span><br><span class="line">	key := <span class="string">&quot;user&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获得用户的 &quot;user&quot; 信息</span></span><br><span class="line">	userName, found := pod.Labels[key]</span><br><span class="line">	<span class="keyword">if</span> !found &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;missing label %s&quot;</span>, key)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获得用户配置的 Quota</span></span><br><span class="line">	quota := &amp;quotav1.Quota&#123;</span><br><span class="line">		ObjectMeta: metav1.ObjectMeta&#123;</span><br><span class="line">			Name:      userName,</span><br><span class="line">			Namespace: systemNamespace,</span><br><span class="line">		&#125;,</span><br><span class="line">		Spec: quotav1.QuotaSpec&#123;</span><br><span class="line">			Limits: v1.ResourceList&#123;</span><br><span class="line">				v1.ResourceCPU:    resource.MustParse(<span class="string">&quot;2&quot;</span>),</span><br><span class="line">				v1.ResourceMemory: resource.MustParse(<span class="string">&quot;4Gi&quot;</span>),</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	err := v.Client.Get(ctx, client.ObjectKeyFromObject(quota), quota)</span><br><span class="line">	<span class="comment">// 没有配置 Quota，就是采用默认值</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &amp;&amp; !apierrors.IsNotFound(err) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;get quota failed&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cpuResource := resource.MustParse(<span class="string">&quot;0&quot;</span>)</span><br><span class="line">	memResource := resource.MustParse(<span class="string">&quot;0Mi&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获得用户的所有的 Pod</span></span><br><span class="line">	podList := &amp;v1.PodList&#123;&#125;</span><br><span class="line">	<span class="keyword">if</span> err := v.Client.List(ctx, podList, client.MatchingLabels&#123;</span><br><span class="line">		<span class="string">&quot;user&quot;</span>: userName,</span><br><span class="line">	&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 累计当前所有的</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> podList.Items &#123;</span><br><span class="line">		pod := podList.Items[i]</span><br><span class="line">		<span class="keyword">for</span> j := <span class="keyword">range</span> pod.Spec.Containers &#123;</span><br><span class="line">			container := pod.Spec.Containers[j]</span><br><span class="line">			cpu := container.Resources.Limits.Cpu().DeepCopy()</span><br><span class="line">			cpuResource.Add(cpu)</span><br><span class="line">			mem := container.Resources.Limits.Memory().DeepCopy()</span><br><span class="line">			memResource.Add(mem)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> cpuResource.Cmp(quota.Spec.Limits.Cpu().DeepCopy()) &lt; <span class="number">0</span> ||</span><br><span class="line">		memResource.Cmp(quota.Spec.Limits.Memory().DeepCopy()) &lt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;user %s, limit out of quota&quot;</span>, userName)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注册函数 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err := builder.WebhookManagedBy(mgr).</span><br><span class="line">    For(&amp;v1.Pod&#123;&#125;).</span><br><span class="line">    WithValidator(&amp;admissionhook.PodValidator&#123;</span><br><span class="line">        Client:  mgr.GetClient(),</span><br><span class="line">        Decoder: admission.NewDecoder(mgr.GetScheme()),</span><br><span class="line">    &#125;).</span><br><span class="line">    Complete(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    os.Exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>给生成器标记生成 <code>Webhook</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// +kubebuilder:webhook:path=/validate--v1-pod,mutating=false,failurePolicy=fail,groups=&quot;&quot;,resources=pods,verbs=create;update,versions=v1,name=vpod.kb.io,admissionReviewVersions=v1,sideEffects=None</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Quota is the Schema for the quotas API</span></span><br><span class="line"><span class="keyword">type</span> Quota <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta   <span class="string">`json:&quot;,inline&quot;`</span></span><br><span class="line">	metav1.ObjectMeta <span class="string">`json:&quot;metadata,omitempty&quot;`</span></span><br></pre></td></tr></table></figure>
+
+<p>最终会生成如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">admissionregistration.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ValidatingWebhookConfiguration</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">validating-webhook-configuration</span></span><br><span class="line"><span class="attr">webhooks:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">admissionReviewVersions:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">clientConfig:</span></span><br><span class="line">    <span class="attr">service:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">webhook-service</span></span><br><span class="line">      <span class="attr">namespace:</span> <span class="string">system</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">/validate--v1-pod</span></span><br><span class="line">  <span class="attr">failurePolicy:</span> <span class="string">Fail</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">vpod.kb.io</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="attr">apiVersions:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">v1</span></span><br><span class="line">    <span class="attr">operations:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">CREATE</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">UPDATE</span></span><br><span class="line">    <span class="attr">resources:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">pods</span></span><br><span class="line">  <span class="attr">sideEffects:</span> <span class="string">None</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build . -t manager</span><br></pre></td></tr></table></figure>
+
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><ol>
+<li>安装 cert-manager，这里也是因为webhook 需要更新 ca 字段，在 <a target="_blank" rel="noopener" href="https://book.kubebuilder.io/cronjob-tutorial/cert-manager">Deploying cert-manager</a> 需要部署，在 webhook 调用过程中也需要 <code>CA bundle</code></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>部署应用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make deploy </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查 POD 运行</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ k get pod -n quota-limit-system                                             </span><br><span class="line">NAME                                              READY   STATUS    RESTARTS   AGE</span><br><span class="line">quota-limit-controller-manager-756d65d46f-6cqx6   1/1     Running   0          6m2s</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Demo-Show"><a href="#Demo-Show" class="headerlink" title="Demo Show"></a>Demo Show</h2><p>我们输入一个 demo</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$</span> <span class="string">k</span> <span class="string">apply</span> <span class="string">-f</span> <span class="string">example/limit.yaml</span>  </span><br><span class="line"><span class="string">quota.resource.tutorial.controller.io/test</span> <span class="string">created</span></span><br></pre></td></tr></table></figure>
+
+<p>我们就可以从日志中看到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2024-03-26T09:59:33Z    INFO    quota-resource  default &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;test&quot;</span>&#125;</span><br><span class="line">2024-03-26T09:59:33Z    INFO    quota-resource  validate create &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;test&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里执行了 <code>default</code> 和 <code>validate</code> 2 个 <code>hook</code> 逻辑</p>
+<p>那我们继续创建其他 <code>POD</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2024-03-26T10:08:00Z    INFO    admission       Validating Pod  &#123;<span class="string">&quot;webhookGroup&quot;</span>: <span class="string">&quot;&quot;</span>, <span class="string">&quot;webhookKind&quot;</span>: <span class="string">&quot;Pod&quot;</span>, <span class="string">&quot;Pod&quot;</span>: &#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;echo-web-956d664c9-4t486&quot;</span>,<span class="string">&quot;namespace&quot;</span>:<span class="string">&quot;default&quot;</span>&#125;, <span class="string">&quot;namespace&quot;</span>: <span class="string">&quot;default&quot;</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;echo-web-956d664c9-4t486&quot;</span>, <span class="string">&quot;resource&quot;</span>: &#123;<span class="string">&quot;group&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;version&quot;</span>:<span class="string">&quot;v1&quot;</span>,<span class="string">&quot;resource&quot;</span>:<span class="string">&quot;pods&quot;</span>&#125;, <span class="string">&quot;user&quot;</span>: <span class="string">&quot;system:serviceaccount:kube-system:replicaset-controller&quot;</span>, <span class="string">&quot;requestID&quot;</span>: <span class="string">&quot;2b9afee4-618e-4680-844a-5a96d5d035a7&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们就可以从日志发现这个逻辑了，这样就满足了，我们需求</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/kubernetes/sample-controller">sample-controller</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/chenzongshu/Kubernetes/blob/master/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99controller.md">自己动手写controller</a></li>
+</ul>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/controller/" rel="tag"># controller</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/14/rpc/how-kitex-works/" rel="prev" title="Kitex 是如何工作">
+                  <i class="fa fa-angle-left"></i> Kitex 是如何工作
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-gitalk">gitalk</a></li>
+            <li class="tab"><a href="#comment-livere">LiveRe</a></li>
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+            <li class="tab"><a href="#comment-changyan">ChangYan</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane gitalk" id="comment-gitalk">
+              <div class="comments gitalk-container"></div>
+            </div>
+            <div class="tab-pane livere" id="comment-livere">
+              <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC8zMjYxNi85MTc3"></div>
+            </div>
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS" sid="94e46ccc4996a116bea91a591d6764ac"></div>
+            </div>
+        </div>
+      </div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备15036539号-2 </a>
+  </div>
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Yanick.Xia</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div><p>本网站由<a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="/images/loading.gif" data-original="/images/upyun_logos/logo2.png" style="display: inline; height: 15px;"></a>提供CDN加速/云存储服务</p>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/comments.js"></script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/motion.js"></script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/next-boot.js"></script>
+
+  <script src="https://unpkg.com/algoliasearch@4.22.1/dist/algoliasearch-lite.umd.js" integrity="sha256-pxkGFjfnFWYGOtV9uhCWK/spKiGS0Z7gVDKYm39LyfM=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/instantsearch.js@4.64.2/dist/instantsearch.production.min.js" integrity="sha256-/DLulTBQ8KQ7xGOs8mrQ6FgKsknJpjCGAjFhjfjc8yo=" crossorigin="anonymous"></script><script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/third-party/search/algolia-search.js"></script>
+<script class="next-config" data-name="chatra" type="application/json">{"enable":true,"async":true,"id":"ZPdnXR7os9z2MNTzG"}</script>
+<script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/third-party/chat/chatra.js"></script>
+<script async src="https://call.chatra.io/chatra.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cysL8VSAs","appkey":"500d337f521f3d63f3031f16746e9470","count":false}</script>
+<script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/third-party/comments/changyan.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"yann-blog","count":false,"i18n":{"disqus":"disqus"}}</script>
+<script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/third-party/comments/disqus.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@1.8.0/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"yanickxia","repo":"blog-gitalk","client_id":"bf5eb588a718eef1043d","client_secret":"77921c72a11c4061050d9f7a9e68ebfb30ec7a72","admin_user":"yanickxia","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://unpkg.com/gitalk@1.8.0/dist/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"94e46ccc4996a116bea91a591d6764ac"}</script>
+<script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/third-party/comments/gitalk.js"></script>
+<script src="https://unpkg.com/hexo-theme-next@8.19.2/source/js/third-party/comments/livere.js"></script>
+
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body>
+</html>
